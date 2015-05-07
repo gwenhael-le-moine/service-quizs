@@ -3,14 +3,24 @@
 source 'https://rubygems.org'
 #source 'http://gems.erasme.org'
 
-gem 'sinatra'
+gem 'grape'
+gem 'grape-swagger'
 gem 'json'
 gem 'omniauth'
 gem 'omniauth-cas'
 gem 'puma'
-gem 'savon'
+ # gem 'mail'
+gem 'mysql2'
 gem 'nokogiri'
+gem 'rack'
 gem 'rack-rewrite'
+gem 'rake'
+gem 'rest-client'
+gem 'savon'
+gem 'sequel'
+gem 'sinatra'
+
+gem 'laclasse-common', git: 'https://github.com/laclasse-com/laclasse-common.git'
 
 group :development do
   gem 'sinatra-contrib'
