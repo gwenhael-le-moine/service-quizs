@@ -1,4 +1,4 @@
-require "bundler"
+require 'bundler'
 require 'rake/clean'
 
 include Rake::DSL
