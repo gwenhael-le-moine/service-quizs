@@ -1,8 +1,8 @@
 require 'laclasse/helpers/authentication'
 require 'laclasse/cross_app/sender'
 
-# puts 'loading api/....'
-# require __dir__('...')
+puts 'loading api/testApi'
+require __dir__('test')
 
 # Point d'entrée des APi du suivi
 class Api < Grape::API
@@ -13,11 +13,10 @@ class Api < Grape::API
 
   before do
     error!( '401 Unauthorized', 401 ) unless logged?
-    current_user_ent
   end
 
   # Montage des toutes les api REST Grape
-  # resource(:annuaire) { mount ..... }
+  resource(:test) { mount TestApi }
 
   add_swagger_documentation
 end

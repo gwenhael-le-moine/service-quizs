@@ -34,7 +34,10 @@ class SinatraApp < Sinatra::Base
 
   get APP_PATH + '/' do
     if logged?
-      erb "<h1>Connected !</h1><pre>
+      erb "<h1>Connected !</h1>
+          Test d'Api Grape :
+          <a href='#{APP_PATH}/api/test'>Api simple</a>
+          <pre>
             #{env['rack.session'][:current_user].to_html}
           </pre><hr>"
     else
