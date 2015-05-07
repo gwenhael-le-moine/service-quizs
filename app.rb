@@ -4,7 +4,7 @@ require 'rubygems'
 require 'bundler'
 require 'sinatra/reloader'
 
-Bundler.require(:default, :development)     # require tout les gems définis dans Gemfile
+Bundler.require(:default, :development)
 
 # DIR Method
 def __dir__(*args)

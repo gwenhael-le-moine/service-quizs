@@ -1,4 +1,5 @@
 # Pretty display of Hashes
+# rubocop:disable Metrics/LineLength
 class Hash
   def to_html
     ['<ul>',
@@ -7,3 +8,4 @@ class Hash
     ].join
   end
 end
+# rubocop:enable Metrics/LineLength

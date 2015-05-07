@@ -24,19 +24,24 @@ class SinatraApp < Sinatra::Base
   helpers Laclasse::Helpers::AppInfos
 
   # Routes nécessitant une authentification
+  # rubocop:disable Style/BlockDelimiters
   ['/?', '/login'].each { |route|
     before APP_PATH + route do
       login! env['REQUEST_PATH'] unless logged?
     end
   }
+  # rubocop:enable Style/BlockDelimiters
 
   get APP_PATH + '/' do
     if logged?
-      erb "<h1>Connected !</h1><pre>#{env['rack.session'][:current_user].to_html}</pre><hr>"
+      erb "<h1>Connected !</h1><pre>
+            #{env['rack.session'][:current_user].to_html}
+          </pre><hr>"
     else
       erb "<div class='jumbotron'>
             <h1>Public page</h1>
-            <p class='lead'>This starter app is an example of Omniauth-cas and sinatra integration based on rack system.<br />
+            <p class='lead'>This starter app is an example of Omniauth-cas
+                and sinatra integration based on rack system.<br />
             Please try to connect with CAS sso...
             </p>
             </div>"
@@ -54,13 +59,15 @@ class SinatraApp < Sinatra::Base
   end
 
   get APP_PATH + '/auth/:provider/callback' do
-    $current_user = init_session(request.env)
-    redirect params[:url] if params[:url] != env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
+    init_session(request.env)
+    home = env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
+    redirect params[:url] if params[:url] != home
     redirect APP_PATH + '/'
   end
 
   get APP_PATH + '/auth/failure' do
-    erb "<h1>L'authentification a échoué : </h1><h3>message:<h3> <pre>#{params}</pre>"
+    erb "<h1>L'authentification a échoué : </h1>
+        <h3>message:<h3> <pre>#{params}</pre>"
   end
 
   get APP_PATH + '/login' do
