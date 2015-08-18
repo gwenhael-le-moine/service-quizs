@@ -24,13 +24,11 @@ class SinatraApp < Sinatra::Base
   helpers Laclasse::Helpers::AppInfos
 
   # Routes nécessitant une authentification
-  # rubocop:disable Style/BlockDelimiters
   ['/?', '/login'].each { |route|
     before APP_PATH + route do
       login! env['REQUEST_PATH'] unless logged?
     end
   }
-  # rubocop:enable Style/BlockDelimiters
 
   get APP_PATH + '/' do
     if logged?
