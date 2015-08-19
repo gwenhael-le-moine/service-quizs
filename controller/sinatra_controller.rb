@@ -31,22 +31,24 @@ class SinatraApp < Sinatra::Base
   }
 
   get APP_PATH + '/' do
-    if logged?
-      erb "<h1>Connected !</h1>
-          Test d'Api Grape :
-          <a href='#{APP_PATH}/api/test'>Api simple</a>
-          <pre>
-            #{env['rack.session'][:current_user].to_html}
-          </pre><hr>"
-    else
-      erb "<div class='jumbotron'>
-            <h1>Public page</h1>
-            <p class='lead'>This starter app is an example of Omniauth-cas
-                and sinatra integration based on rack system.<br />
-            Please try to connect with CAS sso...
-            </p>
-            </div>"
-    end
+    #TODO: Rebrancher le logged 
+    # if logged?
+    #   erb "<h1>Connected !</h1>
+    #       Test d'Api Grape :
+    #       <a href='#{APP_PATH}/api/test'>Api simple</a>
+    #       <pre>
+    #         #{env['rack.session'][:current_user].to_html}
+    #       </pre><hr>"
+    # else
+    #   erb "<div class='jumbotron'>
+    #         <h1>Public page</h1>
+    #         <p class='lead'>This starter app is an example of Omniauth-cas
+    #             and sinatra integration based on rack system.<br />
+    #         Please try to connect with CAS sso...
+    #         </p>
+    #         </div>"
+    # end
+    erb :app
   end
 
   get "#{APP_PATH}/status" do

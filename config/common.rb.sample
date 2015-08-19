@@ -30,7 +30,7 @@ ANNUAIRE = {
 
 
 module Configuration
- APP_PREFIX = '/suivi'
+ APP_PREFIX = '/quizs'
  GIT_COMMIT = ''
  ENVIRONMENT = 'development'
  LOGSTASH_SERVER=""
