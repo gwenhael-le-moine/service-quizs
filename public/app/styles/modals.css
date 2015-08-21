@@ -1,0 +1,77 @@
+/*** css de l'en-tête de la modal ***/
+.modal-header{
+	text-align: center;
+}
+
+/*** css du corps de la modal ***/
+.modal-body{
+	padding: 30px 20px;
+}
+.modal-body input{
+	width: 300px;
+	padding: 0 5px;
+}
+
+/*** css du contenu ***/
+.modal-content{
+	border-radius: 0;
+	font-family: 'Open Sans';
+	font-size: 12pt;
+	color: black;
+}
+
+/*** css du pied de la modal ***/
+.modal-footer{
+	margin: 0 20px;
+	border-top: 2px solid #b2b2b2;
+}
+
+/*** css boutons de la modal ***/
+.btn.btn-modal{
+	background-color: inherit;
+	border: 2px solid #b2b2b2;
+	border-radius: 0;
+	padding: 1px 15px;
+}
+.btn.btn-modal label{
+	margin: 0;
+	font-family: 'Open Sans';
+	font-size: 12pt;
+	font-weight: normal;
+	cursor: pointer;
+}
+.btn.btn-modal:hover{
+	background-color: #1aa1cc;
+	border: 2px solid #1aa1cc;
+	color: white;
+}
+
+/*** css des messages d'erreurs ***/
+.label.label-danger.msg-error{
+  display: block;
+  text-align: center;
+  width: 300px;
+  border-radius: 0;
+  margin-top: 2px;
+}
+
+/*** css des mobiles et tablettes ***/
+@media screen and (max-width: 992px) {
+  .modal-body input{
+		width: 250px;
+		padding: 0 2px;
+	}
+  .label.label-danger.msg-error{
+  	width: 250px;
+  }
+}
+
+/*** css des mobiles seuls ***/
+@media screen and (max-width: 768px) {
+	.btn.btn-modal label{
+    font-size: 10pt;
+  }
+  .modal-content{
+    font-size: 10pt;
+  }
+}

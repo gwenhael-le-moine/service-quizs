@@ -1,0 +1,34 @@
+<div class="row-fluid" style="width: 100%; margin: 0"	>
+  <div class="container">
+    <div id="contentAsideId" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div data-ui-view="quiz"></div>
+    </div>
+    <div id="contentMainId" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+        <div data-ui-view="action"></div>
+    </div>    	
+  </div>
+  <growl-notifications></growl-notifications>
+	<div ng-repeat="(id, notification) in notifications.success track by id">
+    <growl-notification style="border-left-color: #449d44;">
+      {{notification}}
+    </growl-notification>
+  </div>
+
+  <div ng-repeat="(id, notification) in notifications.error track by id">
+    <growl-notification style="border-left-color: #d9534f;">
+      {{notification}}
+    </growl-notification>
+  </div>
+
+  <div ng-repeat="(id, notification) in notifications.warning track by id">
+    <growl-notification style="border-left-color: #f0ad4e;">
+      {{notification}}
+    </growl-notification>
+  </div>
+
+  <div ng-repeat="(id, notification) in notifications.info track by id">
+    <growl-notification style="border-left-color: #5bc0de;">
+      {{notification}}
+    </growl-notification>
+  </div>
+</div>
