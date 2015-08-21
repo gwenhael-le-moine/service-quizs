@@ -51,6 +51,20 @@ angular.module('quizsApp')
                 controller: 'ParamsCtrl'
                }
               }
+            })
+          .state( 'quizs.questions',{
+            parent: 'quizs.actions',
+            url: '/questions',
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'action': {
+                templateUrl:APP_PATH + '/app/views/actions/questions.html',
+                controller: 'QuestionsCtrl'
+               }
+              }
             });
 
   $urlRouterProvider.otherwise(function ($injector, $location) {

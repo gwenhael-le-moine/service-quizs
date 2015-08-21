@@ -91,7 +91,7 @@ body {
   background-color: inherit;
   border: 2px solid #9e9e9e;
   border-radius: 0;
-  padding: 1px 15px;
+  padding: 3px 15px;
   margin: 10px;
   outline: none;
   color: black;
@@ -110,6 +110,12 @@ body {
   cursor: pointer;
 }
 .btn.btn-quiz.selected{
+  background-color: #1aa1cc;
+  border: 2px solid #1aa1cc;
+  color: white;
+  outline: none;
+}
+.btn.btn-quiz.hover:hover{
   background-color: #1aa1cc;
   border: 2px solid #1aa1cc;
   color: white;

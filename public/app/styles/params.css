@@ -65,6 +65,12 @@
 .btn-group-vertical>.btn:last-child:not(:first-child) {
 	border-bottom-left-radius: 0;
 }
+.btn.btn-quiz.add-question{
+	float: right;
+	padding: 5px 15px;
+	margin-top: 100px;
+	margin-right: 50px;
+}
 
 /*************** css sur l'accordion maison des paramètres avancés ******************/
 .accordion {
@@ -106,8 +112,14 @@
 	.infos-modes{
 		padding: 20px 10px;
 	}
-
+	.btn.btn-quiz.add-question{
+		float: right;
+		padding: 5px 15px;
+		margin-top: 30px;
+		margin-right: 10px;
+	}
 }
+
 /* media mobile portrait et paysage */
 @media screen and (max-width: 768px) {
 	/* permet d'inverser les colonnes explication et bouton pour le mobile facilitant le visuel des explication avant l'action */
