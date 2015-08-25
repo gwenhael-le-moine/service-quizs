@@ -86,7 +86,14 @@ body {
   color: black;
 }
 
-/*** css sur tous les boutons dans l'application ***/
+.texte-secondaire-italic{
+  font-family: 'Open Sans Light';
+  font-size: 9pt;
+  color: #9e9e9e;
+  font-style: italic;
+}
+
+/*** css sur tous les boutons et les placeholder dans l'application ***/
 .btn.btn-quiz{
   background-color: inherit;
   border: 2px solid #9e9e9e;
@@ -120,6 +127,24 @@ body {
   border: 2px solid #1aa1cc;
   color: white;
   outline: none;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+  font-family: 'Open Sans Light';
+  font-size: 10pt;
+  color: #505050;
+  font-style: italic;
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  font-family: 'Open Sans Light';
+  font-size: 10pt;
+  color: #505050;
+  font-style: italic;
+}
+input.placeholder, textarea.placeholder {
+  font-family: 'Open Sans Light';
+  font-size: 10pt;
+  color: #505050;
+  font-style: italic;
 }
 
 /*** css des icones de l'application ***/
@@ -168,6 +193,32 @@ body {
   background-repeat: no-repeat;
   background-size: 60%;
 }
+.add-media.img{
+  background-image: url('../images/ajout-cadre.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.preview.img{
+  background-image: url('../images/apercu-entier-droite.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.checkbox.img{
+  background-image: url('../images/case-decochee.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.checkbox.img.checked{
+  background-image: url('../images/case-cochee.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.delete-media.img{
+  background-image: url('../images/supprimer-cadre.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
 
 /*************************  PARTIE QUIZ  ***********************/
 .bandeau{

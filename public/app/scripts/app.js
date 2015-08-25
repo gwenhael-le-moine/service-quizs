@@ -8,6 +8,7 @@ angular.module('quizsApp', [
   'ui.sortable',
   'angular-carousel',
   'ngColorPicker',
+  'ngFileUpload',
   'services.messages',
   'growlNotifications',
 ]).run(['$rootScope', '$location', 'Notifications', function($rootScope, $location, Notifications) {

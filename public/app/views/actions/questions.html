@@ -1,0 +1,91 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<p class="preview img"></p>
+		<div class="content title-action">
+			<span class="titre">{{actionTitle | uppercase}}</span>			
+		</div>
+		<div class="row content border-bottom">
+			<div class="col-xs-12 col-sm-4 col-sm-offset-2 col-md-4 col-lg-4">
+				<div><span class="texte-particulier">Type de question</span></div>
+				<div class="btn-group-vertical buttons" role="group" aria-label="radio">
+				  <button type="button" class="btn btn-quiz" ng-class="{selected: types.qcm}"ng-click="changeType('qcm')"><label>QCM</label></button>
+				   <button type="button" class="btn btn-quiz" ng-class="{selected: types.tat}" ng-click="changeType('tat')"><label>Texte à trous</label></button>
+				   <button type="button" class="btn btn-quiz" ng-class="{selected: types.ass}" ng-click="changeType('ass')"><label>Association</label></button>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div><span class="texte-particulier">Question :</span></div>
+						<div class="textarea"><textarea class="texte" maxlength="256" placeholder="Veuillez entrer une question"></textarea></div>
+						<div ng-hide="true"><button id='questionMediaId' type="file" ngf-select="uploadQuestionMedia($files)"></button></div>
+						<div><p class="add-media img" ng-click="openFileUpload('questionMediaId')"></p><label class="label-media texte-secondaire-italic" ng-class="{'not-empty': question.media}">{{question.media != null ? question.media : placeholderMedia}}</label></div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hint">
+						<div><span class="texte-particulier">Aide :</span></div>
+						<div class="textarea"><textarea class="texte" maxlength="2000" placeholder="Vous pouvez écrire une aide qui sera affichée sous la question"></textarea></div>
+						<div ng-hide="true"><button id='aideMediaId' type="file" ngf-select="uploadHintMedia($files)"></button></div>
+						<div><p class="add-media img" ng-click="openFileUpload('aideMediaId')"></p><label class="label-media texte-secondaire-italic" ng-class="{'not-empty': question.hint.media}">{{question.hint.media != null ? question.hint.media : placeholderMedia}}</label></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-------------------- DEBUT PARTIE QCM ---------------------------->
+		<div ng-if="types.qcm" class="row content">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<span class="texte-particulier">Réponses :</span>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 reponse-qcm">
+				<div class="row">
+					<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 titre petit">
+						<span>SOLUTION(S)</span>
+					</div>
+					<div class="col-xs-9 col-sm-5 col-md-5 col-lg-5 titre petit center">
+						<span>PROPOSITIONS</span>
+					</div>
+					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 titre petit joindre">
+						<span>JOINDRE</span>
+					</div>
+				</div>
+				<div class="row" ng-repeat="suggestion in suggestions.qcm">
+					<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 solution">
+						<p class="checkbox img" ng-model="suggestion.solution" ng-class="{checked: suggestion.solution}" ng-click="suggestion.solution = !suggestion.solution"></p>
+					</div>
+					<div class="col-xs-9 col-sm-5 col-md-5 col-lg-5 proposition">
+						<input type="text" class="texte" maxlength="2000" ng-model="suggestion.proposition"/>
+					</div>
+					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 joindre">
+						<div><button ng-hide="true" id='joindre{{$index}}' type="file" ngf-select="uploadSuggestionQCMMedia($files, $index)"></button></div>
+						<div><p ng-if="!suggestion.joindre" class="add-media img" ng-click="openFileUpload('joindre{{$index}}')"></p>
+						<p ng-if="suggestion.joindre" class="delete-media img" ng-click="suggestion.joindre = null"></p>
+						<label ng-if="suggestion.joindre" class="label-media texte-secondaire-italic not-empty">{{suggestion.joindre}}</label></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-------------------- FIN PARTIE QCM ---------------------------->
+		<div class="row content border-bottom columns-inverse-mobile">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 rand-answers">
+				<div class="btn-group" role="group" aria-label="radio">
+				  <button type="button" class="btn btn-quiz" ng-class="{selected: question.randanswer}"ng-click="question.randanswer = true"><label>oui</label></button>
+				  <button type="button" class="btn btn-quiz" ng-class="{selected: !question.randanswer}" ng-click="question.randanswer = false"><label>non</label></button>
+				</div>			
+			</div>
+			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 rand-answers">
+				<div><label class="texte">mélanger l'ordre des propositions</label></div>
+			</div>
+		</div>
+		<div class="row content">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 comment">
+				<div><span class="texte-particulier">Commentaire :</span></div>
+				<div class="textarea"><textarea class="texte" maxlength="2000" placeholder="Vous pouvez saisir un commentaire qui sera visible à  la correction (règle de grammaire, explication de contexte etc.)"></textarea></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 validate">
+		<div class="btn-group" role="group" aria-label="radio">
+		  <button type="button" class="btn btn-quiz hover" ng-click="addQuestion()"><label>Valider</label></button>
+		  <button type="button" class="btn btn-quiz hover" ui-sref="quizs.params"><label>Effacer</label></button>
+		</div>			
+	</div>
+</div>
