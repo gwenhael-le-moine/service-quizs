@@ -53,17 +53,24 @@
 	margin-top: 10px;
 }
 /*** css titre des réponse ***/
-.reponse-qcm .titre.petit{
+.reponse-qcm .titre.petit, .reponse-ass .titre.petit{
 	font-family: 'Open Sans Semibold';
 	color: #9e9e9e;
 	font-size: 11pt;
 }
-.reponse-qcm .titre.petit.center{
+.reponse-qcm .titre.petit.center, .reponse-ass .titre.petit.center{
 	text-align: center;
 }
 /*** colonne solution proposition joindre ***/
-.reponse-qcm .solution, .reponse-qcm .proposition, .reponse-qcm .joindre{
+.reponse-qcm .solution, .reponse-qcm .proposition, .reponse-qcm .joindre,
+.reponse-ass .solution, .reponse-ass .proposition, .reponse-ass .joindre{
 	margin-top: 5px;
+}
+.reponse-ass .titre.petit.right span{
+	float: right;
+}
+.reponse-ass .titre.petit.left span{
+	float: left;
 }
 /*** checkbox solution ***/
 .checkbox{
@@ -75,7 +82,7 @@
 	margin-left: 40px;
 }
 /*** css input proposition ***/
-.reponse-qcm .proposition > input{
+.reponse-qcm .proposition > input, .reponse-ass .proposition > input{
 	width: 85%;
 	border: 2px solid #9e9e9e;
 	padding: 2px;
@@ -83,17 +90,17 @@
 	padding: 0.5px;
 }
 /*** css media colonne joindre ***/
-.reponse-qcm .joindre{
+.reponse-qcm .joindre, .reponse-ass .joindre{
 	display: table;
 }
-.reponse-qcm .joindre div{
+.reponse-qcm .joindre div, .reponse-ass .joindre.right div{
 	padding-left: 20px;
 }
-.reponse-qcm .joindre .add-media{
+.reponse-qcm .joindre .add-media, .reponse-ass .joindre .add-media{
 	height: 22px;
 	width: 22px;
 }
-.reponse-qcm .joindre .delete-media{
+.reponse-qcm .joindre .delete-media, .reponse-ass .joindre .delete-media{
 	height: 22px;
 	width: 22px;
 	display: table-cell;
@@ -101,9 +108,99 @@
 	outline: none;
 	margin-left: 20px;
 }
-.reponse-qcm .joindre .label-media{
+.reponse-qcm .joindre .label-media, .reponse-ass .joindre .label-media{
 	border-top: 1px solid #9e9e9e;
 	width: 200px;
+}
+/*** ASS ***/
+.ass div{
+	display: inline-block;
+	vertical-align: middle;
+}
+.ass div .texte.backline{
+	display: block;
+}
+.ass .texte-particulier{
+	display: block;
+	margin-bottom: 10px;
+}
+.ass .info.img{
+	display: inline-block;
+}
+.ass .texte{
+	vertical-align: middle;
+	margin-left: 10px;
+}
+.ass div .consigne1, .ass div .consigne2{
+	vertical-align: middle;
+	display: inline-block;
+}
+.ass div .consigne1{
+	width: 55px;
+	height:18px;
+}
+.ass div .consigne2{
+	width: 50px;
+	height:20px;
+}
+.reponse-ass{
+	margin-top: 40px;
+}
+.reponse-ass .joindre.left .add-media, .reponse-ass .joindre.left .delete-media{
+	float: right;
+	margin-left: 0;
+	margin-right: 20px;
+}
+.reponse-ass .joindre.left .label-media-left{
+	display: table;
+}
+.reponse-ass .joindre.left .label-media-left div{
+	display: inherit;
+}
+.reponse-ass .joindre.left .label-media{
+	border-left: 1px solid #9e9e9e;
+	border-right: none;
+	padding-right: 5px;
+}
+.reponse-ass .joindre.left .label-media, .reponse-ass .joindre.right .label-media{
+	width: 90px;	
+}
+.reponse-ass .proposition > input{
+	width: 70%;
+	padding: 0px 5px 2px 5px;
+	margin-bottom: 5px;
+}
+.reponse-ass .proposition > input[type="text"][disabled]{
+	color: #b7b7b7;
+	background-color: inherit;
+	border-color: #b7b7b7
+}
+.reponse-ass .proposition.left > input{
+	margin-left: 20px;
+}
+.reponse-ass .proposition.right{
+	text-align: right;
+}
+.reponse-ass .proposition.right > input{
+	margin-right: 20px;
+}
+.reponse-ass .proposition .ass-empty{
+	height: 22px;
+	width: 22px;
+	display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.reponse-ass .proposition.right .ass-empty{
+	margin-right: 5px;
+}
+.btn-ass .btn-group, .btn-ass .btn.btn-quiz.modif{
+	float: right;
+	margin-top: 40px;
+}
+.btn-ass .btn.btn-quiz{
+	padding: 0 15px;
 }
 /*** css mélangé questions ***/
 .rand-answers{
@@ -136,6 +233,15 @@
 }
 .validate .btn.btn-quiz.hover{
 	padding: 5px 40px;
+}
+
+
+/****** TEST LINE ****/
+div.line{
+  transform-origin: 0 100%;
+  height: 2px; /* Line width of 3 */
+  background: #1aa1cc;
+  cursor:pointer;
 }
 
 /*** css des tablettes et mobiles ***/
@@ -193,6 +299,57 @@
 	.rand-answers div>label{
 		height: 20px;
 	}
+
+	/*** ASS ***/
+	/***suppression des marges des input***/
+	.ass div{
+		display: table-cell;
+	}
+	.ass div span{
+		display: inline-block;
+	}
+	.ass div .backline-mobile{
+		display: block;
+	}
+	.reponse-ass .proposition.left > input{
+		margin-left: 0;
+	}
+	.reponse-ass .proposition.right > input{
+		margin-right: 0;
+	}
+	/***on supprime le titre joindre ***/
+	.reponse-ass .titre.petit.right, .reponse-ass .titre.petit.left{
+		display: none;
+	}
+	/*** on aligne les medias sur la droite et la gauche ***/
+	.reponse-ass .joindre.left .add-media, .reponse-ass .joindre.left .delete-media{
+		float: none;
+		margin-right: 0;
+	}
+	.reponse-ass .joindre.left .label-media{
+		border-right: 1px solid #9e9e9e;
+		border-left: none;
+	}
+	.reponse-ass .joindre.left .label-media-left div{
+		display: flex;
+	}
+	.reponse-ass .joindre.right .add-media, .reponse-ass .joindre.right .delete-media{
+		float: right;
+		margin-left: 0;
+	}
+	.reponse-ass .joindre.right .label-media{
+		float: right;
+		height: 22px;
+		border-left: 1px solid #9e9e9e;
+		border-right: none;
+	}
+	.btn-ass{
+		text-align: center;
+	}
+	.btn-ass .btn-group, .btn-ass .btn.btn-quiz.modif{
+		float: none;
+		margin-top: 20px;
+	}
 	/*** commentaire sans les marges ***/
 	.comment{
 		margin-top: 0;
@@ -206,5 +363,8 @@
 	}
 	.validate .btn-group{
 		float: none;
+	}
+	.validate .btn.btn-quiz.hover{
+		padding: 3px 15px;
 	}
 }
