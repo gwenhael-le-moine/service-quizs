@@ -13,7 +13,15 @@ angular.module('quizsApp', [
   'growlNotifications',
 ]).run(['$rootScope', '$location', 'Notifications', function($rootScope, $location, Notifications) {
   Notifications.clear();
-
+  //initialisation des données
+  // les suggestions
+  $rootScope.tmpId = 0;
+  $rootScope.quiz = {
+    title: "Insérez un titre pour votre quiz",
+    opts:{},
+    questions: []
+  }
+  
   $rootScope.$on('$stateChangeStart', function($location){
     // console.log("good");
     Notifications.clear();

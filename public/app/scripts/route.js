@@ -52,9 +52,23 @@ angular.module('quizsApp')
                }
               }
             })
-          .state( 'quizs.questions',{
+          .state( 'quizs.create_questions',{
             parent: 'quizs.actions',
             url: '/questions',
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'action': {
+                templateUrl:APP_PATH + '/app/views/actions/questions.html',
+                controller: 'QuestionsCtrl'
+               }
+              }
+            })
+          .state( 'quizs.update_questions',{
+            parent: 'quizs.actions',
+            url: '/questions/:id',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',

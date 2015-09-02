@@ -253,6 +253,27 @@ input.placeholder, textarea.placeholder {
   background-repeat: no-repeat;
   background-size: 100%;
 }
+.deleted.img{
+  background-image: url('../images/suppression.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.border.img{
+  background-image: url('../images/bordure.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.delete-question.img{
+  background-image: url('../images/supprimer.svg');
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: center;
+}
+.update-question.img{
+  background-image: url('../images/edit.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 
 /*************************  PARTIE QUIZ  ***********************/
 .bandeau{

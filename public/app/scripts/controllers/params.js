@@ -8,7 +8,7 @@ angular.module('quizsApp')
 	$scope.actionTitle = 'paramètres';
 
 	// les différentes options avec l'initialisation des boutons
-	$scope.opts = {
+	$rootScope.quiz.opts = {
 		randQuestion: {yes: false, no: true},
 		modes: {training: true, exercise: false, assessment: false},
 		correction: {afterEach: true, atEnd: false, none: false},
@@ -38,5 +38,16 @@ angular.module('quizsApp')
 		$scope.changeRadioButton('canRewind', 'yes');
 		$scope.changeRadioButton('score', 'afterEach');
 		$scope.changeRadioButton('canRedo', 'yes');
+	}
+
+	// fonction qui supprime une question
+	$scope.deleteQuestion= function(id){
+		$rootScope.quiz.questions = _.reject($rootScope.quiz.questions, function(question){
+			return question.id == id;
+		});
+	}
+	// fonction qui met à jour une question
+	$scope.updateQuestion = function(id){
+		$state.go('quizs.update_questions', {id: id});
 	}
 }]);

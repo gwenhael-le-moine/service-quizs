@@ -6,8 +6,8 @@
 		<div class="row content border-bottom columns-inverse-mobile">
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 buttons">
 				<div class="btn-group" role="group" aria-label="radio">
-				  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.randQuestion.yes, disabled: open}"ng-click="changeRadioButton('randQuestion', 'yes')"><label>oui</label></button>
-				  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.randQuestion.no, disabled: open}" ng-click="changeRadioButton('randQuestion', 'no')"><label>non</label></button>
+				  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.randQuestion.yes, disabled: open}"ng-click="changeRadioButton('randQuestion', 'yes')"><label>oui</label></button>
+				  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.randQuestion.no, disabled: open}" ng-click="changeRadioButton('randQuestion', 'no')"><label>non</label></button>
 				</div>				
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
@@ -25,9 +25,9 @@
 		<div class="row content columns-inverse-mobile">
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 buttons">
 				<div class="btn-group-vertical" role="group" aria-label="radio">
-				  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.modes.training, disabled: open}"ng-click="changeRadioButton('modes', 'training')"><label>entrainement</label></button>
-				   <button type="button" class="btn btn-quiz" ng-class="{selected: opts.modes.exercise, disabled: open}" ng-click="changeRadioButton('modes', 'exercise')"><label>exercice</label></button>
-				   <button type="button" class="btn btn-quiz" ng-class="{selected: opts.modes.assessment, disabled: open}" ng-click="changeRadioButton('modes', 'assessment')"><label>évaluation</label></button>
+				  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.modes.training, disabled: open}"ng-click="changeRadioButton('modes', 'training')"><label>entrainement</label></button>
+				   <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.modes.exercise, disabled: open}" ng-click="changeRadioButton('modes', 'exercise')"><label>exercice</label></button>
+				   <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.modes.assessment, disabled: open}" ng-click="changeRadioButton('modes', 'assessment')"><label>évaluation</label></button>
 				</div>				
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
@@ -51,9 +51,9 @@
 				<div class="row columns-inverse-mobile">
 					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 buttons">
 						<div class="btn-group-vertical" role="group" aria-label="radio">
-						  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.correction.afterEach}"ng-click="changeRadioButton('correction', 'afterEach')"><label>par réponse</label></button>
-						   <button type="button" class="btn btn-quiz" ng-class="{selected: opts.correction.atEnd}" ng-click="changeRadioButton('correction', 'atEnd')"><label>à la fin</label></button>
-						   <button type="button" class="btn btn-quiz" ng-class="{selected: opts.correction.none}" ng-click="changeRadioButton('correction', 'none')"><label>désactivé</label></button>
+						  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.correction.afterEach}"ng-click="changeRadioButton('correction', 'afterEach')"><label>par réponse</label></button>
+						   <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.correction.atEnd}" ng-click="changeRadioButton('correction', 'atEnd')"><label>à la fin</label></button>
+						   <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.correction.none}" ng-click="changeRadioButton('correction', 'none')"><label>désactivé</label></button>
 						</div>				
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 infos-modes">
@@ -73,8 +73,8 @@
 				<div class="row columns-inverse-mobile">
 					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 buttons">
 						<div class="btn-group" role="group" aria-label="radio">
-						  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.canRewind.yes}"ng-click="changeRadioButton('canRewind', 'yes')"><label>oui</label></button>
-						  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.canRewind.no}" ng-click="changeRadioButton('canRewind', 'no')"><label>non</label></button>
+						  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.canRewind.yes}"ng-click="changeRadioButton('canRewind', 'yes')"><label>oui</label></button>
+						  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.canRewind.no}" ng-click="changeRadioButton('canRewind', 'no')"><label>non</label></button>
 						</div>				
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 infos-modes">
@@ -86,9 +86,9 @@
 				<div class="row columns-inverse-mobile">
 					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 buttons">
 						<div class="btn-group-vertical" role="group" aria-label="radio">
-						  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.score.afterEach}"ng-click="changeRadioButton('score', 'afterEach')"><label>temps réel</label></button>
-						   <button type="button" class="btn btn-quiz" ng-class="{selected: opts.score.atEnd}" ng-click="changeRadioButton('score', 'atEnd')"><label>à la fin</label></button>
-						   <button type="button" class="btn btn-quiz" ng-class="{selected: opts.score.none}" ng-click="changeRadioButton('score', 'none')"><label>désactivé</label></button>
+						  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.score.afterEach}"ng-click="changeRadioButton('score', 'afterEach')"><label>temps réel</label></button>
+						   <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.score.atEnd}" ng-click="changeRadioButton('score', 'atEnd')"><label>à la fin</label></button>
+						   <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.score.none}" ng-click="changeRadioButton('score', 'none')"><label>désactivé</label></button>
 						</div>				
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 infos-modes">
@@ -108,8 +108,8 @@
 				<div class="row columns-inverse-mobile">
 					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 buttons">
 						<div class="btn-group" role="group" aria-label="radio">
-						  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.canRedo.yes}"ng-click="changeRadioButton('canRedo', 'yes')"><label>oui</label></button>
-						  <button type="button" class="btn btn-quiz" ng-class="{selected: opts.canRedo.no}" ng-click="changeRadioButton('canRedo', 'no')"><label>non</label></button>
+						  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.canRedo.yes}"ng-click="changeRadioButton('canRedo', 'yes')"><label>oui</label></button>
+						  <button type="button" class="btn btn-quiz" ng-class="{selected: quiz.opts.canRedo.no}" ng-click="changeRadioButton('canRedo', 'no')"><label>non</label></button>
 						</div>				
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 infos-modes">
@@ -120,9 +120,53 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 re-establish">
 				<p class="delete img" ng-click="reEstablish()"></p><span class="texte" ng-click="reEstablish()">Rétablir les paramètres par défaut</span>
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="row list columns-inverse-mobile">
+					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7 questions">
+						<div class="row question" ng-repeat="question in quiz.questions">
+							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 libelle" >
+								<span class="texte">{{question.libelle | overflow}}</span>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 type">
+								<span class="texte">{{question.type | acronym}}</span>						
+							</div>
+							<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+								<div class="row icons">
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+										<p class="border img"></p>								
+									</div>
+									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+										<p class="update-question img" ng-click="updateQuestion(question.id)"></p>								
+									</div>
+								</div>											
+							</div>
+							<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+								<div class="row icons">
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+										<p class="border img"></p>								
+									</div>
+									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+										<p class="delete-question img" ng-click="deleteQuestion(question.id)"></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 infos-text" ng-if="quiz.questions.length > 0">
+						<div class="icon">
+							<p class="info img"></p>							
+						</div>
+						<div class="text">
+							<span class="texte">
+								Modifier l'ordre en faisant glisser les blocs de questions
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<button type="button" class="btn btn-quiz hover add-question" ui-sref="quizs.questions"><label>Ajouter une question</label></button>
+		<button type="button" class="btn btn-quiz hover add-question" ui-sref="quizs.create_questions"><label>Ajouter une question</label></button>
 	</div>
 </div>

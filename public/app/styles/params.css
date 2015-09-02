@@ -68,7 +68,7 @@
 .btn.btn-quiz.add-question{
 	float: right;
 	padding: 5px 15px;
-	margin-top: 100px;
+	margin-top: 40px;
 	margin-right: 50px;
 }
 
@@ -90,6 +90,55 @@
 	cursor: pointer;
 }
 
+/*************** css sur les question crées ****************************/
+.list .questions{
+	margin-top: 40px
+}
+.list .questions .question{
+	margin-top: 10px;
+	border: 2px solid #9e9e9e
+}
+
+.list .questions .question .icons > div{
+	text-align: center;
+}
+.list .questions .question .libelle{
+	padding: 4px 10px;
+}
+.list .questions .question .type{
+	padding: 4px 0px;
+}
+.list .questions .question .libelle span, .list .questions .question .type span{
+	vertical-align: middle;
+}
+.list .questions .question .icons .border, .list .questions .question .icons .delete-question, .list .questions .question .icons .update-question{
+	display: inline-block;
+	vertical-align: middle;
+}
+.list .questions .question .icons .delete-question, .list .questions .question .icons .update-question{
+	cursor: pointer;
+}
+.list .questions .question .icons .delete-question{
+	height: 30px;
+	width: 30px;
+}
+.list .questions .question .icons .update-question{
+	height: 30px;
+	width: 30px;
+}
+.list .questions .question .icons .border{
+	height: 30px;
+	width: 4px;
+}
+.list .infos-text{
+	margin-top: 50px;
+}
+.list .infos-text .icon{
+	padding-left: 30px;
+}
+.list .infos-text .text{
+	padding-right: 20px;
+}
 /**************************** RESPONSIVE DESIGN  *******************************/
 /* pour les media tel que mobile et tablette*/
 @media screen and (max-width: 992px) {
@@ -117,5 +166,30 @@
 		padding: 5px 15px;
 		margin-top: 30px;
 		margin-right: 10px;
+	}
+}
+/**************************** RESPONSIVE DESIGN  *******************************/
+/* pour les mobiles seuls*/
+@media screen and (max-width: 768px) {
+	.list .questions{
+		margin-top: 0;
+	}
+	.list .infos-text .icon{
+		padding-left: 0;
+	}
+	.list .questions .question .libelle{
+		padding: 4px 2px;
+	}
+
+	.list .questions .question .icons .update-question, .list .questions .question .icons .delete-question{
+		width: 20px;
+	}
+	.list .questions .question .icons .update-question.img{
+		background-size: 120%;
+    background-position: center;
+	}
+
+	.list .questions .question .icons .delete-question.img{
+		background-size: 80%;
 	}
 }

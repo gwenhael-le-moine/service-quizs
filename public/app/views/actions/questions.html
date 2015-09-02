@@ -6,32 +6,94 @@
 		</div>
 		<div class="row content border-bottom">
 			<div class="col-xs-12 col-sm-4 col-sm-offset-2 col-md-4 col-lg-4">
-				<div><span class="texte-particulier">Type de question</span></div>
-				<div class="btn-group-vertical buttons" role="group" aria-label="radio">
-				  <button type="button" class="btn btn-quiz" ng-class="{selected: types.qcm}"ng-click="changeType('qcm')"><label>QCM</label></button>
-				   <button type="button" class="btn btn-quiz" ng-class="{selected: types.tat}" ng-click="changeType('tat')"><label>Texte à trous</label></button>
-				   <button type="button" class="btn btn-quiz" ng-class="{selected: types.ass}" ng-click="changeType('ass')"><label>Association</label></button>
+				<div>
+					<span class="texte-particulier">Type de question</span>
+				</div>
+				<div 	class="btn-group-vertical buttons" 
+							role="group" 
+							aria-label="radio">
+				  <button type="button" 
+				  				class="btn btn-quiz" 
+				  				ng-class="{selected: types.qcm}"
+				  				ng-click="changeType('qcm')">
+				  	<label>QCM</label>
+				  </button>
+					<button type="button" 
+									class="btn btn-quiz" 
+									ng-class="{selected: types.tat}" 
+									ng-click="changeType('tat')">
+						<label>Texte à trous</label>
+					</button>
+					<button type="button" 
+									class="btn btn-quiz" 
+									ng-class="{selected: types.ass}" 
+									ng-click="changeType('ass')">
+						<label>Association</label>
+					</button>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<div><span class="texte-particulier">Question :</span></div>
-						<div class="textarea"><textarea class="texte" maxlength="256" placeholder="Veuillez entrer une question"></textarea></div>
-						<div ng-hide="true"><button id='questionMediaId' type="file" ngf-select="uploadQuestionMedia($files)"></button></div>
-						<div><p class="add-media img" ng-click="openFileUpload('questionMediaId')"></p><label class="label-media texte-secondaire-italic" ng-class="{'not-empty': question.media}">{{question.media != null ? question.media : placeholderMedia}}</label></div>
+						<div>
+							<span class="texte-particulier">Question :</span>
+						</div>
+						<div class="textarea">
+							<textarea class="texte" 
+												maxlength="256" 
+												placeholder="Veuillez entrer une question"
+												ng-model="question.libelle">
+							</textarea>
+						</div>
+						<div ng-hide="true">
+							<button id='questionMediaId' 
+											type="file" 
+											ngf-select="uploadQuestionMedia($files)">
+							</button>
+						</div>
+						<div>
+							<p 	class="add-media img" 
+									ng-click="openFileUpload('questionMediaId')">
+							</p>
+							<label 	class="label-media texte-secondaire-italic" 
+											ng-class="{'not-empty': question.media}">
+								{{question.media != null ? question.media : placeholderMedia}}
+							</label>
+						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hint">
-						<div><span class="texte-particulier">Aide :</span></div>
-						<div class="textarea"><textarea class="texte" maxlength="2000" placeholder="Vous pouvez écrire une aide qui sera affichée sous la question"></textarea></div>
-						<div ng-hide="true"><button id='aideMediaId' type="file" ngf-select="uploadHintMedia($files)"></button></div>
-						<div><p class="add-media img" ng-click="openFileUpload('aideMediaId')"></p><label class="label-media texte-secondaire-italic" ng-class="{'not-empty': question.hint.media}">{{question.hint.media != null ? question.hint.media : placeholderMedia}}</label></div>
+						<div>
+							<span class="texte-particulier">Aide :</span>
+						</div>
+						<div class="textarea">
+							<textarea class="texte" 
+												maxlength="2000" 
+												placeholder="Vous pouvez écrire une aide qui sera affichée sous la question"
+												ng-model="question.hint.libelle">
+							</textarea>
+						</div>
+						<div ng-hide="true">
+							<button id='aideMediaId' 
+											type="file" 
+											ngf-select="uploadHintMedia($files)">
+							</button>
+						</div>
+						<div>
+							<p 	class="add-media img" 
+									ng-click="openFileUpload('aideMediaId')">
+							</p>
+							<label 	class="label-media texte-secondaire-italic" 
+											ng-class="{'not-empty': question.hint.media}">
+								{{question.hint.media != null ? question.hint.media : placeholderMedia}}
+							</label>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-------------------- DEBUT PARTIE QCM ---------------------------->
-		<div ng-if="types.qcm" class="row content">
+		<div 	ng-if="types.qcm" 
+					class="row content">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<span class="texte-particulier">Réponses :</span>
 			</div>
@@ -47,32 +109,63 @@
 						<span>JOINDRE</span>
 					</div>
 				</div>
-				<div class="row" ng-repeat="suggestion in suggestions.qcm">
+				<div 	class="row" 
+							ng-repeat="suggestion in suggestions.qcm">
 					<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 solution">
-						<p class="checkbox img" ng-model="suggestion.solution" ng-class="{checked: suggestion.solution}" ng-click="suggestion.solution = !suggestion.solution"></p>
+						<p 	class="checkbox img" 
+								ng-model="suggestion.solution" 
+								ng-class="{checked: suggestion.solution}" 
+								ng-click="suggestion.solution = !suggestion.solution">
+						</p>
 					</div>
 					<div class="col-xs-9 col-sm-5 col-md-5 col-lg-5 proposition">
-						<input type="text" class="texte" maxlength="2000" ng-model="suggestion.proposition"/>
+						<input 	type="text" 
+										class="texte" 
+										maxlength="2000" 
+										ng-model="suggestion.proposition"/>
 					</div>
 					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 joindre">
-						<div><button ng-hide="true" id='joindre{{$index}}' type="file" ngf-select="uploadSuggestionQCMMedia($files, $index)"></button></div>
-						<div><p ng-if="!suggestion.joindre" class="add-media img" ng-click="openFileUpload('joindre{{$index}}')"></p>
-						<p ng-if="suggestion.joindre" class="delete-media img" ng-click="suggestion.joindre = null"></p>
-						<label ng-if="suggestion.joindre" class="label-media texte-secondaire-italic not-empty">{{suggestion.joindre}}</label></div>
+						<div>
+							<button ng-hide="true" id='joindre{{$index}}' 
+											type="file" 
+											ngf-select="uploadSuggestionQCMMedia($files, $index)">
+							</button>
+						</div>
+						<div>
+							<p 	ng-if="!suggestion.joindre" 
+									class="add-media img" 
+									ng-click="openFileUpload('joindre{{$index}}')">
+							</p>
+							<label 	ng-if="!suggestion.joindre" 
+											class="label-media texte-secondaire-italic mobile">
+								Joindre un fichier
+							</label>
+							<p 	ng-if="suggestion.joindre" 
+									class="delete-media img" 
+									ng-click="suggestion.joindre = null">
+							</p>
+							<label 	ng-if="suggestion.joindre" 
+											class="label-media texte-secondaire-italic not-empty">
+								{{suggestion.joindre}}
+							</label>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-------------------- FIN PARTIE QCM ---------------------------->
 		<!-------------------- DEBUT PARTIE ASS ---------------------------->
-		<div ng-if="types.ass" class="row content">
+		<div 	ng-if="types.ass" 
+					class="row content">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ass">
 				<span class="texte-particulier">Réponses :</span>
 				<div>
 					<p class="info img"></p>					
 				</div>
 				<div ng-if="!validateAss">
-					<span class="texte">Renseigner les champs textes dans n'importe quel ordre et valider.</span>
+					<span class="texte">
+						Renseigner les champs textes dans n'importe quel ordre et valider.
+					</span>
 				</div>
 				<div ng-if="validateAss">
 					<span class="texte backline-mobile">Pour relier :</span>
@@ -80,7 +173,9 @@
 					<p class="consigne1 img"></p>
 					<span class="texte">2. clic sur la solution en lien à droite</span>
 					<p class="consigne2 img"></p>
-					<span class="texte backline">Pour corriger, double-clic sur l'élément à modifier</span>
+					<span class="texte backline">
+						Pour corriger, double-clic sur l'élément à modifier
+					</span>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 reponse-ass">
@@ -106,36 +201,60 @@
 						</div>
 					</div>
 				</div>
-				<div class="row" ng-repeat="suggestion in suggestions.ass">
+				<div 	class="row" 
+							ng-repeat="suggestion in suggestions.ass">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<div class="row columns-inverse-mobile">
 							<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 joindre left">
-								<div ng-class="{'label-media-left': suggestion.leftProposition.joindre}">
-								<div class="row-inverse-mobile"><label ng-if="suggestion.leftProposition.joindre" class="label-media texte-secondaire-italic not-empty">{{suggestion.leftProposition.joindre}}</label>
-								<p ng-if="suggestion.leftProposition.joindre" class="delete-media img" ng-click="suggestion.leftProposition.joindre = null"></p></div>
-								<p ng-show="
-									(!validateAss && !suggestion.leftProposition.joindre && 
-										($index == 0 || suggestions.ass[{{$index-1}}].leftProposition.libelle))
-										|| (validateAss && suggestion.leftProposition.libelle && !suggestion.leftProposition.joindre)" class="add-media img" ng-click="openFileUpload('leftjoindre{{$index}}')"></p>
+								<div 	class="label-media-mobile" 
+											ng-class="{'label-media-left': suggestion.leftProposition.joindre}">
+									<div 	class="row-inverse-mobile" 
+												ng-if="suggestion.leftProposition.joindre">
+										<label class="label-media texte-secondaire-italic not-empty">
+											{{suggestion.leftProposition.joindre}}
+										</label>
+										<p 	class="delete-media img" 
+												ng-click="suggestion.leftProposition.joindre = null">
+										</p>
+									</div>
+									<div 	class="row-inverse-mobile"
+												ng-show="
+													(!validateAss && !suggestion.leftProposition.joindre && 
+													($index == 0 || suggestions.ass[{{$index-1}}].leftProposition.libelle))
+													|| (validateAss && suggestion.leftProposition.libelle && !suggestion.leftProposition.joindre)">
+										<label class="label-media texte-secondaire-italic mobile">
+											Joindre
+										</label>
+										<p 	class="add-media img" 
+												ng-click="openFileUpload('leftjoindre{{$index}}')">
+										</p>
+									</div>
 								</div>
-								<div ng-hide="true" ><button id='leftjoindre{{$index}}' type="file" ngf-select="uploadSuggestionASSMedia($files, $index, 'left')"></button></div>
+								<div ng-hide="true" >
+									<button id='leftjoindre{{$index}}' 
+													type="file" 
+													ngf-select="uploadSuggestionASSMedia($files, $index, 'left')">
+									</button>
+								</div>
 							</div>
 							<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 proposition left">
-								<input 
-									ng-disabled="
-										validateAss || 
-										($index != 0 && 
-										!suggestions.ass[{{$index-1}}].leftProposition.libelle)" type="text" class="texte" maxlength="2000" ng-model="suggestion.leftProposition.libelle"/>
-								<p 
-									ng-if="validateAss && suggestion.leftProposition.libelle" 
-									id="leftconnect{{$index}}" 
-									class="ass-empty img" 
-									ng-class="{
-										hover: suggestion.leftProposition.solutions.length == 0,
-										selected: connect1.id == {{$index}} && suggestion.leftProposition.solutions.length == 0, 
-										connected: suggestion.leftProposition.solutions.length > 0
-									}" 
-									ng-click="connect({{$index}}, 'left')">
+								<input 	ng-disabled="
+													validateAss || 
+													($index != 0 && 
+													!suggestions.ass[{{$index-1}}].leftProposition.libelle)" 
+												type="text" 
+												class="texte" 
+												maxlength="2000" 
+												ng-model="suggestion.leftProposition.libelle"/>
+								<p 	ng-show="validateAss && suggestion.leftProposition.libelle" 
+										id="leftconnect{{$index}}" 
+										class="ass-empty img" 
+										ng-class="{
+											hover: suggestion.leftProposition.solutions.length == 0,
+											selected: connect1.id == {{$index}} && suggestion.leftProposition.solutions.length == 0, 
+											connected: suggestion.leftProposition.solutions.length > 0
+										}" 
+										ng-click="connect({{$index}}, 'left')">
 								</p>
 							</div>							
 						</div>
@@ -143,70 +262,254 @@
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<div class="row">
 							<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 proposition right">
-								<p ng-if="validateAss && suggestion.rightProposition.libelle" 
-									id="rightconnect{{$index}}" 
-									class="ass-empty img" 
-									ng-click="connect({{$index}}, 'right')" 
-									ng-class="{
-										selected: connect2.id == {{$index}} && suggestion.rightProposition.solutions.length == 0,
-										connected: suggestion.rightProposition.solutions.length > 0, 
-										hover: suggestion.rightProposition.solutions.length == 0
-									}">
+								<p ng-show="validateAss && suggestion.rightProposition.libelle" 
+										id="rightconnect{{$index}}" 
+										class="ass-empty img" 
+										ng-click="connect({{$index}}, 'right')" 
+										ng-class="{
+											selected: connect2.id == {{$index}} && suggestion.rightProposition.solutions.length == 0,
+											connected: suggestion.rightProposition.solutions.length > 0, 
+											hover: suggestion.rightProposition.solutions.length == 0
+										}">
 								</p>
-								<input 
-									ng-disabled="
-										validateAss || 
-										($index != 0 &&
-										!suggestions.ass[{{$index-1}}].rightProposition.libelle)" 
-									type="text" class="texte" maxlength="2000" ng-model="suggestion.rightProposition.libelle"/>
+								<input	ng-disabled="
+													validateAss || 
+													($index != 0 &&
+													!suggestions.ass[{{$index-1}}].rightProposition.libelle)" 
+												type="text" 
+												class="texte" 
+												maxlength="2000" 
+												ng-model="suggestion.rightProposition.libelle"/>
 							</div>
 							<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 joindre right">
-								<div><button ng-hide="true" id='rightjoindre{{$index}}' type="file" ngf-select="uploadSuggestionASSMedia($files, $index, 'right')"></button></div>
-								<div><p ng-show="
-									(!validateAss && !suggestion.rightProposition.joindre && 
-										($index == 0 || suggestions.ass[{{$index-1}}].rightProposition.libelle))
-									|| (validateAss && suggestion.rightProposition.libelle && !suggestion.rightProposition.joindre)" class="add-media img" ng-click="openFileUpload('rightjoindre{{$index}}')"></p>
-								<p ng-if="suggestion.rightProposition.joindre" class="delete-media img" ng-click="suggestion.rightProposition.joindre = null"></p>
-								<label ng-if="suggestion.rightProposition.joindre" class="label-media texte-secondaire-italic not-empty">{{suggestion.rightProposition.joindre}}</label></div>
+								<div>
+									<button ng-hide="true" 
+													id='rightjoindre{{$index}}' 
+													type="file" 
+													ngf-select="uploadSuggestionASSMedia($files, $index, 'right')">
+									</button>
+								</div>
+								<div 	ng-show="
+											(!validateAss && !suggestion.rightProposition.joindre && 
+												($index == 0 || suggestions.ass[{{$index-1}}].rightProposition.libelle))
+											|| (validateAss && suggestion.rightProposition.libelle && !suggestion.rightProposition.joindre)">
+									<p 	class="add-media img" 
+											ng-click="openFileUpload('rightjoindre{{$index}}')">
+									</p>
+									<label class="label-media texte-secondaire-italic mobile">Joindre</label>
+								</div>
+								<div ng-if="suggestion.rightProposition.joindre">
+									<p 	class="delete-media img" 
+											ng-click="suggestion.rightProposition.joindre = null">
+									</p>
+									<label class="label-media texte-secondaire-italic not-empty">
+										{{suggestion.rightProposition.joindre}}
+									</label>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn-ass">
-				<div ng-if="!validateAss" class="btn-group" role="group" aria-label="radio">
-				  <button type="button" class="btn btn-quiz hover" ng-click="changeModeAss()" ng-disabled="!checkAss()"><label>Valider</label></button>
-				  <button type="button" class="btn btn-quiz hover" ng-click="cleanAss()"><label>Effacer</label></button>
+				<div 	ng-if="!validateAss" 
+							class="btn-group" 
+							role="group" 
+							aria-label="radio">
+				  <button type="button" 
+				  				class="btn btn-quiz hover" 
+				  				ng-click="changeModeAss()" 
+				  				ng-disabled="!checkAss()">
+				  	<label>Valider</label>
+				  </button>
+				  <button type="button" 
+				  				class="btn btn-quiz hover" 
+				  				ng-click="cleanAss()">
+				  	<label>Effacer</label>
+				  </button>
 				</div>
-				<button ng-if="validateAss" type="button" class="btn btn-quiz hover modif" ng-click="changeModeAss()"><label>Modifier le texte</label></button>
+				<button ng-if="validateAss" 
+								type="button" 
+								class="btn btn-quiz hover modif" 
+								ng-click="changeModeAss()">
+					<label>Modifier le texte</label>
+				</button>
 			</div>
 		</div>
-		<div ng-show="validateAss && types.ass" id="linesId">
+		<div 	ng-show="validateAss && types.ass" 
+					id="linesId">
 		</div>
 		<!-------------------- FIN PARTIE ASS ---------------------------->
+		<!-------------------- DEBUT PARTIE TAT ---------------------------->
+		<div 	ng-if="types.tat" 
+					class="row content">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tat">
+				<span class="texte-particulier">Réponses :</span>
+				<div>
+					<p class="info img"></p>					
+				</div>
+				<div>
+					<span class="texte backline">
+						Remplissez le champs texte en changeant de ligne chaque fois que vous voulez laisser un trou.
+					</span>
+					<span class="texte backline">
+						Remplissez en face la solution : elles seront toutes présentées, par ordre alphabétique, à chaque trou.
+					</span>
+					<span class="texte backline">
+						Ajouter des leurres qui se mêleront aux réponses proposées.
+					</span>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 reponse-tat">
+				<div class="row">
+					<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 titre petit center">
+						<span>TEXTE</span>
+					</div>
+					<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 titre petit center">
+						<span>SOLUTION (+ ponctuation)</span>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 titre petit joindre">
+						<span>JOINDRE</span>
+					</div>
+				</div>
+				<div 	class="row" 
+							ng-repeat="suggestion in suggestions.tat">
+					<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 proposition">
+						<input 	type="text" 
+										class="texte" 
+										maxlength="2000" 
+										ng-model="suggestion.text"/>
+					</div>
+					<div class="col-xs-5 col-sm-3 col-md-3 col-lg-3 solution">
+						<input 	type="text" 
+										class="texte" 
+										maxlength="2000" 
+										ng-model="suggestion.solution"/>
+					</div>
+					<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 ponctuation">
+						<input 	type="text" 
+										class="texte" 
+										maxlength="1" 
+										ng-model="suggestion.ponctuation"/>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 joindre">
+						<div>
+							<button ng-hide="true" 
+											id='joindretat{{$index}}' 
+											type="file" 
+											ngf-select="uploadSuggestionTATMedia($files, $index)">
+							</button>
+						</div>
+						<div>
+							<p 	ng-if="!suggestion.joindre" 
+									class="add-media img" 
+									ng-click="openFileUpload('joindretat{{$index}}')">
+							</p>
+							<label 	ng-if="!suggestion.joindre" 
+											class="label-media texte-secondaire-italic mobile">
+								Joindre un fichier
+							</label>
+							<p 	ng-if="suggestion.joindre" 
+									class="delete-media img" 
+									ng-click="suggestion.joindre = null">
+							</p>
+							<label 	ng-if="suggestion.joindre" 
+											class="label-media texte-secondaire-italic not-empty">
+								{{suggestion.joindre}}
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="add-tat">
+					<p 	class="add-media img" 
+							ng-click="addTAT()">
+					</p>
+					<label class="label-media texte-secondaire-italic">
+						Ajouter un champs texte + solution
+					</label>
+				</div>
+				<div class="row add-leurre-title">
+					<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 titre petit center">
+						<span>LEURRES</span>
+					</div>
+				</div>
+				<div class="add-leurre">
+					<p 	class="add-media img" 
+							ng-click="addLeurre()">
+					</p>
+					<label class="label-media texte-secondaire-italic">
+						Ajouter des leurres
+					</label>
+				</div>
+				<div 	class="leurres" 
+							ng-repeat="leurre in suggestions.leurres">
+					<p 	class="deleted img" 
+							ng-click="deleteLeurre(leurre.id)">
+					</p>
+					<label>{{leurre.text}}</label>
+				</div>
+			</div>
+		</div>
+		<!-------------------- FIN PARTIE TAT ---------------------------->
 		<div class="row content border-bottom columns-inverse-mobile">
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 rand-answers">
-				<div class="btn-group" role="group" aria-label="radio">
-				  <button type="button" class="btn btn-quiz" ng-class="{selected: question.randanswer}"ng-click="question.randanswer = true"><label>oui</label></button>
-				  <button type="button" class="btn btn-quiz" ng-class="{selected: !question.randanswer}" ng-click="question.randanswer = false"><label>non</label></button>
+				<div 	class="btn-group" 
+							role="group" 
+							aria-label="radio">
+				  <button type="button" 
+				  				class="btn btn-quiz" 
+				  				ng-class="{selected: question.randanswer}"
+			  					ng-click="question.randanswer = true">
+			  		<label>oui</label>
+			  	</button>
+				  <button type="button" 
+				  				class="btn btn-quiz" 
+				  				ng-class="{selected: !question.randanswer}" 
+				  				ng-click="question.randanswer = false">
+				  	<label>non</label>
+				  </button>
 				</div>			
 			</div>
 			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 rand-answers">
-				<div><label class="texte">mélanger l'ordre des propositions</label></div>
+				<div>
+					<label class="texte">mélanger l'ordre des propositions</label>
+				</div>
 			</div>
 		</div>
 		<div class="row content">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 comment">
-				<div><span class="texte-particulier">Commentaire :</span></div>
-				<div class="textarea"><textarea class="texte" maxlength="2000" placeholder="Vous pouvez saisir un commentaire qui sera visible à  la correction (règle de grammaire, explication de contexte etc.)"></textarea></div>
+				<div>
+					<span class="texte-particulier">Commentaire :</span>
+				</div>
+				<div class="textarea">
+					<textarea class="texte" 
+										maxlength="2000" 
+										placeholder="Vous pouvez saisir un commentaire qui sera visible à  la correction (règle de grammaire, explication de contexte etc.)"
+										ng-model="question.comment">
+					</textarea>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 validate">
-		<div class="btn-group" role="group" aria-label="radio">
-		  <button type="button" class="btn btn-quiz hover" ng-click="addQuestion()"><label>Valider</label></button>
-		  <button type="button" class="btn btn-quiz hover" ng-click="cleanQuestion()"><label>Effacer</label></button>
-		  <button type="button" class="btn btn-quiz hover" ui-sref="quizs.params"><label>Annuler</label></button>
+		<div 	class="btn-group" 
+					role="group" 
+					aria-label="radio">
+		  <button type="button" 
+		  				class="btn btn-quiz hover" 
+		  				ng-click="addQuestion()">
+		  	<label>Valider</label>
+		  </button>
+		  <button type="button" 
+		  				class="btn btn-quiz hover" 
+		  				ng-click="cleanQuestion()">
+		  	<label>Effacer</label>
+		  </button>
+		  <button type="button" 
+		  				class="btn btn-quiz hover" 
+		  				ui-sref="quizs.params">
+		  	<label>Annuler</label>
+		  </button>
 		</div>			
 	</div>
 </div>

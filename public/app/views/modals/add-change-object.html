@@ -1,0 +1,9 @@
+<div class="modal-header bleu"><span class="grand-titre">{{title}}</span></div>
+<div class="modal-body">
+	<input type="text" maxlength="100" ng-model="text" autofocus/>
+	<span ng-if="text.length == 0 && validate" class="label label-danger msg-error">{{error}}</span>
+</div>	
+<div class="modal-footer">
+    <button class="btn btn-modal" ng-click="ok()"><label>oui</label></button>
+    <button class="btn btn-modal" ng-click="no()"><label>non</label></button>
+</div>

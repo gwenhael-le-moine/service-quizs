@@ -2,6 +2,24 @@
 
 /* Services */
 angular.module('quizsApp')
+.service('Erreur', [function() {
+  this.message = function(code, messagePerso){
+    if (messagePerso == null) {
+      var message = "Une erreur s'est produite !";
+      switch (code) {
+        case '404':
+          message = "Circulez, il n'y a rien à voir !!";
+          break;
+        case '401':
+          message = "Vous n'êtes pas autorisé !!";
+          break;
+      }
+    } else {
+      message = messagePerso;
+    };
+    return message;
+  };
+}])
 .service('Modal', ['$modal', 'APP_PATH', function($modal, APP_PATH) {
   //ouverture d'une modal personnalisable'
   this.open = function (controller, template, size) {
@@ -15,7 +33,43 @@ angular.module('quizsApp')
     modalInstance.result.then(function () {
     });
   };
+}])
+.service('Line', ['$rootScope', '$compile', function($rootScope, $compile) {
+  // Creation d'une ligne seulement avec un div et du CSS
+  this.create = function (id, x1, y1, x2, y2, scope) {
+    //calcule de la longueur et de l'angle de la ligne
+    var length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+    var angle  = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+    //valeur css du transfor afin de dessiner la ligne
+    var transform = 'rotate('+angle+'deg)';
+    //injection de la ligne dans la page
+    $('#linesId').append($compile(angular.element('<div id="line'+id+'" ng-dblclick="clearLine(\'line'+id+'\')"></div>'))(scope));       
+    //ajout des classes css afin que la ligne ai l'aspect voulu
+    $('#line'+id).addClass('line')
+    .css({
+      'position': 'absolute',
+      'transform': transform,
+    })
+    .width(length)
+    .offset({left: x1, top: y1});
+  };
+  this.clear = function(id){
+    //on supprime la ligne
+    $('#'+id).remove();
+    //dans l'id du div qui compose la ligne, il y a l'id de la prop gauchet et de droite
+    //afin qu'avec un simple split nous puissons le récupérer
+    var idLeftProposition = id.split('line')[1].split('_')[0];
+    var idRightProposition = id.split('line')[1].split('_')[1];
+    //on peut maintenant supprimer la solution dans chaque proposition correpondant à la ligne
+    $rootScope.suggestions.ass[idLeftProposition].leftProposition.solutions = _.reject($rootScope.suggestions.ass[idLeftProposition].leftProposition.solutions, function(solution){
+      return solution == idRightProposition;
+    });
+    $rootScope.suggestions.ass[idRightProposition].rightProposition.solutions = _.reject($rootScope.suggestions.ass[idRightProposition].rightProposition.solutions, function(solution){
+      return solution == idLeftProposition;
+    });
+  }
 }]);
+
 /************************************************************************************/
 /*                   Resource to show flash messages and responses                  */
 /************************************************************************************/

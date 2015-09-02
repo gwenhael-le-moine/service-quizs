@@ -53,17 +53,18 @@
 	margin-top: 10px;
 }
 /*** css titre des réponse ***/
-.reponse-qcm .titre.petit, .reponse-ass .titre.petit{
+.reponse-qcm .titre.petit, .reponse-ass .titre.petit, .reponse-tat .titre.petit{
 	font-family: 'Open Sans Semibold';
 	color: #9e9e9e;
 	font-size: 11pt;
 }
-.reponse-qcm .titre.petit.center, .reponse-ass .titre.petit.center{
+.reponse-qcm .titre.petit.center, .reponse-ass .titre.petit.center, .reponse-tat .titre.petit.center{
 	text-align: center;
 }
 /*** colonne solution proposition joindre ***/
 .reponse-qcm .solution, .reponse-qcm .proposition, .reponse-qcm .joindre,
-.reponse-ass .solution, .reponse-ass .proposition, .reponse-ass .joindre{
+.reponse-ass .solution, .reponse-ass .proposition, .reponse-ass .joindre,
+.reponse-tat .solution, .reponse-tat .proposition, .reponse-tat .joindre, .reponse-tat .ponctuation{
 	margin-top: 5px;
 }
 .reponse-ass .titre.petit.right span{
@@ -82,15 +83,14 @@
 	margin-left: 40px;
 }
 /*** css input proposition ***/
-.reponse-qcm .proposition > input, .reponse-ass .proposition > input{
+.reponse-qcm .proposition > input, .reponse-ass .proposition > input, .reponse-tat .proposition > input, .reponse-tat .solution > input, .reponse-tat .ponctuation > input{
 	width: 85%;
 	border: 2px solid #9e9e9e;
 	padding: 2px;
 	font-size: 11pt;
-	padding: 0.5px;
 }
 /*** css media colonne joindre ***/
-.reponse-qcm .joindre, .reponse-ass .joindre{
+.reponse-qcm .joindre, .reponse-ass .joindre.right{
 	display: table;
 }
 .reponse-qcm .joindre div, .reponse-ass .joindre.right div{
@@ -100,7 +100,7 @@
 	height: 22px;
 	width: 22px;
 }
-.reponse-qcm .joindre .delete-media, .reponse-ass .joindre .delete-media{
+.reponse-qcm .joindre .delete-media, .reponse-ass .joindre .delete-media, .reponse-tat .joindre .delete-media{
 	height: 22px;
 	width: 22px;
 	display: table-cell;
@@ -108,28 +108,34 @@
 	outline: none;
 	margin-left: 20px;
 }
-.reponse-qcm .joindre .label-media, .reponse-ass .joindre .label-media{
+.reponse-qcm .joindre .label-media, .reponse-ass .joindre .label-media, .reponse-tat .joindre .label-media{
 	border-top: 1px solid #9e9e9e;
 	width: 200px;
 }
-/*** ASS ***/
-.ass div{
-	display: inline-block;
-	vertical-align: middle;
+.reponse-qcm .joindre .mobile{
+	width: 200px;
 }
-.ass div .texte.backline{
+.reponse-qcm .joindre .mobile, .reponse-ass .joindre .mobile, .reponse-tat .joindre .mobile{
+	display: none;
+}
+/*** ASS ***/
+.ass div, .tat div{
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: 10px;
+}
+.ass div .texte.backline, .tat div .texte.backline{
 	display: block;
 }
-.ass .texte-particulier{
+.ass .texte-particulier, .tat .texte-particulier{
 	display: block;
 	margin-bottom: 10px;
 }
-.ass .info.img{
+.ass .info.img, .tat .info.img{
 	display: inline-block;
 }
-.ass .texte{
+.ass .texte, .tat .texte{
 	vertical-align: middle;
-	margin-left: 10px;
 }
 .ass div .consigne1, .ass div .consigne2{
 	vertical-align: middle;
@@ -143,7 +149,7 @@
 	width: 50px;
 	height:20px;
 }
-.reponse-ass{
+.reponse-ass, .reponse-tat{
 	margin-top: 40px;
 }
 .reponse-ass .joindre.left .add-media, .reponse-ass .joindre.left .delete-media{
@@ -202,6 +208,53 @@
 .btn-ass .btn.btn-quiz{
 	padding: 0 15px;
 }
+/*** TAT ***/
+.reponse-tat .proposition, .reponse-tat .solution{
+	padding-right: 10px;
+}
+.reponse-tat .proposition input, .reponse-tat .solution input{
+	width: 100%
+}
+.reponse-tat .ponctuation input{
+	width: 20px;
+	padding-left: 3px;
+}
+.reponse-tat .joindre .label-media{
+	width: 120px;
+}
+.reponse-tat .joindre .add-media{
+	height: 22px;
+	width: 22px;
+	margin-left: 20px;
+}
+.add-tat, .add-leurre{
+	margin-top: 10px;
+}
+.add-tat .add-media.img, .add-leurre .add-media.img{
+	border: 1px solid #9e9e9e;
+}
+.add-tat .label-media, .add-leurre .label-media{
+	padding-left: 10px;
+	border: none;
+}
+.add-leurre-title{
+	margin-top: 40px;
+}
+.leurres{
+	border: 2px solid #9e9e9e;
+	display: inline-block;
+	padding: 2px 5px;
+	margin-top: 10px;
+	margin-right: 10px; 
+}
+.leurres .deleted{
+	height: 10px;
+	width: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 10px;
+	cursor: pointer;
+}
 /*** css mélangé questions ***/
 .rand-answers{
 	margin-top: 20px;
@@ -227,7 +280,7 @@
 	height: 100px;
 	width: 80%;
 }
-/*** css bouton valider et annuler ***/
+/*** css bouton valider, effacer et annuler ***/
 .validate .btn-group{
 	float: right;
 }
@@ -235,8 +288,7 @@
 	padding: 5px 40px;
 }
 
-
-/****** TEST LINE ****/
+/****** LIGNE ASS****/
 div.line{
   transform-origin: 0 100%;
   height: 2px; /* Line width of 3 */
@@ -244,6 +296,22 @@ div.line{
   cursor:pointer;
 }
 
+/*** css des tablettes plus grande !! ***/
+@media (min-width: 992px) and (max-width: 1200px){
+	.reponse-ass .joindre.left .add-media, .reponse-ass .joindre.left .delete-media{
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reponse-ass .joindre.right div{
+		padding-left: 0;
+	}
+	.reponse-ass .joindre.left .label-media, .reponse-ass .joindre.right .label-media{
+		width: 80px;
+	}
+	.ass div, .tat div{
+		display: table-cell;
+	}
+}
 /*** css des tablettes et mobiles ***/
 @media screen and (max-width: 992px) {
 	/*** changement emplacement preview ***/
@@ -292,6 +360,9 @@ div.line{
 	.reponse-qcm .joindre .label-media{
 		width: 170px;
 	}
+	.reponse-qcm .joindre .mobile, .reponse-tat .joindre .mobile, .reponse-ass .joindre .mobile{
+		display: table-cell;
+	}
 	/*** suppression des marges de mélangé question ***/
 	.rand-answers{
 		margin-top: 0;
@@ -299,10 +370,9 @@ div.line{
 	.rand-answers div>label{
 		height: 20px;
 	}
-
 	/*** ASS ***/
 	/***suppression des marges des input***/
-	.ass div{
+	.ass div, .tat div{
 		display: table-cell;
 	}
 	.ass div span{
@@ -326,6 +396,9 @@ div.line{
 		float: none;
 		margin-right: 0;
 	}
+	.reponse-ass .joindre.left .label-media-mobile{
+		display: table;
+	}
 	.reponse-ass .joindre.left .label-media{
 		border-right: 1px solid #9e9e9e;
 		border-left: none;
@@ -342,12 +415,24 @@ div.line{
 		height: 22px;
 		border-left: 1px solid #9e9e9e;
 		border-right: none;
+		text-align: right;
+    padding-right: 5px;
 	}
 	.btn-ass{
 		text-align: center;
 	}
 	.btn-ass .btn-group, .btn-ass .btn.btn-quiz.modif{
 		float: none;
+		margin-top: 20px;
+	}
+	/***TAT***/
+	.reponse-tat .joindre .label-media{
+		width: 165px
+	}
+	.reponse-tat .titre.petit.joindre{
+		display: none;
+	}
+	.add-leurre-title{
 		margin-top: 20px;
 	}
 	/*** commentaire sans les marges ***/
