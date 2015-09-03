@@ -122,9 +122,9 @@
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="row list columns-inverse-mobile">
-					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7 questions">
-						<div class="row question" ng-repeat="question in quiz.questions">
-							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 libelle" >
+					<ul class="col-xs-12 col-sm-8 col-md-8 col-lg-7 questions" as-sortable="kanbanSortOptions" ng-model="quiz.questions">
+						<li class="row question" as-sortable-item ng-repeat="question in quiz.questions">
+							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 libelle" as-sortable-item-handle>
 								<span class="texte">{{question.libelle | overflow}}</span>
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 type">
@@ -150,9 +150,9 @@
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 infos-text" ng-if="quiz.questions.length > 0">
+						</li>
+					</ul>
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-5 infos-text" ng-if="quiz.questions.length > 0">
 						<div class="icon">
 							<p class="info img"></p>							
 						</div>

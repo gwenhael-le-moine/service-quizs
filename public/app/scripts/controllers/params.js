@@ -50,4 +50,14 @@ angular.module('quizsApp')
 	$scope.updateQuestion = function(id){
 		$state.go('quizs.update_questions', {id: id});
 	}
+
+	$scope.kanbanSortOptions = {
+    orderChanged: function (event) {
+    	//pour avoir l'ordre on récupère dans event dest index
+    	//et pour l'ancien cest dans event source index
+    	console.log("le nouvel index : " + event.dest.index);
+    	console.log("l'ancien index : " + event.source.index);
+    },
+    containment: '#board'
+  };
 }]);

@@ -6,6 +6,7 @@ angular.module('quizsApp', [
   'ngResource', 
   'ui.bootstrap',
   'ui.sortable',
+  'as.sortable',
   'angular-carousel',
   'ngColorPicker',
   'ngFileUpload',
