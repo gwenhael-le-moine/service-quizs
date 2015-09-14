@@ -61,8 +61,8 @@ angular.module('quizsApp')
                 controller: 'QuizCtrl'
               },
               'action': {
-                templateUrl:APP_PATH + '/app/views/actions/questions.html',
-                controller: 'QuestionsCtrl'
+                templateUrl:APP_PATH + '/app/views/actions/create-update-questions.html',
+                controller: 'CreateUpdateQuestionsCtrl'
                }
               }
             })
@@ -75,8 +75,22 @@ angular.module('quizsApp')
                 controller: 'QuizCtrl'
               },
               'action': {
-                templateUrl:APP_PATH + '/app/views/actions/questions.html',
-                controller: 'QuestionsCtrl'
+                templateUrl:APP_PATH + '/app/views/actions/create-update-questions.html',
+                controller: 'CreateUpdateQuestionsCtrl'
+               }
+              }
+            })
+          .state( 'quizs.preview_questions',{
+            parent: 'quizs.actions',
+            url: '/questions/preview/:id',
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'action': {
+                templateUrl:APP_PATH + '/app/views/actions/preview-questions.html',
+                controller: 'PreviewQuestionsCtrl'
                }
               }
             });

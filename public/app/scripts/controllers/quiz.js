@@ -7,7 +7,13 @@ angular.module('quizsApp')
 	//titre du quiz
 	$rootScope.quiz.title = $rootScope.quiz.title;
 	//selon si c'est le propriétaire ou pas on grise le bouton permettant de modifier le titre
-	$scope.owner = true;
+	$scope.owner = true;		
+	//et si on est pas dans les views d'action (modif params create) on supprime le bouton!
+	if ($state.current.parent === 'quizs.actions' && $state.current.name !== 'quizs.preview_questions') {
+		$scope.actionView = true;
+	} else {
+		$scope.actionView = false;
+	};
 	//ouvre la modal permettant de changer le titre
 	$scope.changeTitle = function(){
 		Modal.open($scope.modalChangeTitleQuizCtrl, APP_PATH+'/app/views/modals/add-change-object.html', 'md');

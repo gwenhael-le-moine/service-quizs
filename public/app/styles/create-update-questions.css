@@ -38,7 +38,7 @@
 	margin-top: 10px;
 }
 /*** position du preview ***/
-.preview{
+.preview-question{
 	height: 80px;
 	width: 80px;
 	position: absolute;
@@ -315,7 +315,7 @@ div.line{
 /*** css des tablettes et mobiles ***/
 @media screen and (max-width: 992px) {
 	/*** changement emplacement preview ***/
-  .preview{
+  .preview-question{
 		height: 60px;
 		width: 60px;
 		position: absolute;
@@ -327,7 +327,7 @@ div.line{
 /*** css des mobiles seuls ***/
 @media screen and (max-width: 768px) {
 	/*** changement emplacement preview ***/
-	.preview{
+	.preview-question{
 		height: 50px;
 		width: 50px;
 		position: absolute;

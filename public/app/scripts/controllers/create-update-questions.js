@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('QuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$timeout', 'APP_PATH', 'Notifications', 'Upload', 'Modal', 'Line', function($scope, $state, $rootScope, $stateParams, $timeout, APP_PATH, Notifications, Upload, Modal, Line) {
+.controller('CreateUpdateQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$timeout', 'APP_PATH', 'Notifications', 'Upload', 'Modal', 'Line', 'State', function($scope, $state, $rootScope, $stateParams, $timeout, APP_PATH, Notifications, Upload, Modal, Line, State) {
 
 	// -------- initalisation des Variables ------- //
 	// type de question
@@ -20,7 +20,7 @@ angular.module('quizsApp')
 		libelle: null,
 		media: null,
 		hint: {libelle:null, media: null},
-		answers:{},
+		answers:[],
 		randanswer: false,
 		comment: null
 	};
@@ -80,7 +80,8 @@ angular.module('quizsApp')
     leurres: [
     ]
   };
-	// Variables pour les ASS
+  //liste des medias pour la preview
+  $scope.mediasPreview = [];
 	//id, et coord des deux extrémité de la ligne d'un association
   $scope.connect1 = {id: null, x1: null, y1: null}
   $scope.connect2 = {id: null, x2: null, y2: null}
@@ -117,24 +118,36 @@ angular.module('quizsApp')
 	// fonctions permettant d'importer un medium pour chaque type de réponse et question
 	$scope.uploadQuestionMedia = function(files){
 		if (files[0] && !files[0].$error) {
+			if (_.indexOf(["image", "audio", "video"], files[0].type.split("/")[0]) != -1) {
+				$scope.mediasPreview.push({type: "question", file: window.URL.createObjectURL(files[0]), mime: files[0].type});
+			};
 			$rootScope.question.media = sizeNameMedia(files[0].name, 50, 40, 8);
 			uploadMedia(files);
 		}
 	}
 	$scope.uploadHintMedia = function(files){
 		if (files[0] && !files[0].$error) {
+			if (_.indexOf(["image", "audio", "video"], files[0].type.split("/")[0]) != -1) {
+				$scope.mediasPreview.push({type: "hint", file: window.URL.createObjectURL(files[0]), mime: files[0].type});
+			};
 			$rootScope.question.hint.media = sizeNameMedia(files[0].name, 50, 40, 8);
 			uploadMedia(files);
 		}
 	}
 	$scope.uploadSuggestionQCMMedia = function(files, index){
 		if (files[0] && !files[0].$error) {
+			if (_.indexOf(["image", "audio", "video"], files[0].type.split("/")[0]) != -1) {
+				$scope.mediasPreview.push({type: "qcm", index: index, file: window.URL.createObjectURL(files[0]), mime: files[0].type});
+			};
 			$rootScope.suggestions.qcm[index].joindre = sizeNameMedia(files[0].name, 30, 22, 8);
 			uploadMedia(files);
 		}
 	}
 	$scope.uploadSuggestionASSMedia = function(files, index, direction){
 		if (files[0] && !files[0].$error) {
+			if (_.indexOf(["image", "audio", "video"], files[0].type.split("/")[0]) != -1) {
+				$scope.mediasPreview.push({type: "ass", direction: direction, index: index, file: window.URL.createObjectURL(files[0]), mime: files[0].type});
+			};
 			if (direction === 'left') {
 				$rootScope.suggestions.ass[index].leftProposition.joindre = sizeNameMedia(files[0].name, 8, 0, 8);
 			} else {
@@ -145,6 +158,9 @@ angular.module('quizsApp')
 	}
 	$scope.uploadSuggestionTATMedia = function(files, index){
 		if (files[0] && !files[0].$error) {
+			if (_.indexOf(["image", "audio", "video"], files[0].type.split("/")[0]) != -1) {
+				$scope.mediasPreview.push({type: "tat", index: index, file: window.URL.createObjectURL(files[0]), mime: files[0].type});
+			};
 			$rootScope.suggestions.tat[index].joindre = sizeNameMedia(files[0].name, 15, 5, 8);
 			uploadMedia(files);
 		}
@@ -211,11 +227,11 @@ angular.module('quizsApp')
 		  		//et inversement dans la proposition de droite
 		  		$rootScope.suggestions.ass[$scope.connect2.id].rightProposition.solutions.push($scope.connect1.id);
 		  		//on créé la ligne
-		  		Line.create($scope.connect1.id+"_"+$scope.connect2.id, $scope.connect1.x1, $scope.connect1.y1, $scope.connect2.x2, $scope.connect2.y2, $scope);
+		  		Line.create('linesId', $scope.connect1.id+"_"+$scope.connect2.id, $scope.connect1.x1, $scope.connect1.y1, $scope.connect2.x2, $scope.connect2.y2, $scope);
 		  	//ou bien si on a déja les solutions dans l'objet mais pas les ligne de créés
 		  	} else if (_.indexOf($rootScope.suggestions.ass[$scope.connect1.id].leftProposition.solutions, $scope.connect2.id) != -1 && $('#line'+$scope.connect1.id+"_"+$scope.connect2.id).length == 0){
 	  				//on créé la ligne
-		  		Line.create($scope.connect1.id+"_"+$scope.connect2.id, $scope.connect1.x1, $scope.connect1.y1, $scope.connect2.x2, $scope.connect2.y2, $scope);
+		  		Line.create('linesId', $scope.connect1.id+"_"+$scope.connect2.id, $scope.connect1.x1, $scope.connect1.y1, $scope.connect2.x2, $scope.connect2.y2, $scope);
 		  	};
 	  		//on réinitialise les deux extrémités afin de pouvoir recréer une ligne 
 		    $scope.connect1 = {id: null, x1: null, y1: null};
@@ -279,25 +295,74 @@ angular.module('quizsApp')
 		return atLeastOne;
 	}
 
+	// Preview de la question
+	$scope.preview = function(){
+		//on sauvegarde l'état du scope et du root
+		State.saveScope($scope);
+		State.saveRootScope($rootScope);
+		//on copi les données du quiz
+		$rootScope.tmpQuiz = angular.copy($rootScope.quiz);
+		//si on est en mode création on push les dernières données
+		//on ajoute les suggestions du type dans la question
+		$rootScope.question.answers = angular.copy($rootScope.suggestions[$rootScope.question.type]);
+		if (!$rootScope.modeModif) {
+			$rootScope.question.id = "preview_"+ $rootScope.tmpId
+			$rootScope.tmpQuiz.questions.push(angular.copy($rootScope.question));			
+		} else {
+			for (var i = $rootScope.tmpQuiz.questions.length - 1; i >= 0; i--) {
+				if ($rootScope.tmpQuiz.questions[i].id == $rootScope.question.id) {
+					$rootScope.tmpQuiz.questions[i] = angular.copy($rootScope.question);
+				};
+			};
+		};
+		//ensuite pour la prévisu d'un média sans l'avoir uploadé nous avons besoin des fichiers
+		for (var i = $rootScope.tmpQuiz.questions.length - 1; i >= 0; i--) {
+			if ($rootScope.tmpQuiz.questions[i].id === $rootScope.question.id) {
+				//pour un type tat on ajoute les leurres
+				if ($rootScope.tmpQuiz.questions[i].type === 'tat') {
+					$rootScope.tmpQuiz.questions[i].leurres = angular.copy($rootScope.suggestions.leurres);
+				};
+				_.each($scope.mediasPreview, function(media){
+					if (media.type == "question") {
+						$rootScope.tmpQuiz.questions[i].media = {file: media.file, type: media.mime.split("/")[0], mime: media.mime};
+					};
+					if (media.type == "hint") {
+						$rootScope.tmpQuiz.questions[i].hint.media = {file: media.file, type: media.mime.split("/")[0], mime: media.mime};
+					};
+					if (media.type == $rootScope.tmpQuiz.questions[i].type) {
+						switch($rootScope.tmpQuiz.questions[i].type){
+							case "tat":
+							case "qcm":
+								$rootScope.tmpQuiz.questions[i].answers[media.index].joindre = {file: media.file, type: media.mime.split("/")[0], mime: media.mime};
+								break
+							case "ass":
+								$rootScope.tmpQuiz.questions[i].answers[media.index][media.direction+"Proposition"].joindre = {file: media.file, type: media.mime.split("/")[0], mime: media.mime};
+								break;							
+						}
+					};
+				});				
+			};
+		};
+		$state.go('quizs.preview_questions', {id: $rootScope.question.id});
+	}
+
 	// ------- Ajoute et efface la questions avec les reponses ------//
 
   // fonction qui ajoute la question et ses réponse dans le quiz
   $scope.addQuestion = function(){
+  	//on verifie que l'on a au moins une réponse
   	if ($rootScope.question.libelle && $scope.atLeastOneAnswer($rootScope.question.type)) {
-  			$rootScope.question.answers = $rootScope.suggestions;
+			//on ajoute les suggestions du type dans la question
+			$rootScope.question.answers = $rootScope.suggestions[$rootScope.question.type];
+			$rootScope.question.leurres = $rootScope.suggestions.leurres;
+			// en mode modification, on récupère l'ancienne question pour la modifier
   		if ($rootScope.modeModif) {
-  			console.log("modif");
   			for (var i = $rootScope.quiz.questions.length - 1; i >= 0; i--) {
   				if ($rootScope.quiz.questions[i].id === $rootScope.question.id) {
   					$rootScope.quiz.questions[i] = $rootScope.question;
   				};
   			};
-  			// var question = _.find($rootScope.quiz.questions, function(q){
-  			// 	return q.id === $rootScope.question.id;
-  			// });
-  			// console.log(question);
-  			// question = angular.copy($rootScope.question);
-  			// console.log(question);
+  		// en creation on push directement
   		} else {
  				$rootScope.question.id = $rootScope.tmpId++;  			
   			$rootScope.quiz.questions.push($rootScope.question);
@@ -310,50 +375,6 @@ angular.module('quizsApp')
   	Modal.open($scope.modalClearQuestionCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
   }
 
-  //l'initialisation de ces variables doit rester a la fin puisqu'elle utilise des fonctions qui doivent être instancié avant
-  // selon si on est en modification ou en création on initialise différemment
-	if ($stateParams.id) {
-		//on récupère la question
-		$rootScope.question = angular.copy(_.find($rootScope.quiz.questions, function(q){
-			return q.id == $stateParams.id;
-		}));
-		if ($rootScope.question){
-			//on remet les suggestions
-			$rootScope.suggestions = angular.copy($rootScope.question.answers);
-			//permet de définir si on est en modification ou en création
-			$rootScope.modeModif = true;
-			//si on modifi une association on recréé les liaison
-			if ($rootScope.question.type == "ass") {
-				//permet de valider les association pour ensuite les reliers
-				$rootScope.validateAss = true;
-				//afin de laisser les élément se mettre en place on temporise
-				$timeout(function(){
-	  			for (var i = $rootScope.suggestions.ass.length - 1; i >= 0; i--) {
-						if ($rootScope.suggestions.ass[i].leftProposition.solutions.length > 0) {
-							_.each($rootScope.suggestions.ass[i].leftProposition.solutions, function(solution){
-								$scope.connect(i, "left");
-								$scope.connect(solution, "right");							
-							});
-						};
-					};  		
-  			}, 100);
-			};
-			//remet le type de la question à l'affichage
-			$rootScope.changeType($rootScope.question.type)
-			//on récupère les réponses
-			$rootScope.suggestions = $rootScope.question.answers
-		} else {
-			$state.go('erreur', {code: "404", message: "La Question n'existe pas !"});
-		};
-	} else {
-		//on est pas en mode modification mais en création
-		$rootScope.modeModif = false;
-		//permet de valider les association pour ensuite les reliers
-		$rootScope.validateAss = false;
-		//on initialise la questions et les réponses
-		$rootScope.question = angular.copy($rootScope.defaultQuestion);
-		$rootScope.suggestions = angular.copy($rootScope.defaultSuggestions);
-	};
 
   // -------------- Controllers Modal des questions --------------- //
 		//controller pour effacer les données de l'association avec une modal
@@ -443,4 +464,59 @@ angular.module('quizsApp')
 			}
 		}];
 		// ----------------------------------------------------- //
+
+
+  //l'initialisation de ces variables doit rester a la fin puisqu'elle utilise des fonctions qui doivent être instancié avant
+  // selon si on est en modification ou en création ou si l'on reviens de la preview on initialise différemment
+	if ($stateParams.id && $stateParams.id.split("_")[0] != "preview") {
+		//si on à preview dans l'id c'est que l'on revien
+		//on récupère la question
+		$rootScope.question = angular.copy(_.find($rootScope.quiz.questions, function(q){
+			return q.id == $stateParams.id;
+		}));
+		if ($rootScope.question){
+			//on remet les suggestions tout en noubliant pas de remettre les suggestions des autre type que celle de la question
+			$rootScope.suggestions = angular.copy($rootScope.defaultSuggestions);
+			$rootScope.suggestions[$rootScope.question.type] = angular.copy($rootScope.question.answers);
+			$rootScope.suggestions.leurres = angular.copy($rootScope.question.leurres);
+			//permet de définir si on est en modification ou en création
+			$rootScope.modeModif = true;
+			//si on modifi une association on recréé les liaison
+			if ($rootScope.question.type == "ass") {
+				//permet de valider les association pour ensuite les reliers
+				$rootScope.validateAss = true;
+				//afin de laisser les élément se mettre en place on temporise
+				$timeout(function(){
+	  			for (var i = $rootScope.suggestions.ass.length - 1; i >= 0; i--) {
+						if ($rootScope.suggestions.ass[i].leftProposition.solutions.length > 0) {
+							_.each($rootScope.suggestions.ass[i].leftProposition.solutions, function(solution){
+								$scope.connect(i, "left");
+								$scope.connect(solution, "right");							
+							});
+						};
+					};  		
+  			}, 100);
+			};
+			//remet le type de la question à l'affichage
+			$rootScope.changeType($rootScope.question.type)
+		} else {
+			$state.go('erreur', {code: "404", message: "La Question n'existe pas !"});
+		};
+	} else if ($stateParams.id && $stateParams.id.split("_")[0] == "preview") {
+		$scope.types = State.restoreScope().types;
+		$scope.mediasPreview = State.restoreScope().mediasPreview;
+		$rootScope.modeModif = false;
+		$rootScope.validateAss = false;
+		$rootScope.question = State.restoreRootScope().question;
+		$rootScope.suggestions = State.restoreRootScope().suggestions;
+		$rootScope.idtemp = State.restoreRootScope().idtemp;
+	} else {
+		//on est pas en mode modification mais en création
+		$rootScope.modeModif = false;
+		//permet de valider les association pour ensuite les reliers
+		$rootScope.validateAss = false;
+		//on initialise la questions et les réponses
+		$rootScope.question = angular.copy($rootScope.defaultQuestion);
+		$rootScope.suggestions = angular.copy($rootScope.defaultSuggestions);		
+	};
 }]);

@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<p class="preview img"></p>
+		<p class="preview-question img" ng-click="preview()"></p>
 		<div class="content title-action">
 			<span class="titre">{{actionTitle | uppercase}}</span>			
 		</div>
@@ -47,7 +47,7 @@
 						</div>
 						<div ng-hide="true">
 							<button id='questionMediaId' 
-											type="file" 
+											type="file"
 											ngf-select="uploadQuestionMedia($files)">
 							</button>
 						</div>

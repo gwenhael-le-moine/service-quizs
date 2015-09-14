@@ -55,6 +55,28 @@
   margin-top: 2px;
 }
 
+/*** preview modal ****/
+.preview-modal .title{
+	padding: 50px 20px 20px 50px;
+}
+.preview-modal .media{
+	padding: 0;
+	margin-top: 30px;
+	text-align: center;
+}
+.preview-modal .media img, .preview-modal .media video{
+	width: auto !important;
+	width: 100%;
+	max-width: 450px;
+}
+.preview-modal .buttons{
+	text-align: right;
+	padding: 0 30px 10px 0;
+}
+.preview-modal .buttons button{
+	padding: 5px 30px;
+}
+
 /*** css des mobiles et tablettes ***/
 @media screen and (max-width: 992px) {
   .modal-body input{
@@ -73,5 +95,8 @@
   }
   .modal-content{
     font-size: 10pt;
+  }
+  .preview-modal .media img, .preview-modal .media video{
+  	max-width: 250px;
   }
 }

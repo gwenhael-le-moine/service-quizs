@@ -20,6 +20,26 @@ angular.module('quizsApp')
     return message;
   };
 }])
+.service('State', [ function() {
+  var scopeSave = null;
+  var rootScopeSave = null;
+  //sauvegarde du scope entier
+  this.saveScope = function (scope) {
+    scopeSave = scope;
+  };
+  //Retourne le scope
+  this.restoreScope = function () {
+    return scopeSave;
+  };
+  //sauvegarde du scope entier
+  this.saveRootScope = function (rootScope) {
+    rootScopeSave = rootScope;
+  };
+  //Retourne le scope
+  this.restoreRootScope = function () {
+    return rootScopeSave;
+  };
+}])
 .service('Modal', ['$modal', 'APP_PATH', function($modal, APP_PATH) {
   //ouverture d'une modal personnalisable'
   this.open = function (controller, template, size) {
@@ -36,16 +56,16 @@ angular.module('quizsApp')
 }])
 .service('Line', ['$rootScope', '$compile', function($rootScope, $compile) {
   // Creation d'une ligne seulement avec un div et du CSS
-  this.create = function (id, x1, y1, x2, y2, scope) {
+  this.create = function (divId, lineId, x1, y1, x2, y2, scope) {
     //calcule de la longueur et de l'angle de la ligne
     var length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
     var angle  = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
     //valeur css du transfor afin de dessiner la ligne
     var transform = 'rotate('+angle+'deg)';
     //injection de la ligne dans la page
-    $('#linesId').append($compile(angular.element('<div id="line'+id+'" ng-dblclick="clearLine(\'line'+id+'\')"></div>'))(scope));       
+    $('#'+divId).append($compile(angular.element('<div id="line'+lineId+'" ng-dblclick="clearLine(\'line'+lineId+'\')"></div>'))(scope));       
     //ajout des classes css afin que la ligne ai l'aspect voulu
-    $('#line'+id).addClass('line')
+    $('#line'+lineId).addClass('line')
     .css({
       'position': 'absolute',
       'transform': transform,

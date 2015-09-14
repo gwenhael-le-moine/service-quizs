@@ -3,31 +3,61 @@
   font-family: 'Open Sans Bold';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+  src: url('../fonts/OpenSans-Bold.ttf');
+}
+@font-face {
+  font-family: 'Open Sans Bold Italic';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/OpenSans-BoldItalic.ttf');
 }
 @font-face {
   font-family: 'Open Sans Light';
   font-style: normal;
   font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+  src: url('../fonts/OpenSans-Light.ttf');
+}
+@font-face {
+  font-family: 'Open Sans Light Italic';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/OpenSans-LightItalic.ttf');
 }
 @font-face {
   font-family: 'Open Sans Extrabold';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/EInbV5DfGHOiMmvb1Xr-hnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+  src: url('../fonts/OpenSans-ExtraBold.ttf');
+}
+@font-face {
+  font-family: 'Open Sans Extrabold Italic';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/OpenSans-ExtraBoldItalic.ttf');
 }
 @font-face {
   font-family: 'Open Sans Semibold';
   font-style: normal;
   font-weight: 600;
-  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+  src: url('../fonts/OpenSans-SemiBold.ttf');
+}
+@font-face {
+  font-family: 'Open Sans Semibold Italic';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/OpenSans-SemiBoldItalic.ttf');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+  src: url('../fonts/OpenSans-Regular.ttf');
+}
+@font-face {
+  font-family: 'Open Sans Italic';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/OpenSans-Italic.ttf');
 }
 
 /* permet d'avoir 100% de la page */
@@ -80,17 +110,31 @@ body {
   color: black;
   line-height: 1.2;
 }
+.texte-italic{
+  font-family: 'Open Sans Italic';
+  font-size: 12pt;
+  color: #b7b7b7;
+  line-height: 1.2;
+}
 .texte-particulier{
   font-family: 'Open Sans Extrabold';
   font-size: 13pt;
   color: black;
 }
-
-.texte-secondaire-italic{
-  font-family: 'Open Sans Light';
+.texte-particulier-italic{
+  font-family: 'Open Sans Bold Italic';
+  font-size: 12pt;
+  color: #b7b7b7;
+}
+.texte-secondaire{
+  font-family: 'Open Sans';
   font-size: 9pt;
-  color: #9e9e9e;
-  font-style: italic;
+  color: #b7b7b7;
+}
+.texte-secondaire-italic{
+  font-family: 'Open Sans Italic';
+  font-size: 9pt;
+  color: #b7b7b7;
 }
 
 /*** css sur tous les boutons et les placeholder dans l'application ***/
@@ -198,7 +242,7 @@ input.placeholder, textarea.placeholder {
   background-repeat: no-repeat;
   background-size: 100%;
 }
-.preview.img{
+.preview-question.img{
   background-image: url('../images/apercu-entier-droite.svg');
   background-repeat: no-repeat;
   background-size: 100%;
@@ -222,26 +266,31 @@ input.placeholder, textarea.placeholder {
   background-image: url('../images/association-vide.svg');
   background-repeat: no-repeat;
   background-size: 100%;
+  background-position: center;
 }
 .ass-empty.img.hover:hover{
   background-image: url('../images/association-a-selectionner.svg');
   background-repeat: no-repeat;
   background-size: 100%;
+  background-position: center;
 }
 .ass-empty.img.selected{
   background-image: url('../images/association-pre-selection.svg');
   background-repeat: no-repeat;
   background-size: 100%;
+  background-position: center;
 }
 .ass-empty.img.selected:hover{
   background-image: url('../images/association-pre-selection.svg');
   background-repeat: no-repeat;
   background-size: 100%;
+  background-position: center;
 }
 .ass-empty.img.connected{
   background-image: url('../images/association-relie.svg');
   background-repeat: no-repeat;
   background-size: 100%;
+  background-position: center;
 }
 .consigne1.img{
   background-image: url('../images/association-consigne1.svg');
@@ -271,6 +320,16 @@ input.placeholder, textarea.placeholder {
 }
 .update-question.img{
   background-image: url('../images/edit.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.media-image.img{
+  background-image: url('../images/media-image.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.media-son.img{
+  background-image: url('../images/media-son.svg');
   background-repeat: no-repeat;
   background-size: 100%;
 }
@@ -327,6 +386,9 @@ input.placeholder, textarea.placeholder {
   }
   .texte-particulier{
     font-size: 10pt;
+  }
+  .texte-italic{
+    font-size: 9pt;
   }
   /* permet d'inverser les colonnes explication et bouton pour le mobile facilitant le visuel des explication avant l'action */
   .columns-inverse-mobile{

@@ -1,0 +1,225 @@
+.preview .question .media-son, .preview .question .media-image{
+	height: 50px;
+	width: 50px;
+	position: absolute;
+	left: 10%;
+	cursor: pointer;
+}
+.preview .hint{
+	margin-top: 5px;
+}
+.preview .hint .media-son, .preview .hint .media-image{
+	height: 25px;
+	width: 25px;
+	cursor: pointer;
+	display: inline-block;
+	position: static;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+/**** Partie QCM ***/
+.preview .qcm.border-bottom, .preview .ass.border-bottom, .preview .tat.border-bottom{
+	padding-bottom: 100px;
+}
+.preview .qcm .answers{
+	margin-top: 25px;
+}
+.preview .qcm .answers .medias{
+	width: 30px;
+	display: inline-block;
+}
+.preview .qcm .answers .medias .media-image, .preview .qcm .answers .medias .media-son, .preview .ass .answers .medias .media-image, .preview .ass .answers .medias .media-son, .preview .tat .answers .medias .media-image, .preview .tat .answers .medias .media-son{
+	height: 30px;
+	width: 30px;
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.preview .qcm .answers .checkboxs{
+	display: inline-block;
+}
+.preview .qcm .answers .checkboxs .checkbox{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 5px;
+}
+.preview .qcm .answers .libelle{
+	display: table;
+  height: 30px;
+}
+.preview .qcm .answers .libelle p{
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: 20px;
+}
+
+.preview .quit-preview{	
+	padding: 20px 30px;
+}
+.preview .quit-preview .btn.btn-quiz.hover{
+	float: right;
+	padding: 5px 40px;
+}
+
+/*** Partie ASS ****/
+.preview .ass .answers{
+	display: block;
+	padding: 0;
+	margin-top: 20px;
+}
+.preview .ass .answers .left{
+	text-align: right;
+  padding-right: 50px;
+}
+.preview .ass .answers .right{
+	padding-left: 50px;
+}
+.preview .ass .answers .left>div, .preview .ass .answers .right>div{
+	display: inline-block;
+	width: 80%;
+}
+.preview .ass .answers .left .medias, .preview .ass .answers .right .medias{
+	width: 10%;
+}
+.preview .ass .answers .proposition{
+	width: 80%;
+}
+.preview .ass .answers .connect{
+	width: 10%;
+}
+.preview .ass .answers .medias, .preview .ass .answers .proposition, .preview .ass .answers .connect{
+	display: inline-block;
+	padding: 0;
+}
+.preview .ass .answers .proposition p, .preview .ass .answers .connect p{
+  vertical-align: middle;
+  display: table-cell;
+}
+.preview .ass .answers .connect .ass-empty{
+	height: 22px;
+	width: 22px;
+	display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.preview .ass .answers .left .connect, .preview .ass .answers .right .medias{
+	margin-left: 5px;
+}
+.preview .ass .answers .right .connect, .preview .ass .answers .left .medias{
+	margin-right: 5px;
+}
+
+/*** Partie TAT ****/
+.preview .tat{
+	display: table;
+	vertical-align: middle;
+	padding-left: 0;
+}
+.preview .tat .answers{
+	display: inline-block;
+	padding-left: 0;
+	margin-right: 10px;
+	margin-top: 5px;
+}
+.preview .tat .answers>span{
+	display: inline-block;
+}
+.preview .tat .answers .medias{
+	padding-left: 10px;
+	display: inline-block;
+}
+.preview .tat .answers .btn-group{
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 10px;
+}
+.preview .tat .answers .btn-group button{
+	width: 200px;
+	border: 2px solid #9e9e9e;
+	border-radius: 0;
+	background: url('../images/fleche-bas.svg') 97% / 6% no-repeat white;
+	text-align: left;
+	padding-left: 10px;
+	color: black;
+	margin: 0;
+}
+.preview .tat .answers .btn-group button:focus{
+	outline: none;
+}
+.preview .tat .answers .btn-group .dropdown-menu{
+	border: none;
+	border-radius: 0;
+	margin-left: 10px;
+}
+.preview .tat .answers .btn-group .dropdown-menu>li{
+	cursor: pointer;
+	width: 200px;
+	border-bottom: 2px solid #9e9e9e;
+	border-right: 2px solid #9e9e9e;
+	border-left: 2px solid #9e9e9e;
+}
+.preview .tat .answers .btn-group .dropdown-menu>li>a{
+	padding: 0 10px;
+	color: black;
+}
+.preview .tat .answers .btn-group .dropdown-menu>li>a:hover{
+	color: white;
+	background-color: #1aa1cc;
+}
+
+
+/*** css des mobiles seuls ***/
+@media screen and (max-width: 768px) {
+	.preview .quit-preview{
+		text-align: center;
+	}
+	.preview .quit-preview .btn.btn-quiz.hover{
+		float: none;
+	}
+	.preview .question .media-son, .preview .question .media-image{
+		left: 80%;
+		top: 0;
+	}
+	.preview .qcm.border-bottom, .preview .ass.border-bottom, .preview .tat.border-bottom{
+		padding-bottom: 50px;
+	}
+	.preview .qcm .answers{
+		margin-top: 10px;
+	}
+	.preview .qcm .answers .icons{
+		text-align: center;
+	}
+	.preview .qcm .answers .libelle p{
+		padding-left: 0;
+	}
+
+	/*** ASS ***/
+	.preview .ass .answers{
+		height: initial;
+	}
+	.preview .ass .answers .left, .preview .ass .answers .right{
+		text-align: left;
+		height: initial;
+	}
+	.preview .ass .answers .left{
+		padding-right: 25px;
+		padding-left: 0;
+		display: flex;
+	}
+	.preview .ass .answers .right{
+		padding-left: 25px;
+	}
+	.preview .ass .answers .left>div{
+		padding-left: 0;
+	}
+	.preview .ass .answers .proposition{
+		width: 70%;
+		height: initial;
+	}
+	.preview .ass .answers .medias{
+		margin-top: 5px;
+	}
+	.preview .ass .answers .right .medias{
+		float: right;
+	}
+}
