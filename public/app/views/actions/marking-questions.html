@@ -1,0 +1,226 @@
+<div class="row marking">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="row content title-action">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<span class="titre">{{actionTitle | uppercase}}</span>			
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 marking-infos">
+				<p class="correct-question img"></p>
+				<span class="texte-particulier correct">Justes</span>
+				<p class="false-question img"></p>
+				<span class="texte-particulier false">Faux</span>
+				<p class="forgot-question img"></p>
+				<span class="texte-particulier forgot">Oublis</span>			
+			</div>			
+		</div>
+		<div class="row content question">
+			<p 	ng-if="question.media.type=='image' || question.media.type=='video'" 
+					class="media-image img" 
+					ng-click="displayMedia(question.libelle, question.media.file, question.media.type, question.media.mime)">
+			</p>
+			<p 	ng-if="question.media.type=='audio'" 
+					class="media-son img" 
+					ng-click="play(question.media.file)"></p>
+			<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+				<div>
+					<span class="texte-particulier">{{question.libelle}}</span>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+				<div class="hint" ng-if="question.hint.libelle">
+						<span class="texte-italic">Aide : {{question.hint.libelle}}</span>						
+						<p 	ng-if="question.hint.media.type=='image' || question.media.type=='video'" 
+								class="media-image img"
+								ng-click="displayMedia(question.hint.libelle, question.hint.media.file, question.hint.media.type, question.hint.media.mime)">
+						</p>
+						<p 	ng-if="question.hint.media.type=='audio'" 
+								class="media-son img" 
+								ng-click="play(question.hint.media.file)">
+						</p>						
+				</div>
+			</div>
+		</div>
+		<div class="row content">
+			<!---------------------- DEBUT PARTIE QCM ---------------------->
+			<div ng-if="question.type=='qcm'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 qcm border-bottom">
+				<div ng-if="answer.proposition" class="row answers" ng-repeat="answer in question.answers">
+					<div class="col-xs-3 col-sm-2 col-md-2 col-lg-1 icons">
+						<div class="medias">
+							<p 	ng-if="answer.joindre.type=='image' || answer.joindre.type=='video'" 
+									class="media-image img"
+									ng-click="displayMedia(answer.proposition, answer.joindre.file, answer.joindre.type, answer.joindre.mime)">
+							</p>
+							<p 	ng-if="answer.joindre.type=='audio'" 
+									class="media-son img" 
+									ng-click="play(answer.joindre.file)">
+							</p>							
+						</div>
+						<div class="checkboxs">
+							<p 	ng-if="markingResponseQCM(answer) == 'none'"
+									class="checkbox img"> 
+							</p>
+							<p 	ng-if="markingResponseQCM(answer) == 'false'"
+									class="checkbox-marking-false img"> 
+							</p>
+							<p 	ng-if="markingResponseQCM(answer) == 'correct'"
+									class="checkbox-marking-correct img"> 
+							</p>
+							<p 	ng-if="markingResponseQCM(answer) == 'forgot'"
+									class="checkbox-marking-forgot img"> 
+							</p>							
+						</div>
+					</div>
+					<div class="col-xs-9 col-sm-10 col-md-10 col-lg-11 libelle">
+						<p 	class="texte"
+								ng-class="{	'forgot': markingResponseQCM(answer) == 'forgot', 
+														'false': markingResponseQCM(answer) == 'false', 
+														'correct': markingResponseQCM(answer) == 'correct'}">
+							{{answer.proposition}}
+						</p>
+					</div>
+				</div>
+			</div>
+			<!---------------------- FIN PARTIE QCM   ---------------------->
+			<!---------------------- DEBUT PARTIE ASS ---------------------->
+			<div ng-if="question.type=='ass'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ass border-bottom">
+				<div ng-if="answer.rightProposition.libelle && answer.leftProposition.libelle" class="row answers" ng-repeat="answer in question.answers">
+					<div ng-if="answer.leftProposition.libelle" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 left">
+						<div class="all columns-inverse-mobile">
+							<div class="medias">
+								<p 	ng-if="answer.leftProposition.joindre.type=='image' || answer.leftProposition.joindre.type=='video'" 
+										class="media-image img"
+										ng-click="displayMedia(answer.leftProposition.libelle, answer.leftProposition.joindre.file, answer.leftProposition.joindre.type, answer.leftProposition.joindre.mime)">
+								</p>
+								<p 	ng-if="answer.leftProposition.joindre.type=='audio'" 
+										class="media-son img" 
+										ng-click="play(answer.leftProposition.joindre.file)">
+								</p>							
+							</div>
+							<div>
+								<div class="proposition">
+									<p class="texte">{{answer.leftProposition.libelle}}</p>
+								</div>
+								<div class="connect">
+									<p  id="leftconnect{{answer.leftProposition.id}}" 
+											class="ass-empty img" 
+											ng-class="{
+												none: answer.leftProposition.solutions.length == 0,
+												connected: answer.leftProposition.solutions.length > 0
+											}" 
+									</p>
+								</div>
+							</div>							
+						</div>
+					</div>
+					<div ng-if="answer.rightProposition.libelle" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 right">
+					<div class="all">
+							<div>
+								<div class="connect">
+									<p  id="rightconnect{{answer.rightProposition.id}}" 
+											class="ass-empty img" 
+											ng-class="{
+												none: answer.rightProposition.solutions.length == 0,
+												connected: answer.rightProposition.solutions.length > 0
+											}" 
+									</p>
+								</div>
+								<div class="proposition">
+									<p class="texte">{{answer.rightProposition.libelle}}</p>
+								</div>
+							</div>
+							<div class="medias">
+								<p 	ng-if="answer.rightProposition.joindre.type=='image' || answer.rightProposition.joindre.type=='video'" 
+										class="media-image img"
+										ng-click="displayMedia(answer.rightProposition.libelle, answer.rightProposition.joindre.file, answer.rightProposition.joindre.type, answer.rightProposition.joindre.mime)">
+								</p>
+								<p 	ng-if="answer.rightProposition.joindre.type=='audio'" 
+										class="media-son img" 
+										ng-click="play(answer.rightProposition.joindre.file)">
+								</p>							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div 	ng-show="question.type == 'ass'" 
+						id="markingCorrectLinesId"
+						class="correct">
+			</div>
+			<div 	ng-show="question.type == 'ass'" 
+						id="markingFalseLinesId"
+						class="false">
+			</div>
+			<div 	ng-show="question.type == 'ass'" 
+						id="markingForgotLinesId"
+						class="forgot">
+			</div>
+			<!---------------------- FIN PARTIE ASS   ---------------------->
+			<!---------------------- DEBUT PARTIE TAT ---------------------->
+			<div ng-if="question.type=='tat'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tat border-bottom">
+				<div class="answers" ng-repeat="answer in question.answers">
+					<span class="texte libelle">{{answer.text}}</span>
+					<div ng-if="answer.joindre.file" class="medias">
+						<p 	ng-if="answer.joindre.type=='image' || answer.joindre.type=='video'" 
+								class="media-image img"
+								ng-click="displayMedia(answer.text, answer.joindre.file, answer.joindre.type, answer.joindre.mime)">
+						</p>
+						<p 	ng-if="answer.joindre.type=='audio'" 
+								class="media-son img" 
+								ng-click="play(answer.joindre.file)">
+						</p>							
+					</div>
+		      <span class="texte {{markingResponseTAT(answer)}}">{{answer.solution.libelle}}</span>
+		    	<span class="texte">{{answer.ponctuation}}</span>
+				</div>
+				<div class="marking">
+					<div class="answers" ng-repeat="answer in markingQuestionTAT">
+						<span class="texte libelle">{{answer.text}}</span>
+						<span class="texte-particulier">{{answer.solution.libelle}}</span>
+						<span class="texte">{{answer.ponctuation}}</span>
+					</div>
+				</div>
+			</div>
+			<!---------------------- FIN PARTIE TAT   ---------------------->
+		</div>
+	</div>
+	<div class="col-xs-4 col-sm-2 col-md-3 col-lg-3 score-title">
+		<span class="titre">SCORE :</span>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 score-img">
+		<div class="row">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<span class="texte-secondaire">Non acquis</span>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+				<span class="texte-secondaire">En cours d'acquisition</span>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
+				<span class="texte-secondaire">Acquis</span>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<p class="border img"></p>
+				<p class="score-{{quizStudent.score}} img"></p>							
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 quit-marking">
+		<button ng-if="!nextQuestion()"
+						type="button" 
+	  				class="btn btn-quiz hover" 
+	  				ng-click="end()">
+	  	<label>Terminer</label>
+	  </button>
+		<button ng-if="nextQuestion()"
+						type="button" 
+	  				class="btn btn-quiz hover" 
+	  				ng-click="next()">
+	  	<label>Suivant</label>
+	  </button>
+		<button type="button" 
+	  				class="btn btn-quiz hover" 
+	  				ng-click="quit()">
+	  	<label>Quitter</label>
+	  </button>
+	</div>
+	<audio id="audioId" loop></audio>
+</div>

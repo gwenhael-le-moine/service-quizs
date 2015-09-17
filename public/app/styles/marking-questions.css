@@ -1,0 +1,330 @@
+.marking .content.title-action .marking-infos{
+	text-align: right;
+	padding-top: 5px;
+}
+.marking .content.title-action .marking-infos .correct-question, .marking .content.title-action .marking-infos .false-question, .marking .content.title-action .marking-infos .forgot-question{
+	height: 25px;
+	width: 25px;
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 10px;
+}
+.marking .content.title-action .marking-infos .texte-particulier.correct, .marking .content.title-action .marking-infos .texte-particulier.false, .marking .content.title-action .marking-infos .texte-particulier.forgot{
+	vertical-align: middle;
+	padding: 0 10px;
+}
+.marking .content.title-action .texte-particulier.correct{
+	color: #80ba66
+}
+.marking .content.title-action .texte-particulier.false{
+	color: #eb5454
+}
+.marking .content.title-action .texte-particulier.forgot{
+	color: #e8c254
+}
+.marking .question .media-son, .marking .question .media-image{
+	height: 50px;
+	width: 50px;
+	position: absolute;
+	left: 10%;
+	cursor: pointer;
+}
+.marking .hint{
+	margin-top: 5px;
+}
+.marking .hint .media-son, .marking .hint .media-image{
+	height: 25px;
+	width: 25px;
+	cursor: pointer;
+	display: inline-block;
+	position: static;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+/**** Partie QCM ***/
+.marking .qcm.border-bottom, .marking .ass.border-bottom, .marking .tat.border-bottom{
+	padding-bottom: 100px;
+}
+.marking .qcm .answers{
+	margin-top: 25px;
+}
+.marking .qcm .answers .medias{
+	width: 30px;
+	display: inline-block;
+}
+.marking .qcm .answers .medias .media-image, .marking .qcm .answers .medias .media-son, .marking .ass .answers .medias .media-image, .marking .ass .answers .medias .media-son, .marking .tat .answers .medias .media-image, .marking .tat .answers .medias .media-son{
+	height: 30px;
+	width: 30px;
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.marking .qcm .answers .checkboxs{
+	display: inline-block;
+}
+.marking .qcm .answers .checkboxs .checkbox, .marking .qcm .answers .checkboxs .checkbox-marking-false, .marking .qcm .answers .checkboxs .checkbox-marking-correct, .marking .qcm .answers .checkboxs .checkbox-marking-forgot{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 5px;
+	width: 25px;
+	height: 25px;
+	cursor: default;
+	outline: none;
+}
+.marking .qcm .answers .libelle{
+	display: table;
+  height: 30px;
+}
+.marking .qcm .answers .libelle .texte.forgot, .marking .qcm .answers .libelle .texte.correct{
+	border-bottom: 3px solid; 	
+}
+.marking .qcm .answers .libelle .texte.forgot{
+	border-bottom-color: #e8c254;
+}
+.marking .qcm .answers .libelle .texte.correct{
+	border-bottom-color: #80ba66;
+}
+.marking .qcm .answers .libelle .texte.false{
+	position: relative;
+  white-space: nowrap;
+}
+.marking .qcm .answers .libelle .texte.false:after{
+	border-top: 3px solid #eb5454;
+  position: absolute;
+  content: "";
+  right: 0;
+  top:49%;
+  left: 0;
+}
+.marking .qcm .answers .libelle p{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 20px;
+}
+
+.marking .quit-marking{	
+	padding: 20px 30px;
+}
+.marking .quit-marking .btn.btn-quiz.hover{
+	padding: 5px 40px;
+	margin: 10px 5px;
+}
+
+/*** Partie ASS ****/
+.marking .ass .answers{
+	display: block;
+	padding: 0;
+	margin-top: 20px;
+}
+.marking .ass .answers .left{
+	text-align: right;
+  padding-right: 50px;
+  padding-left: 0;
+}
+.marking .ass .answers .right{
+	padding-left: 50px;
+}
+.marking .ass .answers .left .all{
+	float: right;
+}
+.marking .ass .answers .left .all>div, .marking .ass .answers .right .all>div, .marking .ass .answers .medias, .marking .ass .answers .proposition, .marking .ass .answers .connect{
+	display: table-cell;
+	padding: 0;
+}
+.marking .ass .answers .proposition{
+	padding: 0 10px;
+}
+.marking .ass .answers .proposition p, .marking .ass .answers .connect p{
+  vertical-align: middle;
+  display: table-cell;
+}
+.marking .ass .answers .left .proposition p{
+	float: right;
+}
+.marking .ass .answers .connect .ass-empty{
+	height: 22px;
+	width: 22px;
+	display: inline-block;
+  vertical-align: middle;
+}
+.marking .ass .answers .left .connect, .marking .ass .answers .right .medias{
+	margin-left: 5px;
+}
+.marking .ass .answers .right .connect, .marking .ass .answers .left .medias{
+	margin-right: 5px;
+}
+
+/*** Partie TAT ****/
+.marking .tat{
+	display: table;
+	vertical-align: middle;
+	padding-left: 0;
+}
+.marking .tat.border-bottom{
+	padding-bottom: 50px;
+}
+.marking .tat .answers{
+	display: inline;
+	padding-left: 0;
+	margin-right: 10px;
+	line-height: 2.5;
+}
+.marking .tat .answers>span{
+	display: inline-block;
+}
+.marking .tat .answers>span.texte.libelle{
+	display: inline;
+}
+.marking .tat .answers .medias{
+	padding-left: 10px;
+	display: inline-block;
+}
+.marking .tat .marking{
+	display: block;
+	margin-top: 80px;
+	padding-left: 0;
+}
+.marking .tat .marking .answers{
+	line-height: 2;
+}
+.marking .tat .marking .answers .texte-particulier{
+	color: #80ba66;
+	vertical-align: middle;
+	margin-bottom: 0;
+	font-size: 12pt;
+	line-height: 1.2;
+}
+.marking .tat .answers>span.texte.correct, .marking .tat .answers>span.texte.false, .marking .tat .answers>span.texte.forgot{
+	border: 2px solid #9e9e9e;
+	padding: 0 15px;
+}
+.marking .tat .answers>span.texte.correct{
+	background-color: #80ba66;
+}
+.marking .tat .answers>span.texte.false{
+	background-color: #eb5454;
+}
+.marking .tat .answers>span.texte.forgot{
+	background-color: #e8c254;
+	padding: 10px 50px;
+}
+
+/*** SCORE ***/
+.marking .score-title{
+	padding-top: 30px;
+	padding-right: 20px;
+	text-align: right;
+}
+.marking .score-img{
+	padding-top: 20px;
+}
+.marking .score-img .text-center{
+	text-align: center;
+}
+.marking .score-img .text-right{
+	text-align: right;
+}
+.marking .score-img .border.img{
+  width: 5px;
+  height: 17px;
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  background-position: center;
+  z-index: -1;
+}
+.marking .score-img .score-00.img, .marking .score-img .score-02.img, .marking .score-img .score-04.img, .marking .score-img .score-06.img, .marking .score-img .score-08.img, .marking .score-img .score-10.img, .marking .score-img .score-12.img, .marking .score-img .score-14.img, .marking .score-img .score-16.img, .marking .score-img .score-18.img, .marking .score-img .score-20.img{
+	height: 17px;
+	width: 100%;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/*** LIGNES ASS ***/
+.marking .correct>div.line, .marking .false>div.line, .marking .forgot>div.line{
+	height: 5px;
+	cursor: default;
+	z-index: -1;
+}
+.marking .correct>div.line{
+	background: #80ba66;
+}
+.marking .false>div.line{
+	background: #eb5454
+}
+.marking .forgot>div.line{
+	background: #e8c254
+}
+
+/*** css des mobiles seuls ***/
+@media screen and (max-width: 768px) {
+	.marking .content.title-action .marking-infos{
+		text-align: left;
+		padding: 5px 0;
+	}
+	.marking .quit-marking{
+		text-align: center;
+		padding: 20px 0;
+	}
+	.marking .quit-marking .btn.btn-quiz.hover{
+		float: none;
+	}
+	.marking .question .media-son, .marking .question .media-image{
+		left: 80%;
+		top: 0;
+	}
+	.marking .qcm.border-bottom, .marking .ass.border-bottom, .marking .tat.border-bottom{
+		padding-bottom: 50px;
+	}
+	.marking .qcm .answers{
+		margin-top: 10px;
+	}
+	.marking .qcm .answers .icons{
+		text-align: center;
+	}
+	.marking .qcm .answers .libelle p{
+		padding-left: 0;
+	}
+
+	/*** ASS ***/
+	.marking .ass .answers .left, .marking .ass .answers .right{
+		text-align: left;
+	}
+	.marking .ass .answers .left .all{
+		padding-left: 0;
+		display: flex;
+	}
+	.marking .ass .answers .left{
+		padding-right: 25px;
+	}
+	.marking .ass .answers .right{
+		padding-left: 25px;
+	}
+	.marking .ass .answers .left .all>div{
+		padding-left: 0;
+	}
+	.marking .ass .answers .medias{
+		margin-top: 5px;
+	}
+	.marking .ass .answers .right .medias{
+		float: right;
+	}
+	.marking .ass .answers .left .proposition{
+		text-align: right;
+	}
+
+	/*** TAT ***/
+	.marking .tat .answers>span.texte.forgot{
+		padding: 8px 40px;
+	}
+
+	/*** SCORE ***/
+	.marking .score-title{
+		text-align: left;
+	}
+	.marking .score-title, .marking .score-img{
+		padding: 0 10px;
+	}
+}

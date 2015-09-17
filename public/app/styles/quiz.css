@@ -110,6 +110,12 @@ body {
   color: black;
   line-height: 1.2;
 }
+.texte-bold{
+  font-family: 'Open Sans Bold';
+  font-size: 12pt;
+  color: black;
+  line-height: 1.2;
+}
 .texte-italic{
   font-family: 'Open Sans Italic';
   font-size: 12pt;
@@ -247,6 +253,21 @@ input.placeholder, textarea.placeholder {
   background-repeat: no-repeat;
   background-size: 100%;
 }
+.checkbox-marking-false.img{
+  background-image: url('../images/quiz-correction-faux.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.checkbox-marking-correct.img{
+  background-image: url('../images/quiz-correction-juste.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.checkbox-marking-forgot.img{
+  background-image: url('../images/quiz-correction-oubli.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 .checkbox.img{
   background-image: url('../images/case-decochee.svg');
   background-repeat: no-repeat;
@@ -264,6 +285,12 @@ input.placeholder, textarea.placeholder {
 }
 .ass-empty.img{
   background-image: url('../images/association-vide.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.ass-empty.img.none{
+  background-image: url('../images/association-a-selectionner.svg');
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: center;
@@ -332,6 +359,90 @@ input.placeholder, textarea.placeholder {
   background-image: url('../images/media-son.svg');
   background-repeat: no-repeat;
   background-size: 100%;
+}
+.correct-question.img{
+  background-image: url('../images/quiz-consigne-juste.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.false-question.img{
+  background-image: url('../images/quiz-consigne-faux.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.forgot-question.img{
+  background-image: url('../images/quiz-consigne-oubli.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-00.img{
+  background-image: url('../images/score-00.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-02.img{
+  background-image: url('../images/score-02.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-04.img{
+  background-image: url('../images/score-04.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-06.img{
+  background-image: url('../images/score-06.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-08.img{
+  background-image: url('../images/score-08.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-10.img{
+  background-image: url('../images/score-10.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-12.img{
+  background-image: url('../images/score-12.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-14.img{
+  background-image: url('../images/score-14.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-16.img{
+  background-image: url('../images/score-16.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-18.img{
+  background-image: url('../images/score-18.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.score-20.img{
+  background-image: url('../images/score-20.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
 }
 
 /*************************  PARTIE QUIZ  ***********************/

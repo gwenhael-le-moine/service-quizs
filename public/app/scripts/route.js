@@ -24,6 +24,12 @@ angular.module('quizsApp')
             templateUrl:APP_PATH + '/app/views/actions.html',
           })
 
+          .state( 'quizs.results',{
+            parent: 'quizs',
+            abstract:true,
+            templateUrl:APP_PATH + '/app/views/results.html',
+          })
+
           .state( 'quizs.home',{
             parent: 'quizs.menu',
             url: '/',
@@ -81,16 +87,30 @@ angular.module('quizsApp')
               }
             })
           .state( 'quizs.preview_questions',{
-            parent: 'quizs.actions',
+            parent: 'quizs.results',
             url: '/questions/preview/:id',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
                 controller: 'QuizCtrl'
               },
-              'action': {
+              'result': {
                 templateUrl:APP_PATH + '/app/views/actions/preview-questions.html',
                 controller: 'PreviewQuestionsCtrl'
+               }
+              }
+            })
+          .state( 'quizs.marking_questions',{
+            parent: 'quizs.results',
+            url: '/questions/:id/correction',
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'result': {
+                templateUrl:APP_PATH + '/app/views/actions/marking-questions.html',
+                controller: 'MarkingQuestionsCtrl'
                }
               }
             });
