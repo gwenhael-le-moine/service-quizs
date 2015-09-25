@@ -221,6 +221,11 @@ input.placeholder, textarea.placeholder {
   background-repeat: no-repeat;
   background-size: 100%;
 }
+.info-rouge.img{
+  background-image: url('../images/infos-rouge.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 .parameters.img{
   background-image: url('../images/parametres.svg');
   background-repeat: no-repeat;

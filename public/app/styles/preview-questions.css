@@ -74,26 +74,22 @@
 .preview .ass .answers .right{
 	padding-left: 50px;
 }
-.preview .ass .answers .left>div, .preview .ass .answers .right>div{
-	display: inline-block;
-	width: 80%;
+.preview .ass .answers .left .all{
+	float: right;
 }
-.preview .ass .answers .left .medias, .preview .ass .answers .right .medias{
-	width: 10%;
+.preview .ass .answers .left .all>div, .preview .ass .answers .right .all>div, .preview .ass .answers .medias, .preview .ass .answers .proposition, .preview .ass .answers .connect{
+	display: table-cell;
+	padding: 0;
 }
 .preview .ass .answers .proposition{
-	width: 80%;
-}
-.preview .ass .answers .connect{
-	width: 10%;
-}
-.preview .ass .answers .medias, .preview .ass .answers .proposition, .preview .ass .answers .connect{
-	display: inline-block;
-	padding: 0;
+	padding: 0 10px;
 }
 .preview .ass .answers .proposition p, .preview .ass .answers .connect p{
   vertical-align: middle;
   display: table-cell;
+}
+.preview .ass .answers .left .proposition p{
+	float: right;
 }
 .preview .ass .answers .connect .ass-empty{
 	height: 22px;
@@ -107,6 +103,48 @@
 }
 .preview .ass .answers .right .connect, .preview .ass .answers .left .medias{
 	margin-right: 5px;
+}
+.preview .info-ass{
+	display: table;
+	margin-left: 165px;
+	margin-top: -20px;
+}
+.preview .info-ass .logo{
+	padding-right: 5px;
+}
+.preview .info-ass .infos-texte, .preview .info-ass .logo{
+	display: table-cell;
+	vertical-align: middle;
+}
+.preview .info-ass .logo .info-rouge{
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+}
+.preview .info-ass .infos-texte>span, .preview .info-ass .infos-texte .consigne1,.preview .info-ass .infos-texte .consigne2, .preview .info-ass .infos-texte .delete{
+	display: inline-block;
+	vertical-align: middle;
+}
+.preview .info-ass .infos-texte .texte-secondaire{
+	font-size: 10pt;
+}
+.preview .info-ass .infos-texte .consigne1{
+	width: 45px;
+	height:15px;
+}
+.preview .info-ass .infos-texte .consigne2{
+	width: 40px;
+	height:15px;
+}
+.preview .info-ass .infos-texte .delete{
+	width: 15px;
+	height:15px;
+}
+.preview .info-ass .infos-texte .delete.img{
+	background-size: 100%;
+}
+.preview .info-ass .infos-texte>span{
+	display: block;
 }
 
 /*** Partie TAT ****/
@@ -221,5 +259,15 @@
 	}
 	.preview .ass .answers .right .medias{
 		float: right;
+	}
+	.preview .info-ass{
+		margin: 0;
+		padding: 0 10px;
+	}
+	.preview .info-ass .infos-texte, .preview .info-ass .logo{
+		display: block;
+	}
+	.preview .info-ass .infos-texte{
+		padding-left: 15px;
 	}
 }

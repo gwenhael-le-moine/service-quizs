@@ -16,3 +16,15 @@ growl-notifications growl-notification {
     border-left-width: 5px;
     border-radius: 3px; 
 }
+growl-notifications growl-notification.success{
+  border-left-color: #449d44;
+}
+growl-notifications growl-notification.error{
+  border-left-color: #d9534f;
+}
+growl-notifications growl-notification.warning{
+  border-left-color: #f0ad4e;
+}
+growl-notifications growl-notification.info{
+  border-left-color: #5bc0de;
+}

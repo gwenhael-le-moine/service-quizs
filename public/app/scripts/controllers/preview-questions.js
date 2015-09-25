@@ -13,7 +13,9 @@ angular.module('quizsApp')
 	};
 	//toutes les réponses à mettre dans les selects
 	$scope.selectOptions = [];
-	$scope.actionTitle = "question " + ++numQuestion + "/" + $rootScope.tmpQuiz.questions.length;
+	if ($rootScope.tmpQuiz.questions) {
+		$scope.actionTitle = "question " + ++numQuestion + "/" + $rootScope.tmpQuiz.questions.length;		
+	};
 	//id, et coord des deux extrémité de la ligne d'un association
   $scope.connect1 = {id: null, x1: null, y1: null};
   $scope.connect2 = {id: null, x2: null, y2: null};
@@ -51,7 +53,7 @@ angular.module('quizsApp')
 		return q.id == $stateParams.id;
 	}));
 	if (!$scope.question){
-		$state.go('erreur', {code: "404", message: "La Question n'existe pas !"});
+		$state.go('erreur', {code: "404", message: "La question n'existe pas !"});
 	}
 
 	//ouvre la modal pour afficher le média

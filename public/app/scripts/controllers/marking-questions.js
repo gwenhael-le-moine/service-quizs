@@ -18,7 +18,7 @@ angular.module('quizsApp')
 		return q.id == $stateParams.id;
 	}));
 	if (!$scope.question){
-		$state.go('erreur', {code: "404", message: "La Question n'existe pas !"});
+		$state.go('erreur', {code: "404", message: "La question n'existe pas !"});
 	}
 	//recherche la question suivante et retourne l'id
 	$scope.nextQuestion = function(){
@@ -31,6 +31,18 @@ angular.module('quizsApp')
 			};
 		});
 		return nextId;
+	}
+	//recherche la question précédente et retourne l'id
+	$scope.preQuestion = function(){
+		//on retrouve l'id de la question précédente
+		var preNumQuestion = $scope.question.sequence - 1;
+		var preId = null;
+		_.each($rootScope.quizStudent.questions, function(q){
+			if (q.sequence === preNumQuestion) {
+	 			preId = q.id;			
+			};
+		});
+		return preId;
 	}
 	//récupère les solutions du prof
 	var getSolutions = function(question){
@@ -199,6 +211,13 @@ angular.module('quizsApp')
 		var nextId = $scope.nextQuestion();
 		if (nextId) {
 			$state.go('quizs.marking_questions', {id: nextId});
+		};
+	}
+	//fonction permettant de passer à la question suivante 
+	$scope.pre = function(){
+		var preId = $scope.preQuestion();
+		if (preId) {
+			$state.go('quizs.marking_questions', {id: preId});
 		};
 	}
 

@@ -62,8 +62,13 @@ angular.module('quizsApp')
     var angle  = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
     //valeur css du transfor afin de dessiner la ligne
     var transform = 'rotate('+angle+'deg)';
+    //comme l'icone suit le tracé de la ligne, on la remet droite.
+    var transformClearLine = 'rotate('+-angle+'deg)';
+    //afin que l'icone soit au milieu de la ligne, 
+    //on l'insère a la moitié de la longueur de la ligne moins la moitié de la taille de l'icone
+    var lengthClearLine = length/2-10 +"px"; 
     //injection de la ligne dans la page
-    $('#'+divId).append($compile(angular.element('<div id="line'+lineId+'" ng-dblclick="clearLine(\'line'+lineId+'\')"></div>'))(scope));       
+    $('#'+divId).append($compile(angular.element('<div id="line'+lineId+'" ng-show-clear-line><p id="clearLine'+lineId+'" class="delete img none" ng-click="clearLine(\'line'+lineId+'\')"></p></div>'))(scope));       
     //ajout des classes css afin que la ligne ai l'aspect voulu
     $('#line'+lineId).addClass('line')
     .css({
@@ -72,6 +77,10 @@ angular.module('quizsApp')
     })
     .width(length)
     .offset({left: x1, top: y1});
+    $('#clearLine'+lineId).css({
+      'transform': transformClearLine,
+      'left': lengthClearLine
+    });
   };
   this.clear = function(id){
     //on supprime la ligne

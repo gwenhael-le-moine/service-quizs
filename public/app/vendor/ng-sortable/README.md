@@ -8,7 +8,7 @@ If you use this module you can give it a thumbs up at [http://ngmodules.org/modu
 
 #### Release:
 
-Latest release version 1.3.0 
+Latest release version 1.3.1 
 [Module name is modified from 'ui.sortable' to 'as.sortable' from versions 1.3.x,
 considering the conflict with the sortable module from bootstrap-ui.]
 
@@ -33,6 +33,7 @@ Demo Includes:
 - Preventing/Allowing Drop Zone can be determined at run time.
 - Enable/Disable Drag at run time.
 - Drag Boundary can be defined.
+- Clone an item and drop.
 
 #### Implementation Details:
 
@@ -59,7 +60,7 @@ The directives are structured like below.
   allows you to perform the element specific event but prevent the element being dragged.
 - the drag item handle can listen for custom events as well.
 - Added a Jquery like 'containment' option to the sortable to prevent the drag outside specified bounds.
-- 'containerPositioning' option may be set to 'relative' to accomodate relative positioning on the container or its ancestry. Use this if the draggable item is offset from the mouse cursor while dragging. A common scenario for this is when using bootstrap columns.
+- 'containerPositioning' option may be set to 'relative' to accommodate relative positioning on the container or its ancestry. Use this if the draggable item is offset from the mouse cursor while dragging. A common scenario for this is when using bootstrap columns.
 - The 'is-disabled' attribute can be added optionally to as-sortable disable the Drag at runTime.
 
 #### Placeholder:
@@ -154,7 +155,7 @@ Make sure to load the scripts in your html.
 And Inject the sortable module as dependency.
 
 ```
-angular.module('xyzApp', ['ui.sortable', '....']);
+angular.module('xyzApp', ['as.sortable', '....']);
 ```
 
 ##### Html Structure:
@@ -174,6 +175,7 @@ Define your callbacks in the invoking controller.
         itemMoved: function (event) {//Do what you want},
         orderChanged: function(event) {//Do what you want},
         containment: '#board'//optional param.
+        clone: true //optional param for clone feature.
     };
     
 That's what all you have to do.

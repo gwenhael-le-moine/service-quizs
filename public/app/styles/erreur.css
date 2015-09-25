@@ -1,33 +1,45 @@
 .contener-404{
 	height: 100%;
-	width: 100%;
+	min-height: 100%;
+	margin: 0;
 }
-
-#logoLaClasse{
+.contener-404 #logoLaClasse{
 	fill: #fff;
 }
-
-.text-404 h1, .text-404 h2{
+.contener-404 .text-404{
+	height: 100%;
+	display: table;
+}
+.contener-404 .text-404>div{
+	display: table-cell;
+	vertical-align: middle;
+}
+.contener-404 .text-404>div>h1, .contener-404 .text-404>div>h2{
 	font-family: 'Open Sans Bold';
-	font-weight: bold;
 	color: #fff;
-	width: 100%;
-	position: absolute;
-	left: 20%;
+}
+.contener-404 .text-404>div>h1{
+	font-size: 150pt;
 }
 
-.text-404 h1{
-	bottom: 50px;
-}
-
-.text-404 h2{
-	bottom: 0;
-}
-
-.text-404{
-	height: 60%;
-}
-
-.text-404 h1{
-	font-size: 15em;
+/*** css des mobiles seuls ***/
+@media screen and (max-width: 768px) {
+	.contener-404 .logo>svg{
+		width: 150px;
+	}
+	.contener-404 .text-404{
+		height: initial;
+		display: block;
+	}
+	.contener-404 .text-404>div{
+		display: block;
+		text-align: center;
+	}
+	.contener-404 .text-404>div>h1{
+		font-size: 50pt;
+		margin-top: 0;
+	}
+	.contener-404 .text-404>div>h2{
+		font-size: 15pt;
+	}
 }

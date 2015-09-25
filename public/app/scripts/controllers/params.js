@@ -22,11 +22,11 @@ angular.module('quizsApp')
 
 	// fonction permettante de changer l'état des boutons des options
 	$scope.changeRadioButton = function(opt, buttonChanged){
-		_.each($scope.opts[opt], function(button, key){
+		_.each($rootScope.quiz.opts[opt], function(button, key){
 			if (key === buttonChanged) {
-				$scope.opts[opt][key] = true;
+				$rootScope.quiz.opts[opt][key] = true;
 			} else{
-				$scope.opts[opt][key] = false;
+				$rootScope.quiz.opts[opt][key] = false;
 			};
 		});
 	}

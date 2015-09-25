@@ -291,8 +291,22 @@
               };
             },
             apply: function () {
-              this.sourceInfo.sortableScope.removeItem(this.sourceInfo.index); // Remove from source.
-              this.parent.insertItem(this.index, this.source.modelValue); // Insert in to destination.
+
+              // If clone is not set, set it to false
+              if (typeof (this.sourceInfo.sortableScope.options.clone) === 'undefined') {
+                this.sourceInfo.sortableScope.options.clone = false;
+              }
+
+              // If clone is not set to true, remove the item from the source model.
+              if (this.sourceInfo.sortableScope.options.clone === false) {
+                this.sourceInfo.sortableScope.removeItem(this.sourceInfo.index);
+              }
+
+              // If the dragged item is not already there, insert the item. This avoids ng-repeat dupes error
+              if(this.parent.modelValue.indexOf(this.source.modelValue) < 0) {
+                this.parent.insertItem(this.index, this.source.modelValue);
+              }
+
             }
           };
         },
@@ -573,7 +587,8 @@
             dragHandled, //drag handled.
             createPlaceholder,//create place holder.
             isPlaceHolderPresent,//is placeholder present.
-            isDisabled = false; // drag enabled
+            isDisabled = false, // drag enabled
+            escapeListen; // escape listen event
 
           hasTouch = $window.hasOwnProperty('ontouchstart');
 
@@ -593,6 +608,10 @@
                 bindDrag();
               }
             }
+          });
+          
+          scope.$on('$destroy', function () {
+            angular.element($document[0].body).unbind('keydown', escapeListen);
           });
 
           createPlaceholder = function (itemScope) {
@@ -674,6 +693,8 @@
             containment = (scope.sortableScope.options.containment)? $helper.findAncestor(element, scope.sortableScope.options.containment):angular.element($document[0].body);
             //capture mouse move on containment.
             containment.css('cursor', 'move');
+            containment.css('cursor', '-webkit-grabbing');
+            containment.css('cursor', '-moz-grabbing');
             containment.addClass('as-sortable-un-selectable');
 
             // container positioning
@@ -692,6 +713,12 @@
             placeHolder.css('width', $helper.width(scope.itemScope.element) + 'px');
             placeHolder.css('height', $helper.height(scope.itemScope.element) + 'px');
 
+            // If clone option is true, hide the placeholder element in the source list. Note this will only be hidden
+            // while in the source list.
+            if (scope.itemScope.sortableScope.options.clone) {
+              placeHolder.css('display', 'none');
+            }
+
             placeElement = angular.element($document[0].createElement(tagName));
             if (sortableConfig.hiddenClass) {
               placeElement.addClass(sortableConfig.hiddenClass);
@@ -702,7 +729,15 @@
             scope.itemScope.element.after(placeHolder);
             //hidden place element in original position.
             scope.itemScope.element.after(placeElement);
-            dragElement.append(scope.itemScope.element);
+
+            if (scope.itemScope.sortableScope.options.clone) {
+              // clone option is true, so clone the element.
+              dragElement.append(scope.itemScope.element.clone());
+            }
+            else {
+              // Not cloning, so use the original element.
+              dragElement.append(scope.itemScope.element);
+            }
 
             containment.append(dragElement);
             $helper.movePosition(eventObj, dragElement, itemPosition, containment, containerPositioning, scrollableContainer);
@@ -747,6 +782,9 @@
            * @param targetScope the target scope
            */
           function insertBefore(targetElement, targetScope) {
+            // Ensure the placeholder is visible in the target.
+            placeHolder.css('display', 'block');
+
             targetElement[0].parentNode.insertBefore(placeHolder[0], targetElement[0]);
             dragItemInfo.moveTo(targetScope.sortableScope, targetScope.index());
           }
@@ -758,6 +796,9 @@
            * @param targetScope the target scope
            */
           function insertAfter(targetElement, targetScope) {
+            // Ensure the placeholder is visible in the target.
+            placeHolder.css('display', 'block');
+
             targetElement.after(placeHolder);
             dragItemInfo.moveTo(targetScope.sortableScope, targetScope.index() + 1);
           }
@@ -982,11 +1023,12 @@
           bindDrag();
 
           //Cancel drag on escape press.
-          angular.element($document[0].body).bind('keydown', function (event) {
+          escapeListen = function (event) {
             if (event.keyCode === 27) {
               dragCancel(event);
             }
-          });
+          };
+          angular.element($document[0].body).bind('keydown', escapeListen);
 
           /**
            * Binds the events based on the actions.

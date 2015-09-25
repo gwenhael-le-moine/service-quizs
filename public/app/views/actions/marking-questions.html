@@ -83,9 +83,9 @@
 			<!---------------------- FIN PARTIE QCM   ---------------------->
 			<!---------------------- DEBUT PARTIE ASS ---------------------->
 			<div ng-if="question.type=='ass'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ass border-bottom">
-				<div ng-if="answer.rightProposition.libelle && answer.leftProposition.libelle" class="row answers" ng-repeat="answer in question.answers">
-					<div ng-if="answer.leftProposition.libelle" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 left">
-						<div class="all columns-inverse-mobile">
+				<div ng-if="answer.rightProposition.libelle || answer.leftProposition.libelle" class="row answers" ng-repeat="answer in question.answers">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 left">
+						<div ng-if="answer.leftProposition.libelle" class="all columns-inverse-mobile">
 							<div class="medias">
 								<p 	ng-if="answer.leftProposition.joindre.type=='image' || answer.leftProposition.joindre.type=='video'" 
 										class="media-image img"
@@ -113,7 +113,7 @@
 						</div>
 					</div>
 					<div ng-if="answer.rightProposition.libelle" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 right">
-					<div class="all">
+						<div class="all">
 							<div>
 								<div class="connect">
 									<p  id="rightconnect{{answer.rightProposition.id}}" 
@@ -203,12 +203,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 quit-marking">
-		<button ng-if="!nextQuestion()"
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 quit-marking">
+		<button ng-if="preQuestion()"
 						type="button" 
 	  				class="btn btn-quiz hover" 
-	  				ng-click="end()">
-	  	<label>Terminer</label>
+	  				ng-click="pre()">
+	  	<label>Précédent</label>
 	  </button>
 		<button ng-if="nextQuestion()"
 						type="button" 

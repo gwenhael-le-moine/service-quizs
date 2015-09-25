@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row create-update">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<p class="preview-question img" ng-click="preview()"></p>
 		<div class="content title-action">
@@ -45,12 +45,15 @@
 												ng-model="question.libelle">
 							</textarea>
 						</div>
-						<div ng-hide="true">
-							<button id='questionMediaId' 
-											type="file"
-											ngf-select="uploadQuestionMedia($files)">
-							</button>
-						</div>
+						<button	id="questionMediaId"
+										ng-hide="true"
+										type="file"
+										accept="image/*,audio/*"
+										ngf-capture="capture"
+										ngf-pattern="patternFile"
+										ngf-max-size="maxFileSize"
+										ngf-select="uploadQuestionMedia($file)">
+						</button>
 						<div>
 							<p 	class="add-media img" 
 									ng-click="openFileUpload('questionMediaId')">
@@ -60,6 +63,7 @@
 								{{question.media != null ? question.media : placeholderMedia}}
 							</label>
 						</div>
+						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileQuestion">{{errorFileQuestion}}</i>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hint">
 						<div>
@@ -74,8 +78,13 @@
 						</div>
 						<div ng-hide="true">
 							<button id='aideMediaId' 
-											type="file" 
-											ngf-select="uploadHintMedia($files)">
+											ng-hide="true"
+											type="file"
+											accept="image/*,audio/*"
+											ngf-capture="capture"
+											ngf-pattern="patternFile"
+											ngf-max-size="maxFileSize" 
+											ngf-select="uploadHintMedia($file)">
 							</button>
 						</div>
 						<div>
@@ -87,6 +96,7 @@
 								{{question.hint.media != null ? question.hint.media : placeholderMedia}}
 							</label>
 						</div>
+						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileHint">{{errorFileHint}}</i>
 					</div>
 				</div>
 			</div>
@@ -126,15 +136,20 @@
 					</div>
 					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 joindre">
 						<div>
-							<button ng-hide="true" id='joindre{{$index}}' 
-											type="file" 
-											ngf-select="uploadSuggestionQCMMedia($files, $index)">
+							<button id='joindre{{$index}}' 
+											ng-hide="true"
+											type="file"
+											accept="image/*,audio/*"
+											ngf-capture="capture"
+											ngf-pattern="patternFile"
+											ngf-max-size="maxFileSize" 
+											ngf-select="uploadSuggestionQCMMedia($file, $index)">
 							</button>
 						</div>
 						<div>
 							<p 	ng-if="!suggestion.joindre" 
 									class="add-media img" 
-									ng-click="openFileUpload('joindre{{$index}}')">
+									ng-click="openFileUpload('joindre'+$index)">
 							</p>
 							<label 	ng-if="!suggestion.joindre" 
 											class="label-media texte-secondaire-italic mobile">
@@ -148,6 +163,7 @@
 											class="label-media texte-secondaire-italic not-empty">
 								{{suggestion.joindre}}
 							</label>
+							<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileQCM[$index]">{{errorFileQCM[$index]}}</i>
 						</div>
 					</div>
 				</div>
@@ -226,14 +242,18 @@
 											Joindre
 										</label>
 										<p 	class="add-media img" 
-												ng-click="openFileUpload('leftjoindre{{$index}}')">
+												ng-click="openFileUpload('leftjoindre'+$index)">
 										</p>
 									</div>
 								</div>
 								<div ng-hide="true" >
 									<button id='leftjoindre{{$index}}' 
-													type="file" 
-													ngf-select="uploadSuggestionASSMedia($files, $index, 'left')">
+													type="file"
+													accept="image/*,audio/*"
+													ngf-capture="capture"
+													ngf-pattern="patternFile"
+													ngf-max-size="maxFileSize" 
+													ngf-select="uploadSuggestionASSMedia($file, $index, 'left')">
 									</button>
 								</div>
 							</div>
@@ -241,7 +261,7 @@
 								<input 	ng-disabled="
 													validateAss || 
 													($index != 0 && 
-													!suggestions.ass[{{$index-1}}].leftProposition.libelle)" 
+													!suggestions.ass[$index-1].leftProposition.libelle)" 
 												type="text" 
 												class="texte" 
 												maxlength="2000" 
@@ -251,12 +271,15 @@
 										class="ass-empty img" 
 										ng-class="{
 											hover: suggestion.leftProposition.solutions.length == 0,
-											selected: connect1.id == {{$index}} && suggestion.leftProposition.solutions.length == 0, 
+											selected: connect1.id == $index && suggestion.leftProposition.solutions.length == 0, 
 											connected: suggestion.leftProposition.solutions.length > 0
 										}" 
-										ng-click="connect({{$index}}, 'left')">
+										ng-click="connect($index, 'left')">
 								</p>
 							</div>							
+						</div>
+						<div class="error-msg">
+							<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileASS['left'][$index]">{{errorFileASS['left'][$index]}}</i>							
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -265,9 +288,9 @@
 								<p ng-show="validateAss && suggestion.rightProposition.libelle" 
 										id="rightconnect{{$index}}" 
 										class="ass-empty img" 
-										ng-click="connect({{$index}}, 'right')" 
+										ng-click="connect($index, 'right')" 
 										ng-class="{
-											selected: connect2.id == {{$index}} && suggestion.rightProposition.solutions.length == 0,
+											selected: connect2.id == $index && suggestion.rightProposition.solutions.length == 0,
 											connected: suggestion.rightProposition.solutions.length > 0, 
 											hover: suggestion.rightProposition.solutions.length == 0
 										}">
@@ -275,26 +298,29 @@
 								<input	ng-disabled="
 													validateAss || 
 													($index != 0 &&
-													!suggestions.ass[{{$index-1}}].rightProposition.libelle)" 
+													!suggestions.ass[$index-1].rightProposition.libelle)" 
 												type="text" 
 												class="texte" 
 												maxlength="2000" 
 												ng-model="suggestion.rightProposition.libelle"/>
 							</div>
 							<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 joindre right">
-								<div>
-									<button ng-hide="true" 
-													id='rightjoindre{{$index}}' 
-													type="file" 
-													ngf-select="uploadSuggestionASSMedia($files, $index, 'right')">
+								<div ng-hide="true">
+									<button id='rightjoindre{{$index}}'
+													type="file"
+													accept="image/*,audio/*"
+													ngf-capture="capture"
+													ngf-pattern="patternFile"
+													ngf-max-size="maxFileSize" 
+													ngf-select="uploadSuggestionASSMedia($file, $index, 'right')">
 									</button>
 								</div>
 								<div 	ng-show="
 											(!validateAss && !suggestion.rightProposition.joindre && 
-												($index == 0 || suggestions.ass[{{$index-1}}].rightProposition.libelle))
+												($index == 0 || suggestions.ass[$index-1].rightProposition.libelle))
 											|| (validateAss && suggestion.rightProposition.libelle && !suggestion.rightProposition.joindre)">
 									<p 	class="add-media img" 
-											ng-click="openFileUpload('rightjoindre{{$index}}')">
+											ng-click="openFileUpload('rightjoindre'+$index)">
 									</p>
 									<label class="label-media texte-secondaire-italic mobile">Joindre</label>
 								</div>
@@ -307,6 +333,9 @@
 									</label>
 								</div>
 							</div>
+						</div>
+						<div class="error-msg">
+							<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileASS['right'][$index]">{{errorFileASS['right'][$index]}}</i>			
 						</div>
 					</div>
 				</div>
@@ -396,14 +425,18 @@
 						<div>
 							<button ng-hide="true" 
 											id='joindretat{{$index}}' 
-											type="file" 
-											ngf-select="uploadSuggestionTATMedia($files, $index)">
+											type="file"
+											accept="image/*,audio/*"
+											ngf-capture="capture"
+											ngf-pattern="patternFile"
+											ngf-max-size="maxFileSize" 
+											ngf-select="uploadSuggestionTATMedia($file, $index)">
 							</button>
 						</div>
 						<div>
 							<p 	ng-if="!suggestion.joindre" 
 									class="add-media img" 
-									ng-click="openFileUpload('joindretat{{$index}}')">
+									ng-click="openFileUpload('joindretat'+$index)">
 							</p>
 							<label 	ng-if="!suggestion.joindre" 
 											class="label-media texte-secondaire-italic mobile">
@@ -418,6 +451,7 @@
 								{{suggestion.joindre}}
 							</label>
 						</div>
+						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileTAT[$index]">{{errorFileTAT[$index]}}</i>
 					</div>
 				</div>
 				<div class="add-tat">
@@ -447,6 +481,12 @@
 							ng-click="deleteLeurre(leurre.id)">
 					</p>
 					<label>{{leurre.text}}</label>
+				</div>
+			</div>
+			<div ng-show="showBackLeurre" class="back-leurres">
+				<div class="bleu">
+					<span ng-click="backLeurre()" class="glyphicon glyphicon-share-alt"></span>
+					<span ng-click="backLeurre()" class="texte-secondaire">Annuler la suppression du leurre</span>						
 				</div>
 			</div>
 		</div>
