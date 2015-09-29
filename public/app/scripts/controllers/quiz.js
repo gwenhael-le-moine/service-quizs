@@ -9,7 +9,7 @@ angular.module('quizsApp')
 	//selon si c'est le propriétaire ou pas on grise le bouton permettant de modifier le titre
 	$scope.owner = true;		
 	//et si on est pas dans les views d'action (modif params create) on supprime le bouton!
-	if ($state.current.parent === 'quizs.actions') {
+	if ($state.current.parent === 'quizs.back') {
 		$scope.actionView = true;
 	} else {
 		$scope.actionView = false;

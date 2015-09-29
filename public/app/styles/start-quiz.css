@@ -1,0 +1,94 @@
+.start-quiz .content.border-bottom{
+	padding-bottom: 0;
+}
+.start-quiz .attributs{
+	margin-top: 30px;
+	margin-bottom: 60px; 
+}
+/*** cadre qui entoure les valeurs des attributs ***/
+.start-quiz .attributs .cadre{
+	border: 2px solid #9e9e9e;
+	text-align: center;
+}
+.start-quiz .attributs .nb-questions.cadre>span, .start-quiz .attributs .types>span, .start-quiz .attributs .types .libelle.cadre>span, .start-quiz .attributs .modes.cadre>span{
+	vertical-align: middle;
+}
+.start-quiz .attributs .nb-questions.cadre{
+	height: 30px;
+	width: 40px;
+}
+.start-quiz .attributs .types, .start-quiz .attributs .types .libelle.cadre{
+	display: inline-block;
+}
+.start-quiz .attributs .types>span{
+	margin: 0 5px;
+	font-size: 14pt;
+}
+.start-quiz .attributs .types .libelle.cadre, .start-quiz .attributs .modes.cadre{
+	height: 30px;
+	width: 120px;
+}
+.start-quiz .attributs .info, .start-quiz .attributs .opts>div, .start-quiz .attributs .opts .border{
+	display: inline-block;
+	vertical-align: middle;
+}
+/*** paramètres du quiz ***/
+.start-quiz .attributs .opts{
+	margin-top: 10px;
+}
+.start-quiz .attributs .opts>div>span{
+	vertical-align: middle;
+	margin: 0 5px;
+}
+.start-quiz .attributs .opts>div .border{
+	height: 20px;
+	width: 5px;
+}
+.start-quiz .attributs .opts>div .border.img{
+	background-position: center;
+}
+/*** partie des medias ***/
+.start-quiz .attributs .media-son, .start-quiz .attributs .media-image{
+	height: 30px;
+	width: 30px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.start-quiz .attributs .medias-libelle, .start-quiz .attributs .medias-info>span{
+	vertical-align: middle;
+	margin-left: 5px;
+}
+.start-quiz .attributs .medias-info{
+	margin-top: 10px;
+}
+/*** Bouton de la page ***/
+.start-quiz .buttons{
+	text-align: right;
+	padding: 20px;
+}
+.start-quiz .buttons>button{
+	padding: 5px 30px;
+	margin: 10px 5px;
+}
+.start-quiz .buttons .start{
+	background-color: #80ba66;
+	color: white;
+}
+
+/*** css des mobiles seuls ***/
+@media screen and (max-width: 768px) {
+	.start-quiz .attributs{
+		margin-bottom: 30px; 
+	}
+	.start-quiz .attributs .types, .start-quiz .attributs .types>span{
+		display: block;
+	}
+	.start-quiz .attributs .types>span{
+		margin: 0;
+		width: 120px;
+		text-align: center;
+	}
+	.start-quiz .attributs .info{
+		display: block;
+	}
+}

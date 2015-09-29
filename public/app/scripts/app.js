@@ -17,6 +17,7 @@ angular.module('quizsApp', [
   //id te
   $rootScope.tmpId = 0;
   $rootScope.quiz = {
+    id: 0,
     title: "Insérez un titre pour votre quiz",
     opts:{},
     questions: []
@@ -27,7 +28,14 @@ angular.module('quizsApp', [
   $rootScope.quizStudent = {
     id : 0,
     title: "Le compositeur J. Brahms",
-    opts:{},
+    opts:{
+      randQuestion: {yes: false, no: true},
+      modes: {training: true, exercise: false, assessment: false, perso: false},
+      correction: {afterEach: true, atEnd: false, none: false},
+      canRewind: {yes: true, no: false},
+      score: {afterEach: true, atEnd: false, none: false},
+      canRedo: {yes: true, no: false}
+    },
     score: "08",
     questions: [
       {

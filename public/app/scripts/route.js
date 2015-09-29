@@ -18,16 +18,16 @@ angular.module('quizsApp')
             templateUrl:APP_PATH + '/app/views/menu.html',
           })
 
-          .state( 'quizs.actions',{
+          .state( 'quizs.back',{
             parent: 'quizs',
             abstract:true,
-            templateUrl:APP_PATH + '/app/views/actions.html',
+            templateUrl:APP_PATH + '/app/views/back.html',
           })
 
-          .state( 'quizs.results',{
+          .state( 'quizs.front',{
             parent: 'quizs',
             abstract:true,
-            templateUrl:APP_PATH + '/app/views/results.html',
+            templateUrl:APP_PATH + '/app/views/front.html',
           })
 
           .state( 'quizs.home',{
@@ -45,72 +45,86 @@ angular.module('quizsApp')
               }
             })
           .state( 'quizs.params',{
-            parent: 'quizs.actions',
-            url: '/params',
+            parent: 'quizs.back',
+            url: '/:quiz_id/params',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
                 controller: 'QuizCtrl'
               },
-              'action': {
-                templateUrl:APP_PATH + '/app/views/actions/params.html',
+              'back': {
+                templateUrl:APP_PATH + '/app/views/back/params.html',
                 controller: 'ParamsCtrl'
                }
               }
             })
           .state( 'quizs.create_questions',{
-            parent: 'quizs.actions',
-            url: '/questions',
+            parent: 'quizs.back',
+            url: '/:quiz_id/questions',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
                 controller: 'QuizCtrl'
               },
-              'action': {
-                templateUrl:APP_PATH + '/app/views/actions/create-update-questions.html',
+              'back': {
+                templateUrl:APP_PATH + '/app/views/back/create-update-questions.html',
                 controller: 'CreateUpdateQuestionsCtrl'
                }
               }
             })
           .state( 'quizs.update_questions',{
-            parent: 'quizs.actions',
-            url: '/questions/:id',
+            parent: 'quizs.back',
+            url: '/:quiz_id/questions/:id',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
                 controller: 'QuizCtrl'
               },
-              'action': {
-                templateUrl:APP_PATH + '/app/views/actions/create-update-questions.html',
+              'back': {
+                templateUrl:APP_PATH + '/app/views/back/create-update-questions.html',
                 controller: 'CreateUpdateQuestionsCtrl'
                }
               }
             })
           .state( 'quizs.preview_questions',{
-            parent: 'quizs.results',
-            url: '/questions/preview/:id',
+            parent: 'quizs.front',
+            url: '/:quiz_id/questions/preview/:id',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
                 controller: 'QuizCtrl'
               },
-              'result': {
-                templateUrl:APP_PATH + '/app/views/actions/preview-questions.html',
+              'front': {
+                templateUrl:APP_PATH + '/app/views/front/preview-questions.html',
                 controller: 'PreviewQuestionsCtrl'
                }
               }
             })
           .state( 'quizs.marking_questions',{
-            parent: 'quizs.results',
-            url: '/questions/:id/correction',
+            parent: 'quizs.front',
+            url: '/:quiz_id/questions/:id/correction',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
                 controller: 'QuizCtrl'
               },
-              'result': {
-                templateUrl:APP_PATH + '/app/views/actions/marking-questions.html',
+              'front': {
+                templateUrl:APP_PATH + '/app/views/front/marking-questions.html',
                 controller: 'MarkingQuestionsCtrl'
+               }
+              }
+            })
+          .state( 'quizs.start_quiz',{
+            parent: 'quizs.front',
+            url: '/:quiz_id/start',
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'front': {
+                templateUrl:APP_PATH + '/app/views/front/start-quiz.html',
+                controller: 'StartQuizCtrl'
                }
               }
             });

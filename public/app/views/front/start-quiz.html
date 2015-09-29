@@ -1,0 +1,74 @@
+<div class="row start-quiz">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="content title-action">
+			<span class="titre">{{actionTitle | uppercase}}</span>			
+		</div>
+		<div class="content border-bottom">
+			<div class="row attributs">
+				<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+					<span class="texte-particulier">Questions :</span>				
+				</div>
+				<div class="col-xs-8 col-sm-10 col-md-10 col-lg-10 nb-questions cadre">
+					<span class="texte">{{quiz.questions.length}}</span>				
+				</div>
+			</div>
+			<div class="row attributs">
+				<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+					<span class="texte-particulier">Type :</span>				
+				</div>
+				<div class="col-xs-8 col-sm-10 col-md-10 col-lg-10">
+					<div ng-repeat="type in types" class="types">
+						<span class="texte" ng-if="$index > 0">+</span>
+						<div class="libelle cadre">
+							<span class="texte">{{type | acronym}}</span>							
+						</div>
+					</div>				
+				</div>
+			</div>
+			<div class="row attributs">
+				<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
+					<span class="texte-particulier">Mode :</span>				
+				</div>
+				<div class="col-xs-8 col-sm-10 col-md-10 col-lg-10 modes cadre">
+					<span class="texte">{{mode}}</span>				
+				</div>			
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 opts">
+					<p class="info img"></p>
+					<div ng-repeat="opt in opts">
+						<p class="border img" ng-if="$index > 0"></p>
+						<span class="texte">{{opt}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="row attributs">
+				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<span class="texte-particulier">Médias intégrés :</span>					
+				</div>
+				<div ng-if="medias.audio" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<p class="media-son img"></p>
+					<span class="texte media-libelle">Sons</span>
+				</div>
+				<div ng-if="medias.image" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<p class="media-image img"></p>
+					<span class="texte media-libelle">Images</span>
+				</div>					
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 medias-info">
+					<p class="info img"></p>
+					<span class="texte"> N'oublie pas de les consulter avant de répondre en cliquant dessus.</span>
+				</div>
+			</div>			
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
+			<button type="button" 
+		  				class="btn btn-quiz start" 
+		  				ng-click="start()">
+		  	<label>Démarrer le quiz</label>
+		  </button>
+			<button type="button" 
+		  				class="btn btn-quiz hover" 
+		  				ng-click="close()">
+		  	<label>Fermer</label>
+		  </button>
+		</div>
+	</div>
+</div>

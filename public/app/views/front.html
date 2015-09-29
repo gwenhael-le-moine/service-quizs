@@ -4,11 +4,11 @@
         <div data-ui-view="quiz"></div>
     </div>
     <div id="contentMainId" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-        <div data-ui-view="result"></div>
+        <div data-ui-view="front"></div>
     </div>    	
   </div>
   <growl-notifications></growl-notifications>
-  <div ng-repeat="(id, notification) in notifications.success track by id">
+	<div ng-repeat="(id, notification) in notifications.success track by id">
     <growl-notification class="success">
       {{notification}}
     </growl-notification>
