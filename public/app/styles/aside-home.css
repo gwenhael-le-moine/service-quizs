@@ -1,0 +1,64 @@
+.aside-home{
+	padding: 30px;
+}
+.aside-home .sessions.title, .aside-home .shares.title{
+	border-bottom: 2px solid #9e9e9e;
+	margin-bottom: 10px;
+}
+.aside-home .sessions .session, .aside-home .shares .share{
+	border: 2px solid #9e9e9e;
+	padding: 2px 5px;
+	margin-top: 10px;
+}
+.aside-home .sessions .session{
+	cursor: pointer;
+}
+.aside-home .sessions .session:hover{
+	border: 2px solid #1aa1cc;
+	background-color: #1aa1cc;
+}
+.aside-home .sessions .session .texte-secondaire, .aside-home .shares .share .texte-secondaire{
+	color: black;
+}
+.aside-home .sessions .session:hover .texte-secondaire{
+	color: white;
+}
+.aside-home .sessions .session>div, .aside-home .shares .share>div{
+	padding: 0 2px;
+}
+.aside-home .sessions .session .date{
+	text-align: center;
+}
+
+.aside-home .shares.title{
+	margin-top: 200px;
+}
+.aside-home .shares .share .date, .aside-home .shares .share .icons{
+	text-align: center;
+}
+.aside-home .shares .share .icons .border, .aside-home .shares .share .icons .duplicate{
+	vertical-align: middle;
+	display: inline-block;
+}
+.aside-home .shares .share .icons .border{
+	height: 25px;
+	width: 4px;
+}
+.aside-home .shares .share .icons .border.img{
+	background-position: center;
+}
+.aside-home .shares .share .icons .duplicate{
+	height: 20px;
+	width: 20px;
+	cursor: pointer;
+}
+
+/*** css des tablettes et mobiles ***/
+@media screen and (max-width: 992px) {
+	.aside-home{
+		padding: 10px;
+	}
+	.aside-home .shares.title{
+		margin-top: 20px;
+	}
+}

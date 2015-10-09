@@ -6,11 +6,11 @@
 		<div class="row content question">
 			<p 	ng-if="question.media.type=='image' || question.media.type=='video'" 
 					class="media-image img" 
-					ng-click="displayMedia(question.libelle, question.media.file, question.media.type, question.media.mime)">
+					ng-click="displayMedia(question.libelle, question.media.file.url, question.media.type, question.media.mime)">
 			</p>
 			<p 	ng-if="question.media.type=='audio'" 
 					class="media-son img" 
-					ng-click="play(question.media.file)"></p>
+					ng-click="play(question.media.file.url)"></p>
 			<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
 				<div>
 					<span class="texte-particulier">{{question.libelle}}</span>
@@ -21,11 +21,11 @@
 						<span class="texte-italic">Aide : {{question.hint.libelle}}</span>						
 						<p 	ng-if="question.hint.media.type=='image' || question.hint.media.type=='video'" 
 								class="media-image img"
-								ng-click="displayMedia(question.hint.libelle, question.hint.media.file, question.hint.media.type, question.hint.media.mime)">
+								ng-click="displayMedia(question.hint.libelle, question.hint.media.file.url, question.hint.media.type, question.hint.media.mime)">
 						</p>
 						<p 	ng-if="question.hint.media.type=='audio'" 
 								class="media-son img" 
-								ng-click="play(question.hint.media.file)">
+								ng-click="play(question.hint.media.file.url)">
 						</p>						
 				</div>
 			</div>
@@ -38,11 +38,11 @@
 						<div class="medias">
 							<p 	ng-if="answer.joindre.type=='image' || answer.joindre.type=='video'" 
 									class="media-image img"
-									ng-click="displayMedia(answer.proposition, answer.joindre.file, answer.joindre.type, answer.joindre.mime)">
+									ng-click="displayMedia(answer.proposition, answer.joindre.file.url, answer.joindre.type, answer.joindre.mime)">
 							</p>
 							<p 	ng-if="answer.joindre.type=='audio'" 
 									class="media-son img" 
-									ng-click="play(answer.joindre.file)">
+									ng-click="play(answer.joindre.file.url)">
 							</p>							
 						</div>
 						<div class="checkboxs">
@@ -67,11 +67,11 @@
 							<div class="medias">
 								<p 	ng-if="answer.leftProposition.joindre.type=='image' || answer.leftProposition.joindre.type=='video'" 
 										class="media-image img"
-										ng-click="displayMedia(answer.leftProposition.libelle, answer.leftProposition.joindre.file, answer.leftProposition.joindre.type, answer.leftProposition.joindre.mime)">
+										ng-click="displayMedia(answer.leftProposition.libelle, answer.leftProposition.joindre.file.url, answer.leftProposition.joindre.type, answer.leftProposition.joindre.mime)">
 								</p>
 								<p 	ng-if="answer.leftProposition.joindre.type=='audio'" 
 										class="media-son img" 
-										ng-click="play(answer.leftProposition.joindre.file)">
+										ng-click="play(answer.leftProposition.joindre.file.url)">
 								</p>							
 							</div>
 							<div>
@@ -83,10 +83,10 @@
 											class="ass-empty img" 
 											ng-class="{
 												hover: answer.leftProposition.solutions.length == 0,
-												selected: connect1.id == {{$index}} && answer.leftProposition.solutions.length == 0, 
+												selected: connect1.id == $index && answer.leftProposition.solutions.length == 0, 
 												connected: answer.leftProposition.solutions.length > 0
 											}" 
-											ng-click="connect({{$index}}, 'left')">
+											ng-click="connect($index, 'left')">
 									</p>
 								</div>								
 							</div>
@@ -100,10 +100,10 @@
 											class="ass-empty img" 
 											ng-class="{
 												hover: answer.rightProposition.solutions.length == 0,
-												selected: connect2.id == {{$index}} && answer.rightProposition.solutions.length == 0, 
+												selected: connect2.id == $index && answer.rightProposition.solutions.length == 0, 
 												connected: answer.rightProposition.solutions.length > 0
 											}" 
-											ng-click="connect({{$index}}, 'right')">
+											ng-click="connect($index, 'right')">
 									</p>
 								</div>
 								<div class="proposition">
@@ -113,11 +113,11 @@
 							<div class="medias">
 								<p 	ng-if="answer.rightProposition.joindre.type=='image' || answer.rightProposition.joindre.type=='video'" 
 										class="media-image img"
-										ng-click="displayMedia(answer.rightProposition.libelle, answer.rightProposition.joindre.file, answer.rightProposition.joindre.type, answer.rightProposition.joindre.mime)">
+										ng-click="displayMedia(answer.rightProposition.libelle, answer.rightProposition.joindre.file.url, answer.rightProposition.joindre.type, answer.rightProposition.joindre.mime)">
 								</p>
 								<p 	ng-if="answer.rightProposition.joindre.type=='audio'" 
 										class="media-son img" 
-										ng-click="play(answer.rightProposition.joindre.file)">
+										ng-click="play(answer.rightProposition.joindre.file.url)">
 								</p>							
 							</div>
 						</div>
@@ -135,11 +135,11 @@
 					<div ng-if="answer.joindre.file" class="medias">
 						<p 	ng-if="answer.joindre.type=='image' || answer.joindre.type=='video'" 
 								class="media-image img"
-								ng-click="displayMedia(answer.text, answer.joindre.file, answer.joindre.type, answer.joindre.mime)">
+								ng-click="displayMedia(answer.text, answer.joindre.file.url, answer.joindre.type, answer.joindre.mime)">
 						</p>
 						<p 	ng-if="answer.joindre.type=='audio'" 
 								class="media-son img" 
-								ng-click="play(answer.joindre.file)">
+								ng-click="play(answer.joindre.file.url)">
 						</p>							
 					</div>
 					<div class="btn-group texte" dropdown keyboard-nav>
@@ -152,8 +152,8 @@
 	            </li>
 	            <li role="menuitem" 
 	            		ng-repeat="option in selectOptions"
-	            		ng-click="changeSolution($parent.$index, option.id, option.label)">
-	            		<a>{{option.label}}</a>
+	            		ng-click="changeSolution($parent.$index, option.id, option.libelle)">
+	            		<a>{{option.libelle}}</a>
 	            </li>
 		        </ul>
 		    	</div>
@@ -184,12 +184,24 @@
 			</div>			
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 quit-preview">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 quit-preview">
+		<button ng-if="preQuestion()"
+						type="button" 
+	  				class="btn btn-quiz hover" 
+	  				ng-click="pre()">
+	  	<label>Précédent</label>
+	  </button>
+		<button ng-if="nextQuestion()"
+						type="button" 
+	  				class="btn btn-quiz hover" 
+	  				ng-click="next()">
+	  	<label>Suivant</label>
+	  </button>
 		<button type="button" 
 	  				class="btn btn-quiz hover" 
 	  				ng-click="quit()">
-		  	<label>Quitter</label>
-		  </button>
+	  	<label>Quitter</label>
+	  </button>
 	</div>
 	<audio id="audioId" loop></audio>
 </div>

@@ -59,8 +59,8 @@
 									ng-click="openFileUpload('questionMediaId')">
 							</p>
 							<label 	class="label-media texte-secondaire-italic" 
-											ng-class="{'not-empty': question.media}">
-								{{question.media != null ? question.media : placeholderMedia}}
+											ng-class="{'not-empty': question.media.file}">
+								{{question.media.file != null ? question.media.file.name : placeholderMedia}}
 							</label>
 						</div>
 						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileQuestion">{{errorFileQuestion}}</i>
@@ -92,8 +92,8 @@
 									ng-click="openFileUpload('aideMediaId')">
 							</p>
 							<label 	class="label-media texte-secondaire-italic" 
-											ng-class="{'not-empty': question.hint.media}">
-								{{question.hint.media != null ? question.hint.media : placeholderMedia}}
+											ng-class="{'not-empty': question.hint.media.file}">
+								{{question.hint.media.file != null ? question.hint.media.file.name : placeholderMedia}}
 							</label>
 						</div>
 						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileHint">{{errorFileHint}}</i>
@@ -147,21 +147,21 @@
 							</button>
 						</div>
 						<div>
-							<p 	ng-if="!suggestion.joindre" 
+							<p 	ng-if="!suggestion.joindre.file" 
 									class="add-media img" 
 									ng-click="openFileUpload('joindre'+$index)">
 							</p>
-							<label 	ng-if="!suggestion.joindre" 
+							<label 	ng-if="!suggestion.joindre.file" 
 											class="label-media texte-secondaire-italic mobile">
 								Joindre un fichier
 							</label>
-							<p 	ng-if="suggestion.joindre" 
+							<p 	ng-if="suggestion.joindre.file" 
 									class="delete-media img" 
-									ng-click="suggestion.joindre = null">
+									ng-click="suggestion.joindre.file = null">
 							</p>
-							<label 	ng-if="suggestion.joindre" 
+							<label 	ng-if="suggestion.joindre.file" 
 											class="label-media texte-secondaire-italic not-empty">
-								{{suggestion.joindre}}
+								{{suggestion.joindre.file.name}}
 							</label>
 							<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileQCM[$index]">{{errorFileQCM[$index]}}</i>
 						</div>
@@ -223,21 +223,21 @@
 						<div class="row columns-inverse-mobile">
 							<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 joindre left">
 								<div 	class="label-media-mobile" 
-											ng-class="{'label-media-left': suggestion.leftProposition.joindre}">
+											ng-class="{'label-media-left': suggestion.leftProposition.joindre.file}">
 									<div 	class="row-inverse-mobile" 
-												ng-if="suggestion.leftProposition.joindre">
+												ng-if="suggestion.leftProposition.joindre.file">
 										<label class="label-media texte-secondaire-italic not-empty">
-											{{suggestion.leftProposition.joindre}}
+											{{suggestion.leftProposition.joindre.file.name}}
 										</label>
 										<p 	class="delete-media img" 
-												ng-click="suggestion.leftProposition.joindre = null">
+												ng-click="suggestion.leftProposition.joindre.file = null">
 										</p>
 									</div>
 									<div 	class="row-inverse-mobile"
 												ng-show="
-													(!validateAss && !suggestion.leftProposition.joindre && 
+													(!validateAss && !suggestion.leftProposition.joindre.file && 
 													($index == 0 || suggestions.ass[{{$index-1}}].leftProposition.libelle))
-													|| (validateAss && suggestion.leftProposition.libelle && !suggestion.leftProposition.joindre)">
+													|| (validateAss && suggestion.leftProposition.libelle && !suggestion.leftProposition.joindre.file)">
 										<label class="label-media texte-secondaire-italic mobile">
 											Joindre
 										</label>
@@ -316,20 +316,20 @@
 									</button>
 								</div>
 								<div 	ng-show="
-											(!validateAss && !suggestion.rightProposition.joindre && 
+											(!validateAss && !suggestion.rightProposition.joindre.file && 
 												($index == 0 || suggestions.ass[$index-1].rightProposition.libelle))
-											|| (validateAss && suggestion.rightProposition.libelle && !suggestion.rightProposition.joindre)">
+											|| (validateAss && suggestion.rightProposition.libelle && !suggestion.rightProposition.joindre.file)">
 									<p 	class="add-media img" 
 											ng-click="openFileUpload('rightjoindre'+$index)">
 									</p>
 									<label class="label-media texte-secondaire-italic mobile">Joindre</label>
 								</div>
-								<div ng-if="suggestion.rightProposition.joindre">
+								<div ng-if="suggestion.rightProposition.joindre.file">
 									<p 	class="delete-media img" 
-											ng-click="suggestion.rightProposition.joindre = null">
+											ng-click="suggestion.rightProposition.joindre.file = null">
 									</p>
 									<label class="label-media texte-secondaire-italic not-empty">
-										{{suggestion.rightProposition.joindre}}
+										{{suggestion.rightProposition.joindre.file.name}}
 									</label>
 								</div>
 							</div>
@@ -413,7 +413,7 @@
 						<input 	type="text" 
 										class="texte" 
 										maxlength="2000" 
-										ng-model="suggestion.solution"/>
+										ng-model="suggestion.solution.libelle"/>
 					</div>
 					<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 ponctuation">
 						<input 	type="text" 
@@ -434,21 +434,21 @@
 							</button>
 						</div>
 						<div>
-							<p 	ng-if="!suggestion.joindre" 
+							<p 	ng-if="!suggestion.joindre.file" 
 									class="add-media img" 
 									ng-click="openFileUpload('joindretat'+$index)">
 							</p>
-							<label 	ng-if="!suggestion.joindre" 
+							<label 	ng-if="!suggestion.joindre.file" 
 											class="label-media texte-secondaire-italic mobile">
 								Joindre un fichier
 							</label>
-							<p 	ng-if="suggestion.joindre" 
+							<p 	ng-if="suggestion.joindre.file" 
 									class="delete-media img" 
-									ng-click="suggestion.joindre = null">
+									ng-click="suggestion.joindre.file = null">
 							</p>
-							<label 	ng-if="suggestion.joindre" 
+							<label 	ng-if="suggestion.joindre.file" 
 											class="label-media texte-secondaire-italic not-empty">
-								{{suggestion.joindre}}
+								{{suggestion.joindre.file.name}}
 							</label>
 						</div>
 						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileTAT[$index]">{{errorFileTAT[$index]}}</i>
@@ -480,7 +480,7 @@
 					<p 	class="deleted img" 
 							ng-click="deleteLeurre(leurre.id)">
 					</p>
-					<label>{{leurre.text}}</label>
+					<label>{{leurre.libelle}}</label>
 				</div>
 			</div>
 			<div ng-show="showBackLeurre" class="back-leurres">
@@ -547,7 +547,7 @@
 		  </button>
 		  <button type="button" 
 		  				class="btn btn-quiz hover" 
-		  				ui-sref="quizs.params">
+		  				ng-click="backParams()">
 		  	<label>Annuler</label>
 		  </button>
 		</div>			

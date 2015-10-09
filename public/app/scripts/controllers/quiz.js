@@ -25,6 +25,7 @@ angular.module('quizsApp')
 			$scope.title = "Modifier le titre du quiz";
 			$scope.text = $rootScope.quiz.title;
 			$scope.error = "Le titre du quiz ne peux pas être vide !";
+			$scope.placeholder = "Insérez un titre pour votre quiz."
 			$scope.required = false;
 			$scope.no = function(){
 				$modalInstance.close();

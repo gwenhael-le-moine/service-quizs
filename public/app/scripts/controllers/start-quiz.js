@@ -165,6 +165,10 @@ angular.module('quizsApp')
 		return medias
 	};
 
+	$scope.start = function(){
+		$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id});
+	}
+
 	//variables
 	//titre de l'action
 	$scope.actionTitle = "prêts ? partez !";

@@ -1,1 +1,80 @@
-<h1>Main Home</h1>
+<div class="row main-home">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bleu header-quiz">
+		<div class="row">
+			<div class="titre-quiz" ng-class="{'col-xs-10 col-sm-10 col-md-10 col-lg-10': !parents, 'col-xs-12 col-sm-8 col-md-8 col-lg-8': parents}">
+				<span ng-if="!parents" class="grand-titre">{{"mes quizs" | uppercase}}</span>
+				<span ng-if="parents" class="grand-titre">{{"quizs de mon enfant :" | uppercase}}</span>
+			</div>
+			<div ng-if="roleMax==0 && parents" class="col-xs-12 col-sm-4 col-md-4 col-lg-4 select-child">
+				<div class="btn-group texte" dropdown keyboard-nav>
+	        <button id="changeSonId" type="button" class="btn btn-primary" dropdown-toggle>{{currentChild.name | capitalize:true | overflow:24}}</button>
+	        <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+	          <li role="menuitem" 
+	          		ng-repeat="child in childs"
+	          		ng-click="changeCurrentChild(child)">
+	          		<a>{{child.name | capitalize:true | overflow:25}}</a>
+	          </li>
+	        </ul>
+	    	</div>
+	    </div>
+			<div ng-if="roleMax > 0" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 add-quiz">
+				<p class="add-media img" tooltip-placement="left" tooltip="Ajouter un nouveau quiz" ng-click="addQuiz()"></p>				
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="row quizs">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 quiz"  ng-repeat="quiz in quizs">
+				<div class="row">
+					<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
+						<span class="texte" tooltip-placement="bottom" tooltip="{{quiz.title | capitalize}}">{{quiz.title | capitalize | overflow:21}}</span>						
+					</div>
+					<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2 nb-questions">
+						<span ng-if="quiz.nbQuestion == 0" class="texte-secondaire-italic">Aucune question</span>
+						<span ng-if="quiz.nbQuestion == 1" class="texte">1 question</span>
+						<span ng-if="quiz.nbQuestion > 1" class="texte">{{quiz.nbQuestion}} questions</span>
+					</div>
+					<div ng-if="roleMax == 0" class="col-xs-10 col-sm-5 col-md-5 col-lg-5 session">
+						<span ng-if="!quiz.session" class="texte-secondaire-italic">Vous n'avez pas lancé ce quiz</span>
+						<p class="score-{{quiz.session.score}} img" tooltip-placement="bottom" tooltip="Cliquez ici pour afficher vos sessions sur ce quiz. Votre meilleur score est de {{quiz.session.score}}/20" ng-click="openSession(quiz.session.id)"></p>
+						<span ng-if="quiz.session" class="score-mobile texte-secondaire-italic">{{quiz.session.score}}/20</span>
+					</div>
+					<div ng-if="roleMax > 0" class="col-xs-12 col-sm-3 col-md-5 col-lg-3 publish-in">
+						<span ng-if="quiz.publishes.length == 0" class="texte-secondaire-italic">Aucune publication</span>
+						<span ng-if="$index < 2" ng-repeat="publish in quiz.publishes" class="regroupement texte" tooltip-placement="bottom" tooltip="Affichez les sessions de '{{publish.name | uppercase}}'" ng-click="openSession(quiz.id, publish.id)">{{publish.name | uppercase | overflow:8}}</span>
+						<span ng-if="quiz.publishes.length > 2" class="more-rgpt texte" tooltip-placement="bottom" tooltip="Voir tous les regroupements" ng-click="openRgpts(quiz.id)">...</span>
+					</div>
+					<div ng-if="roleMax > 0" class="col-xs-3 publish-in-mobile">
+						<span ng-if="quiz.publishes.length > 0" class="texte" ng-click="openRgpts(quiz.id)">Publications</span>
+					</div>
+					<div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
+						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>
+						<div ng-if="roleMax > 0 || quiz.canRedo">
+							<p class="play img" tooltip-placement="bottom" tooltip="Lire" ng-click="playQuiz(quiz.id)"></p>					
+						</div>
+						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>
+						<div ng-if="roleMax > 0">
+							<p class="update-question img" tooltip-placement="bottom" tooltip="Modifier" ng-click="updateQuiz(quiz.id)"></p>
+						</div>
+						<p ng-if="roleMax > 0" class="border img"></p>
+						<div ng-if="roleMax > 0">
+							<p class="delete-question img" tooltip-placement="bottom" tooltip="Supprimer" ng-click="deleteQuiz(quiz.id)"></p>
+						</div>
+						<p ng-if="roleMax > 0" class="border img"></p>
+						<div ng-if="roleMax > 0">
+							<p class="duplicate img" tooltip-placement="bottom" tooltip="Dupliquer" ng-click="duplicateQuiz(quiz.id)"></p>
+						</div>
+						<p ng-if="roleMax > 0" class="border img"></p>
+						<div ng-if="roleMax > 0">
+							<p class="publish img" tooltip-placement="bottom" tooltip="Publier" ng-click="publishQuiz(quiz.id)"></p>
+						</div>
+						<p ng-if="roleMax > 0" class="border img"></p>
+						<div ng-if="roleMax > 0">
+							<p class="share img" ng-class="{active: quiz.share}" tooltip-placement="bottom" tooltip="Partager" ng-click="quiz.share = !quiz.share"></p>							
+						</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

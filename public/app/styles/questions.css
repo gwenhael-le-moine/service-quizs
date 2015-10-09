@@ -54,10 +54,11 @@
 }
 
 .preview .quit-preview{	
+	text-align: right;
 	padding: 20px 30px;
 }
 .preview .quit-preview .btn.btn-quiz.hover{
-	float: right;
+	display: inline-block;
 	padding: 5px 40px;
 }
 

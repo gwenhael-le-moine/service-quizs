@@ -143,7 +143,7 @@ body {
   color: #b7b7b7;
 }
 
-/*** css sur tous les boutons et les placeholder dans l'application ***/
+/*** css sur tous les boutons, les infosbulles et les placeholder dans l'application ***/
 .btn.btn-quiz{
   background-color: inherit;
   border: 2px solid #9e9e9e;
@@ -196,6 +196,37 @@ input.placeholder, textarea.placeholder {
   color: #505050;
   font-style: italic;
 }
+.tooltip .tooltip-arrow{
+  display: none;
+}
+.tooltip.in{
+    opacity:1;
+    filter:alpha(opacity=100)
+}
+.tooltip-inner{
+  padding:2px 5px;
+  border: 1px solid #9e9e9e;
+  background-color: white;
+  color: black;
+  font-family: 'Open Sans';
+  font-size: 8pt;
+  border-radius: 0px;
+}
+/*[infos-bulle]:hover:after, [title]:focus:after{
+  content: attr(infos-bulle);
+  position: absolute;
+  top: 2.5em;
+  right: 0;
+  white-space: nowrap;
+  padding: 2px 5px;
+  border: 1px solid #9e9e9e;
+  background-color: white;
+  color: black;
+  font-family: 'Open Sans';
+  text-align: center;
+  font-size: 10pt;
+  z-index: 9999;
+}*/
 
 /*** css des icones de l'application ***/
 .edit.img{
@@ -449,6 +480,36 @@ input.placeholder, textarea.placeholder {
   background-size: 100%;
   background-position: center;
 }
+.play.img{
+  background-image: url('../images/lecture.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.duplicate.img{
+  background-image: url('../images/dupliquer.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.publish.img{
+  background-image: url('../images/publier.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.share.img{
+  background-image: url('../images/partager.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.share.active.img{
+  background-image: url('../images/partager-bleu.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
 
 /*************************  PARTIE QUIZ  ***********************/
 .bandeau{
@@ -457,11 +518,11 @@ input.placeholder, textarea.placeholder {
   padding: 5px;
   margin-right: 10px;
 }
-.titre-quiz{
+.header-quiz{
   text-align: center;
   padding: 30px 0;
 }
-.titre-quiz .grand-titre{
+.header-quiz .grand-titre{
   vertical-align: middle;
   padding: 0 30px;
 }
@@ -474,13 +535,15 @@ input.placeholder, textarea.placeholder {
   vertical-align: middle;
   margin-right: 30px;
 }
-
+.border-sperate{
+  border: 3px solid #9e9e9e;
+}
 /*** css des tablettes et mobiles ***/
 @media screen and (max-width: 992px) {
-  .titre-quiz{
+  .header-quiz{
     padding: 20px 0;
   }
-  .titre-quiz .grand-titre{
+  .header-quiz .grand-titre{
     padding: 0 10px;
   }
 
@@ -491,6 +554,9 @@ input.placeholder, textarea.placeholder {
 
 /*** css des mobiles seuls ***/
 @media screen and (max-width: 768px) {
+  .purcent-page{
+    height: initial;
+  }
   .grand-titre{
     font-size: 13pt;
   }

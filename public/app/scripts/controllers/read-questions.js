@@ -3,25 +3,56 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('PreviewQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', 'APP_PATH', 'Notifications','Line', 'Modal', 'Quizs', function($scope, $state, $rootScope, $stateParams, $sce, APP_PATH, Notifications, Line, Modal, Quizs) {
+.controller('ReadQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', 'APP_PATH', 'Notifications','Line', 'Modal', function($scope, $state, $rootScope, $stateParams, $sce, APP_PATH, Notifications, Line, Modal) {
 
 	//toutes les réponses à mettre dans les selects
 	$scope.selectOptions = [];
 	//id, et coord des deux extrémité de la ligne d'un association
   $scope.connect1 = {id: null, x1: null, y1: null};
   $scope.connect2 = {id: null, x2: null, y2: null};
-  
-	if ($rootScope.previewQuestion) {
-		$scope.actionTitle = "Prévisualisation de la question";
-		//onn récupère les solutions et les leurres
-		$scope.selectOptions = Quizs.getPreviewSolutionTAT();		
-		//on récupère la question
-		$scope.question = Quizs.sanitizePreviewQuestion();
-	};
+	//on récupère la question
+	$scope.question = angular.copy(_.find($rootScope.quizStart.questions, function(q){
+		if (q.id == $stateParams.id) {
+			var numQuestion = q.sequence+1;
+			$scope.actionTitle = "question " + numQuestion + "/" + $rootScope.quizStart.questions.length
+			if (q.type === 'tat') {
+				$scope.selectOptions = q.solutions;
+				for (var i = q.answers.length - 1; i >= 0; i--) {
+					q.answers[i].currentSelectSolution = "--------";
+				};
+			};
+		};
+		return q.id == $stateParams.id;
+	}));
 	if (!$scope.question){
 		$state.go('erreur', {code: "404", message: "La question n'existe pas !"});
 	}
-
+	//recherche la question suivante et retourne l'id
+	$scope.nextQuestion = function(){
+		//on retrouve l'id de la question suivante
+		var nextNumQuestion = $scope.question.sequence + 1;
+		var nextId = null;
+		_.each($rootScope.quizStart.questions, function(q){
+			if (q.sequence === nextNumQuestion) {
+	 			nextId = q.id;			
+			};
+		});
+		return nextId;
+	}
+	//recherche la question précédente et retourne l'id
+	$scope.preQuestion = function(){
+		//on retrouve l'id de la question précédente
+		var preNumQuestion = $scope.question.sequence - 1;
+		var preId = null;
+		if ($rootScope.quizStart.opts.canRewind.yes) {
+			_.each($rootScope.quizStart.questions, function(q){
+				if (q.sequence === preNumQuestion) {
+		 			preId = q.id;			
+				};
+			});			
+		};
+		return preId;
+	}
 	//ouvre la modal pour afficher le média
 	$scope.displayMedia = function(title, file, type, mime){
 		$rootScope.media = {title: title, file: file, type: type, mime: mime};
@@ -43,13 +74,23 @@ angular.module('quizsApp')
 			audie.play();			
 		};
 	}
-	//fonction permettant de quitter la preview 
-	$scope.quit = function(){
-		if ($scope.question.id) {
-	 		$state.go('quizs.update_questions', {quiz_id: $rootScope.quiz.id, id: $scope.question.id});			
-		} else {
-			$state.go('quizs.create_questions', {quiz_id: $rootScope.quiz.id});
+	//fonction permettant de passer à la question suivante 
+	$scope.next = function(){
+		var nextId = $scope.nextQuestion();
+		if (nextId) {
+			$state.go('quizs.read_questions', {quiz_id: $rootScope.quizStart.id, id: nextId});
 		};
+	}
+	//fonction permettant de passer à la question suivante 
+	$scope.pre = function(){
+		var preId = $scope.preQuestion();
+		if (preId) {
+			$state.go('quizs.read_questions', {quiz_id: $rootScope.quizStart.id, id: preId});
+		};
+	}
+	//fonction permettant de quitter 
+	$scope.quit = function(){
+	 	$state.go('quizs.home');
 	}
 
 	// ------- Fonction sur la ligne de connection pour les associations ------- /

@@ -86,16 +86,30 @@ angular.module('quizsApp')
                }
               }
             })
-          .state( 'quizs.preview_questions',{
+          .state( 'quizs.preview_create_questions',{
             parent: 'quizs.front',
-            url: '/:quiz_id/questions/preview/:id',
+            url: '/:quiz_id/questions/preview/',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
                 controller: 'QuizCtrl'
               },
               'front': {
-                templateUrl:APP_PATH + '/app/views/front/preview-questions.html',
+                templateUrl:APP_PATH + '/app/views/front/questions.html',
+                controller: 'PreviewQuestionsCtrl'
+               }
+              }
+            })
+          .state( 'quizs.preview_update_questions',{
+            parent: 'quizs.front',
+            url: '/:quiz_id/questions/:id/preview',
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'front': {
+                templateUrl:APP_PATH + '/app/views/front/questions.html',
                 controller: 'PreviewQuestionsCtrl'
                }
               }
@@ -125,6 +139,20 @@ angular.module('quizsApp')
               'front': {
                 templateUrl:APP_PATH + '/app/views/front/start-quiz.html',
                 controller: 'StartQuizCtrl'
+               }
+              }
+            })
+          .state( 'quizs.read_questions',{
+            parent: 'quizs.front',
+            url: '/:quiz_id/start/questions/:id',
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'front': {
+                templateUrl:APP_PATH + '/app/views/front/questions.html',
+                controller: 'ReadQuestionsCtrl'
                }
               }
             });

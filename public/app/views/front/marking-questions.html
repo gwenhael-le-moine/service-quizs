@@ -16,11 +16,11 @@
 		<div class="row content question">
 			<p 	ng-if="question.media.type=='image' || question.media.type=='video'" 
 					class="media-image img" 
-					ng-click="displayMedia(question.libelle, question.media.file, question.media.type, question.media.mime)">
+					ng-click="displayMedia(question.libelle, question.media.file.url, question.media.type, question.media.mime)">
 			</p>
 			<p 	ng-if="question.media.type=='audio'" 
 					class="media-son img" 
-					ng-click="play(question.media.file)"></p>
+					ng-click="play(question.media.file.url)"></p>
 			<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
 				<div>
 					<span class="texte-particulier">{{question.libelle}}</span>
@@ -31,11 +31,11 @@
 						<span class="texte-italic">Aide : {{question.hint.libelle}}</span>						
 						<p 	ng-if="question.hint.media.type=='image' || question.media.type=='video'" 
 								class="media-image img"
-								ng-click="displayMedia(question.hint.libelle, question.hint.media.file, question.hint.media.type, question.hint.media.mime)">
+								ng-click="displayMedia(question.hint.libelle, question.hint.media.file.url, question.hint.media.type, question.hint.media.mime)">
 						</p>
 						<p 	ng-if="question.hint.media.type=='audio'" 
 								class="media-son img" 
-								ng-click="play(question.hint.media.file)">
+								ng-click="play(question.hint.media.file.url)">
 						</p>						
 				</div>
 			</div>
@@ -48,11 +48,11 @@
 						<div class="medias">
 							<p 	ng-if="answer.joindre.type=='image' || answer.joindre.type=='video'" 
 									class="media-image img"
-									ng-click="displayMedia(answer.proposition, answer.joindre.file, answer.joindre.type, answer.joindre.mime)">
+									ng-click="displayMedia(answer.proposition, answer.joindre.file.url, answer.joindre.type, answer.joindre.mime)">
 							</p>
 							<p 	ng-if="answer.joindre.type=='audio'" 
 									class="media-son img" 
-									ng-click="play(answer.joindre.file)">
+									ng-click="play(answer.joindre.file.url)">
 							</p>							
 						</div>
 						<div class="checkboxs">
@@ -89,11 +89,11 @@
 							<div class="medias">
 								<p 	ng-if="answer.leftProposition.joindre.type=='image' || answer.leftProposition.joindre.type=='video'" 
 										class="media-image img"
-										ng-click="displayMedia(answer.leftProposition.libelle, answer.leftProposition.joindre.file, answer.leftProposition.joindre.type, answer.leftProposition.joindre.mime)">
+										ng-click="displayMedia(answer.leftProposition.libelle, answer.leftProposition.joindre.file.url, answer.leftProposition.joindre.type, answer.leftProposition.joindre.mime)">
 								</p>
 								<p 	ng-if="answer.leftProposition.joindre.type=='audio'" 
 										class="media-son img" 
-										ng-click="play(answer.leftProposition.joindre.file)">
+										ng-click="play(answer.leftProposition.joindre.file.url)">
 								</p>							
 							</div>
 							<div>
@@ -131,11 +131,11 @@
 							<div class="medias">
 								<p 	ng-if="answer.rightProposition.joindre.type=='image' || answer.rightProposition.joindre.type=='video'" 
 										class="media-image img"
-										ng-click="displayMedia(answer.rightProposition.libelle, answer.rightProposition.joindre.file, answer.rightProposition.joindre.type, answer.rightProposition.joindre.mime)">
+										ng-click="displayMedia(answer.rightProposition.libelle, answer.rightProposition.joindre.file.url, answer.rightProposition.joindre.type, answer.rightProposition.joindre.mime)">
 								</p>
 								<p 	ng-if="answer.rightProposition.joindre.type=='audio'" 
 										class="media-son img" 
-										ng-click="play(answer.rightProposition.joindre.file)">
+										ng-click="play(answer.rightProposition.joindre.file.url)">
 								</p>							
 							</div>
 						</div>
@@ -162,11 +162,11 @@
 					<div ng-if="answer.joindre.file" class="medias">
 						<p 	ng-if="answer.joindre.type=='image' || answer.joindre.type=='video'" 
 								class="media-image img"
-								ng-click="displayMedia(answer.text, answer.joindre.file, answer.joindre.type, answer.joindre.mime)">
+								ng-click="displayMedia(answer.text, answer.joindre.file.url, answer.joindre.type, answer.joindre.mime)">
 						</p>
 						<p 	ng-if="answer.joindre.type=='audio'" 
 								class="media-son img" 
-								ng-click="play(answer.joindre.file)">
+								ng-click="play(answer.joindre.file.url)">
 						</p>							
 					</div>
 		      <span class="texte {{markingResponseTAT(answer)}}">{{answer.solution.libelle}}</span>

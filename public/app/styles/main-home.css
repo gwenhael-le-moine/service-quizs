@@ -1,0 +1,169 @@
+.main-home .header-quiz{
+	text-align: left;
+}
+.main-home .header-quiz .add-quiz{
+	text-align: right;
+	padding-right: 30px;
+}
+.main-home .header-quiz .add-quiz .add-media{
+	height: 50px;
+	width: 50px;
+	display: inline-block;
+	vertical-align: middle;
+	background-color: white;
+}
+.main-home .header-quiz .select-child{
+	text-align: right;
+	padding-right: 30px;
+	padding-top: 10px;
+}
+.main-home .header-quiz .select-child .btn-group{
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 10px;
+}
+.main-home .header-quiz .select-child .btn-group button{
+	width: 200px;
+	border: 2px solid #9e9e9e;
+	border-radius: 0;
+	background: url('../images/fleche-bas.svg') 97% / 6% no-repeat white;
+	text-align: left;
+	padding-left: 10px;
+	color: black;
+	margin: 0;
+}
+.main-home .header-quiz .select-child .btn-group button:focus{
+	outline: none;
+}
+.main-home .header-quiz .select-child .btn-group .dropdown-menu{
+	border: none;
+	border-bottom: 2px solid #9e9e9e;
+	border-radius: 0;
+	margin-left: 10px;
+}
+.main-home .header-quiz .select-child .btn-group .dropdown-menu>li{
+	cursor: pointer;
+	width: 200px;
+	border-right: 2px solid #9e9e9e;
+	border-left: 2px solid #9e9e9e;
+}
+.main-home .header-quiz .select-child .btn-group .dropdown-menu>li>a{
+	padding: 0 10px;
+	color: black;
+}
+.main-home .header-quiz .select-child .btn-group .dropdown-menu>li>a:hover{
+	color: white;
+	background-color: #1aa1cc;
+}
+.main-home .quizs{
+	padding:0 30px 30px 30px;
+}
+.main-home .quizs .quiz{
+	border: 2px solid #9e9e9e;
+	padding: 5px 5px;
+	margin-top: 30px;
+}
+.main-home .quizs .quiz .title, .main-home .quizs .quiz .nb-questions, .main-home .quizs .quiz .publish-in, .main-home .quizs .quiz .session{
+	margin-top: 5px;
+}
+.main-home .quizs .quiz .publish-in-mobile{
+	display: none;
+}
+.main-home .quizs .quiz .publish-in, .main-home .quizs .quiz .session{
+	text-align: center;
+}
+.main-home .quizs .quiz .publish-in .regroupement{
+	display: inline-block;
+	border: 1px solid #9e9e9e;
+	padding: 2px 5px;
+	margin: 0 5px;
+	cursor: pointer;
+}
+.main-home .quizs .quiz .publish-in .regroupement:hover{
+	border: 1px solid #1aa1cc;
+	color: white;
+	background-color: #1aa1cc;
+}
+.main-home .quizs .quiz .publish-in .more-rgpt, .main-home .quizs .quiz .session .texte{
+	cursor: pointer;
+}
+.main-home .quizs .quiz .publish-in .more-rgpt:hover, .main-home .quizs .quiz .session .texte:hover{
+	color: #1aa1cc;
+}
+.main-home .quizs .quiz .session .score-00, .main-home .quizs .quiz .session .score-02, .main-home .quizs .quiz .session .score-04, .main-home .quizs .quiz .session .score-06, .main-home .quizs .quiz .session .score-08, .main-home .quizs .quiz .session .score-10, .main-home .quizs .quiz .session .score-12, .main-home .quizs .quiz .session .score-14, .main-home .quizs .quiz .session .score-16, .main-home .quizs .quiz .session .score-18, .main-home .quizs .quiz .session .score-20{
+	height: 20px;
+	width: 300px;
+	vertical-align: middle;
+	display: inline-block;
+	cursor: pointer;
+}
+.main-home .quizs .quiz .session .score-mobile{
+	display: none;
+}
+.main-home .quizs .quiz .icons{
+	text-align: right;
+}
+.main-home .quizs .quiz .icons>div{
+	display: inline-block;
+	position: relative;
+}
+.main-home .quizs .quiz .icons .play, .main-home .quizs .quiz .icons .update-question, .main-home .quizs .quiz .icons .delete-question, .main-home .quizs .quiz .icons .duplicate, .main-home .quizs .quiz .icons .publish, .main-home .quizs .quiz .icons .share, .main-home .quizs .quiz .icons .border{
+	display: inline-block;
+	vertical-align: middle;
+}
+.main-home .quizs .quiz .icons .border{
+	height: 30px;
+	width: 5px;
+}
+.main-home .quizs .quiz .icons .border.img{
+	background-position: center;
+}
+.main-home .quizs .quiz .icons .play, .main-home .quizs .quiz .icons .update-question, .main-home .quizs .quiz .icons .delete-question, .main-home .quizs .quiz .icons .duplicate, .main-home .quizs .quiz .icons .publish, .main-home .quizs .quiz .icons .share{
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+}
+
+/*** css des mobiles seuls ***/
+@media screen and (max-width: 768px) {
+	.main-home .header-quiz .titre-quiz{
+		padding: 7px 0;
+	}
+	.main-home .header-quiz .select-child{
+		text-align: center;
+		padding-right: 0;
+	}
+	.main-home .header-quiz .add-quiz .add-media{
+		height: 40px;
+		width: 40px;
+	}
+	.main-home .quizs{
+		padding:0 10px 30px 10px;
+	}
+	.main-home .quizs .quiz{
+		margin-top: 20px;
+	}
+	.main-home .quizs .quiz .nb-questions{
+		text-align: center;
+	}
+	.main-home .quizs .quiz .session{
+		text-align: left;
+		padding-bottom: 10px;
+	}
+	.main-home .quizs .quiz .session .score-00, .main-home .quizs .quiz .session .score-02, .main-home .quizs .quiz .session .score-04, .main-home .quizs .quiz .session .score-06, .main-home .quizs .quiz .session .score-08, .main-home .quizs .quiz .session .score-10, .main-home .quizs .quiz .session .score-12, .main-home .quizs .quiz .session .score-14, .main-home .quizs .quiz .session .score-16, .main-home .quizs .quiz .session .score-18, .main-home .quizs .quiz .session .score-20{
+		width: 100%;
+	}
+	.main-home .quizs .quiz .session .score-mobile{
+		display: block;
+		position: absolute;
+    top: 20px;
+    left: 45%;
+	}
+	.main-home .quizs .quiz .publish-in{
+		display: none;
+	}
+	.main-home .quizs .quiz .publish-in-mobile{
+		display: block;
+		margin-top: 5px;	
+	}
+}

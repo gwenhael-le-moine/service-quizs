@@ -2,8 +2,8 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 gris4">
 		<span class="bandeau">Les quizs</span>
 	</div>
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bleu titre-quiz">
-		<span class="grand-titre">{{quiz.title | uppercase}}</span>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bleu header-quiz">
+		<span class="grand-titre">{{quiz.title | placeholder | uppercase}}</span>
 		<p ng-if="actionView" class="blanc edit img" ng-class="{disabled: !owner, 'with-long-title': quiz.title.length > 35}" ng-click="changeTitle()"></p>
 	</div>
 </div>

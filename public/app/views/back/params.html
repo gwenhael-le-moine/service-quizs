@@ -125,7 +125,7 @@
 					<ul class="col-xs-12 col-sm-8 col-md-8 col-lg-7 questions" as-sortable="kanbanSortOptions" ng-model="quiz.questions">
 						<li class="row question" as-sortable-item ng-repeat="question in quiz.questions">
 							<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 libelle" as-sortable-item-handle>
-								<span class="texte">{{question.libelle | overflow}}</span>
+								<span class="texte">{{question.libelle | overflow:30}}</span>
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 type">
 								<span class="texte">{{question.type | acronym}}</span>						
@@ -167,6 +167,6 @@
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<button type="button" class="btn btn-quiz hover add-question" ui-sref="quizs.create_questions"><label>Ajouter une question</label></button>
+		<button type="button" class="btn btn-quiz hover add-question" ng-click="add()"><label>Ajouter une question</label></button>
 	</div>
 </div>
