@@ -72,6 +72,7 @@ angular.module('quizsApp')
 	}
 	// publie le quiz
 	$scope.publishQuiz = function(quiz_id){
+		$state.go('quizs.publish', {quiz_id: quiz_id});
 	}
 	// -------------- Controllers Modal --------------- //
 		//controller pour afficher les regroupements dans lequel le quiz a été publié avec une modal

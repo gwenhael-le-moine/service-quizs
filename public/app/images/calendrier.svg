@@ -40,7 +40,7 @@
        x2="140"
        y2="977.36218"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.0006003,0,0,0.8495014,-0.04502272,146.91307)" />
+       gradientTransform="matrix(1.0006345,0,0,0.84129387,-0.04758941,155.47052)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -73,7 +73,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -83,15 +83,15 @@
      id="layer1"
      transform="translate(0,-902.36216)">
     <rect
-       style="opacity:1;fill:url(#linearGradient4302);fill-opacity:1;stroke:#9e9e9e;stroke-width:0.92196059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:url(#linearGradient4302);fill-opacity:1;stroke:#9e9e9e;stroke-width:0.91751164;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4138"
-       width="130.07803"
-       height="110.43518"
-       x="9.9609804"
-       y="921.966" />
+       width="130.08249"
+       height="109.3682"
+       x="9.9587555"
+       y="923.03522" />
     <path
        style="fill:#1aa1cc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.94454384;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 9.6151283,942.38989 130.4126017,0 0,-20.05546 -130.4126017,0 z"
+       d="m 9.6151283,942.38989 130.9483117,0 0,-20.23403 -130.9483117,0 z"
        id="path4145"
        inkscape:connector-curvature="0" />
     <rect

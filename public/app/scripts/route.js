@@ -18,6 +18,12 @@ angular.module('quizsApp')
             templateUrl:APP_PATH + '/app/views/menu.html',
           })
 
+          .state( 'quizs.damier',{
+            parent: 'quizs',
+            abstract:true,
+            templateUrl:APP_PATH + '/app/views/damier.html',
+          })
+
           .state( 'quizs.back',{
             parent: 'quizs',
             abstract:true,
@@ -41,6 +47,20 @@ angular.module('quizsApp')
               'main': {
                 templateUrl:APP_PATH + '/app/views/mains/main-home.html',
                 controller: 'MainHomeCtrl'
+               }
+              }
+            })
+          .state( 'quizs.publish',{
+            parent: 'quizs.damier',
+            url: '/:quiz_id/publish',
+            views: {
+              'aside': {
+                templateUrl:APP_PATH + '/app/views/asides/aside-publish.html',
+                controller: 'AsidePublishCtrl'
+              },
+              'main': {
+                templateUrl:APP_PATH + '/app/views/mains/main-publish.html',
+                controller: 'MainPublishCtrl'
                }
               }
             })

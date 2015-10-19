@@ -655,15 +655,18 @@ angular.module('quizsApp', [
       publishes: [
         {
           id: 0,
-          name: "6 eme a"
+          name: "6 eme a",
+          nameEtab: "Erasme"
         },
         {
           id: 1,
-          name: "5 EME C"
+          name: "5 EME C",
+          nameEtab: "Erasme"
         },
         {
           id: 2,
-          name: "5 EME D"
+          name: "5 EME D",
+          nameEtab: "Erasme"
         }
       ],
       share: true
@@ -676,11 +679,13 @@ angular.module('quizsApp', [
       publishes: [
         {
           id: 3,
-          name: "6EME 1 BACASABLE"
+          name: "6EME 1 BACASABLE",
+          nameEtab: "Erasme"
         },
         {
           id: 4,
-          name: "6EME 2 BACASABLE"
+          name: "6EME 2 BACASABLE",
+          nameEtab: "Erasme"
         },
       ],
       //pour les élèves et les parents
@@ -750,6 +755,81 @@ angular.module('quizsApp', [
       date: "05/10/15"
     }
   ];
+   $rootScope.getRegroupements = {
+    erreur: false,
+    regroupements: [
+      {
+        id: 0,
+        type: "cls",
+        name: "6 eme a",
+        nameEtab: "Erasme",
+        selected: false
+      },
+      {
+        id: 1,
+        type: "cls",
+        name: "5 eme c",
+        nameEtab: "Erasme",
+        selected: false        
+      },
+      {
+        id: 2,
+        type: "cls",
+        name: "5 eme d",
+        nameEtab: "Erasme",
+        selected: false        
+      },
+      {
+        id: 3,
+        type: "cls",
+        name: "6 eme 1 bacasable",
+        nameEtab: "Erasme",
+        selected: false
+      },
+      {
+        id: 4,
+        type: "cls",
+        name: "6 eme 2 bacasable",
+        nameEtab: "Erasme",
+        selected: false
+      },
+      {
+        id: 5,
+        type: "cls",
+        name: "6E1",
+        nameEtab: "Cls val d'argent",
+        selected: false
+      },
+      {
+        id: 6,
+        type: "cls",
+        name: "5E3",
+        nameEtab: "Cls val d'argent",
+        selected: false
+      },
+      {
+        id: 7,
+        type: "grp",
+        name: "groupe 2 bacasable",
+        nameEtab: "Erasme",
+        selected: false
+      },
+      {
+        id: 8,
+        type: "grp",
+        name: "Anglais",
+        nameEtab: "Erasme",
+        selected: false
+      },
+      {
+        id: 9,
+        type: "grp",
+        name: "SVT",
+        nameEtab: "Erasme",
+        selected: false
+      },
+    ]
+   }
   
   $rootScope.$on('$stateChangeStart', function($location){
     // console.log("good");

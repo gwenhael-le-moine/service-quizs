@@ -5,10 +5,10 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 sessions">
 		<div class="row session" ng-repeat="session in lastSessions" ng-click="openSession(session.id)">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title">
-				<span class="texte-secondaire" tooltip-placement="bottom" tooltip="{{session.quiz.title | capitalize}}">{{session.quiz.title | capitalize | overflow:15}}</span>
+				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{session.quiz.title | capitalize}}">{{session.quiz.title | capitalize | overflow:15}}</span>
 			</div>
 			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 name">
-				<span class="texte-secondaire" tooltip-placement="bottom" tooltip="{{session.nameElv | capitalize:true}}">{{session.nameElv | capitalize:true | overflow:16}}</span>
+				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{session.nameElv | capitalize:true}}">{{session.nameElv | capitalize:true | overflow:16}}</span>
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 date">
 				<span class="texte-secondaire">{{session.date}}</span>
@@ -22,17 +22,17 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 shares">
 		<div class="row share" ng-repeat="share in lastQuizsShare">
 			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 title">
-				<span class="texte-secondaire" tooltip-placement="bottom" tooltip="{{share.title | capitalize}}">{{share.title | capitalize | overflow:18}}</span>
+				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{share.title | capitalize}}">{{share.title | capitalize | overflow:18}}</span>
 			</div>
 			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 nb-question">
-				<span class="texte-secondaire" tooltip-placement="bottom" tooltip="Nombre de questions">{{share.nbQuestion}}</span>
+				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="Nombre de questions">{{share.nbQuestion}}</span>
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 date">
 				<span class="texte-secondaire">{{share.date}}</span>
 			</div>
 			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 icons">
 				<p class="border img"></p>
-				<p class="duplicate img" tooltip-placement="bottom" tooltip="Dupliquer" ng-click="duplicateQuiz(share.id)"></p>
+				<p class="duplicate img" tooltip-placement="bottom" uib-tooltip="Dupliquer" ng-click="duplicateQuiz(share.id)"></p>
 			</div>
 		</div>
 	</div>
