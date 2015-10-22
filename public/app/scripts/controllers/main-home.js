@@ -3,28 +3,28 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('MainHomeCtrl', ['$scope', '$state', '$rootScope', 'APP_PATH', 'Notifications', 'Modal', function($scope, $state, $rootScope, APP_PATH, Notifications, Modal) {
+.controller('MainHomeCtrl', ['$scope', '$state', '$rootScope', 'APP_PATH', 'Notifications', 'Modal', 'Users', function($scope, $state, $rootScope, APP_PATH, Notifications, Modal, Users) {
 
 	// Si personnel education
-	$scope.roleMax = 1;
-	$scope.parents = false;
+	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
+	$scope.parents = Users.getCurrentUser().isParents;
 	//on récupère les enfants du parents
 	if ($scope.roleMax == 0 && $scope.parents) {
 		$scope.childs = $rootScope.childs;
 		//pour les parent fils courant
 		$scope.currentChild = $scope.childs[0];
-		$scope.quizs = _.filter($rootScope.quizs, function(quiz){
+		$scope.quizs = angular.copy(_.filter($rootScope.quizs, function(quiz){
 			return _.contains($scope.childs[0].quizs, quiz.id);
-		});
+		}));
 	} else {
 		$scope.quizs = $rootScope.quizs;
 	};
 	// permet de changer d'enfant ainsi que de récupérer ses quizs
 	$scope.changeCurrentChild = function(child){
 		$scope.currentChild = child;
-		$scope.quizs = _.filter($rootScope.quizs, function(quiz){
+		$scope.quizs = angular.copy(_.filter($rootScope.quizs, function(quiz){
 			return _.contains(child.quizs, quiz.id);
-		});
+		}));
 	}
 
 	// ajoute un quiz et ouvre la création de ce quiz
@@ -33,7 +33,7 @@ angular.module('quizsApp')
 	}
 	// ouvre la session du quiz pour ce regroupement
 	$scope.openSession = function(quiz_id, rgpt_id){
-		// $state.go('quizs.sessions', {quiz_id: quiz_id, rgpt_id: rgpt_id});
+		$state.go('quizs.sessions', {quiz_id: quiz_id, rgpt_id: rgpt_id});
 	}
 	// ouvre une modal avec tous les regroupements
 	$scope.openRgpts = function(quiz_id){
@@ -52,7 +52,7 @@ angular.module('quizsApp')
 	}
 	// supprime le quiz
 	$scope.deleteQuiz = function(quiz_id){
-		$scope.quizs = _.reject($scope.quizs, function(quiz){
+		$rootScope.quizs = $scope.quizs = _.reject($scope.quizs, function(quiz){
 			return quiz.id === quiz_id;
 		});
 		//supprime le quiz coté backend
@@ -83,7 +83,8 @@ angular.module('quizsApp')
 				$modalInstance.close();
 			}
 			$scope.openSession = function(rgpt_id){
-				// $state.go('quizs.sessions', {quiz_id: $rootScope.displayRgptsQuiz.id, rgpt_id: rgpt_id});
+				$modalInstance.close();
+				$state.go('quizs.sessions', {quiz_id: $rootScope.displayRgptsQuiz.id, rgpt_id: rgpt_id});
 			}
 		}];
 }]);

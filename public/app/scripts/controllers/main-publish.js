@@ -35,9 +35,8 @@ angular.module('quizsApp')
 	} else {
 		$scope.regroupements = getRegroupements();
 		$rootScope.tmpPublishesRegroupements = angular.copy(_.where($scope.regroupements, {selected: true}));
-		console.log($rootScope.tmpPublishesRegroupements);
 	};
-
+	//fonction qui enregistre les modifications des publications et leur état.
 	$scope.change = function(regroupement){
 		if(regroupement.selected){
 			$rootScope.tmpPublishesRegroupements = _.reject($rootScope.tmpPublishesRegroupements, function(tmpRgpt){

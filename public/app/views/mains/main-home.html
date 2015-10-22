@@ -6,9 +6,9 @@
 				<span ng-if="parents" class="grand-titre">{{"quizs de mon enfant :" | uppercase}}</span>
 			</div>
 			<div ng-if="roleMax==0 && parents" class="col-xs-12 col-sm-4 col-md-4 col-lg-4 select-child">
-				<div class="btn-group texte" dropdown keyboard-nav>
-	        <button id="changeSonId" type="button" class="btn btn-primary" dropdown-toggle>{{currentChild.name | capitalize:true | overflow:24}}</button>
-	        <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+				<div class="btn-group texte" uib-dropdown uib-keyboard-nav>
+	        <button id="changeSonId" type="button" class="btn btn-primary" uib-dropdown-toggle>{{currentChild.name | capitalize:true | overflow:24}}</button>
+	        <ul class="uib-dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
 	          <li role="menuitem" 
 	          		ng-repeat="child in childs"
 	          		ng-click="changeCurrentChild(child)">
@@ -36,7 +36,7 @@
 					</div>
 					<div ng-if="roleMax == 0" class="col-xs-10 col-sm-5 col-md-5 col-lg-5 session">
 						<span ng-if="!quiz.session" class="texte-secondaire-italic">Vous n'avez pas lancé ce quiz</span>
-						<p class="score-{{quiz.session.score}} img" tooltip-placement="bottom" uib-tooltip="Cliquez ici pour afficher vos sessions sur ce quiz. Votre meilleur score est de {{quiz.session.score}}/20" ng-click="openSession(quiz.session.id)"></p>
+						<p class="score-{{quiz.session.score}} img" tooltip-placement="bottom" uib-tooltip="Cliquez ici pour afficher vos sessions sur ce quiz. Votre meilleur score est de {{quiz.session.score}}/20" ng-click="openSession(quiz.session.id, null)"></p>
 						<span ng-if="quiz.session" class="score-mobile texte-secondaire-italic">{{quiz.session.score}}/20</span>
 					</div>
 					<div ng-if="roleMax > 0" class="col-xs-12 col-sm-3 col-md-5 col-lg-3 publish-in">

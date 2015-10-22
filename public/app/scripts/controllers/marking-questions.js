@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('MarkingQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', '$timeout', 'APP_PATH', 'Notifications','Line', 'Modal', function($scope, $state, $rootScope, $stateParams, $sce, $timeout, APP_PATH, Notifications, Line, Modal) {
+.controller('MarkingQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', '$timeout', 'APP_PATH', 'Notifications','Line', 'Modal', 'Users', function($scope, $state, $rootScope, $stateParams, $sce, $timeout, APP_PATH, Notifications, Line, Modal, Users) {
 
 	//id, et coord des deux extrémité de la ligne d'un association
   $scope.connect1 = {id: null, x1: null, y1: null};
@@ -204,7 +204,11 @@ angular.module('quizsApp')
 
 	//fonction permettant de quitter la correction 
 	$scope.quit = function(){
-	 	// $state.go('quizs.', {id: $scope.question.id});
+		if (Users.getCurrentUser().roleMaxPriority > 0) {
+	 		$state.go('quizs.sessions', {quiz_id: $stateParams.quiz_id});
+		} else {
+			$state.go('quizs.home');
+		};
 	}
 	//fonction permettant de passer à la question suivante 
 	$scope.next = function(){

@@ -175,6 +175,24 @@ angular.module('quizsApp')
                 controller: 'ReadQuestionsCtrl'
                }
               }
+            })
+          .state( 'quizs.sessions',{
+            parent: 'quizs.front',
+            url: '/:quiz_id/sessions',
+            params: {
+              student_id: null,
+              rgpt_id: null
+            },
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'front': {
+                templateUrl:APP_PATH + '/app/views/front/sessions.html',
+                controller: 'SessionsCtrl'
+               }
+              }
             });
 
   $urlRouterProvider.otherwise(function ($injector, $location) {

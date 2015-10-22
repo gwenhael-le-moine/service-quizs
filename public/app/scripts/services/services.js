@@ -40,7 +40,7 @@ angular.module('quizsApp')
     return rootScopeSave;
   };
 }])
-.service('Modal', ['$modal', 'APP_PATH', function($uibModal, APP_PATH) {
+.service('Modal', ['$uibModal', 'APP_PATH', function($uibModal, APP_PATH) {
   //ouverture d'une modal personnalisable'
   this.open = function (controller, template, size) {
 

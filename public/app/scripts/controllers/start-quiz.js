@@ -168,6 +168,9 @@ angular.module('quizsApp')
 	$scope.start = function(){
 		$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id});
 	}
+	$scope.close = function(){
+		$state.go('quizs.home');
+	}
 
 	//variables
 	//titre de l'action

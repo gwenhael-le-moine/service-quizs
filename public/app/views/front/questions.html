@@ -142,9 +142,9 @@
 								ng-click="play(answer.joindre.file.url)">
 						</p>							
 					</div>
-					<div class="btn-group texte" dropdown keyboard-nav>
-		        <button id="select{{$index}}" type="button" class="btn btn-primary" dropdown-toggle>{{answer.currentSelectSolution}}</button>
-		        <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+					<div class="btn-group texte" uib-dropdown uib-keyboard-nav>
+		        <button id="select{{$index}}" type="button" class="btn btn-primary" uib-dropdown-toggle>{{answer.currentSelectSolution}}</button>
+		        <ul class="uib-dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
 	            <li ng-if="answer.currentSelectSolution !== '--------'" 
 	            		role="menuitem"
 	            		ng-click="changeSolution($index, -1, '')">

@@ -3,12 +3,12 @@
 		<span class="titre">Sessions récentes</span>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 sessions">
-		<div class="row session" ng-repeat="session in lastSessions" ng-click="openSession(session.id)">
+		<div class="row session" ng-repeat="session in lastSessions" ng-click="openSession(session.quiz.id, session.student.id)">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title">
 				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{session.quiz.title | capitalize}}">{{session.quiz.title | capitalize | overflow:15}}</span>
 			</div>
 			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 name">
-				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{session.nameElv | capitalize:true}}">{{session.nameElv | capitalize:true | overflow:16}}</span>
+				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{session.student.name | capitalize:true}}">{{session.student.name | capitalize:true | overflow:16}}</span>
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 date">
 				<span class="texte-secondaire">{{session.date}}</span>

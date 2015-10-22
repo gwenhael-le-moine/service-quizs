@@ -642,16 +642,6 @@ angular.module('quizsApp', [
       title: "Le compositeur J. Brahms",
       nbQuestion: 3,
       canRedo: false,
-      publishes: [],
-      //pour les élèves et les parents
-      session: {id:0, score: "16"},
-      share: false
-    },
-    {
-      id: 1,
-      title: "la géométrie dans l'espace",
-      nbQuestion: 10,
-      canRedo: true,
       publishes: [
         {
           id: 0,
@@ -668,6 +658,17 @@ angular.module('quizsApp', [
           name: "5 EME D",
           nameEtab: "Erasme"
         }
+      ],
+      //pour les élèves et les parents
+      session: {id:0, score: "16"},
+      share: false
+    },
+    {
+      id: 1,
+      title: "la géométrie dans l'espace",
+      nbQuestion: 10,
+      canRedo: true,
+      publishes: [
       ],
       share: true
     },
@@ -701,7 +702,10 @@ angular.module('quizsApp', [
         id: 0,
         title: "Le compositeur J. Brahms"
       },
-      nameElv: "ambre mailet",
+      student:{
+        id: 0,
+        name: "ambre mailet"
+      },
       date: "08/10/15"
     },
     {
@@ -710,7 +714,10 @@ angular.module('quizsApp', [
         id: 0,
         title: "Le compositeur J. Brahms"
       },
-      nameElv: "thomas lemaitre",
+      student:{
+        id: 1,
+        name: "thomas lemaitre"
+      },
       date: "07/10/15"
     },
     {
@@ -719,7 +726,10 @@ angular.module('quizsApp', [
         id: 0,
         title: "Le compositeur J. Brahms"
       },
-      nameElv: "fred roy",
+      student:{
+        id: 2,
+        name: "fred roy"
+      },
       date: "07/10/15"
     },
     {
@@ -728,7 +738,10 @@ angular.module('quizsApp', [
         id: 2,
         title: "La seconde guerre mondial de 39/45"
       },
-      nameElv: "allan parich",
+      student:{
+        id: 3,
+        name: "allan parich"
+      },
       date: "05/10/15"
     },
     {
@@ -737,7 +750,10 @@ angular.module('quizsApp', [
         id: 2,
         title: "La seconde guerre mondial de 39/45"
       },
-      nameElv: "piggy groingroin",
+      student:{
+        id: 4,
+        name: "piggy groingroin"
+      },
       date: "05/10/15"
     }
   ];
@@ -827,9 +843,98 @@ angular.module('quizsApp', [
         name: "SVT",
         nameEtab: "Erasme",
         selected: false
-      },
+      }
     ]
-   }
+   };
+
+   $rootScope.sessions = [
+    {
+      id: 0,
+      student: {
+        id: 0,
+        name: "ambre mailet"
+      },
+      classe: {
+        id: 0,
+        name: "6EME A",
+        nameEtab: "Erasme"
+      },
+      score: {
+        css: "16",
+        nb: "80 %"
+      },
+      date: new Date(2015, 10, 8, 13, 36)
+    },
+    {
+      id: 1,
+      student: {
+        id: 1,
+        name: "thomas lemaitre"
+      },
+      classe: {
+        id: 1,
+        name: "5EME C",
+        nameEtab: "Erasme"
+      },
+      score: {
+        css: "04",
+        nb: "25 %"
+      },
+      date: new Date(2015, 10, 7, 15, 30)
+    },
+    {
+      id: 2,
+      student: {
+        id: 2,
+        name: "fred roy"
+      },
+      classe: {
+        id: 2,
+        name: "5EME D",
+        nameEtab: "Erasme"
+      },
+      score: {
+        css: "02",
+        nb: "10 %"
+      },
+      date: new Date(2015, 10, 7, 10, 15)
+    },
+    {
+      id: 3,
+      student: {
+        id: 30,
+        name: "Laëticia Vincent"
+      },
+      classe: {
+        id: 31,
+        name: "3EME C",
+        nameEtab: "Erasme"
+      },
+      score: {
+        css: "08",
+        nb: "40 %"
+      },
+      date: new Date(2015, 9, 15, 16, 48)
+    },
+    {
+      id: 4,
+      student: {
+        id: 31,
+        name: "Antony levallois"
+      },
+      classe: {
+        id: 30,
+        name: "3EME B",
+        nameEtab: "Erasme"
+      },
+      score: {
+        css: "14",
+        nb: "65 %"
+      },
+      date: new Date(2015, 3, 14, 9, 13)
+    }
+   ];
+   
   
   $rootScope.$on('$stateChangeStart', function($location){
     // console.log("good");

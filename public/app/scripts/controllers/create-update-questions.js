@@ -53,7 +53,7 @@ angular.module('quizsApp')
   	};
   	return name;
   }
-
+  //fonction permettant de retourner les erreurs lié a l'importation d'un fichier
   var checkErrorsFile = function(file){
   	if (file.$error == 'maxSize'){
   		return "La taille maximum autorisée est de "+file.$errorParam+" !";
