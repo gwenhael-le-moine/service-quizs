@@ -27,6 +27,9 @@ require_relative '../config/database'
 # List of plugins to add to the model
 plugin_to_add = %w(validation_helpers json_serializer composition)
 
+# International Error message
+# message_empty = 'ne peut pas &ecirc;tre vide' # "cannot be empty"
+
 # List of the tables we want to create scafolding Sequel model
 models_to_create = DB.tables
 # Data de migration Sequel
@@ -80,9 +83,9 @@ models_to_create.each do |m|
   writeheader(model, "model for '#{m}' table")
 
   # HEADER : Table definition
-  line = '# ' << '-' * 30 << '+' << '-' * 21 << '+' << '-' * 10 << '+' << '-' * 10 << '+' << '-' * 19 << '+' << '-' * 20
+  line = '# ' << '-' * 30 << '+' << '-' * 21 << '+' << '-' * 10 << '+' << '-' * 10 << '+' << '-' * 12 << '+' << '-' * 20
   model.puts(line)
-  model.puts('# COLUMN_NAME' << ' ' * 19 << '| DATA_TYPE' << ' ' * 11 << '| NULL?' << ' ' * 4 << '| KEY' << ' ' * 5 << ' | DEFAULT' << ' ' * 10 << ' | EXTRA')
+  model.puts('# COLUMN_NAME' << ' ' * 19 << '| DATA_TYPE' << ' ' * 11 << '| NULL? | KEY | DEFAULT | EXTRA')
   model.puts(line)
   DB.schema(m).each do |c|
     col = c[1]
@@ -101,8 +104,7 @@ models_to_create.each do |m|
     end
     tab4 = 9 - column_key.size
     default = col[:default].to_s
-    tab5 = 18 - default.size
-
+    tab5 = 11 - default.size
     extra = col[:auto_increment] ? 'auto_increment' : ''
     model.puts("# #{c[0]}#{' ' * tab}| #{data_type}#{' ' * tab2}| #{allow_null}#{' ' * tab3}| #{column_key}#{' ' * tab4}| #{default}#{' ' * tab5}| #{extra}")
   end
@@ -131,9 +133,10 @@ models_to_create.each do |m|
   # querying directly mysql is better here but let's do it totally with Sequel
   # Just for fun :)
   DB.tables.each do |t|
-    next if t == m
-    DB.foreign_key_list(t).each do |fk|
-      write_association(model, 'one_to_many', t, fk) if fk[:table] == m
+    unless t == m
+      DB.foreign_key_list(t).each do |fk|
+        write_association(model, 'one_to_many', t, fk) if fk[:table] == m
+      end
     end
   end
 
@@ -157,11 +160,11 @@ models_to_create.each do |m|
 
   # Unique columns
   DB.indexes(m).each do |_name, info|
-    next unless info[:unique]
-
-    # There could be several columns for one index
-    info[:columns].each do |col|
-      list_of_unique_val_cols.push(col)
+    if info[:unique]
+      # There could be several columns for one index
+      info[:columns].each do |col|
+        list_of_unique_val_cols.push(col)
+      end
     end
   end
 

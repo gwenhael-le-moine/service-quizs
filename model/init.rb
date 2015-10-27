@@ -1,23 +1,23 @@
-puts 'loading model/quiz'
-require __dir__('quiz')
+puts 'loading model/quizs'
+require __dir__('quizs')
 
-puts 'loading model/question'
-require __dir__('question')
+puts 'loading model/questions'
+require __dir__('questions')
 
-puts 'loading model/publication'
-require __dir__('publication')
+puts 'loading model/publications'
+require __dir__('publications')
 
-puts 'loading model/medium'
-require __dir__('medium')
+puts 'loading model/medias'
+require __dir__('medias')
 
-puts 'loading model/suggestion'
-require __dir__('suggestion')
+puts 'loading model/suggestions'
+require __dir__('suggestions')
 
-puts 'loading model/solution'
-require __dir__('solution')
+puts 'loading model/solutions'
+require __dir__('solutions')
 
-puts 'loading model/session'
-require __dir__('session')
+puts 'loading model/sessions'
+require __dir__('sessions')
 
-puts 'loading model/answer'
-require __dir__('answer')
+puts 'loading model/answers'
+require __dir__('answers')

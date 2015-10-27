@@ -7,35 +7,34 @@ CREATE SCHEMA IF NOT EXISTS `quizs` DEFAULT CHARACTER SET utf8 COLLATE utf8_gene
 USE `quizs` ;
 
 -- -----------------------------------------------------
--- Table `quizs`.`quiz`
+-- Table `quizs`.`quizs`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`quiz` ;
+DROP TABLE IF EXISTS `quizs`.`quizs` ;
 
-CREATE  TABLE IF NOT EXISTS `quizs`.`quiz` (
+CREATE  TABLE IF NOT EXISTS `quizs`.`quizs` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `created_at` DATETIME NULL ,
   `updated_at` DATETIME NULL ,
   `user_id` VARCHAR(8) NOT NULL COMMENT 'Propriétaire du quiz (utilisateur de l’ENT)' ,
-  `label` VARCHAR(100) NULL ,
-  `opt_show_score` ENUM('after_each', 'at_end') NOT NULL DEFAULT 'after_each' COMMENT 'Montrer le score après chaque question ou à la fin du quiz.' ,
-  `opt_show_correct` ENUM('after_each', 'at_end') NOT NULL DEFAULT 'after_each' COMMENT 'Montrer la correction après chaque question ou à la fin du quiz.' ,
+  `title` VARCHAR(100) NULL ,
+  `opt_show_score` ENUM('after_each', 'at_end', 'none') NOT NULL DEFAULT 'after_each' COMMENT 'Montrer le score après chaque question ou à la fin du quiz.' ,
+  `opt_show_correct` ENUM('after_each', 'at_end', 'none') NOT NULL DEFAULT 'after_each' COMMENT 'Montrer la correction après chaque question ou à la fin du quiz.' ,
   `opt_can_redo` TINYINT(1) NOT NULL DEFAULT 1 COMMENT 'Possibilité de refaire plusieurs fois le quiz' ,
   `opt_can_rewind` TINYINT(1) NOT NULL DEFAULT 1 ,
   `opt_rand_question_order` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'mélanger l’ordre des questions.' ,
-  `opt_shared` VARCHAR(45) NULL COMMENT 'quiz partagé ou non : i.e. visible des autres utilisateurs (auteurs de quizz) de l’ENT.' ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) )
+  `opt_shared` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'quiz partagé ou non : i.e. visible des autres utilisateurs (auteurs de quizz) de l’ENT.' ,
+  PRIMARY KEY (`id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `quizs`.`medium`
+-- Table `quizs`.`medias`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`medium` ;
+DROP TABLE IF EXISTS `quizs`.`medias` ;
 
-CREATE  TABLE IF NOT EXISTS `quizs`.`medium` (
+CREATE  TABLE IF NOT EXISTS `quizs`.`medias` (
   `id` INT NOT NULL ,
   `created_at` DATETIME NULL ,
   `content_type` VARCHAR(100) NOT NULL ,
@@ -47,11 +46,11 @@ COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `quizs`.`question`
+-- Table `quizs`.`questions`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`question` ;
+DROP TABLE IF EXISTS `quizs`.`questions` ;
 
-CREATE  TABLE IF NOT EXISTS `quizs`.`question` (
+CREATE  TABLE IF NOT EXISTS `quizs`.`questions` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `quiz_id` INT NOT NULL ,
   `type` ENUM('QCM','TAT','ASS') NOT NULL COMMENT 'type de question QCM, TAT (textes à trous) ou ASS (associations).' ,
@@ -66,12 +65,12 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`question` (
   INDEX `fk_question_medium1_idx` (`medium_id` ASC) ,
   CONSTRAINT `fk_question_quiz`
     FOREIGN KEY (`quiz_id` )
-    REFERENCES `quizs`.`quiz` (`id` )
+    REFERENCES `quizs`.`quizs` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_question_medium1`
     FOREIGN KEY (`medium_id` )
-    REFERENCES `quizs`.`medium` (`id` )
+    REFERENCES `quizs`.`medias` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -80,11 +79,11 @@ COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `quizs`.`suggestion`
+-- Table `quizs`.`suggestions`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`suggestion` ;
+DROP TABLE IF EXISTS `quizs`.`suggestions` ;
 
-CREATE  TABLE IF NOT EXISTS `quizs`.`suggestion` (
+CREATE  TABLE IF NOT EXISTS `quizs`.`suggestions` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `question_id` INT NOT NULL ,
   `text` VARCHAR(2000) NOT NULL ,
@@ -96,12 +95,12 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`suggestion` (
   INDEX `fk_answer_proposition_medium1_idx` (`medium_id` ASC) ,
   CONSTRAINT `fk_answer_proposition_question1`
     FOREIGN KEY (`question_id` )
-    REFERENCES `quizs`.`question` (`id` )
+    REFERENCES `quizs`.`questions` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_answer_proposition_medium1`
     FOREIGN KEY (`medium_id` )
-    REFERENCES `quizs`.`medium` (`id` )
+    REFERENCES `quizs`.`medias` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -121,12 +120,12 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`solution` (
   INDEX `fk_association_answer_proposition2_idx` (`right_suggestion_id` ASC) ,
   CONSTRAINT `fk_association_answer_proposition1`
     FOREIGN KEY (`left_suggestion_id` )
-    REFERENCES `quizs`.`suggestion` (`id` )
+    REFERENCES `quizs`.`suggestions` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_association_answer_proposition2`
     FOREIGN KEY (`right_suggestion_id` )
-    REFERENCES `quizs`.`suggestion` (`id` )
+    REFERENCES `quizs`.`suggestions` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -135,18 +134,18 @@ COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `quizs`.`publication`
+-- Table `quizs`.`publications`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`publication` ;
+DROP TABLE IF EXISTS `quizs`.`publications` ;
 
-CREATE  TABLE IF NOT EXISTS `quizs`.`publication` (
+CREATE  TABLE IF NOT EXISTS `quizs`.`publications` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `quiz_id` INT NOT NULL ,
   `from_date` DATETIME NULL ,
   `to_date` DATETIME NULL ,
   `rgpt_id` INT NOT NULL COMMENT 'Clé étrangère sur l’identifiant d’une classe ou d’un groupe d’élèves.' ,
-  `opt_show_score` ENUM('after_each', 'at_end') NOT NULL DEFAULT 'after_each' COMMENT 'Montrer le score après chaque question ou à la fin du quiz.' ,
-  `opt_show_correct` ENUM('after_each', 'at_end') NOT NULL DEFAULT 'after_each' COMMENT 'Montrer la correction après chaque question ou à la fin du quiz.' ,
+  `opt_show_score` ENUM('after_each', 'at_end', 'none') NOT NULL DEFAULT 'after_each' COMMENT 'Montrer le score après chaque question ou à la fin du quiz.' ,
+  `opt_show_correct` ENUM('after_each', 'at_end', 'none') NOT NULL DEFAULT 'after_each' COMMENT 'Montrer la correction après chaque question ou à la fin du quiz.' ,
   `opt_can_redo` TINYINT(1) NOT NULL DEFAULT 1 COMMENT 'Possibilité de refaire plusieurs fois le quiz' ,
   `opt_can_rewind` TINYINT(1) NOT NULL DEFAULT 1 ,
   `opt_rand_question_order` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'mélanger l’ordre des questions.' ,
@@ -155,7 +154,7 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`publication` (
   UNIQUE INDEX `rgpt_id_UNIQUE` (`rgpt_id` ASC) ,
   CONSTRAINT `fk_publication_quiz1`
     FOREIGN KEY (`quiz_id` )
-    REFERENCES `quizs`.`quiz` (`id` )
+    REFERENCES `quizs`.`quizs` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -164,11 +163,11 @@ COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `quizs`.`session`
+-- Table `quizs`.`sessions`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`session` ;
+DROP TABLE IF EXISTS `quizs`.`sessions` ;
 
-CREATE  TABLE IF NOT EXISTS `quizs`.`session` (
+CREATE  TABLE IF NOT EXISTS `quizs`.`sessions` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `publication_id` INT NOT NULL ,
   `user_id` VARCHAR(8) NOT NULL COMMENT 'Clé étrangère vers l’identifiant de l’élève en session' ,
@@ -180,7 +179,7 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`session` (
   UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) ,
   CONSTRAINT `fk_session_publication1`
     FOREIGN KEY (`publication_id` )
-    REFERENCES `quizs`.`publication` (`id` )
+    REFERENCES `quizs`.`publications` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -189,11 +188,11 @@ COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `quizs`.`answer`
+-- Table `quizs`.`answers`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`answer` ;
+DROP TABLE IF EXISTS `quizs`.`answers` ;
 
-CREATE  TABLE IF NOT EXISTS `quizs`.`answer` (
+CREATE  TABLE IF NOT EXISTS `quizs`.`answers` (
   `session_id` INT NOT NULL ,
   `left_suggestion_id` INT NOT NULL COMMENT 'Réponses des élèves pour les QCM et TAT  (la présence d’une valeur dans ‘left_suggestion_id’ suffit à identifier la réponse de l’élève), pour les Associations, la réponse est la relation entre 2 suggestions.' ,
   `right_suggestion_id` INT NULL ,
@@ -203,17 +202,17 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`answer` (
   INDEX `fk_answer_suggestion2_idx` (`right_suggestion_id` ASC) ,
   CONSTRAINT `fk_answer_suggestion1`
     FOREIGN KEY (`left_suggestion_id` )
-    REFERENCES `quizs`.`suggestion` (`id` )
+    REFERENCES `quizs`.`suggestions` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_answer_session1`
     FOREIGN KEY (`session_id` )
-    REFERENCES `quizs`.`session` (`id` )
+    REFERENCES `quizs`.`sessions` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_answer_suggestion2`
     FOREIGN KEY (`right_suggestion_id` )
-    REFERENCES `quizs`.`suggestion` (`id` )
+    REFERENCES `quizs`.`suggestions` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB

@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# model for 'question' table
+# model for 'questions' table
 # generated 2015-08-18 12:12:38 +0200 by /home/hquenin/.rbenv/versions/2.2.2/bin/rake
 #
 # ------------------------------+---------------------+----------+----------+-------------------+--------------------
@@ -17,16 +17,16 @@
 # opt_rand_suggestion_order     | boolean                        | false    |          |                   |
 # ------------------------------+---------------------+----------+----------+-------------------+--------------------
 #
-class Question < Sequel::Model(:question)
+class Questions < Sequel::Model(:questions)
   # Plugins
   plugin :validation_helpers
   plugin :json_serializer
   plugin :composition
 
   # Referential integrity
-  many_to_one :quiz
-  one_to_one :medium
-  one_to_many :suggestion
+  many_to_one :quizs
+  one_to_one :medias
+  one_to_many :suggestions
 
   # Not nullable cols and unicity validation
   def validate

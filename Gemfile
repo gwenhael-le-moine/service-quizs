@@ -27,13 +27,10 @@ group :development do
   gem 'shotgun'
   gem 'pry'
   gem 'logger'
-end
-
-group :test do
   gem 'coveralls'
   gem 'rack-test'
   gem 'simplecov'
-  gem 'rspec', '2.14.1'
+  gem 'rspec'
   gem 'travis-lint'
   gem 'rubocop'
   gem 'guard'

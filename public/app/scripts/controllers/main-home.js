@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('MainHomeCtrl', ['$scope', '$state', '$rootScope', 'APP_PATH', 'Notifications', 'Modal', 'Users', function($scope, $state, $rootScope, APP_PATH, Notifications, Modal, Users) {
+.controller('MainHomeCtrl', ['$scope', '$state', '$rootScope', 'APP_PATH', 'Notifications', 'Modal', 'Users', 'QuizsApi', function($scope, $state, $rootScope, APP_PATH, Notifications, Modal, Users, QuizsApi) {
 
 	// Si personnel education
 	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
@@ -29,7 +29,13 @@ angular.module('quizsApp')
 
 	// ajoute un quiz et ouvre la création de ce quiz
 	$scope.addQuiz = function(){
-		$state.go('quizs.params', {quiz_id: 0});
+		QuizsApi.create().$promise.then(function(response){
+			if (!response.error) {				
+				$state.go('quizs.params', {quiz_id: response.quiz_created.id});
+			} else {
+				Notifications.add(response.error.msg, "error");
+			};
+		});
 	}
 	// ouvre la session du quiz pour ce regroupement
 	$scope.openSession = function(quiz_id, rgpt_id){

@@ -1,0 +1,34 @@
+#coding: utf-8
+#
+# model for 'sessions' table
+# generated 2015-10-22 14:35:10 +0200 by /home/hquenin/.rbenv/versions/2.2.2/bin/rake
+#
+# ------------------------------+---------------------+----------+----------+------------+--------------------
+# COLUMN_NAME                   | DATA_TYPE           | NULL? | KEY | DEFAULT | EXTRA
+# ------------------------------+---------------------+----------+----------+------------+--------------------
+# id                            | int(11)             | false    | PRI      |            | auto_increment
+# publication_id                | int(11)             | false    | MUL      |            | 
+# user_id                       | varchar(8)          | false    | UNI      |            | 
+# created_at                    | datetime            | false    |          |            | 
+# updated_at                    | datetime            | true     |          |            | 
+# score                         | float               | false    |          |            | 
+# ------------------------------+---------------------+----------+----------+------------+--------------------
+#
+class Sessions < Sequel::Model(:sessions)
+
+  # Plugins
+  plugin :validation_helpers
+  plugin :json_serializer
+  plugin :composition
+
+  # Referential integrity
+  many_to_one :publications
+  one_to_many :answers
+
+  # Not nullable cols and unicity validation
+  def validate
+    super
+    validates_presence [:publication_id, :user_id, :created_at, :score]
+    validates_unique :user_id
+  end
+end

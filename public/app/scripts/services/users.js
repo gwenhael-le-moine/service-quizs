@@ -7,6 +7,6 @@ angular.module('quizsApp')
 // }])
 .service('Users', [ '$rootScope', function( $rootScope) {
 	this.getCurrentUser = function(){
-		return {roleMaxPriority: 1, isParents: false};
+		return {uid: "VAA60000", roleMaxPriority: 1, isParents: false};
 	}
 }]);

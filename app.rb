@@ -2,7 +2,6 @@
 
 require 'rubygems'
 require 'bundler'
-require 'sinatra/reloader'
 
 Bundler.require(:default, :development)
 
@@ -13,14 +12,20 @@ def __dir__(*args)
   ::File.expand_path(::File.join(dir, *args.map(&:to_s)))
 end
 
+require 'laclasse/laclasse_logger'
+# initialisation du logger
+LOGGER = Laclasse::LoggerFactory.get_logger
+
 require 'laclasse/helpers/app_infos'
 
 puts '----------> configs <----------'
 require __dir__('config/init')
-puts '----------> helpers <----------'
-require __dir__('helpers/init')
 puts '----------> models <-----------'
 require __dir__('model/init')
+puts '----------> libs <-----------'
+require __dir__('lib/init')
+puts '----------> objects <-----------'
+require __dir__('object/init')
 puts '----------> api <--------------'
 require __dir__('api/init')
 puts '----------> controllers <------'
