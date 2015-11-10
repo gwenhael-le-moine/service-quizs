@@ -4,7 +4,7 @@ require 'spec_helper'
 describe 'LibQuizsTest' do
 	before(:each) do |example|
     Lib::Quizs.user( MOCKED_DATA ) unless example.metadata[:skip_before_user]
-    @quizs_bdd = generate_test_data unless example.metadata[:skip_before_bdd]
+    @quizs_bdd = generate_test_data({quizs: true})[:quizs] unless example.metadata[:skip_before_bdd]
   end
   after(:each) do |example|
   	Lib::Quizs.user(nil)

@@ -24,11 +24,11 @@ class SinatraApp < Sinatra::Base
   helpers Laclasse::Helpers::AppInfos
 
   # Routes nécessitant une authentification
-  ['/?', '/login'].each { |route|
-    before APP_PATH + route do
-      login! env['REQUEST_PATH'] unless logged?
-    end
-  }
+  # ['/?', '/login'].each { |route|
+  #   before APP_PATH + route do
+  #     login! env['REQUEST_PATH'] unless logged?
+  #   end
+  # }
 
   get APP_PATH + '/' do
     #TODO: Rebrancher le logged 
@@ -61,23 +61,23 @@ class SinatraApp < Sinatra::Base
     app_status.to_json
   end
 
-  get APP_PATH + '/auth/:provider/callback' do
-    init_session(request.env)
-    home = env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
-    redirect params[:url] unless params[:url] == home
-    redirect APP_PATH + '/'
-  end
+  # get APP_PATH + '/auth/:provider/callback' do
+  #   init_session(request.env)
+  #   home = env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
+  #   redirect params[:url] unless params[:url] == home
+  #   redirect APP_PATH + '/'
+  # end
 
   get APP_PATH + '/auth/failure' do
     erb "<h1>L'authentification a échoué : </h1>
         <h3>message:<h3> <pre>#{params}</pre>"
   end
 
-  get APP_PATH + '/login' do
-    login! APP_PATH + '/'
-  end
+  # get APP_PATH + '/login' do
+  #   login! APP_PATH + '/'
+  # end
 
-  get APP_PATH + '/logout' do
-    logout! env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
-  end
+  # get APP_PATH + '/logout' do
+  #   logout! env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
+  # end
 end

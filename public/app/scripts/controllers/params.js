@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('ParamsCtrl', ['$scope', '$state', '$stateParams',  '$rootScope', 'Notifications', 'QuizsApi', 'Quizs', function($scope, $state, $stateParams, $rootScope, Notifications, QuizsApi, Quizs) {
+.controller('ParamsCtrl', ['$scope', '$state', '$stateParams',  '$rootScope', 'Notifications', 'QuizsApi', 'Quizs', 'QuestionsApi', function($scope, $state, $stateParams, $rootScope, Notifications, QuizsApi, Quizs, QuestionsApi) {
 	// titre de l'action mis en majuscule par angular
 	$scope.actionTitle = 'paramètres';
 
@@ -12,6 +12,9 @@ angular.module('quizsApp')
 			$scope.quiz = response.quiz_found;
 			// les différentes options avec l'initialisation des boutons
 			$scope.quiz.opts = Quizs.getFormatOpt(response.quiz_found);
+			QuestionsApi.getAll({quiz_id: $scope.quiz.id}).$promise.then(function(responseQuesionApi){
+				$scope.quiz.questions = responseQuesionApi.questions_found;
+			});
 
 			// ouverture et fermeture de l'accordion
 			$scope.open = false;
@@ -41,8 +44,14 @@ angular.module('quizsApp')
 
 			// fonction qui supprime une question
 			$scope.deleteQuestion= function(id){
-				$scope.quiz.questions = _.reject($scope.quiz.questions, function(question){
-					return question.id == id;
+				QuestionsApi.delete({id: id}).$promise.then(function(response){
+					if (!response.error) {
+						$scope.quiz.questions = _.reject($scope.quiz.questions, function(question){
+							return question.id == id;
+						});
+					} else {
+						Notifications.add(response.error.msg, 'error');
+					};
 				});
 			}
 			// fonction qui met à jour une question
@@ -60,11 +69,21 @@ angular.module('quizsApp')
 		    	//pour avoir l'ordre on récupère dans event dest index
 		    	//et pour l'ancien cest dans event source index
 		    	//on remplace les sequence des questions par les bonnes
-		    	$scope.quiz.questions[event.dest.index].sequence = event.dest.index
-		    	$scope.quiz.questions[event.source.index].sequence = event.source.index
-		    	console.log($rootScope.quiz.questions);
+		    	if (event.dest.index >= event.source.index) {
+				    for (var i = event.dest.index; i >= event.source.index; i--) {
+				    	$scope.quiz.questions[i].sequence = i;
+				    };
+		    	} else {
+		    		for (var i = event.source.index; i >= event.dest.index; i--) {
+				    	$scope.quiz.questions[i].sequence = i;
+				    };
+		    	};
+		    	// $scope.quiz.questions[event.dest.index].sequence = event.dest.index
+		    	// $scope.quiz.questions[event.source.index].sequence = event.source.index
+		    	console.log($scope.quiz.questions);
 		    	console.log("le nouvel index : " + event.dest.index);
 		    	console.log("l'ancien index : " + event.source.index);
+		    	QuestionsApi.updateOrder({quiz: $scope.quiz});
 		    },
 		    containment: '#board'
 		  };

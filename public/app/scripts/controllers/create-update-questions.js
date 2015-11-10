@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('CreateUpdateQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$timeout', 'APP_PATH', 'MAX_FILE_SIZE', 'PATTERN_FILE', 'Notifications', 'Upload', 'Modal', 'Line', 'State', 'Quizs', function($scope, $state, $rootScope, $stateParams, $timeout, APP_PATH, MAX_FILE_SIZE, PATTERN_FILE, Notifications, Upload, Modal, Line, State, Quizs) {
+.controller('CreateUpdateQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$timeout', 'APP_PATH', 'MAX_FILE_SIZE', 'PATTERN_FILE', 'Notifications', 'Upload', 'Modal', 'Line', 'State', 'Questions', 'QuestionsApi', function($scope, $state, $rootScope, $stateParams, $timeout, APP_PATH, MAX_FILE_SIZE, PATTERN_FILE, Notifications, Upload, Modal, Line, State, Questions, QuestionsApi) {
 
 	// -------- initalisation des Variables ------- //
 	//Valeur à respecter pour les fichiers
@@ -31,7 +31,7 @@ angular.module('quizsApp')
 
   //Variable pour les leurres
   //id temporaire
-  $rootScope.idLeurreTmp = 0;
+  $rootScope.idLeurreTmp = "tmp_0";
 
   // ---------- Fonctions général pour la question ---------//
   // Fonction qui change le type de la question
@@ -309,19 +309,14 @@ angular.module('quizsApp')
 			//on ajoute les suggestions du type dans la question
 			$rootScope.question.answers = $rootScope.suggestions[$rootScope.question.type];
 			$rootScope.question.leurres = $rootScope.suggestions.leurres;
-			// en mode modification, on récupère l'ancienne question pour la modifier
-  		if ($rootScope.modeModif) {
-  			for (var i = $rootScope.quiz.questions.length - 1; i >= 0; i--) {
-  				if ($rootScope.quiz.questions[i].id === $rootScope.question.id) {
-  					$rootScope.quiz.questions[i] = $rootScope.question;
-  				};
-  			};
-  		// en creation on push directement
-  		} else {
-  			//TODO: effacer pour le BO
- 				$rootScope.question.id = $rootScope.tmpId++;  			
-  			$rootScope.quiz.questions.push($rootScope.question);
-  		};
+  			$rootScope.quiz.questions[0] = $rootScope.question;
+ 				console.log($rootScope.quiz);
+ 				if ($rootScope.modeModif) {
+ 					QuestionsApi.update({quiz: $rootScope.quiz});
+ 				} else {
+  				QuestionsApi.create({quiz: $rootScope.quiz});
+ 				};  			
+  		// };
   		$state.go('quizs.params', {quiz_id: $rootScope.quiz.id});
   	};
   }
@@ -401,13 +396,15 @@ angular.module('quizsApp')
 				$scope.validate = true;
 				//si le texte n'est pas vide ou null on l'ajoute au leurres
 				if ($scope.text != null && $scope.text != "") {
-					$rootScope.suggestions.leurres.push({id: $rootScope.idLeurreTmp++, libelle: $scope.text});
+					var nb = parseInt($rootScope.idLeurreTmp.split('_')[1]);
+					$rootScope.idLeurreTmp = $rootScope.idLeurreTmp.split('_')[0] + "_" + ++nb;
+					$rootScope.suggestions.leurres.push({id: $rootScope.idLeurreTmp, libelle: $scope.text});
 					$modalInstance.close();					
 				};				
 			}
 		}];
 		//controller pour effacer toute la quetsion avec une modal
-		$scope.modalClearQuestionCtrl = ["$scope", "$rootScope", "$modalInstance", "Quizs", function($scope, $rootScope, $modalInstance, Quizs){
+		$scope.modalClearQuestionCtrl = ["$scope", "$rootScope", "$modalInstance", "Questions", function($scope, $rootScope, $modalInstance, Questions){
 			$scope.title = "Effacer la question";
 			$scope.message = "Êtes vous sûr de vouloir effacer toute la question ainsi que ses réponses ?";
 			$scope.no = function(){
@@ -415,8 +412,8 @@ angular.module('quizsApp')
 			}
 			$scope.ok = function(){
 				// TODO: Effacer les anciennes questions de la base si mode modif
-				$rootScope.question = Quizs.getDefaultQuestion();
-		  	$rootScope.suggestions = Quizs.getDefaultSuggestions();
+				$rootScope.question = Questions.getDefaultQuestion();
+		  	$rootScope.suggestions = Questions.getDefaultSuggestions();
 		  	$(".line").remove();
 		  	$rootScope.changeType($rootScope.question.type);
 				$rootScope.validateAss = false;				
@@ -426,7 +423,7 @@ angular.module('quizsApp')
 		// ----------------------------------------------------- //
 
 
- 	//  //l'initialisation de ces variables doit rester a la fin puisqu'elle utilise des fonctions qui doivent être instancié avant
+ 	// l'initialisation de ces variables doit rester a la fin puisqu'elle utilise des fonctions qui doivent être instancié avant
 	// Si on est en mode création, stateParams.id est null et que l'on revient pas d'une préview
 	if (!$rootScope.previewQuestion) {
 		//mode création
@@ -436,44 +433,44 @@ angular.module('quizsApp')
 			//permet de valider les association pour ensuite les reliers
 			$rootScope.validateAss = false;
 			//on initialise la questions et les réponses
-			$rootScope.question = Quizs.getDefaultQuestion();
-			$rootScope.suggestions = Quizs.getDefaultSuggestions();
+			$rootScope.question = Questions.getDefaultQuestion();
+			$rootScope.suggestions = Questions.getDefaultSuggestions();
 		// mode update
 		} else {
 			//on récupère la question
-			$rootScope.question = angular.copy(_.find($rootScope.quiz.questions, function(q){
-				return q.id == $stateParams.id;
-			}));
-			if ($rootScope.question){
-				console.log($rootScope.question);
-				//on remet les suggestions tout en noubliant pas de remettre les suggestions des autre type que celle de la question
-				$rootScope.suggestions = Quizs.getDefaultSuggestions();
-				$rootScope.suggestions[$rootScope.question.type] = angular.copy($rootScope.question.answers);
-				$rootScope.suggestions.leurres = angular.copy($rootScope.question.leurres);
-				//permet de définir si on est en modification ou en création
-				$rootScope.modeModif = true;
-				//si on modifi une association on recréé les liaison
-				if ($rootScope.question.type == "ass") {
-					//permet de valider les association pour ensuite les reliers
-					$rootScope.validateAss = true;
-					//afin de laisser les élément se mettre en place on temporise
-					$timeout(function(){
-		  			for (var i = $rootScope.suggestions.ass.length - 1; i >= 0; i--) {
-							if ($rootScope.suggestions.ass[i].leftProposition.solutions.length > 0) {
-								_.each($rootScope.suggestions.ass[i].leftProposition.solutions, function(solution){
-									$scope.connect(i, "left");
-									$scope.connect(solution, "right");							
-								});
-							};
-						};  		
-	  			}, 500);
+			QuestionsApi.get({id: $stateParams.id}).$promise.then(function(response){
+				$rootScope.question = response.question_found;
+				if ($rootScope.question){
+					console.log($rootScope.question);
+					//on remet les suggestions tout en noubliant pas de remettre les suggestions des autre type que celle de la question
+					$rootScope.suggestions = Questions.getDefaultSuggestions();
+					$rootScope.suggestions[$rootScope.question.type] = angular.copy($rootScope.question.answers);
+					$rootScope.suggestions.leurres = angular.copy($rootScope.question.leurres);
+					console.log($rootScope.suggestions);
+					//permet de définir si on est en modification ou en création
+					$rootScope.modeModif = true;
+					//si on modifi une association on recréé les liaison
+					if ($rootScope.question.type == "ass") {
+						//permet de valider les association pour ensuite les reliers
+						$rootScope.validateAss = true;
+						//afin de laisser les élément se mettre en place on temporise
+						$timeout(function(){
+			  			for (var i = $rootScope.suggestions.ass.length - 1; i >= 0; i--) {
+								if ($rootScope.suggestions.ass[i].leftProposition.solutions.length > 0) {
+									_.each($rootScope.suggestions.ass[i].leftProposition.solutions, function(solution){
+										$scope.connect(i, "left");
+										$scope.connect(solution, "right");							
+									});
+								};
+							};  		
+		  			}, 500);
+					};
+					//remet le type de la question à l'affichage
+					$rootScope.changeType($rootScope.question.type)
+				} else {
+					$state.go('erreur', {code: "404", message: "La question n'existe pas !"});
 				};
-				//remet le type de la question à l'affichage
-				$rootScope.changeType($rootScope.question.type)
-			} else {
-				console.log("erreur");
-				// $state.go('erreur', {code: "404", message: "La question n'existe pas !"});
-			};
+			});
 		};
 	} else {
 		//on efface les données de preview

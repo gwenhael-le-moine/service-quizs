@@ -89,7 +89,7 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`suggestions` (
   `text` VARCHAR(2000) NOT NULL ,
   `order` INT NULL ,
   `medium_id` INT NULL ,
-  `position` ENUM('L','R') NULL COMMENT 'Position de la proposition de réponse (gauche ou droite).Seuls les associations ont des propositions de type ‘Droite’ en plus des propositions de gauche.' ,
+  `position` ENUM('L','R') NOT NULL DEFAULT 'L' COMMENT 'Position de la proposition de réponse (gauche ou droite).Seuls les associations ont des propositions de type ‘Droite’ en plus des propositions de gauche.' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_answer_proposition_question1_idx` (`question_id` ASC) ,
   INDEX `fk_answer_proposition_medium1_idx` (`medium_id` ASC) ,
@@ -109,15 +109,17 @@ COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `quizs`.`solution`
+-- Table `quizs`.`solutions`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`solution` ;
+DROP TABLE IF EXISTS `quizs`.`solutions` ;
 
-CREATE  TABLE IF NOT EXISTS `quizs`.`solution` (
+CREATE  TABLE IF NOT EXISTS `quizs`.`solutions` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `left_suggestion_id` INT NOT NULL COMMENT 'Table des solutions pour les QCM et TAT  (la présence d’une valeur dans ‘left_answer_prop_id’ suffit à identifier que cette proposition est la bonne solution), pour les Associations, la solution est la relation entre 2 propositions.' ,
   `right_suggestion_id` INT NULL ,
   INDEX `fk_association_answer_proposition1_idx` (`left_suggestion_id` ASC) ,
   INDEX `fk_association_answer_proposition2_idx` (`right_suggestion_id` ASC) ,
+  PRIMARY KEY (`id`) ,
   CONSTRAINT `fk_association_answer_proposition1`
     FOREIGN KEY (`left_suggestion_id` )
     REFERENCES `quizs`.`suggestions` (`id` )

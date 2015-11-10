@@ -288,3 +288,464 @@ SAVE_BLOGS = [
     active: true
   }
 ]
+
+JSON_CREATE_QUESTION_QCM = {
+  id: nil,
+  created_at: nil,
+  updated_at: nil,
+  user_id: "VAA60000",
+  title: "Quiz numéro 0",
+  opt_show_score: "after_each",
+  opt_show_correct: "after_each",
+  opt_can_redo: true,
+  opt_can_rewind: true,
+  opt_rand_question_order: false,
+  opt_shared: false,
+  questions: [
+    {
+      id: nil,
+      type: "qcm",
+      libelle: "Création d'une questions de test type qcm",
+      media: {
+        file: nil,
+        type: nil
+      },
+      hint: {
+        libelle: "Aide de la questions qcm",
+        media: {
+          file: nil,
+          type: nil
+        }
+      },
+      answers: [
+        {
+          solution: false,
+          proposition: "Proposition 1 qcm",
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        },
+        {
+          solution: true,
+          proposition: "Proposition 2 solution qcm",
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        },
+        {
+          solution: false,
+          proposition: "",
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        },
+        {
+          solution: false,
+          proposition: "",
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        },
+        {
+          solution: false,
+          proposition: "",
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        },
+        {
+          solution: false,
+          proposition: "",
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        },
+        {
+          solution: false,
+          proposition: "",
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        },
+        {
+          solution: false,
+          proposition: "",
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        }
+      ],
+      randanswer: true,
+      comment: "Commentaire de correction à la question qcm",
+      leurres: []
+    }
+  ]
+}
+
+JSON_CREATE_QUESTION_TAT = {
+  id: nil,
+  created_at: nil,
+  updated_at: nil,
+  user_id: "VAA60000",
+  title: "Quiz numéro 0",
+  opt_show_score: "after_each",
+  opt_show_correct: "after_each",
+  opt_can_redo: true,
+  opt_can_rewind: true,
+  opt_rand_question_order: false,
+  opt_shared: false,
+  questions: [
+    {
+      id: nil,
+      type: "tat",
+      libelle: "Création d'une question de test type texte à trous",
+      media: {
+        file: nil,
+        type: nil
+      },
+      hint: {
+        libelle: nil,
+        media: {
+          file: nil,
+          type: nil
+        }
+      },
+      answers: [
+        {          
+          text: "un test est une procédure de",
+          solution: {
+            id: nil,
+            libelle: "vérification"
+          },
+          ponctuation: nil,
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        },
+        {
+          text: "Il permet de verifier les problèmes du logiciel.",
+          solution: {
+            id: nil,
+            libelle: nil
+          },
+          ponctuation: nil,
+          joindre: {
+            file: nil,
+            type: nil
+          }
+        }
+      ],
+      randanswer: true,
+      comment: "Commentaire de correction à la question qcm",
+      leurres: [
+        {
+          id: "temp_0",
+          libelle: "transformation"
+        },
+        {
+          id: "temp_1",
+          libelle: "personnalisation"
+        }
+      ]
+    }
+  ]
+}
+
+JSON_CREATE_QUESTION_ASS = {
+  id: nil,
+  created_at: nil,
+  updated_at: nil,
+  user_id: "VAA60000",
+  title: "Quiz numéro 0",
+  opt_show_score: "after_each",
+  opt_show_correct: "after_each",
+  opt_can_redo: true,
+  opt_can_rewind: true,
+  opt_rand_question_order: false,
+  opt_shared: false,
+  questions: [
+    {
+      id: nil,
+      type: "ass",
+      libelle: "Création d'une questions de test type association",
+      media: {
+        file: nil,
+        type: nil
+      },
+      hint: {
+        libelle: "Aide de la questions association",
+        media: {
+          file: nil,
+          type: nil
+        }
+      },
+      answers: [
+        {
+          leftProposition: {
+            libelle: "Proposition L ASS 1",
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          },
+          rightProposition: {
+            libelle: "Proposition R ASS 1",
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: [
+              1
+            ]
+          }
+        },
+        {
+          leftProposition: {
+            libelle: "Proposition L ASS 2",
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: [
+              0,
+              1
+            ]
+          },
+          rightProposition: {
+            libelle: "Proposition R ASS 2",
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: [
+              1
+            ]
+          }
+        },
+        {
+          leftProposition: {
+            libelle: "Proposition L ASS 3",
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: [
+              2
+            ]
+          },
+          rightProposition: {
+            libelle: "Proposition R ASS 3",
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: [
+              2
+            ]
+          }
+        },
+        {
+          leftProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: [
+                
+            ]
+          },
+          rightProposition: {
+            libelle: "Proposition R ASS 4",
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          }
+        },
+        {
+          leftProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          },
+          rightProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          }
+        },
+        {
+          leftProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          },
+          rightProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          }
+        },
+        {
+          leftProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          },
+          rightProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          }
+        },
+        {
+          leftProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          },
+          rightProposition: {
+            libelle: nil,
+            joindre: {
+              file: nil,
+              type: nil
+            },
+            solutions: []
+          }
+        }
+      ],
+      randanswer: false,
+      comment: nil,
+      leurres: []
+    }
+  ]
+}
+def json_update_question_qcm(quiz, question, suggestions)
+  JSON_CREATE_QUESTION_QCM[:id] = quiz.id
+  JSON_CREATE_QUESTION_QCM[:updated_at] = quiz.updated_at
+  JSON_CREATE_QUESTION_QCM[:created_at] = quiz.created_at
+  JSON_CREATE_QUESTION_QCM[:questions][0][:id] = question.id
+  JSON_CREATE_QUESTION_QCM[:questions][0][:libelle] = "libellé de la question mis à jour"
+  JSON_CREATE_QUESTION_QCM[:questions][0][:hint][:libelle] = "aide de la question mise à jour"
+
+  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][0][:id] = suggestions[0].id
+  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][0][:proposition] = "proposition 0 updated"
+  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][0][:solution] = false
+  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][1][:id] = suggestions[1].id
+  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][1][:proposition] = "proposition 1 updated"
+  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][1][:solution] = true
+  JSON_CREATE_QUESTION_QCM
+end 
+
+def json_update_question_tat(quiz, question, suggestions)
+  JSON_CREATE_QUESTION_TAT[:id] = quiz.id
+  JSON_CREATE_QUESTION_TAT[:updated_at] = quiz.updated_at
+  JSON_CREATE_QUESTION_TAT[:created_at] = quiz.created_at
+  JSON_CREATE_QUESTION_TAT[:questions][0][:id] = question.id
+  JSON_CREATE_QUESTION_TAT[:questions][0][:libelle] = "libellé de la question mis à jour"
+  JSON_CREATE_QUESTION_TAT[:questions][0][:hint][:libelle] = "aide de la question mise à jour"
+
+  JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:id] = suggestions[5].id
+  JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:text] = "texte mis à jour"
+  JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:solution][:id] = suggestions[6].id
+  JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:solution][:libelle] = "solution mise à jour"
+  JSON_CREATE_QUESTION_TAT[:questions][0][:leurres][0][:id] = 'temp_0'
+  JSON_CREATE_QUESTION_TAT[:questions][0][:leurres][0][:libelle] = "nouveau leurre"  
+  JSON_CREATE_QUESTION_TAT[:questions][0][:answers].delete_at(1) 
+  JSON_CREATE_QUESTION_TAT
+end 
+
+def json_update_question_ass(quiz, question, suggestions)
+  JSON_CREATE_QUESTION_ASS[:id] = quiz.id
+  JSON_CREATE_QUESTION_ASS[:updated_at] = quiz.updated_at
+  JSON_CREATE_QUESTION_ASS[:created_at] = quiz.created_at
+  JSON_CREATE_QUESTION_ASS[:questions][0][:id] = question.id
+  JSON_CREATE_QUESTION_ASS[:questions][0][:libelle] = "libellé de la question mis à jour"
+  JSON_CREATE_QUESTION_ASS[:questions][0][:hint][:libelle] = "aide de la question mise à jour"
+
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:leftProposition][:id] = suggestions[2].id
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:leftProposition][:libelle] = "libelle proposition gauche mis à jour"
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:leftProposition][:solutions] = []
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:rightProposition][:id] = suggestions[3].id
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:rightProposition][:libelle] = "libelle proposition droite mis à jour"
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:rightProposition][:solutions] = [1]
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:leftProposition][:id] = suggestions[4].id
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:leftProposition][:libelle] = "libelle proposition gauche mis à jour"
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:leftProposition][:solutions] = [0]
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:rightProposition][:libelle] = nil
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:rightProposition][:solutions] = []
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][2][:leftProposition][:libelle] = nil
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][2][:leftProposition][:solutions] = []
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][2][:rightProposition][:libelle] = nil
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][2][:rightProposition][:solutions] = []
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][3][:rightProposition][:libelle] = nil
+  JSON_CREATE_QUESTION_ASS
+end
+
+JSON_UPDATE_ORDER_QUESTIONS = {
+  id: nil,
+  created_at: nil,
+  updated_at: nil,
+  user_id: "VAA60000",
+  title: "Quiz numéro 0",
+  opt_show_score: "after_each",
+  opt_show_correct: "after_each",
+  opt_can_redo: true,
+  opt_can_rewind: true,
+  opt_rand_question_order: false,
+  opt_shared: false,
+  questions: [
+    {
+      id: nil,
+      type: "TAT",
+      libelle: "Question numéro 2",
+      sequence: 0
+    },
+    {
+      id: nil,
+      type: "ASS",
+      libelle: "Question numéro 1",
+      sequence: 1
+    },
+    {
+      id: nil,
+      type: "QCM",
+      libelle: "Question numéro 0",
+      sequence: 2
+    }
+  ]
+}
+

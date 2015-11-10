@@ -7,7 +7,8 @@ angular.module('quizsApp')
 
 	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
 		if (!response.error) {
-			$rootScope.quiz = response.quiz_found
+			$rootScope.quiz = response.quiz_found;
+			$rootScope.quiz.questions = [];
 			//selon si c'est le propriétaire ou pas on grise le bouton permettant de modifier le titre
 			if (Users.getCurrentUser().uid === response.quiz_found.user_id) {
 				$scope.owner = true;									

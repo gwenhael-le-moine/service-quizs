@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe 'QuizTest' do
 	before(:each) do |example|
-    @quizs_bdd = generate_test_data unless example.metadata[:skip_before]
+    @quizs_bdd = generate_test_data({quizs: true})[:quizs] unless example.metadata[:skip_before]
   end
 
   after(:each) do |example|

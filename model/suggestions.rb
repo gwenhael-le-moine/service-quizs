@@ -9,9 +9,9 @@
 # id                            | int(11)             | false    | PRI      |            | auto_increment
 # question_id                   | int(11)             | false    | MUL      |            | 
 # text                          | varchar(2000)       | false    |          |            | 
-# order                         | int(11)             | true     |          |            | 
+# order                         | int(11)             | false    |          |            | 
 # medium_id                     | int(11)             | true     | MUL      |            | 
-# position                      | enum('L','R')       | true     |          |            | 
+# position                      | enum('L','R')       | false    |          |            | 
 # ------------------------------+---------------------+----------+----------+------------+--------------------
 #
 class Suggestions < Sequel::Model(:suggestions)
@@ -32,6 +32,6 @@ class Suggestions < Sequel::Model(:suggestions)
   # Not nullable cols and unicity validation
   def validate
     super
-    validates_presence [:question_id, :text]
+    validates_presence [:question_id, :text, :position]
   end
 end

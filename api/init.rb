@@ -4,11 +4,14 @@ require 'laclasse/helpers/authentication'
 require 'laclasse/cross_app/sender'
 require 'laclasse/helpers/user'
 
+puts 'loading api/UsersApi'
+require __dir__('users')
+
 puts 'loading api/QuizsApi'
 require __dir__('quizs')
 
-puts 'loading api/UsersApi'
-require __dir__('users')
+puts 'loading api/QuestionsApi'
+require __dir__('questions')
 
 
 # Point d'entrée des API de quiz
@@ -24,8 +27,9 @@ class Api < Grape::API
   # end
 
   # Montage des toutes les api REST Grape
-  resource(:quizs) { mount QuizsApi }
   resource(:users) { mount UsersApi }
+  resource(:quizs) { mount QuizsApi }
+  resource(:questions) { mount QuestionsApi }
 
   add_swagger_documentation
 end

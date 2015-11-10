@@ -43,7 +43,7 @@ angular.module('quizsApp')
 .filter('acronym', [ function( ){
 	return function(input){
 		if (input) {
-			switch(input){
+			switch(input.toLowerCase()){
 				case "qcm":
 					return "QCM";
 					break;
