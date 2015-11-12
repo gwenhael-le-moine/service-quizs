@@ -8,24 +8,24 @@ module Lib
     module_function
 
     def self.user(user)
-      @user = user
-      # @user = {
-      #   user: 'erasme',
-      #   is_logged: true,
-      #   uid: 'VAA60000',
-      #   login: 'erasme',
-      #   sexe: 'M',
-      #   nom: 'Levallois',
-      #   prenom: 'Pierre-Gilles',
-      #   date_naissance: '1970-02-06',
-      #   adresse: '1 rue Sans Nom Propre',
-      #   code_postal: '69000',
-      #   ville: 'Lyon',
-      #   bloque: nil,
-      #   id_jointure_aaf: nil,
-      #   avatar: '',
-      #   roles_max_priority_etab_actif: 3
-      # }
+      # @user = user
+      @user = {
+        user: 'erasme',
+        is_logged: true,
+        uid: 'VAA60000',
+        login: 'erasme',
+        sexe: 'M',
+        nom: 'Levallois',
+        prenom: 'Pierre-Gilles',
+        date_naissance: '1970-02-06',
+        adresse: '1 rue Sans Nom Propre',
+        code_postal: '69000',
+        ville: 'Lyon',
+        bloque: nil,
+        id_jointure_aaf: nil,
+        avatar: '',
+        roles_max_priority_etab_actif: 3
+      }
     end
 
     # Fonction qui récupère une question et ses réponses
@@ -59,17 +59,21 @@ module Lib
     end
 
     # Fonction qui récupère toutes les questions d'un quiz
-    def self.get_all(quiz_id)
+    def self.get_all(quiz_id, detailed = false)
       questions_found = []
       questions = Question.new({quiz_id: quiz_id})
       questions = questions.find_all
       questions.each do |question|
-        questions_found.push({
-          id: question.id,
-          type: question.type,
-          libelle: question.question,
-          sequence: question.order
-        })
+        if detailed
+          questions_found.push(self.get(question.id)[:question_found])
+        else
+          questions_found.push({
+            id: question.id,
+            type: question.type,
+            libelle: question.question,
+            sequence: question.order
+          })          
+        end
       end
       {questions_found: questions_found}
     end

@@ -14,7 +14,7 @@ angular.module('quizsApp')
 				$scope.owner = true;									
 			};
 		} else {
-			$state.go('erreur', {code: "404", message: response.error.msg});
+			// $state.go('erreur', {code: "404", message: response.error.msg});
 		};
 	});
 	//et si on est pas dans les views d'action (modif params create) on supprime le bouton!

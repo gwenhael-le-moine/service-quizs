@@ -151,4 +151,41 @@ angular.module('quizsApp')
     };
     return params;
   };
+  this.changeOptsAdvanced = function(buttonChanged) {
+    var opts = {
+      randQuestion: {yes: false, no: true},
+      modes: {training: true, exercise: false, assessment: false, perso: false},
+      correction: {afterEach: true, atEnd: false, none: false},
+      canRewind: {yes: true, no: false},
+      score: {afterEach: true, atEnd: false, none: false},
+      canRedo: {yes: true, no: false}
+    };
+    switch(buttonChanged){
+      case "exercise":
+        opts.modes.training = false;
+        opts.modes.exercise = true;
+        opts.correction.afterEach = false;
+        opts.correction.atEnd = true;
+        opts.canRewind.yes = false;
+        opts.canRewind.no = true;
+        opts.score.afterEach = false;
+        opts.score.atEnd = true;
+        opts.canRedo.yes = false;
+        opts.canRedo.no = true;
+        break;
+      case "assessment":
+        opts.modes.training = false;
+        opts.modes.assessment = true;
+        opts.correction.afterEach = false;
+        opts.correction.none = true;
+        opts.canRewind.yes = false;
+        opts.canRewind.no = true;
+        opts.score.afterEach = false;
+        opts.score.none = true;
+        opts.canRedo.yes = false;
+        opts.canRedo.no = true;
+        break;
+    }
+    return opts;
+  };
 }]);

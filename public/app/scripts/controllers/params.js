@@ -25,6 +25,9 @@ angular.module('quizsApp')
 					if (key === buttonChanged) {
 						$scope.quiz.opts[opt][key] = true;
 						if (!without_update) {
+							if (opt == 'modes') {
+								$scope.quiz.opts = Quizs.changeOptsAdvanced(buttonChanged);
+							};
 							QuizsApi.update(Quizs.updateOpt($scope.quiz, opt, buttonChanged));							
 						};
 					} else{

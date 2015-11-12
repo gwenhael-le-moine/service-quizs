@@ -31,11 +31,12 @@ class QuestionsApi < Grape::API
   desc "récupère les questions d'un quiz"
   params do
     requires :quiz_id, type: Integer, desc: 'Id du quiz'
+    optional :detailed, type: Boolean, desc: "retourne le détail des questions avec leurs réponses"
   end
   get '/all/:quiz_id' do
     Lib::Questions.user "user"
     # récupère les questions et gère l'exception si besoin dans la lib
-    Lib::Questions.get_all(params[:quiz_id])
+    Lib::Questions.get_all(params[:quiz_id], params[:detailed])
   end
 
   desc "met à jour la question d'un quiz"

@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('StartQuizCtrl', ['$scope', '$state', '$rootScope', 'Notifications', function($scope, $state, $rootScope, Notifications) {
+.controller('StartQuizCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'Notifications', 'Quizs', 'QuizsApi', 'QuestionsApi', function($scope, $state, $stateParams, $rootScope, Notifications, Quizs, QuizsApi, QuestionsApi) {
 	//on récupère le types de questions du quiz
 	var getTypes = function(){
 		var types = [];
@@ -55,7 +55,7 @@ angular.module('quizsApp')
 			case "atEnd":
 				name = "Correction à la fin";
 				break;
-			case "None":
+			case "none":
 				name = "Pas de correction";
 				break;
 		}
@@ -82,7 +82,7 @@ angular.module('quizsApp')
 			case "atEnd":
 				name = "Score à la fin";
 				break;
-			case "None":
+			case "none":
 				name = "Pas de score";
 				break;
 		}
@@ -91,10 +91,10 @@ angular.module('quizsApp')
 	var getLibelleCanRedo = function(canRedo){
 		var name = "";
 		switch(canRedo){
-			case "yes":
+			case "no":
 				name = "Une seule fois";
 				break;
-			case "no":
+			case "yes":
 				name = "A l'infini";
 				break;
 		}
@@ -176,13 +176,24 @@ angular.module('quizsApp')
 	//titre de l'action
 	$scope.actionTitle = "prêts ? partez !";
 	//Récupération du quiz
-	$scope.quiz = $rootScope.quizStudent;
-	// les différents types de question dans le quiz
-	$scope.types = getTypes();
-	//le mode des paramètres du quiz
-	$scope.mode = getMode();
-	//les différentes paramètres du quiz
-	$scope.opts = getOpts();
-	//récupère les différents type de médias
-	$scope.medias = getMedias();
+	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
+		if (!response.error) {
+			$scope.quiz = response.quiz_found;
+			$scope.quiz.opts = Quizs.getFormatOpt(response.quiz_found);
+			$scope.quiz.questions = [];
+			QuestionsApi.getAll({quiz_id: $scope.quiz.id, detailed: true}).$promise.then(function(responseQuesionApi){
+				$scope.quiz.questions = responseQuesionApi.questions_found;
+				// les différents types de question dans le quiz
+				$scope.types = getTypes();
+				//le mode des paramètres du quiz
+				$scope.mode = getMode();
+				//les différentes paramètres du quiz
+				$scope.opts = getOpts();
+				//récupère les différents type de médias
+				$scope.medias = getMedias();
+			});			
+		} else {
+			$state.go('erreur', {code: "404", message: response.error.msg});
+		};
+	});
 }]);

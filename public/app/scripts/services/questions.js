@@ -6,7 +6,7 @@ angular.module('quizsApp')
   return $resource( APP_PATH + '/api/questions/', {}, {
   	'get': {method: 'GET', url: APP_PATH + '/api/questions/:id', params: {id: '@id'}},
     'create': {method: 'POST', url: APP_PATH + '/api/questions/create', params: {quiz: '@quiz'}},
-    'getAll': {method: 'GET', url: APP_PATH + '/api/questions/all/:quiz_id', params: {quiz_id: '@quiz_id'}},
+    'getAll': {method: 'GET', url: APP_PATH + '/api/questions/all/:quiz_id', params: {quiz_id: '@quiz_id', detailed: '@detailed'}},
     'update': {method: 'PUT', url: APP_PATH + '/api/questions/update', params: {quiz: '@quiz'}},
     'updateOrder': {method: 'PUT', url: APP_PATH + '/api/questions/update/order', params: {quiz: '@quiz'}},
     'delete': {method: 'DELETE', url: APP_PATH + '/api/questions/:id', params: {id: '@id'}}
