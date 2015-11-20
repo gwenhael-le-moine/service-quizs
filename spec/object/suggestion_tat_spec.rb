@@ -118,4 +118,28 @@ describe 'SuggestionTATTest' do
     suggestion = SuggestionTAT.new({:id => "false_suggestion_id"})
     expect(suggestion.solution?).to be_falsey
   end
+
+  it "retourne les ids des suggestions sans les leurres" do
+    suggestion = SuggestionTAT.new({question_id: @datas_bdd[:questions][2][:id]})
+    suggestions_without_leurres = suggestion.find_all_ids
+    expect(suggestions_without_leurres.size).to eq(2)
+  end
+
+  it "retourne les ids des leurres" do
+    suggestion = SuggestionTAT.new({question_id: @datas_bdd[:questions][2][:id]})
+    leurres_suggestion = suggestion.find_all_leurres_ids
+    expect(leurres_suggestion.size).to eq(1)
+  end
+
+  it "retourne les ids des solutions" do
+    suggestion = SuggestionTAT.new({question_id: @datas_bdd[:questions][2][:id]})
+    solutions_suggestion = suggestion.find_all_solutions_ids
+    expect(solutions_suggestion.size).to eq(1)
+  end
+
+  it "retourne le nombre max de réponse possible" do
+    suggestion = SuggestionTAT.new({question_id: @datas_bdd[:questions][2][:id]})
+    nb_rep_max = suggestion.nb_responses_max
+    expect(nb_rep_max).to eq(2)
+  end
 end

@@ -30,6 +30,11 @@ class Solution
     raise_err err, "erreur lors de la création d'une solution"
   end
 
+  # Récupère la solution avec left_suggestion_id et right_suggestion_id
+  def find
+    Solutions[:left_suggestion_id => @left_suggestion_id, :right_suggestion_id => @right_suggestion_id]
+  end
+
   # Suppression d'une solution qcm
   def delete
   	solution = Solutions[:id => @id]

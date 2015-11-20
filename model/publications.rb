@@ -32,6 +32,5 @@ class Publications < Sequel::Model(:publications)
   def validate
     super
     validates_presence [:quiz_id, :rgpt_id, :opt_show_score, :opt_show_correct, :opt_can_redo, :opt_can_rewind, :opt_rand_question_order]
-    validates_unique :rgpt_id
   end
 end

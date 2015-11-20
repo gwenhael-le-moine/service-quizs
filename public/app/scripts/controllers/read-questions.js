@@ -3,22 +3,40 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('ReadQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', 'APP_PATH', 'Notifications','Line', 'Modal', function($scope, $state, $rootScope, $stateParams, $sce, APP_PATH, Notifications, Line, Modal) {
+.controller('ReadQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', 'APP_PATH', 'Notifications','Line', 'Modal', 'SessionsApi', 'AnswersApi', function($scope, $state, $rootScope, $stateParams, $sce, APP_PATH, Notifications, Line, Modal, SessionsApi, AnswersApi) {
 
 	//toutes les réponses à mettre dans les selects
 	$scope.selectOptions = [];
 	//id, et coord des deux extrémité de la ligne d'un association
   $scope.connect1 = {id: null, x1: null, y1: null};
   $scope.connect2 = {id: null, x2: null, y2: null};
+  if (!$rootScope.quiz) {
+  	$state.go('erreur', {code: "404", message: "Impossible de charger la question !"});
+  };
+  console.log($rootScope.quiz);
+  $scope.showScore = $rootScope.quiz.opt_show_score == 'after_each';
+  SessionsApi.get({id: $stateParams.session_id}).$promise.then(function(response){
+  	if (!response.error) {
+  		$scope.session = response.session_found;
+  	};
+  });
 	//on récupère la question
-	$scope.question = angular.copy(_.find($rootScope.quizStart.questions, function(q){
+	$scope.question = angular.copy(_.find($rootScope.quiz.questions, function(q){
 		if (q.id == $stateParams.id) {
+			console.log(q);
 			var numQuestion = q.sequence+1;
-			$scope.actionTitle = "question " + numQuestion + "/" + $rootScope.quizStart.questions.length
+			$scope.actionTitle = "question " + numQuestion + "/" + $rootScope.quiz.questions.length
 			if (q.type === 'tat') {
+				if (q.randanswer) {
+					q.solutions = _.shuffle(q.solutions);
+				};
 				$scope.selectOptions = q.solutions;
 				for (var i = q.answers.length - 1; i >= 0; i--) {
 					q.answers[i].currentSelectSolution = "--------";
+				};
+			} else {
+				if (q.randanswer) {
+					q.answers = _.shuffle(q.answers);
 				};
 			};
 		};
@@ -32,7 +50,7 @@ angular.module('quizsApp')
 		//on retrouve l'id de la question suivante
 		var nextNumQuestion = $scope.question.sequence + 1;
 		var nextId = null;
-		_.each($rootScope.quizStart.questions, function(q){
+		_.each($rootScope.quiz.questions, function(q){
 			if (q.sequence === nextNumQuestion) {
 	 			nextId = q.id;			
 			};
@@ -44,8 +62,8 @@ angular.module('quizsApp')
 		//on retrouve l'id de la question précédente
 		var preNumQuestion = $scope.question.sequence - 1;
 		var preId = null;
-		if ($rootScope.quizStart.opts.canRewind.yes) {
-			_.each($rootScope.quizStart.questions, function(q){
+		if ($rootScope.quiz.opt_can_rewind) {
+			_.each($rootScope.quiz.questions, function(q){
 				if (q.sequence === preNumQuestion) {
 		 			preId = q.id;			
 				};
@@ -76,20 +94,23 @@ angular.module('quizsApp')
 	}
 	//fonction permettant de passer à la question suivante 
 	$scope.next = function(){
+		console.log($scope.question);
+		AnswersApi.create({session_id: $stateParams.session_id, question: $scope.question, quiz_id: $rootScope.quiz.id})
 		var nextId = $scope.nextQuestion();
 		if (nextId) {
-			$state.go('quizs.read_questions', {quiz_id: $rootScope.quizStart.id, id: nextId});
+			$state.go('quizs.read_questions', {quiz_id: $rootScope.quiz.id, id: nextId, session_id: $stateParams.session_id});
 		};
 	}
 	//fonction permettant de passer à la question suivante 
 	$scope.pre = function(){
 		var preId = $scope.preQuestion();
 		if (preId) {
-			$state.go('quizs.read_questions', {quiz_id: $rootScope.quizStart.id, id: preId});
+			$state.go('quizs.read_questions', {quiz_id: $rootScope.quiz.id, id: preId, session_id: $stateParams.session_id});
 		};
 	}
 	//fonction permettant de quitter 
 	$scope.quit = function(){
+		AnswersApi.create({session_id: $stateParams.session_id, question: $scope.question, quiz_id: $rootScope.quiz.id})
 	 	$state.go('quizs.home');
 	}
 
@@ -143,7 +164,7 @@ angular.module('quizsApp')
   		$scope.question.answers[index].currentSelectSolution = "--------";
   	} else {
   		$scope.question.answers[index].currentSelectSolution = label;
-  		$scope.question.answers[index].solution = label;
+  		$scope.question.answers[index].solution = {id: id, libelle: label};
   	};
   }
 

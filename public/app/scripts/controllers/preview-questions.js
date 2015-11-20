@@ -102,7 +102,7 @@ angular.module('quizsApp')
   		$scope.question.answers[index].currentSelectSolution = "--------";
   	} else {
   		$scope.question.answers[index].currentSelectSolution = label;
-  		$scope.question.answers[index].solution = label;
+  		$scope.question.answers[index].solution = {id: id, libelle: label};
   	};
   }
 

@@ -6,6 +6,9 @@ def generate_test_data(types={})
   questions = []
   suggestions = []
   solutions = []
+  publications = []
+  sessions = []
+  answers = []
 
   ########################### Les quizs ###############################
   if types[:quizs]
@@ -187,7 +190,50 @@ def generate_test_data(types={})
     })))
   end
 
-  {quizs: quizs, questions: questions, suggestions: suggestions, solutions: solutions}
+  ######################### les publications ##################################
+  if types[:quizs] && types[:publications]
+    # Génération d'une publication pour le quiz 0
+    to_date = Time.now + (60*60*24*7) # une semaine plus tard
+    publications.push(Publications.create(get_test_publication({
+      quiz_id: quizs[0].id,
+      rgpt_id: 1,
+      from_date: Time.now.to_s(:db),
+      to_date: to_date.to_s(:db),
+      opt_show_score: quizs[0].opt_show_score, 
+      opt_show_correct: quizs[0].opt_show_correct,
+      opt_can_redo: quizs[0].opt_can_redo,
+      opt_can_rewind: quizs[0].opt_can_rewind,
+      opt_rand_question_order: quizs[0].opt_rand_question_order
+    })))
+  end
+
+  ######################### les sessions ##################################
+  if types[:quizs] && types[:publications] && types[:sessions]
+    sessions.push(Sessions.create(get_test_session({
+      quiz_id: quizs[0].id,
+      user_id: "VAA60000",
+      user_type: "ENS",
+      score: 0
+    })))
+
+    sessions.push(Sessions.create(get_test_session({
+      quiz_id: quizs[0].id,
+      user_id: "VAA60001",
+      user_type: "ELV",
+      score: 15
+    })))
+  end
+
+  ######################### les answers ##################################
+  if types[:quizs] && types[:questions] && types[:suggestions] && types[:publications] && types[:sessions] && types[:answers]
+    answers.push(Answers.create(get_test_answer({
+      session_id: sessions[0].id,
+      left_suggestion_id: suggestions[0].id,
+      right_suggestion_id: nil
+    })))
+  end
+
+  {quizs: quizs, questions: questions, suggestions: suggestions, solutions: solutions, publications: publications, sessions: sessions, answers: answers}
 end
 
 def get_test_quiz(params = {})
@@ -238,6 +284,39 @@ def get_test_solution(params = {})
   solution[:right_suggestion_id] = params[:right_suggestion_id]
 
   solution
+end
+
+def get_test_publication(params = {})
+  publication = {}
+  publication[:quiz_id] = params[:quiz_id]
+  publication[:rgpt_id] = params[:rgpt_id]
+  publication[:opt_show_score] = params[:opt_show_score]
+  publication[:opt_show_correct] = params[:opt_show_correct]
+  publication[:opt_can_redo] = params[:opt_can_redo]
+  publication[:opt_can_rewind] = params[:opt_can_rewind]
+  publication[:opt_rand_question_order] = params[:opt_rand_question_order]
+  publication[:from_date] = params[:from_date]
+  publication[:to_date] = params[:to_date]
+  publication
+end
+
+def get_test_session(params = {})
+  session = {}
+  session[:quiz_id] = params[:quiz_id]
+  session[:user_id] = params[:user_id]
+  session[:user_type] = params[:user_type]
+  session[:score] = params[:score]
+  session[:created_at] = Time.now.to_s(:db)
+  session
+end
+
+def get_test_answer(params = {})
+  answer = {}
+  answer[:session_id] = params[:session_id]
+  answer[:left_suggestion_id] = params[:left_suggestion_id]
+  answer[:right_suggestion_id] = params[:right_suggestion_id]
+  answer[:created_at] = Time.now.to_s(:db)
+  answer
 end
 
 def delete_test_data( datas )

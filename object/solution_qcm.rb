@@ -13,6 +13,11 @@ class SolutionQCM < Solution
 		super(params)
 	end
 
+	# Récupère la solution avec left_suggestion_id
+  def find
+    Solutions[:left_suggestion_id => @left_suggestion_id]
+  end
+
 	 # Suppression d'une solution qcm
   def delete
   	solution = Solutions[:left_suggestion_id => @left_suggestion_id]

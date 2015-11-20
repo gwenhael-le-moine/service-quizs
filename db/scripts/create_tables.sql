@@ -153,7 +153,6 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`publications` (
   `opt_rand_question_order` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'mélanger l’ordre des questions.' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_publication_quiz1_idx` (`quiz_id` ASC) ,
-  UNIQUE INDEX `rgpt_id_UNIQUE` (`rgpt_id` ASC) ,
   CONSTRAINT `fk_publication_quiz1`
     FOREIGN KEY (`quiz_id` )
     REFERENCES `quizs`.`quizs` (`id` )
@@ -171,17 +170,17 @@ DROP TABLE IF EXISTS `quizs`.`sessions` ;
 
 CREATE  TABLE IF NOT EXISTS `quizs`.`sessions` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `publication_id` INT NOT NULL ,
+  `quiz_id` INT NOT NULL ,
   `user_id` VARCHAR(8) NOT NULL COMMENT 'Clé étrangère vers l’identifiant de l’élève en session' ,
+  `user_type` VARCHAR(45) NOT NULL ,
   `created_at` DATETIME NOT NULL COMMENT 'Date de début de la session de l’élève' ,
   `updated_at` DATETIME NULL COMMENT 'Fin de la session (la dernière fois où il en envoyé des données de réponse)' ,
   `score` FLOAT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_session_publication1_idx` (`publication_id` ASC) ,
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) ,
-  CONSTRAINT `fk_session_publication1`
-    FOREIGN KEY (`publication_id` )
-    REFERENCES `quizs`.`publications` (`id` )
+  INDEX `fk_sessions_quizs1` (`quiz_id` ASC) ,
+  CONSTRAINT `fk_sessions_quizs1`
+    FOREIGN KEY (`quiz_id` )
+    REFERENCES `quizs`.`quizs` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -195,6 +194,7 @@ COLLATE = utf8_general_ci;
 DROP TABLE IF EXISTS `quizs`.`answers` ;
 
 CREATE  TABLE IF NOT EXISTS `quizs`.`answers` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `session_id` INT NOT NULL ,
   `left_suggestion_id` INT NOT NULL COMMENT 'Réponses des élèves pour les QCM et TAT  (la présence d’une valeur dans ‘left_suggestion_id’ suffit à identifier la réponse de l’élève), pour les Associations, la réponse est la relation entre 2 suggestions.' ,
   `right_suggestion_id` INT NULL ,
@@ -202,6 +202,7 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`answers` (
   INDEX `fk_answer_suggestion1_idx` (`left_suggestion_id` ASC) ,
   INDEX `fk_answer_session1_idx` (`session_id` ASC) ,
   INDEX `fk_answer_suggestion2_idx` (`right_suggestion_id` ASC) ,
+  PRIMARY KEY (`id`) ,
   CONSTRAINT `fk_answer_suggestion1`
     FOREIGN KEY (`left_suggestion_id` )
     REFERENCES `quizs`.`suggestions` (`id` )

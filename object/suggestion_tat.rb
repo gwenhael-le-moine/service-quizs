@@ -64,4 +64,28 @@ class SuggestionTAT < Suggestion
   	end
   	ids
   end
+
+  # Récupère les ids des solutions de la question
+  def find_all_solutions_ids
+    ids = []
+    solutions = []
+    # on récupère toutes les solutions non null
+    Solutions.exclude(:right_suggestion_id => nil).select(:right_suggestion_id).each do |solution|
+      solutions.push(solution.right_suggestion_id)
+    end
+    # on prends toutes les suggestions dont position est à R
+    # d'une question qui sont des solutions
+    datas = Suggestions.where(:question_id => @question_id, :position => 'R', :id =>solutions).select(:id)
+    datas.each do |data|
+      ids.push(data.id)
+    end
+    ids
+  end
+
+  # dans le texte à trous, on ne peut pas avoir de réponses maximum 
+  # puisque l'on doit répondre à tout, du coup afin que ce  maximum,
+  # ne soit jamais atteind, on ajoute 1 au nb de suggestion de gauche 
+  def nb_responses_max
+    Suggestions.where(:question_id => @question_id, :position => 'L').count + 1
+  end
 end

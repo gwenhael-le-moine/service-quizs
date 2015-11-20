@@ -24,9 +24,4 @@ class SolutionASS < Solution
   rescue => err
     raise_err err, "erreur lors de la mise à jour d'une solution ASS"
   end
-
-  # Récupère la solution avec left_suggestion_id et right_suggestion_id
-  def find
-    Solutions[:left_suggestion_id => @left_suggestion_id, :right_suggestion_id => @right_suggestion_id]
-  end
 end

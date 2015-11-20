@@ -188,4 +188,11 @@ angular.module('quizsApp')
     }
     return opts;
   };
+  this.randQuestions = function(questions){
+    questions = _.shuffle(questions);
+    for (var i = questions.length - 1; i >= 0; i--) {
+      questions[i].sequence = i;
+    };
+    return questions;
+  };
 }]);

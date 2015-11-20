@@ -395,7 +395,7 @@
 						<span>TEXTE</span>
 					</div>
 					<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 titre petit center">
-						<span>SOLUTION (+ ponctuation)</span>
+						<span>SOLUTION</span>
 					</div>
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 titre petit joindre">
 						<span>JOINDRE</span>
@@ -409,17 +409,11 @@
 										maxlength="2000" 
 										ng-model="suggestion.text"/>
 					</div>
-					<div class="col-xs-5 col-sm-3 col-md-3 col-lg-3 solution">
+					<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 solution">
 						<input 	type="text" 
 										class="texte" 
 										maxlength="2000" 
 										ng-model="suggestion.solution.libelle"/>
-					</div>
-					<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 ponctuation">
-						<input 	type="text" 
-										class="texte" 
-										maxlength="1" 
-										ng-model="suggestion.ponctuation"/>
 					</div>
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 joindre">
 						<div>
@@ -539,11 +533,6 @@
 		  				class="btn btn-quiz hover" 
 		  				ng-click="addQuestion()">
 		  	<label>Valider</label>
-		  </button>
-		  <button type="button" 
-		  				class="btn btn-quiz hover" 
-		  				ng-click="cleanQuestion()">
-		  	<label>Effacer</label>
 		  </button>
 		  <button type="button" 
 		  				class="btn btn-quiz hover" 

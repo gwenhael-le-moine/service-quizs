@@ -57,4 +57,21 @@ angular.module('quizsApp')
 		};
 		return input;
 	}
+}])
+.filter('scorecss', [ function( ){
+	return function(input){
+		var scoreCss = "00";
+		var scoreRound = Math.round(input);
+		if (scoreRound % 2 !== 0){
+			if (input >= scoreRound) {
+				scoreRound++;
+			} else {
+				scoreRound--;
+			};
+		}
+		scoreCss = scoreRound.toString();
+		if (scoreRound < 10)
+			scoreCss = "0"+scoreCss;
+		return scoreCss;
+	}
 }]);

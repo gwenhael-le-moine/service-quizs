@@ -9,7 +9,7 @@ class QuizsApi < Grape::API
 
   desc "créé un quiz"
   get '/create' do
-    Lib::Quizs.user "user"
+    Lib::Quizs.user user
     # créé un nouveau quiz et gère l'exception si besoin dans la lib
     Lib::Quizs.create
   end
@@ -19,7 +19,7 @@ class QuizsApi < Grape::API
     requires :id, type: Integer, desc: 'Id du quiz'
   end
   get '/:id' do
-    Lib::Quizs.user "user"
+    Lib::Quizs.user user
     # récupère un quiz et gère l'exception si besoin dans la lib
     Lib::Quizs.get(params[:id])
   end
@@ -36,7 +36,7 @@ class QuizsApi < Grape::API
     optional :opt_shared, type: Boolean, desc: 'opt partager le quiz'
   end
   post '/update/:id' do
-    Lib::Quizs.user "user"
+    Lib::Quizs.user user
     # Met à jour le quiz
     Lib::Quizs.update(params)
   end

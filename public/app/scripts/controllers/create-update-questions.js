@@ -224,7 +224,6 @@ angular.module('quizsApp')
 		$rootScope.suggestions.tat.push({
 			text: null,
 			solution: {id: null, libelle: null},
-			ponctuation: null,
 			joindre: {file: null, type: null}
 		});
 	}
@@ -322,10 +321,6 @@ angular.module('quizsApp')
   }
   //fonction qui retourne au paramètres
   $scope.backParams = function(){
-		$state.go('quizs.params', {quiz_id: $rootScope.quiz.id});
-  }
-  // fonction qui réinitialise la question et ses réponses
-  $scope.cleanQuestion = function(){
   	Modal.open($scope.modalClearQuestionCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
   }
 
@@ -405,18 +400,13 @@ angular.module('quizsApp')
 		}];
 		//controller pour effacer toute la quetsion avec une modal
 		$scope.modalClearQuestionCtrl = ["$scope", "$rootScope", "$modalInstance", "Questions", function($scope, $rootScope, $modalInstance, Questions){
-			$scope.title = "Effacer la question";
-			$scope.message = "Êtes vous sûr de vouloir effacer toute la question ainsi que ses réponses ?";
+			$scope.title = "Annuler la question";
+			$scope.message = "Êtes vous sûr de vouloir annuler ?";
 			$scope.no = function(){
 				$modalInstance.close();
 			}
 			$scope.ok = function(){
-				// TODO: Effacer les anciennes questions de la base si mode modif
-				$rootScope.question = Questions.getDefaultQuestion();
-		  	$rootScope.suggestions = Questions.getDefaultSuggestions();
-		  	$(".line").remove();
-		  	$rootScope.changeType($rootScope.question.type);
-				$rootScope.validateAss = false;				
+				$state.go('quizs.params', {quiz_id: $rootScope.quiz.id});			
 				$modalInstance.close();					
 			}
 		}];

@@ -34,4 +34,20 @@ class SuggestionQCM < Suggestion
   	end
   	ids
   end
+
+  # Récupère les ids des solutions de la question
+  def find_all_solutions_ids
+  	ids = []
+  	sugestions_ids = find_all_ids
+  	datas = Solutions.where(:left_suggestion_id => sugestions_ids).select(:id)
+    datas.each do |data|
+      ids.push(data.id)
+    end
+    ids
+  end
+
+  # Récupère le nombre de réponses maximum dans la question
+  def nb_responses_max
+    find_all_ids.size
+  end
 end

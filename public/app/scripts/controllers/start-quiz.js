@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('StartQuizCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'Notifications', 'Quizs', 'QuizsApi', 'QuestionsApi', function($scope, $state, $stateParams, $rootScope, Notifications, Quizs, QuizsApi, QuestionsApi) {
+.controller('StartQuizCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'Notifications', 'Quizs', 'QuizsApi', 'QuestionsApi', 'SessionsApi', function($scope, $state, $stateParams, $rootScope, Notifications, Quizs, QuizsApi, QuestionsApi, SessionsApi) {
 	//on récupère le types de questions du quiz
 	var getTypes = function(){
 		var types = [];
@@ -166,7 +166,15 @@ angular.module('quizsApp')
 	};
 
 	$scope.start = function(){
-		$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id});
+		if ($scope.quiz.opt_rand_question_order) {
+			$scope.quiz.questions = Quizs.randQuestions($scope.quiz.questions);
+		};
+		$rootScope.quiz = angular.copy($scope.quiz);
+		SessionsApi.create({quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+			if (!response.error) {
+				$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id, session_id: response.session_created.id});				
+			};			
+		});
 	}
 	$scope.close = function(){
 		$state.go('quizs.home');
@@ -181,7 +189,16 @@ angular.module('quizsApp')
 			$scope.quiz = response.quiz_found;
 			$scope.quiz.opts = Quizs.getFormatOpt(response.quiz_found);
 			$scope.quiz.questions = [];
-			QuestionsApi.getAll({quiz_id: $scope.quiz.id, detailed: true}).$promise.then(function(responseQuesionApi){
+			// si le quiz à pour params de ne le jouer qu'une seul fois et qu'il existe déjà une session pour cette utilisateur, on lance une erreur
+			if (!response.quiz_found.opt_can_redo) {
+				SessionsApi.exist({quiz_id: response.quiz_found.id}).$promise.then(function(resp){
+					if (resp.exist) {
+						$state.go('erreur', {code: "401", message: "Vous ne pouvez exécuter ce quiz qu'une seule fois !"});
+					};
+				});
+			};
+
+			QuestionsApi.getAll({quiz_id: $scope.quiz.id, read: true}).$promise.then(function(responseQuesionApi){
 				$scope.quiz.questions = responseQuesionApi.questions_found;
 				// les différents types de question dans le quiz
 				$scope.types = getTypes();

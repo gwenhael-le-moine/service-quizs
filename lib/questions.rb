@@ -8,28 +8,29 @@ module Lib
     module_function
 
     def self.user(user)
-      # @user = user
-      @user = {
-        user: 'erasme',
-        is_logged: true,
-        uid: 'VAA60000',
-        login: 'erasme',
-        sexe: 'M',
-        nom: 'Levallois',
-        prenom: 'Pierre-Gilles',
-        date_naissance: '1970-02-06',
-        adresse: '1 rue Sans Nom Propre',
-        code_postal: '69000',
-        ville: 'Lyon',
-        bloque: nil,
-        id_jointure_aaf: nil,
-        avatar: '',
-        roles_max_priority_etab_actif: 3
-      }
+      @user = user
+      # @user = {
+      #   user: 'erasme',
+      #   is_logged: true,
+      #   uid: 'VAA60000',
+      #   login: 'erasme',
+      #   sexe: 'M',
+      #   nom: 'Levallois',
+      #   prenom: 'Pierre-Gilles',
+      #   date_naissance: '1970-02-06',
+      #   adresse: '1 rue Sans Nom Propre',
+      #   code_postal: '69000',
+      #   ville: 'Lyon',
+      #   bloque: nil,
+      #   id_jointure_aaf: nil,
+      #   avatar: '',
+      #   roles_max_priority_etab_actif: 3
+      # }
     end
 
     # Fonction qui récupère une question et ses réponses
-    def self.get(question_id)
+    # read permet d récupérer seulement les suggestions sans les solutions
+    def self.get(question_id, read = false)
       question = Question.new({id: question_id})
       question = question.find
       question_found = {
@@ -41,17 +42,19 @@ module Lib
         randanswer: question.opt_rand_suggestion_order,
         answers: [],
         leurres: [],
-        comment: question.correction_comment
+        comment: question.correction_comment,
+        sequence: question.order
       }
       case question.type
       when "QCM"
-        question_found[:answers] = get_all_suggestions_qcm(question_id)
+        question_found[:answers] = get_all_suggestions_qcm(question_id, read)
       when "TAT"
-        response = get_all_suggestions_tat(question_id)
-        question_found[:answers] = response[:answers] 
-        question_found[:leurres] = response[:leurres]
+        response = get_all_suggestions_tat(question_id, read)
+        question_found[:answers] = response[:answers]
+        question_found[:solutions] = response[:solutions] if read
+        question_found[:leurres] = response[:leurres] if !read
       when "ASS"
-        question_found[:answers] = get_all_suggestions_ass(question_id)
+        question_found[:answers] = get_all_suggestions_ass(question_id, read)
       end      
       {question_found: question_found}
     rescue => err
@@ -59,13 +62,13 @@ module Lib
     end
 
     # Fonction qui récupère toutes les questions d'un quiz
-    def self.get_all(quiz_id, detailed = false)
+    def self.get_all(quiz_id, read = false)
       questions_found = []
       questions = Question.new({quiz_id: quiz_id})
       questions = questions.find_all
       questions.each do |question|
-        if detailed
-          questions_found.push(self.get(question.id)[:question_found])
+        if read
+          questions_found.push(self.get(question.id, read)[:question_found])
         else
           questions_found.push({
             id: question.id,
@@ -75,7 +78,10 @@ module Lib
           })          
         end
       end
+      questions_found.sort_by! { |e| e[:sequence]   }
       {questions_found: questions_found}
+    rescue => err
+      LOGGER.error err.message + err.backtrace.inspect
     end
 
     # Fonction qui créé une question avec leurs suggestions et solutions
@@ -177,7 +183,7 @@ module Lib
 
     module_function
 
-    def get_all_suggestions_qcm(question_id)
+    def get_all_suggestions_qcm(question_id, read = false)
       answers = [
         {solution: false, proposition: "", joindre: {file: nil, type: nil}},
         {solution: false, proposition: "", joindre: {file: nil, type: nil}},
@@ -190,17 +196,20 @@ module Lib
       ]
       suggestions = SuggestionQCM.new({question_id: question_id})
       suggestions.find_all.each do |suggestion|
-        is_solution = SuggestionQCM.new({id: suggestion.id})
         answers[suggestion.order][:id] = suggestion.id
         answers[suggestion.order][:proposition] = suggestion.text
-        answers[suggestion.order][:solution] = is_solution.solution?
+        if !read
+          is_solution = SuggestionQCM.new({id: suggestion.id})
+          answers[suggestion.order][:solution] = is_solution.solution?          
+        end
       end
       answers
     end
 
-    def get_all_suggestions_tat(question_id)
+    def get_all_suggestions_tat(question_id, read = false)
       answers = []
       leurres = []
+      solutions = []
       # On récupère toutes les suggestions (textes, solutions et leurres)
       suggestions = SuggestionTAT.new({question_id: question_id})
       suggestions.find_all.each do |suggestion|
@@ -212,12 +221,11 @@ module Lib
           answer = {
             id: suggestion.id,
             text: suggestion.text,
-            ponctuation: nil,
             joindre: {file: nil, type: nil},
             solution: {id: nil, libelle: nil}
           }
           # Si il y a une solution, on la récupère (proposition droite)
-          if solution_id
+          if solution_id && !read
             solution = SuggestionTAT.new({id: solution_id})
             solution = solution.find
             answer[:solution][:id] = solution.id
@@ -227,18 +235,23 @@ module Lib
         else
           # Sinon si c'est une proposition droite 
           # et qu'elle n'est pas solution, c'est un leurre
-          if !solution_id
+          if !solution_id && !read
             leurres.push({
               id: suggestion.id,
               libelle: suggestion.text
             }) 
+          elsif read
+            solutions.push({
+              id: suggestion.id,
+              libelle: suggestion.text
+            })
           end          
         end
       end
-      {answers: answers, leurres: leurres}
+      {answers: answers, leurres: leurres, solutions: solutions}
     end
 
-    def get_all_suggestions_ass(question_id)
+    def get_all_suggestions_ass(question_id, read = false)
       answers = [
         {
           leftProposition: {libelle: nil, joindre: {file: nil, type: nil}, solutions: []}, 
@@ -281,11 +294,11 @@ module Lib
         if suggestion.position == 'L'
           answers[suggestion.order][:leftProposition][:id] = suggestion.id
           answers[suggestion.order][:leftProposition][:libelle] = suggestion.text
-          answers[suggestion.order][:leftProposition][:solutions] = solutions if solutions
+          answers[suggestion.order][:leftProposition][:solutions] = solutions if solutions && !read
         else
           answers[suggestion.order][:rightProposition][:id] = suggestion.id
           answers[suggestion.order][:rightProposition][:libelle] = suggestion.text
-          answers[suggestion.order][:rightProposition][:solutions] = solutions if solutions
+          answers[suggestion.order][:rightProposition][:solutions] = solutions if solutions && !read
         end
       end
       answers

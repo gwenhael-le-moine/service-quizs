@@ -61,6 +61,12 @@ angular.module('quizsApp')
 			$scope.add = function(){
 				$state.go('quizs.create_questions', {quiz_id: $scope.quiz.id});
 			}
+
+			// retour vers la page d'accueil
+			$scope.back = function(){
+				$state.go('quizs.home');
+			}
+
 			// fonction qui met à jour une question
 			$scope.updateQuestion = function(id){
 				$state.go('quizs.update_questions', {quiz_id: $scope.quiz.id, id: id});

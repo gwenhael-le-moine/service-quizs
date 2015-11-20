@@ -70,4 +70,11 @@ class SuggestionASS < Suggestion
     end
     ids
   end
+
+  # Récupère le nombre de réponses maximum dans la question
+  def nb_responses_max
+    nb_left_suggestions = Suggestions.where(:question_id => @question_id, :position => 'L').count
+    nb_right_suggestions = Suggestions.where(:question_id => @question_id, :position => 'R').count
+    nb_right_suggestions*nb_left_suggestions
+  end
 end

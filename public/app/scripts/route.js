@@ -165,6 +165,9 @@ angular.module('quizsApp')
           .state( 'quizs.read_questions',{
             parent: 'quizs.front',
             url: '/:quiz_id/start/questions/:id',
+            params: {
+              session_id: null
+            },
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',

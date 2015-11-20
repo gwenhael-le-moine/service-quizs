@@ -120,4 +120,22 @@ describe 'SuggestionQCMTest' do
     suggestion = SuggestionQCM.new({:id => "false_suggestion_id"})
     expect(suggestion.solution?).to be_falsey
   end
+
+  it "retourne les ids des suggestions" do
+    suggestion = SuggestionQCM.new({question_id: @datas_bdd[:questions][0][:id]})
+    suggestions = suggestion.find_all_ids
+    expect(suggestions.size).to eq(2)
+  end
+
+  it "retourne les ids des solutions" do
+    suggestion = SuggestionQCM.new({question_id: @datas_bdd[:questions][0][:id]})
+    solutions_suggestion = suggestion.find_all_solutions_ids
+    expect(solutions_suggestion.size).to eq(1)
+  end
+
+  it "retourne le nombre max de réponse possible" do
+    suggestion = SuggestionQCM.new({question_id: @datas_bdd[:questions][0][:id]})
+    nb_rep_max = suggestion.nb_responses_max
+    expect(nb_rep_max).to eq(2)
+  end
 end

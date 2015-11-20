@@ -55,7 +55,7 @@
 
 .preview .quit-preview{	
 	text-align: right;
-	padding: 20px 30px;
+	padding: 10px 30px;
 }
 .preview .quit-preview .btn.btn-quiz.hover{
 	display: inline-block;
@@ -206,6 +206,27 @@
 	background-color: #1aa1cc;
 }
 
+.preview .score-img{
+	margin-top: 20px;
+	padding: 0 200px;
+}
+.preview .score-img .score-00,
+.preview .score-img .score-02,
+.preview .score-img .score-04,
+.preview .score-img .score-06,
+.preview .score-img .score-08,
+.preview .score-img .score-10,
+.preview .score-img .score-12,
+.preview .score-img .score-14,
+.preview .score-img .score-16,
+.preview .score-img .score-18,
+.preview .score-img .score-20{
+	height: 34px;
+	width: 100%;
+	display: inline-block;
+	vertical-align: middle;
+}
+
 
 /*** css des mobiles seuls ***/
 @media screen and (max-width: 768px) {
@@ -270,5 +291,11 @@
 	}
 	.preview .info-ass .infos-texte{
 		padding-left: 15px;
+	}
+	.display-none{
+		display: none;
+	}
+	.preview .score-img{
+		padding: 0 10px;
 	}
 }

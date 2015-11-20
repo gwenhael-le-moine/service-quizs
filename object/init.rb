@@ -29,3 +29,12 @@ require __dir__('solution_tat')
 
 puts 'loading object/solution_ass'
 require __dir__('solution_ass')
+
+puts 'loading object/publication'
+require __dir__('publication')
+
+puts 'loading object/session'
+require __dir__('session')
+
+puts 'loading object/answer'
+require __dir__('answer')
