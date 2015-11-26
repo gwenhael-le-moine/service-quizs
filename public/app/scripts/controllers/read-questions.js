@@ -13,7 +13,6 @@ angular.module('quizsApp')
   if (!$rootScope.quiz) {
   	$state.go('erreur', {code: "404", message: "Impossible de charger la question !"});
   };
-  console.log($rootScope.quiz);
   $scope.showScore = $rootScope.quiz.opt_show_score == 'after_each';
   SessionsApi.get({id: $stateParams.session_id}).$promise.then(function(response){
   	if (!response.error) {
@@ -23,7 +22,6 @@ angular.module('quizsApp')
 	//on récupère la question
 	$scope.question = angular.copy(_.find($rootScope.quiz.questions, function(q){
 		if (q.id == $stateParams.id) {
-			console.log(q);
 			var numQuestion = q.sequence+1;
 			$scope.actionTitle = "question " + numQuestion + "/" + $rootScope.quiz.questions.length
 			if (q.type === 'tat') {
@@ -47,6 +45,12 @@ angular.module('quizsApp')
 	}
 	//recherche la question suivante et retourne l'id
 	$scope.nextQuestion = function(){
+		//Si on affiche la correction après chaque question
+		// on renvoi l'id de la question
+		if($rootScope.quiz.opt_show_correct == 'after_each'){
+			return $scope.question.id;
+		}
+		//sinon
 		//on retrouve l'id de la question suivante
 		var nextNumQuestion = $scope.question.sequence + 1;
 		var nextId = null;
@@ -94,12 +98,16 @@ angular.module('quizsApp')
 	}
 	//fonction permettant de passer à la question suivante 
 	$scope.next = function(){
-		console.log($scope.question);
-		AnswersApi.create({session_id: $stateParams.session_id, question: $scope.question, quiz_id: $rootScope.quiz.id})
-		var nextId = $scope.nextQuestion();
-		if (nextId) {
-			$state.go('quizs.read_questions', {quiz_id: $rootScope.quiz.id, id: nextId, session_id: $stateParams.session_id});
-		};
+		AnswersApi.create({session_id: $stateParams.session_id, question: $scope.question, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+			var nextId = $scope.nextQuestion();
+			if (nextId) {
+				if($rootScope.quiz.opt_show_correct == 'after_each'){
+					$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, id: nextId, session_id: $stateParams.session_id});
+				} else {
+					$state.go('quizs.read_questions', {quiz_id: $rootScope.quiz.id, id: nextId, session_id: $stateParams.session_id});				
+				}
+			};
+		});		
 	}
 	//fonction permettant de passer à la question suivante 
 	$scope.pre = function(){

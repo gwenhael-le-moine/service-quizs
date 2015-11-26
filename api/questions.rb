@@ -20,12 +20,14 @@ class QuestionsApi < Grape::API
   desc "récupère la question"
   params do
     requires :id, type: Integer, desc: 'Id de la question'
+    optional :marking, type: Boolean, desc: "permet de retourner les réponses de l'utilisateur et les solutions réel pour la correction"
+    optional :session_id, type: Integer, desc: "id de la session pour récupérer les réponse d'un utilisateur"
   end
   get '/:id' do
     Lib::Questions.user user
     # récupère la question et gère l'exception si besoin dans la lib
     puts params[:id].class.inspect
-    Lib::Questions.get(params[:id])
+    Lib::Questions.get(params[:id], nil, params[:marking], params[:session_id])
   end
 
   desc "récupère les questions d'un quiz"

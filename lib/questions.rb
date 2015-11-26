@@ -30,7 +30,7 @@ module Lib
 
     # Fonction qui récupère une question et ses réponses
     # read permet d récupérer seulement les suggestions sans les solutions
-    def self.get(question_id, read = false)
+    def self.get(question_id, read = false, marking = false, session_id = nil)
       question = Question.new({id: question_id})
       question = question.find
       question_found = {
@@ -47,14 +47,18 @@ module Lib
       }
       case question.type
       when "QCM"
-        question_found[:answers] = get_all_suggestions_qcm(question_id, read)
-      when "TAT"
-        response = get_all_suggestions_tat(question_id, read)
+        response = get_all_suggestions_qcm(question_id, read, marking, session_id)
         question_found[:answers] = response[:answers]
-        question_found[:solutions] = response[:solutions] if read
-        question_found[:leurres] = response[:leurres] if !read
+        question_found[:solutions] = response[:solutions] if marking
+      when "TAT"
+        response = get_all_suggestions_tat(question_id, read, marking, session_id)
+        question_found[:answers] = response[:answers]
+        question_found[:solutions] = response[:solutions] if read || marking
+        question_found[:leurres] = response[:leurres] if !read || !marking
       when "ASS"
-        question_found[:answers] = get_all_suggestions_ass(question_id, read)
+        response = get_all_suggestions_ass(question_id, read, marking, session_id)
+        question_found[:answers] = response[:answers]
+        question_found[:solutions] = response[:solutions] if marking
       end      
       {question_found: question_found}
     rescue => err
@@ -183,7 +187,7 @@ module Lib
 
     module_function
 
-    def get_all_suggestions_qcm(question_id, read = false)
+    def get_all_suggestions_qcm(question_id, read = false, marking = false, session_id = nil)
       answers = [
         {solution: false, proposition: "", joindre: {file: nil, type: nil}},
         {solution: false, proposition: "", joindre: {file: nil, type: nil}},
@@ -194,64 +198,108 @@ module Lib
         {solution: false, proposition: "", joindre: {file: nil, type: nil}},
         {solution: false, proposition: "", joindre: {file: nil, type: nil}}
       ]
+      solutions = []
       suggestions = SuggestionQCM.new({question_id: question_id})
       suggestions.find_all.each do |suggestion|
         answers[suggestion.order][:id] = suggestion.id
         answers[suggestion.order][:proposition] = suggestion.text
-        if !read
-          is_solution = SuggestionQCM.new({id: suggestion.id})
-          answers[suggestion.order][:solution] = is_solution.solution?          
+        is_solution = SuggestionQCM.new({id: suggestion.id}) unless read
+        if marking
+          solutions.push(suggestion.id) if is_solution.solution?       
+          is_solution = Answer.new({session_id: session_id, left_suggestion_id: suggestion.id})
+          answers[suggestion.order][:solution] = !is_solution.find_all.empty?
+        else
+          answers[suggestion.order][:solution] = is_solution.solution? unless read
         end
       end
-      answers
+      {answers: answers, solutions: solutions}
     end
 
-    def get_all_suggestions_tat(question_id, read = false)
+    # Récupère toutes les suggestions TAT de la question
+    # read est le paramètre pour récupérer seulement les proposition gauche 
+    #      et toutes les propositions doites mélangées seulement pour le mode lecture du quiz
+    # marking est le paramètre pour le mode correction, 
+    #         on récupère les réponse de l'élève et les solutions
+    def get_all_suggestions_tat(question_id, read = false, marking = false, session_id)
       answers = []
       leurres = []
       solutions = []
       # On récupère toutes les suggestions (textes, solutions et leurres)
       suggestions = SuggestionTAT.new({question_id: question_id})
       suggestions.find_all.each do |suggestion|
-        # On regarde s'il a une solution
-        is_solution = SuggestionTAT.new({id: suggestion.id, position: suggestion.position})
-        solution_id = is_solution.solution?
         # Si c'est la proposition de gauche (le texte)
         if suggestion.position == 'L'
-          answer = {
-            id: suggestion.id,
-            text: suggestion.text,
-            joindre: {file: nil, type: nil},
-            solution: {id: nil, libelle: nil}
-          }
-          # Si il y a une solution, on la récupère (proposition droite)
-          if solution_id && !read
-            solution = SuggestionTAT.new({id: solution_id})
-            solution = solution.find
-            answer[:solution][:id] = solution.id
-            answer[:solution][:libelle] = solution.text
-          end
-          answers.push(answer)
+          # On récupère la proposition de gauche
+          result = get_left_suggestion_tat(suggestion, read, marking, session_id, solutions)
+          solutions = result[:solutions]
+          answers.push(result[:answer])
         else
-          # Sinon si c'est une proposition droite 
-          # et qu'elle n'est pas solution, c'est un leurre
-          if !solution_id && !read
-            leurres.push({
-              id: suggestion.id,
-              libelle: suggestion.text
-            }) 
-          elsif read
-            solutions.push({
-              id: suggestion.id,
-              libelle: suggestion.text
-            })
-          end          
+          if !marking
+            is_solution = SuggestionTAT.new({id: suggestion.id, position: suggestion.position})
+            is_solution = is_solution.solution?
+            # on enregistre les leurres si on est pas en mode lecture
+            leurres.push(format_right_suggestion_tat(suggestion)) if !is_solution && !read
+            # En mode lecture on retourne toutes les solutions avec les leurres mélangés
+            solutions.push(format_right_suggestion_tat(suggestion)) if read
+          end         
         end
       end
       {answers: answers, leurres: leurres, solutions: solutions}
     end
 
-    def get_all_suggestions_ass(question_id, read = false)
+    def get_left_suggestion_tat(suggestion, read = false, marking = false, session_id = nil, solutions = [])
+      answer = format_left_suggestion_tat(suggestion)
+      # Si on n'est pas dans le mode lecture
+      if !read
+        solution_id = SuggestionTAT.new({id: suggestion.id, position: suggestion.position})
+        solution_id = solution_id.solution?
+        # On récupère la solution et dans le mode correction, la réponse de l'utilisateur
+        if marking
+          user_answer_id = Answer.new({session_id: session_id, left_suggestion_id: suggestion.id})
+          user_answer_id = user_answer_id.find_all.first
+          # Réponse de l'élève
+          if user_answer_id
+            answer[:solution] = get_right_suggestion_tat(user_answer_id.right_suggestion_id) 
+          else
+            answer[:solution] = nil
+          end
+          # Solution exacte de la suggestion
+          solutions.push({id: suggestion.id, solution: get_right_suggestion_tat(solution_id)}) if solution_id
+        else
+          answer[:solution] = get_right_suggestion_tat(solution_id) if solution_id
+        end
+      end
+      {answer: answer, solutions: solutions}
+    end
+
+    def format_left_suggestion_tat(suggestion)
+      {
+        id: suggestion.id,
+        text: suggestion.text,
+        joindre: {file: nil, type: nil},
+        solution: {id: nil, libelle: nil}
+      }
+    end
+
+    def format_right_suggestion_tat(suggestion)
+      {
+        id: suggestion.id,
+        libelle: suggestion.text
+      }
+    end
+
+    def get_right_suggestion_tat(right_suggestion_id)
+      answer = {}
+      if right_suggestion_id
+        right_suggestion = SuggestionTAT.new({id: right_suggestion_id})
+        right_suggestion = right_suggestion.find
+        answer = format_right_suggestion_tat(right_suggestion)
+      end
+      answer
+    end
+
+
+    def get_all_suggestions_ass(question_id, read = false, marking = false, session_id = nil)
       answers = [
         {
           leftProposition: {libelle: nil, joindre: {file: nil, type: nil}, solutions: []}, 
@@ -286,23 +334,59 @@ module Lib
           rightProposition: {libelle: nil, joindre: {file: nil, type: nil}, solutions: []}
         }
       ]
+      solutions = []
       # On récupère toutes les suggestions
       suggestions = SuggestionASS.new({question_id: question_id})
-      suggestions.find_all.each do |suggestion|
-        is_solution = SuggestionASS.new({id: suggestion.id, position: suggestion.position})
-        solutions = is_solution.solution? 
+      suggestions = suggestions.find_all.order(:order)
+      suggestions.each do |suggestion|
         if suggestion.position == 'L'
           answers[suggestion.order][:leftProposition][:id] = suggestion.id
           answers[suggestion.order][:leftProposition][:libelle] = suggestion.text
-          answers[suggestion.order][:leftProposition][:solutions] = solutions if solutions && !read
+          if !read
+            solutions_id = SuggestionASS.new({id: suggestion.id, position: suggestion.position})
+            solutions_id = solutions_id.solution?(marking)
+            if marking
+              solutions.push({id: suggestion.id, solutions: solutions_id}) if suggestion.position == 'L'
+              user_answers_id = Answer.new({session_id: session_id, left_suggestion_id: suggestion.id})
+               user_answers_id = user_answers_id.find_all
+              answers[suggestion.order][:leftProposition][:solutions] = user_answers_id.map(:right_suggestion_id) if user_answers_id
+            else
+              puts "marking is false suggestion gauche: #{solutions_id}"
+              answers[suggestion.order][:leftProposition][:solutions] = solutions_id if solutions_id              
+            end
+          end
         else
           answers[suggestion.order][:rightProposition][:id] = suggestion.id
           answers[suggestion.order][:rightProposition][:libelle] = suggestion.text
-          answers[suggestion.order][:rightProposition][:solutions] = solutions if solutions && !read
+          if !read
+            solutions_id = SuggestionASS.new({id: suggestion.id, position: suggestion.position})
+            solutions_id = solutions_id.solution?(marking)
+            if marking
+              user_answers_id = Answer.new({session_id: session_id, right_suggestion_id: suggestion.id})
+              user_answers_id = user_answers_id.find_all
+              answers[suggestion.order][:rightProposition][:solutions] = user_answers_id.map(:left_suggestion_id) if user_answers_id
+            else
+              puts "marking is false suggestion droite: #{solutions_id}"
+              answers[suggestion.order][:rightProposition][:solutions] = solutions_id if solutions_id              
+            end
+          end
         end
+        # leftProposition = format_suggestion_ass(suggestion) if suggestion.position == 'L'
+        # rightProposition = format_suggestion_ass(suggestion) if suggestion.position == 'R'
+
       end
-      answers
+      {answers: answers, solutions: solutions}
     end
+
+    def format_suggestion_ass(suggestion)
+      {
+        id: suggestion.id,
+        libelle: suggestion.text, 
+        joindre: {file: nil, type: nil}, 
+        solutions: []
+      }
+    end
+
     # Création de toutes les suggestions/solutions de la question QCM
     def create_answers_qcm(quiz)
       # order des suggestions

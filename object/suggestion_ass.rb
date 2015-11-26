@@ -19,30 +19,24 @@ class SuggestionASS < Suggestion
 
 	# Permet de savoir si la suggestion est solution 
 	# et de retourner les suggestions associées
-  def solution?
+  def solution?(marking = false)
   	is_solution = false
-  	if @position == 'L'
-  		solutions = Solutions.where(:left_suggestion_id => @id)
-  		unless solutions.nil? && solutions.empty?
-  			is_solution = []
-  			solutions.each do |solution|
-          order = SuggestionASS.new({id: solution.right_suggestion_id})
+		solutions = Solutions.where(:right_suggestion_id => @id) if @position == 'R'
+    solutions = Solutions.where(:left_suggestion_id => @id) if @position == 'L'
+		unless solutions.nil? || solutions.empty?
+			is_solution = []
+			solutions.each do |solution|
+        if !marking
+          order = SuggestionASS.new({id: solution.left_suggestion_id}) if @position == 'R'
+          order = SuggestionASS.new({id: solution.right_suggestion_id}) if @position == 'L'
           order = order.find.order
   				is_solution.push(order)
-  			end
-  		end
-    end
-  	if @position == 'R'
-			solutions = Solutions.where(:right_suggestion_id => @id)
-  		unless solutions.nil? && solutions.empty?
-  			is_solution = []
-  			solutions.each do |solution|
-          order = SuggestionASS.new({id: solution.left_suggestion_id})
-          order = order.find.order
-  				is_solution.push(order)
-  			end
-  		end
-  	end
+        else
+          is_solution.push(solution.left_suggestion_id) if @position == 'R'
+          is_solution.push(solution.right_suggestion_id) if @position == 'L'
+        end
+			end
+		end
   	is_solution
   end
 

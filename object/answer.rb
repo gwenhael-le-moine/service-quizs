@@ -40,11 +40,13 @@ class Answer
   end
 
   # Récupération d'une liste de réponses par rapport à
-  # sesison_id Integer
+  # session_id Integer
   def find_all
   	answers = []
-  	# Récupération des publications d'un quiz
-  	answers = Answers.where(:session_id => @session_id) unless @session_id.nil?
+  	# Récupération des réponses d'une sessions
+  	answers = Answers.where(:session_id => @session_id) unless @session_id.nil? || !@left_suggestion_id.nil?
+    answers = Answers.where(:session_id => @session_id, :left_suggestion_id => @left_suggestion_id) unless @session_id.nil? || @left_suggestion_id.nil?
+    answers = Answers.where(:session_id => @session_id, :right_suggestion_id => @right_suggestion_id) unless @session_id.nil? || @right_suggestion_id.nil?
   	answers
   end
 

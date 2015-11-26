@@ -19,6 +19,7 @@ describe 'LibQuestionsTest' do
 
   it "Retourne une question QCM et ses réponses" do
     result = Lib::Questions.get(@datas_bdd[:questions][0].id)
+    puts result[:question_found].inspect
     expect(result[:question_found][:type]).to eq('qcm')
     expect(result[:question_found][:libelle]).to eq('Question numéro 0')
     expect(result[:question_found][:hint][:libelle]).to eq('Aide pour la question numéro 0')

@@ -5,8 +5,7 @@
 angular.module('quizsApp')
 .controller('QuizCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'Modal', 'Notifications', 'QuizsApi', 'Users', 'APP_PATH', function($scope, $state, $stateParams, $rootScope, Modal, Notifications, QuizsApi, Users, APP_PATH) {
 
-	if ($state.current.name !== 'quizs.read_questions') {
-		console.log('! read');
+	if ($state.current.name !== 'quizs.read_questions' && $state.current.name !== 'quizs.marking_questions') {
 		QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
 			if (!response.error) {
 				$rootScope.quiz = response.quiz_found;

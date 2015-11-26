@@ -4,7 +4,7 @@
 angular.module('quizsApp')
 .factory('QuestionsApi', ['$resource', 'APP_PATH', function( $resource, APP_PATH ) {
   return $resource( APP_PATH + '/api/questions/', {}, {
-  	'get': {method: 'GET', url: APP_PATH + '/api/questions/:id', params: {id: '@id'}},
+  	'get': {method: 'GET', url: APP_PATH + '/api/questions/:id', params: {id: '@id', marking: '@marking', session_id: '@session_id'}},
     'create': {method: 'POST', url: APP_PATH + '/api/questions/create', params: {quiz: '@quiz'}},
     'getAll': {method: 'GET', url: APP_PATH + '/api/questions/all/:quiz_id', params: {quiz_id: '@quiz_id', read: '@read'}},
     'update': {method: 'PUT', url: APP_PATH + '/api/questions/update', params: {quiz: '@quiz'}},

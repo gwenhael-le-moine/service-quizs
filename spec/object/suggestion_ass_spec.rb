@@ -111,9 +111,14 @@ describe 'SuggestionASSTest' do
 		expect { deleted_suggestion.delete }.to raise_error(RuntimeError)
 	end
 
-  it "retourne les id des suggestions associées si la suggestion est une solution" do
+  it "retourne l'odre des suggestions associées si la suggestion est une solution" do
     suggestion = SuggestionASS.new({:id => @datas_bdd[:suggestions][2].id, :position => 'L'})
     expect(suggestion.solution?).to eq([@datas_bdd[:suggestions][3].order])
+  end
+
+  it "retourne les id des suggestions associées si la suggestion est une solution" do
+    suggestion = SuggestionASS.new({:id => @datas_bdd[:suggestions][2].id, :position => 'L'})
+    expect(suggestion.solution?(true)).to eq([@datas_bdd[:suggestions][3].id])
   end
 
   it "retourne faux si la suggestion n'est pas une solution ou si l'id est null" do

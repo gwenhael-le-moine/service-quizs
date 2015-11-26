@@ -137,6 +137,10 @@ angular.module('quizsApp')
           .state( 'quizs.marking_questions',{
             parent: 'quizs.front',
             url: '/:quiz_id/questions/:id/correction',
+            params: {
+              session_id: null,
+              next_question_id: null
+            },
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
