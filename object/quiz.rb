@@ -67,7 +67,7 @@ class Quiz
   	# Récupération des quizs d'un utilisateur
   	quizs = Quizs.where(:user_id => @user_id) unless @user_id.nil?
   	# Récupération des quizs partagés
-  	quizs = Quizs.where(:opt_shared => @opt_shared) unless @opt_shared.nil?
+  	quizs = Quizs.where(:opt_shared => @opt_shared).exclude(:user_id => @user_id) unless @opt_shared.nil? || @user_id.nil?
   	quizs
   end
 
@@ -102,5 +102,25 @@ class Quiz
   	quiz.delete
   rescue => err
     raise_err err, "erreur lors de la suppression d'un quiz"
+  end	
+  
+  # Clone un quiz dans la base
+  def duplicate
+  	quiz_source = find
+  	@user_id = @user_id
+		@opt_can_redo = quiz_source.opt_can_redo
+		@opt_can_rewind = quiz_source.opt_can_rewind
+		@opt_rand_question_order = quiz_source.opt_rand_question_order
+		@opt_shared = false
+		@opt_show_score = quiz_source.opt_show_score
+		@opt_show_correct = quiz_source.opt_show_correct
+		@title = quiz_source.title
+  	new_quiz = create
+  	# On duplique les questions
+  	questions = Question.new({quiz_id: quiz_source.id})
+  	questions.duplicate(new_quiz.id)
+  	new_quiz
+  rescue => err
+    raise_err err, "erreur lors du clonage d'un quiz"
   end	
 end

@@ -14,3 +14,9 @@ require __dir__('sessions')
 
 puts 'loading lib/answers'
 require __dir__('answers')
+
+puts 'loading lib/users'
+require __dir__('users')
+
+puts 'loading lib/publications'
+require __dir__('publications')

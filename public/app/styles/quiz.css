@@ -516,6 +516,19 @@ input.placeholder, textarea.placeholder {
   background-size: 100%;
   background-position: center;
 }
+.calendar-warning.img{
+  background-image: url('../images/calendrier-jaune.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+.calendar-danger.img{
+  background-image: url('../images/calendrier-rouge.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
+
 
 /*************************  PARTIE QUIZ  ***********************/
 .bandeau{

@@ -50,4 +50,24 @@ class SuggestionQCM < Suggestion
   def nb_responses_max
     find_all_ids.size
   end
+
+  # duplique la suggestion
+  def duplicate(new_question_id)
+    suggestions = find_all
+    suggestions.each do |suggestion_source|
+      @question_id = new_question_id
+      @text = suggestion_source.text
+      @order = suggestion_source.order
+      @position = suggestion_source.position
+      @medium_id = suggestion_source.medium_id
+      new_suggestion = create
+      @id = suggestion_source.id
+      if solution?
+        new_solution = SolutionQCM.new({left_suggestion_id: new_suggestion.id})
+        new_solution.create
+      end
+    end
+  rescue => err
+    raise_err err, "erreur lors du clonage d'une suggestion qcm"
+  end
 end

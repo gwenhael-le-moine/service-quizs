@@ -36,8 +36,8 @@
 					</div>
 					<div ng-if="roleMax == 0" class="col-xs-10 col-sm-5 col-md-5 col-lg-5 session">
 						<span ng-if="!quiz.session" class="texte-secondaire-italic">Vous n'avez pas lancé ce quiz</span>
-						<p class="score-{{quiz.session.score}} img" tooltip-placement="bottom" uib-tooltip="Cliquez ici pour afficher vos sessions sur ce quiz. Votre meilleur score est de {{quiz.session.score}}/20" ng-click="openSession(quiz.session.id, null)"></p>
-						<span ng-if="quiz.session" class="score-mobile texte-secondaire-italic">{{quiz.session.score}}/20</span>
+						<p class="score-{{quiz.session.score | scorecss}} img" tooltip-placement="bottom" uib-tooltip="Cliquez ici pour afficher vos sessions sur ce quiz. Votre meilleur score est de {{quiz.session.score}}/100" ng-click="openSession(quiz.session.id, null)"></p>
+						<span ng-if="quiz.session" class="score-mobile texte-secondaire-italic">{{quiz.session.score}}/100</span>
 					</div>
 					<div ng-if="roleMax > 0" class="col-xs-12 col-sm-3 col-md-5 col-lg-3 publish-in">
 						<span ng-if="quiz.publishes.length == 0" class="texte-secondaire-italic">Aucune publication</span>
@@ -48,6 +48,9 @@
 						<span ng-if="quiz.publishes.length > 0" class="texte" ng-click="openRgpts(quiz.id)">Publications</span>
 					</div>
 					<div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
+						<div ng-if="roleMax == 0">
+							<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{quiz.toDate | date:'EEEE d MMMM yyyy'}}"></p>
+						</div>
 						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>
 						<div ng-if="roleMax > 0 || quiz.canRedo">
 							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id)"></p>					
@@ -70,7 +73,7 @@
 						</div>
 						<p ng-if="roleMax > 0" class="border img"></p>
 						<div ng-if="roleMax > 0">
-							<p class="share img" ng-class="{active: quiz.share}" tooltip-placement="bottom" uib-tooltip="Partager" ng-click="quiz.share = !quiz.share"></p>							
+							<p class="share img" ng-class="{active: quiz.share}" tooltip-placement="bottom" uib-tooltip="Partager" ng-click="shared(quiz)"></p>							
 						</div>						
 					</div>
 				</div>

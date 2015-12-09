@@ -14,6 +14,8 @@ puts 'loading api/SessionsApi'
 require __dir__('sessions')
 puts 'loading api/AnswersApi'
 require __dir__('answers')
+puts 'loading api/PublicationsApi'
+require __dir__('publications')
 
 
 # Point d'entrée des API de quiz
@@ -34,6 +36,7 @@ class Api < Grape::API
   resource(:questions) { mount QuestionsApi }
   resource(:sessions) { mount SessionsApi }
   resource(:answers) { mount AnswersApi }
+  resource(:publications) { mount PublicationsApi }
 
   add_swagger_documentation
 end

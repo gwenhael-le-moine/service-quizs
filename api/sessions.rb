@@ -17,6 +17,13 @@ class SessionsApi < Grape::API
     Lib::Sessions.create(params[:quiz_id])
   end
 
+  desc "récupère les sessions de l'utilisateur"
+  get '/' do
+    Lib::Sessions.user user
+    # Met à jour le quiz
+    Lib::Sessions.get_all
+  end
+
   desc "récupère une session"
   params do
     requires :id, type: Integer, desc: 'Id de la session'

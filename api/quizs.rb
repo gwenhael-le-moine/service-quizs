@@ -24,6 +24,20 @@ class QuizsApi < Grape::API
     Lib::Quizs.get(params[:id])
   end
 
+  desc "récupère les quizs de l'utlisateur courant"
+  params do
+    optional :shared, type: Boolean, desc: 'boolean permattant de récupérer les quizs partagés'
+  end
+  get '/' do
+    Lib::Quizs.user user
+    # récupère un quiz et gère l'exception si besoin dans la lib
+    if params[:shared]
+      Lib::Quizs.get_shared
+    else
+      Lib::Quizs.get_all
+    end
+  end
+
   desc "met à jour les paramètres du quiz"
   params do
     requires :id, type: Integer, desc: 'Id du quiz'
@@ -39,5 +53,25 @@ class QuizsApi < Grape::API
     Lib::Quizs.user user
     # Met à jour le quiz
     Lib::Quizs.update(params)
+  end
+
+  desc "supprime un quiz"
+  params do
+    requires :id, type: Integer, desc: 'Id du quiz'
+  end
+  delete '/:id' do
+    Lib::Quizs.user user
+    # supprime un quiz et gère l'exception si besoin dans la lib
+    Lib::Quizs.delete(params[:id])
+  end
+
+  desc "duplique un quiz"
+  params do
+    requires :id, type: Integer, desc: 'Id du quiz'
+  end
+  get 'duplicate/:id' do
+    Lib::Quizs.user user
+    # duplique un quiz et gère l'exception si besoin dans la lib
+    Lib::Quizs.duplicate(params[:id])
   end
 end

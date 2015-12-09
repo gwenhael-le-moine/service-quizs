@@ -8,20 +8,26 @@ angular.module('quizsApp')
 	// Si personnel education
 	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
 	$scope.parents = Users.getCurrentUser().isParents;
+	console.log($scope.parents);
 	//on récupère les enfants du parents
 	if ($scope.roleMax == 0 && $scope.parents) {
-		$scope.childs = $rootScope.childs;
 		//pour les parent fils courant
-		$scope.currentChild = $scope.childs[0];
-		$scope.quizs = angular.copy(_.filter($rootScope.quizs, function(quiz){
-			return _.contains($scope.childs[0].quizs, quiz.id);
-		}));
+		QuizsApi.quizs().$promise.then(function(response){
+			$rootScope.quizs = response.quizs_found.quizs;
+			$scope.childs = response.quizs_found.childs;
+			$rootScope.currentChild = $scope.childs[0];
+			$scope.quizs = angular.copy(_.filter($rootScope.quizs, function(quiz){
+				return _.contains($scope.childs[0].quizs, quiz.id);
+			}));
+		});
 	} else {
-		$scope.quizs = $rootScope.quizs;
+		QuizsApi.quizs().$promise.then(function(response){
+			$rootScope.quizs = response.quizs_found;
+		});
 	};
 	// permet de changer d'enfant ainsi que de récupérer ses quizs
 	$scope.changeCurrentChild = function(child){
-		$scope.currentChild = child;
+		$rootScope.currentChild = child;
 		$scope.quizs = angular.copy(_.filter($rootScope.quizs, function(quiz){
 			return _.contains(child.quizs, quiz.id);
 		}));
@@ -43,7 +49,7 @@ angular.module('quizsApp')
 	}
 	// ouvre une modal avec tous les regroupements
 	$scope.openRgpts = function(quiz_id){
-		$rootScope.displayRgptsQuiz = _.find($scope.quizs, function(quiz){
+		$rootScope.displayRgptsQuiz = _.find($rootScope.quizs, function(quiz){
 			return quiz.id === quiz_id;
 		});
 		Modal.open($scope.modalDisplayRegroupementsCtrl, APP_PATH + '/app/views/modals/display-regroupements.html', 'md'); 
@@ -58,28 +64,38 @@ angular.module('quizsApp')
 	}
 	// supprime le quiz
 	$scope.deleteQuiz = function(quiz_id){
-		$rootScope.quizs = $scope.quizs = _.reject($scope.quizs, function(quiz){
-			return quiz.id === quiz_id;
-		});
-		//supprime le quiz coté backend
+		$rootScope.deleteQuizId = quiz_id; 
+		Modal.open($scope.modalClearQuizCtrl, APP_PATH + '/app/views/modals/confirm.html', 'md');
 	}
 	// duplique le quiz
 	$scope.duplicateQuiz = function(quiz_id){
-		var quizDuplicated =  angular.copy(_.find($scope.quizs, function(quiz){
-			return quiz.id === quiz_id;
-		}));
-		// sert seulement pour la démo
-		quizDuplicated.id = _.max($scope.quizs, function(quiz){
-			return quiz.id;
-		}).id +1;
-		quizDuplicated.share = false;
-		$scope.quizs.push(quizDuplicated);
-		// duplique le quiz coté backend
+		QuizsApi.duplicate({id: quiz_id}).$promise.then(function(response){
+			if (!response.error) {
+				var quizDuplicated =  angular.copy(_.find($rootScope.quizs, function(quiz){
+					return quiz.id === quiz_id;
+				}));
+				quizDuplicated.id = response.quiz_duplicated.id;
+				quizDuplicated.share = false;
+				$rootScope.quizs.push(quizDuplicated);
+			};
+		});
 	}
 	// publie le quiz
 	$scope.publishQuiz = function(quiz_id){
 		$state.go('quizs.publish', {quiz_id: quiz_id});
 	}
+	$scope.shared = function(quiz){
+		QuizsApi.update({id: quiz.id, opt_shared: !quiz.share}).$promise.then(function(response){
+			if (!response.error){
+				angular.forEach($rootScope.quizs, function(q, index){
+					if (q.id === quiz.id) {
+						$rootScope.quizs[index].share = !quiz.share;						
+					};
+				});
+			}
+		})
+	}
+
 	// -------------- Controllers Modal --------------- //
 		//controller pour afficher les regroupements dans lequel le quiz a été publié avec une modal
 		$scope.modalDisplayRegroupementsCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
@@ -91,6 +107,25 @@ angular.module('quizsApp')
 			$scope.openSession = function(rgpt_id){
 				$modalInstance.close();
 				$state.go('quizs.sessions', {quiz_id: $rootScope.displayRgptsQuiz.id, rgpt_id: rgpt_id});
+			}
+		}];
+
+		//controller pour supprimer un quiz avec une modal
+		$scope.modalClearQuizCtrl = ["$scope", "$rootScope", "$modalInstance", "QuizsApi", function($scope, $rootScope, $modalInstance, QuizsApi){
+			$scope.title = "Supprimer un quiz";
+			$scope.message = "Êtes vous sûr de vouloir supprimer ce quiz ?";
+			$scope.no = function(){
+				$modalInstance.close();
+			}
+			$scope.ok = function(){
+				QuizsApi.delete({id: $rootScope.deleteQuizId}).$promise.then(function(response){
+					if (!response.error) {
+						$rootScope.quizs = _.reject($rootScope.quizs, function(quiz){
+							return quiz.id === $rootScope.deleteQuizId;
+						});
+						$modalInstance.close();					
+					};
+				});			
 			}
 		}];
 }]);

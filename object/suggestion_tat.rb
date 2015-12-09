@@ -88,4 +88,44 @@ class SuggestionTAT < Suggestion
   def nb_responses_max
     Suggestions.where(:question_id => @question_id, :position => 'L').count + 1
   end
+
+  # duplique les suggestions
+  def duplicate(new_question_id)
+    suggestions = find_all
+    suggestions.each do |suggestion_source|
+      @id = suggestion_source.id
+      @position = suggestion_source.position
+      @question_id = new_question_id
+      @text = suggestion_source.text
+      @order = suggestion_source.order
+      @medium_id = suggestion_source.medium_id
+      solution_id = solution?
+      if @position == "L"
+        new_left_suggestion = create
+        if solution_id
+          new_right_suggestion = duplicate_right_suggestion_solution(solution_id, new_question_id)
+          new_solution = SolutionTAT.new({left_suggestion_id: new_left_suggestion.id, right_suggestion_id: new_right_suggestion.id})
+          new_solution.create          
+        end
+      else
+        new_leurre = create unless solution_id
+      end
+    end
+  rescue => err
+    raise_err err, "erreur lors du clonage d'une suggestion tat"
+  end
+
+  # Duplique la suggestion qui correspond à la solution du texte
+  def duplicate_right_suggestion_solution(id_source, new_question_id)
+    @id = id_source
+    suggestion_source = find
+    @position = suggestion_source.position
+    @question_id = new_question_id
+    @text = suggestion_source.text
+    @order = suggestion_source.order
+    @medium_id = suggestion_source.medium_id
+    new_suggestion = create
+  rescue => err
+    raise_err err, "erreur lors du clonage de la suggestion solution de droite" 
+  end
 end

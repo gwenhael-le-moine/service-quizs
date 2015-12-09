@@ -10,8 +10,9 @@ angular.module('quizsApp', [
   'ngFileUpload',
   'services.messages',
   'growlNotifications',
-]).run(['$rootScope', '$location', 'Notifications', function($rootScope, $location, Notifications) {
+]).run(['$rootScope', '$location', 'Notifications', 'Users', function($rootScope, $location, Notifications, Users) {
   Notifications.clear();
+  Users.getCurrentUserRequest();
   //initialisation des données
   //id temp à effacer pour la BO
   $rootScope.tmpId = 0;
@@ -937,7 +938,7 @@ angular.module('quizsApp', [
    
   
   $rootScope.$on('$stateChangeStart', function($location){
-    // console.log("good");
+    console.log("good");
     Notifications.clear();
   });
   window.scope = $rootScope;

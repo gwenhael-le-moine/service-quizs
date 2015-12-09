@@ -50,7 +50,13 @@ class Session
 		sessions = []
 		sessions = Sessions.where(:quiz_id => @quiz_id) unless @quiz_id.nil? || !@user_id.nil? || !@user_type.nil?
 		sessions = Sessions.where(:quiz_id => @quiz_id, :user_id => @user_id, :user_type => @user_type) unless @quiz_id.nil? || @user_id.nil? || @user_type.nil?
+		sessions = Sessions.where(:user_id => @user_id, :user_type => @user_type) unless !@quiz_id.nil? || @user_id.nil? || @user_type.nil?
 		sessions
+	end
+
+	#Récupère toutes les sessions des élèves pour les quizs d'un prof
+	def find_all_elv_of_prof(quizs_ids)
+		Sessions.where(:quiz_id => quizs_ids, :user_type => 'ELV').exclude(:user_id => @user_id).order(:updated_at).limit(5)
 	end
 
 	# mise à jour de la session

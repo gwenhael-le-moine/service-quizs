@@ -89,5 +89,32 @@ class Question
   	question.delete
   rescue => err
     raise_err err, "erreur lors de la suppression d'une question"
+  end
+
+  # Clonage d'une question
+  def duplicate(new_quiz_id)
+  	questions = find_all
+  	questions.each do |question_source|
+  		@quiz_id = new_quiz_id
+			@type = question_source.type
+			@question = question_source.question
+			@order = question_source.order
+			@opt_rand_suggestion_order = question_source.opt_rand_suggestion_order
+			@hint = question_source.hint
+			@correction_comment = question_source.correction_comment
+			@medium_id = question_source.medium_id
+			new_question = create
+			case @type
+			when "QCM"
+				suggestions = SuggestionQCM.new({question_id: question_source.id})
+			when "TAT"
+				suggestions = SuggestionTAT.new({question_id: question_source.id})
+			when "ASS"
+				suggestions = SuggestionASS.new({question_id: question_source.id})
+			end
+			suggestions.duplicate(new_question.id)
+		end
+  rescue => err
+    raise_err err, "erreur lors du clonage d'une question"
   end	
 end

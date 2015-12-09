@@ -13,7 +13,7 @@
 			<span ng-if="quiz.publishes.length == 0" class="texte-italic">Aucune publication.</span>	
 		</div>
 		<div class="publishes" ng-repeat="publish in quiz.publishes">
-			<span class="texte">{{publish.name | uppercase | overflow:8}}</span>
+			<span class="texte" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">{{publish.name | uppercase | overflow:8}}</span>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 publish-date">

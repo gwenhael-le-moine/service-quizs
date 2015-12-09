@@ -3,20 +3,18 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('AsidePublishCtrl', ['$scope', '$state', '$stateParams', '$rootScope', '$timeout', 'APP_PATH', 'Notifications', 'Modal', function($scope, $state, $stateParams, $rootScope, $timeout, APP_PATH, Notifications, Modal) {
-	// pour la dynamic de l'ihm on récupère le quiz dans la listes
-	//afin de simplifier en final version on récupérera seulement le quiz 
-	//avec une api
-	$scope.quiz = angular.copy(_.find($rootScope.quizs, function(q){
-		return q.id == $stateParams.quiz_id;
-	}));
-	if (!$scope.quiz) {
-		$state.go('erreur', {code: "404", message: "Le quiz n'existe pas !"});
-	};
+.controller('AsidePublishCtrl', ['$scope', '$state', '$stateParams', '$rootScope', '$timeout', 'APP_PATH', 'Notifications', 'Modal', 'PublicationsApi', 'QuizsApi', function($scope, $state, $stateParams, $rootScope, $timeout, APP_PATH, Notifications, Modal, PublicationsApi, QuizsApi) {
+	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
+		$scope.quiz = response.quiz_found;
+		$scope.quiz.publishes = [];
+		PublicationsApi.getAll({quiz_id: $stateParams.quiz_id}).$promise.then(function(response){
+			$scope.quiz.publishes = response.publications_found;
+		});
+	})
 	//variable pour les datepickers
-	$scope.fromDate = new Date();
+	$scope.fromDate = null;
 	$scope.minDate = new Date(); 
-	$scope.toDate = new Date();
+	$scope.toDate = null;
 	//variable de modification de publication
 	$rootScope.deleted = [];
   $rootScope.added = [];
@@ -40,16 +38,19 @@ angular.module('quizsApp')
   }
   //publi un quiz
   $scope.publish = function(){
-  	//traitement fait pour la dinamic
   	//si on a des publications
+  	console.log('$rootScope.tmpPublishesRegroupements');
+  	console.log($rootScope.tmpPublishesRegroupements);
   	if ($rootScope.tmpPublishesRegroupements.length > 0) {
   		//on copie dans une variable de fonction les publications
 	  	var tmpPublishesRegroupements = angular.copy($rootScope.tmpPublishesRegroupements);
 	  	//on vérifie si l'on a pas supprimé des publications
-	  	_.each(angular.copy($scope.quiz.publishes), function(publish){
+	  	console.log('$scope.quiz.publishes');
+	  	console.log($scope.quiz.publishes);
+	  	_.each($scope.quiz.publishes, function(publish){
 	  		//on recherche si la publication est toujours existante
 	  		var tmpRegroupement = angular.copy(_.find(tmpPublishesRegroupements, function(tmpRgpt){
-	  		 	return tmpRgpt.id === publish.id
+	  		 	return tmpRgpt.id === publish.rgptId
 	  		}));
 	  		//si elle n'est plus, on l'enregistre dans les suppressions
 	  		if (!tmpRegroupement) {
@@ -64,12 +65,9 @@ angular.module('quizsApp')
 	  		Modal.open($scope.modalConfirmDeletedPubishCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
 	  	} else {
 	  	//s'il y a que des ajouts on publie.
-	  		for (var i = $rootScope.quizs.length - 1; i >= 0; i--) {
-					if ($rootScope.quizs[i].id == $stateParams.quiz_id) {
-						$rootScope.quizs[i].publishes = $rootScope.added;					
-					};
-				};
-				$state.go('quizs.home');
+	  		PublicationsApi.modify({quiz_id: $stateParams.quiz_id, added: $rootScope.added, fromDate: $scope.fromDate, toDate: $scope.toDate}).$promise.then(function(response){
+					$state.go('quizs.home');
+	  		});
 	  	};
   	};
   }
@@ -78,6 +76,7 @@ angular.module('quizsApp')
 		//controller pour confirmer la suppression de publication avec une modal
 		$scope.modalConfirmDeletedPubishCtrl = ["$scope", "$rootScope", "$modalInstance", "$state", "$stateParams", function($scope, $rootScope, $modalInstance, $state, $stateParams){
 			$scope.title = "Supprimer les publications";
+			console.log($rootScope.deleted);
 			//on créé un message personalisé avec tous les nom des publications à supprimer 
 			//afin que ce soit claire pour l'utilisateur
 			var getStringDeletedPublihes = function(){
@@ -100,16 +99,16 @@ angular.module('quizsApp')
 				$modalInstance.close();
 			}
 			$scope.ok = function(){
-				for (var i = $rootScope.quizs.length - 1; i >= 0; i--) {
-					if ($rootScope.quizs[i].id == $stateParams.quiz_id) {
-						$rootScope.quizs[i].publishes = $rootScope.added;					
+				// On supprime les publications dans deleted
+				PublicationsApi.modify({quiz_id: $stateParams.quiz_id, added: $rootScope.added, deleted: $rootScope.deleted, fromDate: $scope.fromDate, toDate: $scope.toDate}).$promise.then(function(response){
+					if (!response.error) {
+						$rootScope.deleted = [];
+		  			$rootScope.added = [];
+		  			$rootScope.tmpPublishesRegroupements = [];
+						$modalInstance.close();
+						$state.go('quizs.home');					
 					};
-				};
-				$rootScope.deleted = [];
-  			$rootScope.added = [];
-  			$rootScope.tmpPublishesRegroupements = [];
-				$modalInstance.close();
-				$state.go('quizs.home');					
+				});
 			}
 		}];
 		// ----------------------------------------------------- //

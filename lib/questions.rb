@@ -371,9 +371,6 @@ module Lib
             end
           end
         end
-        # leftProposition = format_suggestion_ass(suggestion) if suggestion.position == 'L'
-        # rightProposition = format_suggestion_ass(suggestion) if suggestion.position == 'R'
-
       end
       {answers: answers, solutions: solutions}
     end

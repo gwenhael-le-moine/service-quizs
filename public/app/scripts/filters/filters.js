@@ -31,6 +31,8 @@ angular.module('quizsApp')
 }])
 .filter('capitalize', [ function() {
   return function(input, all) {
+  	if (!input)
+  		input = "";
   	var capitalized = "";
   	if (all) {
   		capitalized = input.replace(/(?:^|\s)\S/g, function(a){ return a.toUpperCase();});
@@ -60,6 +62,7 @@ angular.module('quizsApp')
 }])
 .filter('scorecss', [ function( ){
 	return function(input){
+		input = input*20/100;
 		var scoreCss = "00";
 		var scoreRound = Math.round(input);
 		if (scoreRound % 2 !== 0){
@@ -73,5 +76,19 @@ angular.module('quizsApp')
 		if (scoreRound < 10)
 			scoreCss = "0"+scoreCss;
 		return scoreCss;
+	}
+}])
+.filter('expire', [ function( ){
+	return function(input){
+		var cssClass = 'none';
+		var today = new Date();
+		input = new Date(input);
+		if (Math.ceil((input.getTime()-today.getTime())/(1000*60*60*24)) <= 3){
+			cssClass = 'warning';
+		}
+		if (Math.ceil((input.getTime()-today.getTime())/(1000*60*60*24)) == 0){
+			cssClass = 'danger';
+		}
+		return cssClass;
 	}
 }]);

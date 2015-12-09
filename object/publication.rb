@@ -97,5 +97,12 @@ class Publication
   	publication.delete
   rescue => err
     raise_err err, "erreur lors de la suppression d'une publication"
-  end	
+  end
+
+  # vérifi si le quiz est déjà pblié dans un regroupement
+  def exist?
+  	!Publications[:quiz_id => @quiz_id, :rgpt_id => @rgpt_id].nil?
+  rescue => err
+    raise_err err, "erreur lors de la vérification de l'existance d'une publication"
+  end
 end

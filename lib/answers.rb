@@ -49,7 +49,7 @@ module Lib
       session = Session.new({id: params[:session_id]})
       score += session.find.score
       # avec les arrondis il peut arriver que le score dépasse 20 à 0.2 prés
-      score = 20 if score > 20
+      score = 100 if score > 100
       session = Session.new({id: params[:session_id], score: score})
       session.update
 
@@ -131,7 +131,7 @@ module Lib
         end
       end
       nb_response = suggestions.nb_responses_max
-      score = 20 if nb_response == answers.size && nb_false_user == 0
+      score = 100 if nb_response == answers.size && nb_false_user == 0
       score = 0 if nb_response == answers.size && nb_false_user > 0
       if !score
         questions = Question.new({quiz_id: quiz_id})
@@ -142,7 +142,7 @@ module Lib
     end
 
     def make_score(nb_correct_user, nb_false_user, nb_correct_question, nb_questions)
-      score = (Float(nb_correct_user) - (Float(nb_false_user) / 2)) / Float(nb_correct_question) * 20 / nb_questions
+      score = (Float(nb_correct_user) - (Float(nb_false_user) / 2)) / Float(nb_correct_question) * 100 / nb_questions
       score = 0 if score < 0
       score.round(1)
     end

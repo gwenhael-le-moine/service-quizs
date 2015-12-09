@@ -26,7 +26,6 @@ class QuestionsApi < Grape::API
   get '/:id' do
     Lib::Questions.user user
     # récupère la question et gère l'exception si besoin dans la lib
-    puts params[:id].class.inspect
     Lib::Questions.get(params[:id], nil, params[:marking], params[:session_id])
   end
 

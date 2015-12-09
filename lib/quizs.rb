@@ -41,6 +41,25 @@ module Lib
       end
     end
 
+    # Fonction qui récupère les quizs de l'utilisateur courant
+    def self.get_all
+      quizs = []
+      user_type = @user[:user_detailed]['profil_actif']['profil_id']
+      case user_type
+      when "ELV"
+        quizs = get_all_quizs_elv(@user)
+      when "TUT"
+        quizs = get_all_quizs_tut(@user)
+      else
+        quizs = get_all_quizs_prof(@user)       
+      end
+      
+      {quizs_found: quizs}        
+    rescue => err
+      LOGGER.error "Impossible de récupérer tous les quizs de l'utilisateur courant ! message de l'erreur raise: "+err.message + err.backtrace.inspect
+      {quizs_found: [], error:{msg: "Impossible de récupérer les quizs !"}}
+    end
+
     # Fonction qui créé un quiz
     def self.create
       # On créé un quiz par défaut
@@ -79,6 +98,156 @@ module Lib
     rescue => err
       LOGGER.error "Impossible de mettre à jour le quiz corespondant à l'id: "+params_modified[:id].to_s+" ! message de l'erreur raise: "+err.message
       {quiz_updated: {}, error:{msg: "La mis à jour du quiz a échoué !"}}
+    end
+
+    # Fonction qui supprime le quiz correspondant à l'id
+    def self.delete(id)
+      quiz_deleted = {}
+      quiz = Quiz.new({id: id})
+      quiz = quiz.find
+      if quiz.user_id == @user[:uid]
+        quiz_deleted = quiz.to_hash
+        quiz.delete
+      end
+      {quiz_deleted: quiz_deleted}
+    rescue => err
+      LOGGER.error "Impossible de supprimer le quiz ! message de l'erreur raise: "+err.message
+      {quiz_deleted: {}, error:{msg: "La suppréssion du quiz a échoué !"}}
+    end
+
+    def self.duplicate(id)
+      quiz = Quiz.new({id: id, user_id: @user[:uid]})
+      quiz = quiz.duplicate
+      {quiz_duplicated: quiz}
+    rescue => err
+      LOGGER.error "Impossible de dupliquer le quiz ! message de l'erreur raise: "+ err.message + err.backtrace.inspect
+      {quiz_duplicated: {}, error:{msg: "Le clonage du quiz a échoué !"}}
+    end
+
+    def self.get_shared
+      puts "quizs partages"
+      quizs_shared = []
+      quizs = Quiz.new({opt_shared: true, user_id: @user[:uid]})
+      quizs = quizs.find_all
+      uids = quizs.select(:user_id).distinct(:user_id).map(:user_id)
+      users = Laclasse::CrossApp::Sender.send_request_signed(:service_annuaire_user, 'liste/' + uids.join('_').to_s, {}) unless uids.empty?
+      quizs.each do |quiz|
+        user = users[users.index { |s| s['id_ent'] }]
+        questions = Question.new({quiz_id: quiz.id})
+        quizs_shared.push({
+          id: quiz.id,
+          title: quiz.title,
+          nbQuestion: questions.find_all.count,
+          canRedo: quiz.opt_can_redo,
+          date: quiz.updated_at
+        })
+      end
+      {quizs_shared: quizs_shared}
+    rescue => err
+      LOGGER.error "Impossible de récupérer les quizs partagés ! message de l'erreur raise: "+ err.message + err.backtrace.inspect
+      {quizs_shared: {}, error:{msg: "La récupération des quizs partagés a échoué !"}}
+    end
+
+    private
+
+    module_function
+
+    # Récupère les quizs d'un prof
+    def get_all_quizs_prof(user)
+      quizs_found = []
+      quizs = Quiz.new({user_id: user[:uid]})
+      quizs = quizs.find_all
+      quizs.each do |quiz|
+        quizs_found.push(format_get_quiz(user, quiz))
+      end
+      quizs_found
+    end
+
+    # Récupère les quizs d'un élève
+    def get_all_quizs_elv(user)
+      quizs = []
+      quizs_found = []
+      uai_etab_actif = user[:user_detailed]['profil_actif']['etablissement_code_uai']
+      classes = user[:user_detailed]['classes'].uniq { |s| s['classe_id'] }
+      classes.each do |classe|
+        if classe['etablissement_code'] == uai_etab_actif
+          quizs = quizs | get_all_publications(classe['classe_id'])
+        end
+      end
+      quizs = quizs.uniq { |s| s[:id] }
+      quizs.each do |q|
+        quiz = Quiz.new({id: q[:id]})
+        quiz = quiz.find
+        quizs_found.push(format_get_quiz(user, quiz, q[:to_date]))
+      end
+      quizs_found
+    end
+
+    # Récupère les quizs des enfants du tuteur
+    def get_all_quizs_tut(user)
+      quizs = []
+      quizs_found = []
+      childs = []
+      # On pour chaque enfant on enregistre ses infos et on récupère ses quizs
+      user[:user_detailed]['enfants'].each do |child|
+        child_infos = {
+          :uid => child['enfant']['id_ent'],
+          :user_detailed => {
+            'profil_actif' => {
+              'etablissement_code_uai' => child['etablissements'][0]['code_uai'],
+              'profil_id' => 'ELV'
+            },
+            'classes' => child['classes']
+          }
+        }
+        child_quizs = get_all_quizs_elv(child_infos)
+        childs.push({
+          uid: child['enfant']['id_ent'],
+          name: child['enfant']['prenom'] + " " + child['enfant']['nom'].downcase,
+          quizs: child_quizs.collect { |s| s[:id] }
+        })
+        quizs = quizs | child_quizs
+      end
+      {quizs: quizs, childs: childs}
+    end
+
+    # Insère les informations dans le bon format
+    def format_get_quiz(user, quiz, to_date = nil)
+      Lib::Publications.user(user)
+      questions = Question.new({quiz_id: quiz.id})
+      session = Session.new({quiz_id: quiz.id, user_id: user[:uid], user_type: user[:user_detailed]['profil_actif']['profil_id']})
+      session = session.find_all.order(Sequel.desc(:score)).first
+      session = session.to_hash unless session.nil?
+      puts session.inspect
+      puts questions.inspect
+      if quiz
+        formated_quiz = {
+          id: quiz.id,
+          title: quiz.title,
+          nbQuestion: questions.find_all.count,
+          canRedo: quiz.opt_can_redo,
+          share: quiz.opt_shared,
+          session: session,
+          publishes: Lib::Publications.get_all(quiz.id)[:publications_found],
+          toDate: to_date
+        }
+      end
+      formated_quiz
+    end
+
+    # Récupère les publications d'un regroupement en vérifiant les dates
+    def get_all_publications(rgpt_id)
+      quizs_ids = []
+      publications = Publication.new({rgpt_id: rgpt_id})
+        publications.find_all.each do |publication|
+          today_date = Time.now.strftime("%Y-%m-%d")
+          publication.from_date.nil? ? from_date = today_date : from_date = publication.from_date.strftime("%Y-%m-%d")
+          publication.to_date.nil? ? to_date = today_date : to_date = publication.to_date.strftime("%Y-%m-%d")
+        if from_date <= today_date && to_date >= today_date
+          quizs_ids.push({id: publication.quiz_id, to_date: to_date})
+        end
+      end
+      quizs_ids
     end
   end
 end

@@ -107,7 +107,7 @@
 	display: inline-block;
 	position: relative;
 }
-.main-home .quizs .quiz .icons .play, .main-home .quizs .quiz .icons .update-question, .main-home .quizs .quiz .icons .delete-question, .main-home .quizs .quiz .icons .duplicate, .main-home .quizs .quiz .icons .publish, .main-home .quizs .quiz .icons .share, .main-home .quizs .quiz .icons .border{
+.main-home .quizs .quiz .icons .play, .main-home .quizs .quiz .icons .update-question, .main-home .quizs .quiz .icons .delete-question, .main-home .quizs .quiz .icons .duplicate, .main-home .quizs .quiz .icons .publish, .main-home .quizs .quiz .icons .share, .main-home .quizs .quiz .icons .border, .main-home .quizs .quiz .icons .calendar-warning, .main-home .quizs .quiz .icons .calendar-danger{
 	display: inline-block;
 	vertical-align: middle;
 }
@@ -118,7 +118,7 @@
 .main-home .quizs .quiz .icons .border.img{
 	background-position: center;
 }
-.main-home .quizs .quiz .icons .play, .main-home .quizs .quiz .icons .update-question, .main-home .quizs .quiz .icons .delete-question, .main-home .quizs .quiz .icons .duplicate, .main-home .quizs .quiz .icons .publish, .main-home .quizs .quiz .icons .share{
+.main-home .quizs .quiz .icons .play, .main-home .quizs .quiz .icons .update-question, .main-home .quizs .quiz .icons .delete-question, .main-home .quizs .quiz .icons .duplicate, .main-home .quizs .quiz .icons .publish, .main-home .quizs .quiz .icons .share, .main-home .quizs .quiz .icons .calendar-warning, .main-home .quizs .quiz .icons .calendar-danger{
 	width: 25px;
 	height: 25px;
 	cursor: pointer;

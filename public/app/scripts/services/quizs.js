@@ -4,9 +4,12 @@
 angular.module('quizsApp')
 .factory('QuizsApi', ['$resource', 'APP_PATH', function( $resource, APP_PATH ) {
   return $resource( APP_PATH + '/api/quizs/', {}, {
+    'quizs': {method: 'GET', url: APP_PATH + '/api/quizs/', params: {shared: '@shared'}},
     'get': {method: 'GET', url: APP_PATH + '/api/quizs/:id', params: {id: '@id'}},
     'create': {method: 'GET', url: APP_PATH + '/api/quizs/create'},
-    'update': {method: 'POST', url: APP_PATH + '/api/quizs/update/:id', params: {id: '@id', opt_show_score: '@opt_show_score', opt_show_correct: '@opt_show_correct', title: '@title', opt_can_redo:'@opt_can_redo', opt_can_rewind: '@opt_can_rewind', opt_rand_question_order: '@opt_rand_question_order', opt_shared:'@opt_shared'}}
+    'update': {method: 'POST', url: APP_PATH + '/api/quizs/update/:id', params: {id: '@id', opt_show_score: '@opt_show_score', opt_show_correct: '@opt_show_correct', title: '@title', opt_can_redo:'@opt_can_redo', opt_can_rewind: '@opt_can_rewind', opt_rand_question_order: '@opt_rand_question_order', opt_shared:'@opt_shared'}},
+    'delete': {method: 'DELETE', url: APP_PATH + '/api/quizs/:id', params: {id: '@id'}},
+    'duplicate': {method: 'GET', url: APP_PATH + '/api/quizs/duplicate/:id', params: {id: '@id'}}
   });
 }])
 .service('Quizs', [ '$rootScope', function( $rootScope) {
