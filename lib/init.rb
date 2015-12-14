@@ -3,6 +3,15 @@
 puts 'loading lib/outils'
 require __dir__('outils')
 
+puts 'loading lib/pdf/html_generator'
+require __dir__('pdf/html_generator')
+
+puts 'loading lib/pdf/pdf_generator'
+require __dir__('pdf/pdf_generator')
+
+puts 'loading lib/publications'
+require __dir__('publications')
+
 puts 'loading lib/quizs'
 require __dir__('quizs')
 

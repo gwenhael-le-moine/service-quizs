@@ -14,7 +14,10 @@ angular.module('quizsApp')
 	var isParents = false;
 	var current = null;
 	this.getCurrentUserRequest = function(){
-		current = UsersApi.current();
+		return UsersApi.current();
+	}
+	this.setCurrentUser = function(user){
+		current = user;
 	}
 	this.getCurrentUser = function(){
 		console.log(current);

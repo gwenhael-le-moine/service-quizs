@@ -89,6 +89,14 @@
 .sessions .list-sessions .session .date{
 	text-align: center;
 }
+.sessions .list-sessions .session .delete.img{
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+	position: absolute;
+	top: 20px;
+	right: 0;
+}
 .sessions .list-sessions .session .border>div{
 	border: 1px solid #9e9e9e;
 	display: inline-block;

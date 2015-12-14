@@ -22,6 +22,11 @@ gem 'sinatra'
 
 gem 'laclasse-common', git: 'https://github.com/laclasse-com/laclasse-common.git'
 
+# Generation de pdf
+gem 'pdfkit'
+gem 'wkhtmltopdf-binary'
+gem 'htmlentities'
+
 group :development do
   gem 'sinatra-contrib'
   gem 'shotgun'

@@ -9,6 +9,16 @@ angular.module('quizsApp')
 
           .state( 'quizs',{
             abstract:true,
+            resolve: {
+              Users : 'Users',
+              currentUser: function(Users){
+                Users.getCurrentUserRequest().$promise.then(function(response){
+                  console.log(response);
+                  Users.setCurrentUser(response);
+                  return true;
+                });
+              }
+            },
             templateUrl:APP_PATH + '/app/views/index.html',
           })
 

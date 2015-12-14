@@ -83,7 +83,8 @@ angular.module('quizsApp')
 		var cssClass = 'none';
 		var today = new Date();
 		input = new Date(input);
-		if (Math.ceil((input.getTime()-today.getTime())/(1000*60*60*24)) <= 3){
+		var beforeEnd = Math.ceil((input.getTime()-today.getTime())/(1000*60*60*24));
+		if (beforeEnd <= 3 && beforeEnd > 0){
 			cssClass = 'warning';
 		}
 		if (Math.ceil((input.getTime()-today.getTime())/(1000*60*60*24)) == 0){

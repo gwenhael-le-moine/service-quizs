@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Module pour les Sessions
+require 'pdfkit'
 
 module Lib
   module Sessions
@@ -56,16 +57,16 @@ module Lib
       end
     end
 
-    def self.get_all
+    def self.get_all(quiz_id = nil)
       sessions = []
       user_type = @user[:user_detailed]['profil_actif']['profil_id']
       case user_type
       when "ELV"
-        sessions = get_all_sessions_elv(@user)
+        sessions = get_all_sessions_elv(@user, quiz_id)
       when "TUT"
-        sessions = get_all_sessions_tut(@user)
+        sessions = get_all_sessions_tut(@user, quiz_id)
       else
-        sessions = get_all_sessions_prof(@user)       
+        sessions = get_all_sessions_prof(@user, quiz_id)       
       end
       {sessions_found: sessions}        
     rescue => err
@@ -85,52 +86,86 @@ module Lib
       {exist: session_exist}
     end
 
+    def self.delete(ids)
+      ids.each do |id|
+        session = Session.new({id: id})
+        quiz = Quiz.new({id: session.find.quiz_id})
+        if @user[:uid] == quiz.find.user_id
+          session.delete
+        end
+      end
+      {sessions_deleted: ids}
+    rescue => err
+      LOGGER.error "Impossible de supprimer les sessions ! message de l'erreur raise: "+err.message + err.backtrace.inspect
+      {sessions_deleted: [], error:{msg: "Impossible de supprimer les sessions !"}}
+    end
+
+    def self.generate_pdf(sessions)
+      final_document = Lib::Pdf::PdfGenerator.generate_sessions(@user, sessions)
+
+      # generate pdf
+      kit = PDFKit.new(final_document, page_size: 'Letter')
+
+      kit.stylesheets << 'public/app/styles/pdf.css'
+      kit.to_pdf
+    end
+
     private
 
     module_function
 
-    def get_all_sessions_elv(user)
+    def get_all_sessions_elv(user, quiz_id = nil)
       fullname = user[:prenom] + " " + user[:nom].downcase
       sessions_found = []
-      sessions = Session.new({user_id: user[:uid], user_type: 'ELV'})
-      sessions = sessions.find_all.order(Sequel.desc(:updated_at)).limit(5)
+      sessions = Session.new({user_id: user[:uid], user_type: 'ELV', quiz_id: quiz_id})
+      sessions = sessions.find_all.order(Sequel.desc(:updated_at))
+      sessions = sessions.limit(5) if quiz_id.nil?
       sessions.each do |session|
-        sessions_found.push(format_get_session(session, fullname))
+        sessions_found.push(format_get_session(session, fullname, user[:user_detailed]['classes'][0]))
       end
       sessions_found
     end
 
-    def get_all_sessions_tut(user)
+    def get_all_sessions_tut(user, quiz_id = nil)
       sessions_found = []
       childs = []
       user[:user_detailed]['enfants'].each do |child|
         child_sessions = get_all_sessions_elv({
           :nom => child['enfant']['nom'],
           :prenom => child['enfant']['prenom'],
-          :uid => child['enfant']['id_ent']
-        })
+          :uid => child['enfant']['id_ent'],
+          :user_detailed => {'classes' => child['classes']}
+        }, quiz_id)
         sessions_found = sessions_found | child_sessions
       end
       sessions_found
     end
 
-    def get_all_sessions_prof(user)
+    def get_all_sessions_prof(user, quiz_id = nil)
       sessions_found = []
-      quiz_ids = Quiz.new({user_id: user[:uid]})
-      quiz_ids = quiz_ids.find_all.select(:id).map(:id)
+      if quiz_id
+        quiz_ids = [quiz_id]
+      else
+        quiz_ids = Quiz.new({user_id: user[:uid]})
+        quiz_ids = quiz_ids.find_all.select(:id).map(:id)
+      end
       sessions = Session.new({user_id: user[:uid]})
       sessions = sessions.find_all_elv_of_prof(quiz_ids)
+      sessions = sessions.limit(5) if quiz_id.nil?
       uids = sessions.select(:user_id).distinct(:user_id).map(:user_id)
-      users = Laclasse::CrossApp::Sender.send_request_signed(:service_annuaire_user, 'liste/' + uids.join('_').to_s, {}) unless uids.empty?
+      eleves = get_users(uids)
+      i = 0
       sessions.each do |session|
-        user = users[users.index { |s| s['id_ent'] }]
-        fullname = user['prenom'] + " " + user['nom'].downcase
-        sessions_found.push(format_get_session(session, fullname))
+        elv = eleves[eleves.index { |s| s['id_ent'] }]
+        classe = get_classe_to_user(elv)
+        fullname = elv['prenom'] + " " + elv['nom'].downcase
+        sessions_found.push(format_get_session(session, fullname, classe))
+        i += 1
       end
       sessions_found
     end
 
-    def format_get_session(session, fullname)
+    def format_get_session(session, fullname, classe)
       quiz = Quiz.new({id: session.quiz_id})
       quiz = quiz.find
       {
@@ -143,7 +178,31 @@ module Lib
           uid: session.user_id,
           name: fullname
         },
+        classe: {
+           id: classe['classe_id'],
+           name: classe['classe_libelle'],
+           nameEtab: classe['etablissement_nom']
+         },
+        score: session.score.round,
         date: session.updated_at
+      }
+    end
+
+    def get_users(uids)
+      users = []
+      while uids.size > 50
+        users.concat(Laclasse::CrossApp::Sender.send_request_signed(:service_annuaire_user, 'liste/' + uids.pop(50).join('_').to_s, 'expand' => 'true'))      
+      end
+      users.concat(Laclasse::CrossApp::Sender.send_request_signed(:service_annuaire_user, 'liste/' + uids.join('_').to_s, 'expand' => 'true')) unless uids.empty?
+      users
+    end
+
+    def get_classe_to_user(elv)
+      classes = elv['regroupements'].select { |s| s["type"] == 'CLS'}
+      {
+        'classe_id' => classes[0]['id'],
+        'classe_libelle' => classes[0]['libelle'],
+        'etablissement_nom' => classes[0]['etablissement_nom']
       }
     end
   end

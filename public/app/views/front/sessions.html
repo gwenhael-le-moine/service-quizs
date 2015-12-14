@@ -35,13 +35,13 @@
 					<div class="btn-group texte" uib-dropdown uib-keyboard-nav>
 		        <button id="listestudentsId" type="button" class="btn btn-primary" uib-dropdown-toggle>{{filters.student.name | capitalize:true | overflow:14}}</button>
 		        <ul class="uib-dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
-	            <li ng-if="filters.student.id != '!'" 
+	            <li ng-if="filters.student.uid != '!'" 
 	            		role="menuitem"
 	            		ng-click="changeStudent(defaultStudent)">
 	            		<a>{{defaultStudent.name}}</a>
 	            </li>
 	            <li role="menuitem"
-	            		ng-if="filters.student.id != student.id" 
+	            		ng-if="filters.student.uid != student.uid" 
 	            		ng-repeat="student in selectStudents | orderBy:'name'"
 	            		ng-click="changeStudent(student)">
 	            		<a>{{student.name | capitalize:true | overflow:14}}</a>
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<div class="row content list-sessions">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 session" ng-repeat="session in sessions | orderBy:'date':filters.newest | filter:{classe:{id: filters.classe.id}}:true | filter:{student:{id: filters.student.id}}:true">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 session" ng-repeat="session in (filteredSessions = (sessions | orderBy:'date':filters.newest | filter:{classe:{id: filters.classe.id}}:true | filter:{student:{id: filters.student.id}}:true))">
 				<div class="row">
 					<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 date">
 						<span class="texte-secondaire-italic">{{session.date | date:"dd.MM.yy - HH'h'mm"}}</span>											
@@ -62,6 +62,7 @@
 					</div>
 				</div>
 				<div class="row">
+				<div><p class="delete img" ng-click="delete(session)"></p></div>
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 user">
 						<span class="texte-bold">{{session.student.name | capitalize:true}}</span>
 						<span class="texte">{{session.classe.name}}</span>
@@ -79,12 +80,12 @@
 								<span class="texte-secondaire">Acquis</span>
 							</div>
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-								<p class="score-{{session.score.css}} img"></p>							
+								<p class="score-{{session.score | scorecss}} img"></p>							
 							</div>
 						</div>
 					</div>
 					<div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 score-number">
-						<span class="titre">{{session.score.nb}}</span>
+						<span class="titre">{{session.score}} %</span>
 					</div>
 				</div>
 			</div>
@@ -94,7 +95,7 @@
 		<button type="button" 
 	  				class="btn btn-quiz hover" 
 	  				ng-click="quiz()">
-	  	<label>Voir le quiz</label>
+	  	<label>Lancer le quiz</label>
 	  </button>
 		<button type="button" 
 	  				class="btn btn-quiz hover" 

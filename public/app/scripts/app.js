@@ -12,7 +12,6 @@ angular.module('quizsApp', [
   'growlNotifications',
 ]).run(['$rootScope', '$location', 'Notifications', 'Users', function($rootScope, $location, Notifications, Users) {
   Notifications.clear();
-  Users.getCurrentUserRequest();
   //initialisation des données
   //id temp à effacer pour la BO
   $rootScope.tmpId = 0;

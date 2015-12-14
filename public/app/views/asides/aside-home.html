@@ -4,7 +4,7 @@
 		<span ng-if="roleMax == 0" class="titre">Mes sessions récentes</span>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 sessions">
-		<div class="row session" ng-repeat="session in lastSessions" ng-click="openSession(session.quiz.id, session.student.id)">
+		<div class="row session" ng-repeat="session in lastSessions" ng-click="openSession(session.quiz.id, session.student.uid)">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title">
 				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{session.quiz.title | capitalize}}">{{session.quiz.title | capitalize | overflow:15}}</span>
 			</div>

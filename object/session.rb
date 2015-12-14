@@ -56,7 +56,7 @@ class Session
 
 	#Récupère toutes les sessions des élèves pour les quizs d'un prof
 	def find_all_elv_of_prof(quizs_ids)
-		Sessions.where(:quiz_id => quizs_ids, :user_type => 'ELV').exclude(:user_id => @user_id).order(:updated_at).limit(5)
+		Sessions.where(:quiz_id => quizs_ids, :user_type => 'ELV').exclude(:user_id => @user_id).order(:updated_at)
 	end
 
 	# mise à jour de la session
