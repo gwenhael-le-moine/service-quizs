@@ -137,7 +137,7 @@
 .ass .texte, .tat .texte{
 	vertical-align: middle;
 }
-.ass div .consigne1, .ass div .consigne2{
+.ass div .consigne1, .ass div .consigne2, .ass div .delete{
 	vertical-align: middle;
 	display: inline-block;
 }
@@ -148,6 +148,13 @@
 .ass div .consigne2{
 	width: 50px;
 	height:20px;
+}
+.ass div .delete{
+	width: 20px;
+	height:20px;
+}
+.ass div .delete.img{
+	background-size: 100%;
 }
 .reponse-ass, .reponse-tat{
 	margin-top: 40px;

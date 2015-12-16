@@ -66,7 +66,14 @@ angular.module('quizsApp')
     var transformClearLine = 'rotate('+-angle+'deg)';
     //afin que l'icone soit au milieu de la ligne, 
     //on l'insère a la moitié de la longueur de la ligne moins la moitié de la taille de l'icone
-    var lengthClearLine = length/2-10 +"px"; 
+    var lengthClearLine = length/2-10 +"px";
+    // console.log(divId);
+    // console.log(lineId); 
+    // console.log(length);
+    // console.log(angle);
+    // console.log(transform);
+    // console.log(transformClearLine);
+    // console.log(lengthClearLine);
     //injection de la ligne dans la page
     $('#'+divId).append($compile(angular.element('<div id="line'+lineId+'" ng-show-clear-line><p id="clearLine'+lineId+'" class="delete img none" ng-click="clearLine(\'line'+lineId+'\')"></p></div>'))(scope));       
     //ajout des classes css afin que la ligne ai l'aspect voulu

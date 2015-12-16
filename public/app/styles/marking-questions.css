@@ -41,6 +41,9 @@
 	vertical-align: middle;
 	margin-left: 10px;
 }
+.marking .ass, .marking .qcm, .marking .tat{
+	margin-top: 20px;
+}
 /**** Partie QCM ***/
 .marking .qcm.border-bottom, .marking .ass.border-bottom, .marking .tat.border-bottom{
 	padding-bottom: 100px;

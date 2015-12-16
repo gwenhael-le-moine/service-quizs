@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('StartQuizCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'Notifications', 'Quizs', 'QuizsApi', 'QuestionsApi', 'SessionsApi', function($scope, $state, $stateParams, $rootScope, Notifications, Quizs, QuizsApi, QuestionsApi, SessionsApi) {
+.controller('StartQuizCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'Notifications', 'Users', 'Quizs', 'QuizsApi', 'QuestionsApi', 'SessionsApi', function($scope, $state, $stateParams, $rootScope, Notifications, Users, Quizs, QuizsApi, QuestionsApi, SessionsApi) {
 	//on récupère le types de questions du quiz
 	var getTypes = function(){
 		var types = [];
@@ -189,8 +189,8 @@ angular.module('quizsApp')
 			$scope.quiz = response.quiz_found;
 			$scope.quiz.opts = Quizs.getFormatOpt(response.quiz_found);
 			$scope.quiz.questions = [];
-			// si le quiz à pour params de ne le jouer qu'une seul fois et qu'il existe déjà une session pour cette utilisateur, on lance une erreur
-			if (!response.quiz_found.opt_can_redo) {
+			// si le quiz à pour params de ne le jouer qu'une seul fois et qu'il existe déjà une session pour cette utilisateur, on lance une erreur sauf pour le prof
+			if (!response.quiz_found.opt_can_redo && Users.getCurrentUser.roleMaxPriority == 0) {
 				SessionsApi.exist({quiz_id: response.quiz_found.id}).$promise.then(function(resp){
 					if (resp.exist) {
 						$state.go('erreur', {code: "401", message: "Vous ne pouvez exécuter ce quiz qu'une seule fois !"});

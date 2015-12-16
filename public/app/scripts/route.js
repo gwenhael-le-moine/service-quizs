@@ -13,7 +13,7 @@ angular.module('quizsApp')
               Users : 'Users',
               currentUser: function(Users){
                 Users.getCurrentUserRequest().$promise.then(function(response){
-                  console.log(response);
+                  // console.log(response);
                   Users.setCurrentUser(response);
                   return true;
                 });
@@ -146,8 +146,9 @@ angular.module('quizsApp')
             })
           .state( 'quizs.marking_questions',{
             parent: 'quizs.front',
-            url: '/:quiz_id/questions/:id/correction',
+            url: '/:quiz_id/questions/correction/',
             params: {
+              id: null,
               session_id: null,
               next_question_id: null
             },

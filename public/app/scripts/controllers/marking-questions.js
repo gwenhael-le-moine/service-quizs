@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('MarkingQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', '$timeout', 'APP_PATH', 'Notifications','Line', 'Modal', 'Users', 'QuestionsApi', 'SessionsApi', function($scope, $state, $rootScope, $stateParams, $sce, $timeout, APP_PATH, Notifications, Line, Modal, Users, QuestionsApi, SessionsApi) {
+.controller('MarkingQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', '$timeout', 'APP_PATH', 'Notifications','Line', 'Modal', 'Users', 'Questions', 'SessionsApi', '$interval', function($scope, $state, $rootScope, $stateParams, $sce, $timeout, APP_PATH, Notifications, Line, Modal, Users, Questions, SessionsApi, $interval) {
 
 	//id, et coord des deux extrémité de la ligne d'un association
   $scope.connect1 = {id: null, x1: null, y1: null};
@@ -14,58 +14,50 @@ angular.module('quizsApp')
   	};
   });
 	//on récupère la question
-	QuestionsApi.get({id: $stateParams.id, marking: true, session_id: $stateParams.session_id}).$promise.then(function(response){
-		$scope.question = response.question_found;
-		var numQuestion = $scope.question.sequence+1;
-		$scope.actionTitle = "correction - question " + numQuestion + "/" + $rootScope.quiz.questions.length;
+	Questions.get($stateParams.quiz_id, $stateParams.id, true, $stateParams.session_id).$promise.then(function(response){
+		if (response.question_found) {
+			$scope.questions = [response.question_found];			
+			var numQuestion = $scope.questions[0].sequence+1;
+			$scope.actionTitle = "correction - question " + numQuestion + "/" + $rootScope.quiz.questions.length;
+		};
+		if (response.questions_found) {
+			$scope.questions = response.questions_found;
+			$scope.actionTitle = "correction des questions"
+		};
 
-		// $scope.question = angular.copy(_.find($rootScope.quizStudent.questions, function(q){
-		// 	if (q.id == $stateParams.id) {
-		// 		//toutes les réponses à mettre dans les selects
-		// 		var numQuestion = q.sequence;
-		// 		$scope.actionTitle = "correction - question " + ++numQuestion + "/" + $rootScope.quizStudent.questions.length;
-		// 	};
-		// 	return q.id == $stateParams.id;
-		// }));
-		if (!$scope.question){
+		if (!$scope.questions){
 			$state.go('erreur', {code: "404", message: "La question n'existe pas !"});
 		}
 		//recherche la question suivante et retourne l'id
-	$scope.nextQuestion = function(){
-		//on retrouve l'id de la question suivante
-		var nextNumQuestion = $scope.question.sequence + 1;
-		var nextId = null;
-		_.each($rootScope.quiz.questions, function(q){
-			if (q.sequence === nextNumQuestion) {
-	 			nextId = q.id;			
+		$scope.nextQuestion = function(){
+			//on retrouve l'id de la question suivante
+			var nextId = null;
+			if ($stateParams.id) {
+				var nextNumQuestion = $scope.questions[0].sequence + 1;
+				_.each($rootScope.quiz.questions, function(q){
+					if (q.sequence === nextNumQuestion) {
+			 			nextId = q.id;			
+					};
+				});				
 			};
-		});
-		return nextId;
-	}
+			return nextId;
+		}
 		//retourne l'id de la question si on peut revenir en arriere
 		$scope.preQuestion = function(){
-			var preNumQuestion = $scope.question.sequence - 1;
 			var preId = null;
-			if ($rootScope.quiz.opt_can_rewind) {0
- 				preId = $scope.question.id;
+			if ($stateParams.id && $rootScope.quiz.opt_can_rewind) {
+ 				preId = $scope.questions[0].id;
 			};
 			return preId;
 		}
 		//récupère les solutions du prof
 		var getSolutions = function(question){
-			var solutions = $scope.question.solutions;
-			// if ($rootScope.quizSolution.id === $rootScope.quizStudent.id) {
-			// 	_.each($rootScope.quizSolution.questions,function(q){
-			// 		if (q.id === question.id) {
-			// 			solutions = angular.copy(q.solutions);					
-			// 		};
-			// 	});
-			// }
+			var solutions = question.solutions;
 			return solutions;
 		}
 		//vérifie la réponse de l'élève par rapport à la solution
-		$scope.markingResponseQCM = function(proposition){
-			var solutions = getSolutions($scope.question);
+		$scope.markingResponseQCM = function(proposition, question){
+			var solutions = getSolutions(question);
 			// si c'est une réponse de l'élève
 			if (proposition.solution) {
 				// et qu'elle se trouve dans les solutions du prof,
@@ -133,9 +125,9 @@ angular.module('quizsApp')
 				});
 			}
 		}
-		$scope.markingResponseTAT = function(proposition){
+		$scope.markingResponseTAT = function(proposition, question){
 			// on récupère les solutions correspondant à la question
-			var solutions = getSolutions($scope.question);
+			var solutions = getSolutions(question);
 			//on recherche dans les solutions du prof 
 			//si l'id de la proposition de la question, si trouve !
 			var solutionOfProposition = _.find(solutions, function(s){ 
@@ -161,31 +153,34 @@ angular.module('quizsApp')
 				};
 			};
 		}
-
+		
 		//afin de laisser les élément se mettre en place on temporise
-		$timeout(function(){
-			if ($scope.question.type === 'ass') {
-				for (var i = $scope.question.answers.length - 1; i >= 0; i--) {
-					$scope.markingResponseASS($scope.question.answers[i].leftProposition, $scope.question);	
-				};  					
-			};
-		}, 100);
-
+		
+		_.each($scope.questions, function(question){
+			if (question.type === 'ass') {
+				$timeout(function(){
+					for (var i = question.answers.length - 1; i >= 0; i--) {
+						$scope.markingResponseASS(question.answers[i].leftProposition, question);	
+					}; 
+				}, 100); 					
+			};				
 		// si on est dans le cas d'un TAT, on recré la solution
-		if ($scope.question.type === 'tat') {
-			//on récupère les propositions avec les réponse de l'élève
-			$scope.markingQuestionTAT = angular.copy($scope.question.answers);
-			//on récupère les solutions au proposition
-			var solutions = getSolutions($scope.question);
-			for (var i = $scope.markingQuestionTAT.length - 1; i >= 0; i--) {
-				$scope.markingQuestionTAT[i].solution = {id: null, libelle: null};
-				_.each(solutions, function(solution){
-					if (solution.id === $scope.markingQuestionTAT[i].id) {
-						$scope.markingQuestionTAT[i].solution = solution.solution;
-					};
-				});			
+			if (question.type === 'tat') {
+				//on récupère les propositions avec les réponse de l'élève
+				$scope.markingQuestionTAT = angular.copy(question.answers);
+				//on récupère les solutions au proposition
+				var solutions = getSolutions(question);
+				for (var i = $scope.markingQuestionTAT.length - 1; i >= 0; i--) {
+					$scope.markingQuestionTAT[i].solution = {id: null, libelle: null};
+					_.each(solutions, function(solution){
+						if (solution.id === $scope.markingQuestionTAT[i].id) {
+							$scope.markingQuestionTAT[i].solution = solution.solution;
+						};
+					});			
+				};
 			};
-		};
+		});
+
 
 		//ouvre la modal pour afficher le média
 		$scope.displayMedia = function(title, file, type, mime){

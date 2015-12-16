@@ -33,11 +33,13 @@ class QuestionsApi < Grape::API
   params do
     requires :quiz_id, type: Integer, desc: 'Id du quiz'
     optional :read, type: Boolean, desc: "retourne les questions et les propositions sans les réponses"
+    optional :marking, type: Boolean, desc: "retourne les questions pour la correction"
+    optional :session_id, type: Integer, desc: "id de la session de la correction"
   end
   get '/all/:quiz_id' do
     Lib::Questions.user user
     # récupère les questions et gère l'exception si besoin dans la lib
-    Lib::Questions.get_all(params[:quiz_id], params[:read])
+    Lib::Questions.get_all(params[:quiz_id], params[:read], params[:marking], params[:session_id])
   end
 
   desc "met à jour la question d'un quiz"

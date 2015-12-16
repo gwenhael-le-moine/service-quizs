@@ -66,13 +66,13 @@ module Lib
     end
 
     # Fonction qui récupère toutes les questions d'un quiz
-    def self.get_all(quiz_id, read = false)
+    def self.get_all(quiz_id, read = false, marking = false, session_id = nil)
       questions_found = []
       questions = Question.new({quiz_id: quiz_id})
       questions = questions.find_all
       questions.each do |question|
-        if read
-          questions_found.push(self.get(question.id, read)[:question_found])
+        if read || (marking && session_id)
+          questions_found.push(self.get(question.id, read, marking, session_id)[:question_found])
         else
           questions_found.push({
             id: question.id,

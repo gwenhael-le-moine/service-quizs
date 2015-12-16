@@ -118,8 +118,13 @@ angular.module('quizsApp')
 	}
 	//fonction permettant de quitter 
 	$scope.quit = function(){
-		AnswersApi.create({session_id: $stateParams.session_id, question: $scope.question, quiz_id: $rootScope.quiz.id})
-	 	$state.go('quizs.home');
+		AnswersApi.create({session_id: $stateParams.session_id, question: $scope.question, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+			if ($rootScope.quiz.opt_show_correct == 'at_end') {
+				$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, session_id: $stateParams.session_id});
+			} else {
+	 			$state.go('quizs.home');				
+			};
+		});
 	}
 
 	// ------- Fonction sur la ligne de connection pour les associations ------- /
