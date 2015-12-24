@@ -79,7 +79,6 @@ angular.module('quizsApp')
 			$rootScope.question.media.file.url = window.URL.createObjectURL(file);
 			$rootScope.question.media.mime = file.type;
 			$rootScope.question.media.type = file.type.split("/")[0];
-			console.log($rootScope.question.media.file.url);
 			uploadMedia(file);
 		}
 	}
@@ -309,7 +308,6 @@ angular.module('quizsApp')
 			$rootScope.question.answers = $rootScope.suggestions[$rootScope.question.type];
 			$rootScope.question.leurres = $rootScope.suggestions.leurres;
   			$rootScope.quiz.questions[0] = $rootScope.question;
- 				console.log($rootScope.quiz);
  				if ($rootScope.modeModif) {
  					QuestionsApi.update({quiz: $rootScope.quiz});
  				} else {
@@ -431,12 +429,10 @@ angular.module('quizsApp')
 			QuestionsApi.get({id: $stateParams.id}).$promise.then(function(response){
 				$rootScope.question = response.question_found;
 				if ($rootScope.question){
-					console.log($rootScope.question);
 					//on remet les suggestions tout en noubliant pas de remettre les suggestions des autre type que celle de la question
 					$rootScope.suggestions = Questions.getDefaultSuggestions();
 					$rootScope.suggestions[$rootScope.question.type] = angular.copy($rootScope.question.answers);
 					$rootScope.suggestions.leurres = angular.copy($rootScope.question.leurres);
-					console.log($rootScope.suggestions);
 					//permet de définir si on est en modification ou en création
 					$rootScope.modeModif = true;
 					//si on modifi une association on recréé les liaison

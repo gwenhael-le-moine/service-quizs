@@ -27,7 +27,7 @@ module Lib
 
     def self.get_all(quiz_id)
       publications_found = []
-      publications = Publication.new({quiz_id: quiz_id})
+      publications = Publication.new(quiz_id: quiz_id)
       publications.find_all.each do |publication|
         publications_found.push(format_get_publication(publication))
       end
@@ -35,12 +35,12 @@ module Lib
     end
 
     def self.add(params)
-      quiz = Quiz.new({id: params[:quiz_id]})
+      quiz = Quiz.new(id: params[:quiz_id])
       quiz = quiz.find
       params[:added].each do |regroupement|
         params_publication = {
           quiz_id: quiz.id,
-          rgpt_id: regroupement.id,
+          rgpt_id: regroupement[:id],
           opt_show_score: quiz.opt_show_score,
           opt_show_correct: quiz.opt_show_correct,
           opt_can_redo: quiz.opt_can_redo,
@@ -52,21 +52,21 @@ module Lib
         publication = Publication.new(params_publication)
         publication.create unless publication.exist?
       end
-    {}
+      {}
     rescue => err
-      LOGGER.error "Impossible d'ajouter les publications ! message de l'erreur raise: "+err.message + err.backtrace.inspect
-      {error:{msg: "Impossible d'ajouter les publication !"}}
+      LOGGER.error "Impossible d'ajouter les publications ! message de l'erreur raise: " + err.message + err.backtrace.inspect
+      {error: {msg: "Impossible d'ajouter les publication !"}}
     end
 
     def self.delete(publications)
       publications.each do |p|
-        publication = Publication.new({id: p.id})
+        publication = Publication.new(id: p[:id])
         publication.delete
       end
       {}
     rescue => err
-      LOGGER.error "Impossible de supprimer les publications ! message de l'erreur raise: "+err.message + err.backtrace.inspect
-      {error:{msg: "Impossible de supprimer les publication !"}}
+      LOGGER.error "Impossible de supprimer les publications ! message de l'erreur raise: " + err.message + err.backtrace.inspect
+      {error: {msg: 'Impossible de supprimer les publication !'}}
     end
 
     private
@@ -74,10 +74,9 @@ module Lib
     module_function
 
     def format_get_publication(publication)
-      result = is_classe?(publication.rgpt_id)
-      result = is_groupe?(publication.rgpt_id) unless !result[:name_rgpt].empty?
-      
-      format_publication = {
+      result = classe?(publication.rgpt_id)
+      result = groupe?(publication.rgpt_id) if result[:name_rgpt].empty?
+      {
         id: publication.id,
         quiz_id: publication.quiz_id,
         fromDate: publication.from_date,
@@ -88,9 +87,9 @@ module Lib
       }
     end
 
-    def is_classe?(rgpt_id)
-      name_rgpt = ""
-      name_etab = ""
+    def classe?(rgpt_id)
+      name_rgpt = ''
+      name_etab = ''
       i = 0
       classes = @user[:user_detailed]['classes'].uniq { |s| s['classe_id'] }
       while name_rgpt.empty? && i < classes.size
@@ -103,9 +102,9 @@ module Lib
       {name_rgpt: name_rgpt, name_etab: name_etab}
     end
 
-    def is_groupe?(rgpt_id)
-      name_rgpt = ""
-      name_etab = ""
+    def groupe?(rgpt_id)
+      name_rgpt = ''
+      name_etab = ''
       i = 0
       groupes = @user[:user_detailed]['groupes_eleves'].uniq { |s| s['groupe_id'] }
       while name_rgpt.empty? && i < groupes.size

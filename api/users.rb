@@ -14,7 +14,7 @@ class UsersApi < Grape::API
 
   desc "récupère les regoupements de l'utilisateurs"
   params do
-  	requires :quiz_id, type: Integer, desc: 'Id du quiz'
+    requires :quiz_id, type: Integer, desc: 'Id du quiz'
   end
   get '/regroupements/:quiz_id' do
     Lib::Users.user user

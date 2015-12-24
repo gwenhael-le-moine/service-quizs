@@ -39,14 +39,10 @@ angular.module('quizsApp')
   //publi un quiz
   $scope.publish = function(){
   	//si on a des publications
-  	console.log('$rootScope.tmpPublishesRegroupements');
-  	console.log($rootScope.tmpPublishesRegroupements);
   	if ($rootScope.tmpPublishesRegroupements.length > 0) {
   		//on copie dans une variable de fonction les publications
 	  	var tmpPublishesRegroupements = angular.copy($rootScope.tmpPublishesRegroupements);
 	  	//on vérifie si l'on a pas supprimé des publications
-	  	console.log('$scope.quiz.publishes');
-	  	console.log($scope.quiz.publishes);
 	  	_.each($scope.quiz.publishes, function(publish){
 	  		//on recherche si la publication est toujours existante
 	  		var tmpRegroupement = angular.copy(_.find(tmpPublishesRegroupements, function(tmpRgpt){
@@ -76,7 +72,6 @@ angular.module('quizsApp')
 		//controller pour confirmer la suppression de publication avec une modal
 		$scope.modalConfirmDeletedPubishCtrl = ["$scope", "$rootScope", "$modalInstance", "$state", "$stateParams", function($scope, $rootScope, $modalInstance, $state, $stateParams){
 			$scope.title = "Supprimer les publications";
-			console.log($rootScope.deleted);
 			//on créé un message personalisé avec tous les nom des publications à supprimer 
 			//afin que ce soit claire pour l'utilisateur
 			var getStringDeletedPublihes = function(){

@@ -23,7 +23,6 @@ angular.module('quizsApp')
 	});
 
 	$rootScope.$watch("currentChild", function(){
-		console.log('currentChild changed' + $rootScope.currentChild); 
 		$scope.lastSessions = angular.copy(_.filter(tempLastsessions, function(session){
 			return _.contains($rootScope.currentChild.quizs, session.quiz.id);
 		}));

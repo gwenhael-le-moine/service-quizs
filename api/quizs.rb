@@ -7,14 +7,14 @@ class QuizsApi < Grape::API
 
   include Lib::Quizs
 
-  desc "créé un quiz"
+  desc 'créé un quiz'
   get '/create' do
     Lib::Quizs.user user
     # créé un nouveau quiz et gère l'exception si besoin dans la lib
     Lib::Quizs.create
   end
 
-  desc "récupère un quiz"
+  desc 'récupère un quiz'
   params do
     requires :id, type: Integer, desc: 'Id du quiz'
   end
@@ -32,13 +32,13 @@ class QuizsApi < Grape::API
     Lib::Quizs.user user
     # récupère un quiz et gère l'exception si besoin dans la lib
     if params[:shared]
-      Lib::Quizs.get_shared
+      Lib::Quizs.shared
     else
-      Lib::Quizs.get_all
+      Lib::Quizs.all
     end
   end
 
-  desc "met à jour les paramètres du quiz"
+  desc 'met à jour les paramètres du quiz'
   params do
     requires :id, type: Integer, desc: 'Id du quiz'
     optional :opt_show_score, type: String, desc: 'opt affichage du score'
@@ -55,7 +55,7 @@ class QuizsApi < Grape::API
     Lib::Quizs.update(params)
   end
 
-  desc "supprime un quiz"
+  desc 'supprime un quiz'
   params do
     requires :id, type: Integer, desc: 'Id du quiz'
   end
@@ -65,7 +65,7 @@ class QuizsApi < Grape::API
     Lib::Quizs.delete(params[:id])
   end
 
-  desc "duplique un quiz"
+  desc 'duplique un quiz'
   params do
     requires :id, type: Integer, desc: 'Id du quiz'
   end

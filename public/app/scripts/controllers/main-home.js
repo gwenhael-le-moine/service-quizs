@@ -8,7 +8,6 @@ angular.module('quizsApp')
 	// Si personnel education
 	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
 	$scope.parents = Users.getCurrentUser().isParents;
-	console.log($scope.parents);
 	//on récupère les enfants du parents
 	if ($scope.roleMax == 0 && $scope.parents) {
 		//pour les parent fils courant

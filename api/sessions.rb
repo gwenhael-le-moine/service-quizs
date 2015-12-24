@@ -9,8 +9,8 @@ class SessionsApi < Grape::API
 
   include Lib::Sessions
 
-  desc "créé une session"
-  params do 
+  desc 'créé une session'
+  params do
     requires :quiz_id, type: Integer, desc: 'Id  du quiz'
   end
   post '/create' do
@@ -20,7 +20,7 @@ class SessionsApi < Grape::API
   end
 
   desc "récupère les sessions de l'utilisateur"
-  params do 
+  params do
     optional :quiz_id, type: Integer, desc: 'Id du quiz'
   end
   get '/' do
@@ -29,7 +29,7 @@ class SessionsApi < Grape::API
     Lib::Sessions.get_all(params[:quiz_id])
   end
 
-  desc "récupère une session"
+  desc 'récupère une session'
   params do
     requires :id, type: Integer, desc: 'Id de la session'
   end
@@ -49,7 +49,7 @@ class SessionsApi < Grape::API
     Lib::Sessions.exist?(params[:quiz_id])
   end
 
-  desc "Supprime une ou plusieurs sessions"
+  desc 'Supprime une ou plusieurs sessions'
   params do
     requires :ids, type: Array, desc: 'les ids des sessions à supprimer'
   end
@@ -59,7 +59,7 @@ class SessionsApi < Grape::API
     Lib::Sessions.delete(params[:ids])
   end
 
-  desc "Génère un pdf des sessions"
+  desc 'Génère un pdf des sessions'
   params do
     requires :sessions, type: Array, desc: 'les données des sessions à générer'
   end

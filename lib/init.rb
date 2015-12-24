@@ -18,6 +18,15 @@ require __dir__('quizs')
 puts 'loading lib/questions'
 require __dir__('questions')
 
+puts 'loading lib/suggestions_ass'
+require __dir__('suggestions_ass')
+
+puts 'loading lib/suggestions_tat'
+require __dir__('suggestions_tat')
+
+puts 'loading lib/suggestions_qcm'
+require __dir__('suggestions_qcm')
+
 puts 'loading lib/sessions'
 require __dir__('sessions')
 

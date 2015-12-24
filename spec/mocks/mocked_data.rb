@@ -202,101 +202,14 @@ MOCKED_DATA = {
   }
 }
 
-SAVE_BLOGS = [
-  {
-    id: nil,
-    name: 'Nouveau Blog Etablissement',
-    type: 'ETB',
-    rgptId: '0699990Z',
-    owner: 'VAA60000',
-    url: 'erasme-new',
-    flux: nil,
-    add: false,
-    action: 'add',
-    active: true
-  },
-  {
-    id: 0,
-    name: 'Nouveau Blog Etablissement',
-    type: 'ETB',
-    rgptId: '0699990Z',
-    owner: 'VAA60000',
-    url: 'erasme-new',
-    flux: nil,
-    add: false,
-    action: 'subcribe',
-    active: true
-  },
-  {
-    id: 0,
-    name: 'Mon Blog Etablissement',
-    type: 'ETB',
-    rgptId: '0699990Z',
-    owner: 'VAA60000',
-    url: 'erasme-new',
-    flux: nil,
-    add: false,
-    action: 'update',
-    active: true
-  },
-  {
-    id: 0,
-    name: 'Mon Blog Etablissement',
-    type: 'ETB',
-    rgptId: '0699990Z',
-    owner: 'VAA60000',
-    url: 'erasme-new',
-    flux: nil,
-    add: false,
-    action: 'unsubcribe',
-    active: true
-  },
-  {
-    id: 0,
-    name: 'Mon Blog Etablissement',
-    type: 'ETB',
-    rgptId: '0699990Z',
-    owner: 'VAA60000',
-    url: 'erasme-new',
-    flux: nil,
-    add: false,
-    action: 'delete',
-    active: true
-  },
-  {
-    id: nil,
-    name: 'Erreur sur la creation',
-    type: 'ETB',
-    rgptId: '0699990Z',
-    owner: 'VAA60000',
-    url: nil,
-    flux: nil,
-    add: false,
-    action: 'add',
-    active: true
-  },
-  {
-    id: nil,
-    name: 'Blog qui n existe pas',
-    type: 'ETB',
-    rgptId: '0699990Z',
-    owner: 'VAA60000',
-    url: 'unknown',
-    flux: nil,
-    add: false,
-    action: 'delete',
-    active: true
-  }
-]
-
 JSON_CREATE_QUESTION_QCM = {
   id: nil,
   created_at: nil,
   updated_at: nil,
-  user_id: "VAA60000",
-  title: "Quiz numéro 0",
-  opt_show_score: "after_each",
-  opt_show_correct: "after_each",
+  user_id: 'VAA60000',
+  title: 'Quiz numéro 0',
+  opt_show_score: 'after_each',
+  opt_show_correct: 'after_each',
   opt_can_redo: true,
   opt_can_rewind: true,
   opt_rand_question_order: false,
@@ -304,14 +217,14 @@ JSON_CREATE_QUESTION_QCM = {
   questions: [
     {
       id: nil,
-      type: "qcm",
+      type: 'qcm',
       libelle: "Création d'une questions de test type qcm",
       media: {
         file: nil,
         type: nil
       },
       hint: {
-        libelle: "Aide de la questions qcm",
+        libelle: 'Aide de la questions qcm',
         media: {
           file: nil,
           type: nil
@@ -320,7 +233,7 @@ JSON_CREATE_QUESTION_QCM = {
       answers: [
         {
           solution: false,
-          proposition: "Proposition 1 qcm",
+          proposition: 'Proposition 1 qcm',
           joindre: {
             file: nil,
             type: nil
@@ -328,7 +241,7 @@ JSON_CREATE_QUESTION_QCM = {
         },
         {
           solution: true,
-          proposition: "Proposition 2 solution qcm",
+          proposition: 'Proposition 2 solution qcm',
           joindre: {
             file: nil,
             type: nil
@@ -336,7 +249,7 @@ JSON_CREATE_QUESTION_QCM = {
         },
         {
           solution: false,
-          proposition: "",
+          proposition: '',
           joindre: {
             file: nil,
             type: nil
@@ -344,7 +257,7 @@ JSON_CREATE_QUESTION_QCM = {
         },
         {
           solution: false,
-          proposition: "",
+          proposition: '',
           joindre: {
             file: nil,
             type: nil
@@ -352,7 +265,7 @@ JSON_CREATE_QUESTION_QCM = {
         },
         {
           solution: false,
-          proposition: "",
+          proposition: '',
           joindre: {
             file: nil,
             type: nil
@@ -360,7 +273,7 @@ JSON_CREATE_QUESTION_QCM = {
         },
         {
           solution: false,
-          proposition: "",
+          proposition: '',
           joindre: {
             file: nil,
             type: nil
@@ -368,7 +281,7 @@ JSON_CREATE_QUESTION_QCM = {
         },
         {
           solution: false,
-          proposition: "",
+          proposition: '',
           joindre: {
             file: nil,
             type: nil
@@ -376,7 +289,7 @@ JSON_CREATE_QUESTION_QCM = {
         },
         {
           solution: false,
-          proposition: "",
+          proposition: '',
           joindre: {
             file: nil,
             type: nil
@@ -384,7 +297,7 @@ JSON_CREATE_QUESTION_QCM = {
         }
       ],
       randanswer: true,
-      comment: "Commentaire de correction à la question qcm",
+      comment: 'Commentaire de correction à la question qcm',
       leurres: []
     }
   ]
@@ -394,10 +307,10 @@ JSON_CREATE_QUESTION_TAT = {
   id: nil,
   created_at: nil,
   updated_at: nil,
-  user_id: "VAA60000",
-  title: "Quiz numéro 0",
-  opt_show_score: "after_each",
-  opt_show_correct: "after_each",
+  user_id: 'VAA60000',
+  title: 'Quiz numéro 0',
+  opt_show_score: 'after_each',
+  opt_show_correct: 'after_each',
   opt_can_redo: true,
   opt_can_rewind: true,
   opt_rand_question_order: false,
@@ -405,7 +318,7 @@ JSON_CREATE_QUESTION_TAT = {
   questions: [
     {
       id: nil,
-      type: "tat",
+      type: 'tat',
       libelle: "Création d'une question de test type texte à trous",
       media: {
         file: nil,
@@ -419,11 +332,11 @@ JSON_CREATE_QUESTION_TAT = {
         }
       },
       answers: [
-        {          
-          text: "un test est une procédure de",
+        {
+          text: 'un test est une procédure de',
           solution: {
             id: nil,
-            libelle: "vérification"
+            libelle: 'vérification'
           },
           ponctuation: nil,
           joindre: {
@@ -432,7 +345,7 @@ JSON_CREATE_QUESTION_TAT = {
           }
         },
         {
-          text: "Il permet de verifier les problèmes du logiciel.",
+          text: 'Il permet de verifier les problèmes du logiciel.',
           solution: {
             id: nil,
             libelle: nil
@@ -445,15 +358,15 @@ JSON_CREATE_QUESTION_TAT = {
         }
       ],
       randanswer: true,
-      comment: "Commentaire de correction à la question qcm",
+      comment: 'Commentaire de correction à la question qcm',
       leurres: [
         {
-          id: "temp_0",
-          libelle: "transformation"
+          id: 'temp_0',
+          libelle: 'transformation'
         },
         {
-          id: "temp_1",
-          libelle: "personnalisation"
+          id: 'temp_1',
+          libelle: 'personnalisation'
         }
       ]
     }
@@ -464,10 +377,10 @@ JSON_CREATE_QUESTION_ASS = {
   id: nil,
   created_at: nil,
   updated_at: nil,
-  user_id: "VAA60000",
-  title: "Quiz numéro 0",
-  opt_show_score: "after_each",
-  opt_show_correct: "after_each",
+  user_id: 'VAA60000',
+  title: 'Quiz numéro 0',
+  opt_show_score: 'after_each',
+  opt_show_correct: 'after_each',
   opt_can_redo: true,
   opt_can_rewind: true,
   opt_rand_question_order: false,
@@ -475,14 +388,14 @@ JSON_CREATE_QUESTION_ASS = {
   questions: [
     {
       id: nil,
-      type: "ass",
+      type: 'ass',
       libelle: "Création d'une questions de test type association",
       media: {
         file: nil,
         type: nil
       },
       hint: {
-        libelle: "Aide de la questions association",
+        libelle: 'Aide de la questions association',
         media: {
           file: nil,
           type: nil
@@ -491,7 +404,7 @@ JSON_CREATE_QUESTION_ASS = {
       answers: [
         {
           leftProposition: {
-            libelle: "Proposition L ASS 1",
+            libelle: 'Proposition L ASS 1',
             joindre: {
               file: nil,
               type: nil
@@ -499,7 +412,7 @@ JSON_CREATE_QUESTION_ASS = {
             solutions: []
           },
           rightProposition: {
-            libelle: "Proposition R ASS 1",
+            libelle: 'Proposition R ASS 1',
             joindre: {
               file: nil,
               type: nil
@@ -511,7 +424,7 @@ JSON_CREATE_QUESTION_ASS = {
         },
         {
           leftProposition: {
-            libelle: "Proposition L ASS 2",
+            libelle: 'Proposition L ASS 2',
             joindre: {
               file: nil,
               type: nil
@@ -522,7 +435,7 @@ JSON_CREATE_QUESTION_ASS = {
             ]
           },
           rightProposition: {
-            libelle: "Proposition R ASS 2",
+            libelle: 'Proposition R ASS 2',
             joindre: {
               file: nil,
               type: nil
@@ -534,7 +447,7 @@ JSON_CREATE_QUESTION_ASS = {
         },
         {
           leftProposition: {
-            libelle: "Proposition L ASS 3",
+            libelle: 'Proposition L ASS 3',
             joindre: {
               file: nil,
               type: nil
@@ -544,7 +457,7 @@ JSON_CREATE_QUESTION_ASS = {
             ]
           },
           rightProposition: {
-            libelle: "Proposition R ASS 3",
+            libelle: 'Proposition R ASS 3',
             joindre: {
               file: nil,
               type: nil
@@ -562,11 +475,11 @@ JSON_CREATE_QUESTION_ASS = {
               type: nil
             },
             solutions: [
-                
+
             ]
           },
           rightProposition: {
-            libelle: "Proposition R ASS 4",
+            libelle: 'Proposition R ASS 4',
             joindre: {
               file: nil,
               type: nil
@@ -658,52 +571,52 @@ def json_update_question_qcm(quiz, question, suggestions)
   JSON_CREATE_QUESTION_QCM[:updated_at] = quiz.updated_at
   JSON_CREATE_QUESTION_QCM[:created_at] = quiz.created_at
   JSON_CREATE_QUESTION_QCM[:questions][0][:id] = question.id
-  JSON_CREATE_QUESTION_QCM[:questions][0][:libelle] = "libellé de la question mis à jour"
-  JSON_CREATE_QUESTION_QCM[:questions][0][:hint][:libelle] = "aide de la question mise à jour"
+  JSON_CREATE_QUESTION_QCM[:questions][0][:libelle] = 'libellé de la question mis à jour'
+  JSON_CREATE_QUESTION_QCM[:questions][0][:hint][:libelle] = 'aide de la question mise à jour'
 
   JSON_CREATE_QUESTION_QCM[:questions][0][:answers][0][:id] = suggestions[0].id
-  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][0][:proposition] = "proposition 0 updated"
+  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][0][:proposition] = 'proposition 0 updated'
   JSON_CREATE_QUESTION_QCM[:questions][0][:answers][0][:solution] = false
   JSON_CREATE_QUESTION_QCM[:questions][0][:answers][1][:id] = suggestions[1].id
-  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][1][:proposition] = "proposition 1 updated"
+  JSON_CREATE_QUESTION_QCM[:questions][0][:answers][1][:proposition] = 'proposition 1 updated'
   JSON_CREATE_QUESTION_QCM[:questions][0][:answers][1][:solution] = true
   JSON_CREATE_QUESTION_QCM
-end 
+end
 
 def json_update_question_tat(quiz, question, suggestions)
   JSON_CREATE_QUESTION_TAT[:id] = quiz.id
   JSON_CREATE_QUESTION_TAT[:updated_at] = quiz.updated_at
   JSON_CREATE_QUESTION_TAT[:created_at] = quiz.created_at
   JSON_CREATE_QUESTION_TAT[:questions][0][:id] = question.id
-  JSON_CREATE_QUESTION_TAT[:questions][0][:libelle] = "libellé de la question mis à jour"
-  JSON_CREATE_QUESTION_TAT[:questions][0][:hint][:libelle] = "aide de la question mise à jour"
+  JSON_CREATE_QUESTION_TAT[:questions][0][:libelle] = 'libellé de la question mis à jour'
+  JSON_CREATE_QUESTION_TAT[:questions][0][:hint][:libelle] = 'aide de la question mise à jour'
 
   JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:id] = suggestions[5].id
-  JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:text] = "texte mis à jour"
+  JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:text] = 'texte mis à jour'
   JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:solution][:id] = suggestions[6].id
-  JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:solution][:libelle] = "solution mise à jour"
+  JSON_CREATE_QUESTION_TAT[:questions][0][:answers][0][:solution][:libelle] = 'solution mise à jour'
   JSON_CREATE_QUESTION_TAT[:questions][0][:leurres][0][:id] = 'temp_0'
-  JSON_CREATE_QUESTION_TAT[:questions][0][:leurres][0][:libelle] = "nouveau leurre"  
-  JSON_CREATE_QUESTION_TAT[:questions][0][:answers].delete_at(1) 
+  JSON_CREATE_QUESTION_TAT[:questions][0][:leurres][0][:libelle] = 'nouveau leurre'
+  JSON_CREATE_QUESTION_TAT[:questions][0][:answers].delete_at(1)
   JSON_CREATE_QUESTION_TAT
-end 
+end
 
 def json_update_question_ass(quiz, question, suggestions)
   JSON_CREATE_QUESTION_ASS[:id] = quiz.id
   JSON_CREATE_QUESTION_ASS[:updated_at] = quiz.updated_at
   JSON_CREATE_QUESTION_ASS[:created_at] = quiz.created_at
   JSON_CREATE_QUESTION_ASS[:questions][0][:id] = question.id
-  JSON_CREATE_QUESTION_ASS[:questions][0][:libelle] = "libellé de la question mis à jour"
-  JSON_CREATE_QUESTION_ASS[:questions][0][:hint][:libelle] = "aide de la question mise à jour"
+  JSON_CREATE_QUESTION_ASS[:questions][0][:libelle] = 'libellé de la question mis à jour'
+  JSON_CREATE_QUESTION_ASS[:questions][0][:hint][:libelle] = 'aide de la question mise à jour'
 
   JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:leftProposition][:id] = suggestions[2].id
-  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:leftProposition][:libelle] = "libelle proposition gauche mis à jour"
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:leftProposition][:libelle] = 'libelle proposition gauche mis à jour'
   JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:leftProposition][:solutions] = []
   JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:rightProposition][:id] = suggestions[3].id
-  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:rightProposition][:libelle] = "libelle proposition droite mis à jour"
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:rightProposition][:libelle] = 'libelle proposition droite mis à jour'
   JSON_CREATE_QUESTION_ASS[:questions][0][:answers][0][:rightProposition][:solutions] = [1]
   JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:leftProposition][:id] = suggestions[4].id
-  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:leftProposition][:libelle] = "libelle proposition gauche mis à jour"
+  JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:leftProposition][:libelle] = 'libelle proposition gauche mis à jour'
   JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:leftProposition][:solutions] = [0]
   JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:rightProposition][:libelle] = nil
   JSON_CREATE_QUESTION_ASS[:questions][0][:answers][1][:rightProposition][:solutions] = []
@@ -719,10 +632,10 @@ JSON_UPDATE_ORDER_QUESTIONS = {
   id: nil,
   created_at: nil,
   updated_at: nil,
-  user_id: "VAA60000",
-  title: "Quiz numéro 0",
-  opt_show_score: "after_each",
-  opt_show_correct: "after_each",
+  user_id: 'VAA60000',
+  title: 'Quiz numéro 0',
+  opt_show_score: 'after_each',
+  opt_show_correct: 'after_each',
   opt_can_redo: true,
   opt_can_rewind: true,
   opt_rand_question_order: false,
@@ -730,22 +643,57 @@ JSON_UPDATE_ORDER_QUESTIONS = {
   questions: [
     {
       id: nil,
-      type: "TAT",
-      libelle: "Question numéro 2",
+      type: 'TAT',
+      libelle: 'Question numéro 2',
       sequence: 0
     },
     {
       id: nil,
-      type: "ASS",
-      libelle: "Question numéro 1",
+      type: 'ASS',
+      libelle: 'Question numéro 1',
       sequence: 1
     },
     {
       id: nil,
-      type: "QCM",
-      libelle: "Question numéro 0",
+      type: 'QCM',
+      libelle: 'Question numéro 0',
       sequence: 2
     }
   ]
 }
 
+JSON_CREATE_ANSWER_QCM = {
+  quiz_id: nil,
+  session_id: nil,
+  question: {
+    id: nil,
+    type: 'qcm',
+    answers: [
+      {
+        id: nil,
+        solution: true
+      }
+    ]
+  }
+}
+
+JSON_CREATE_ANSWER_ASS = {
+  quiz_id: nil,
+  session_id: nil,
+  question: {
+    id: nil,
+    type: 'ass',
+    answers: [
+      {
+        leftProposition: {
+          id: nil,
+          solutions: []
+        },
+        rightProposition: {
+          id: nil,
+          solutions: []
+        }
+      }
+    ]
+  }
+}

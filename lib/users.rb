@@ -31,15 +31,15 @@ module Lib
     def self.get_regroupements(quiz_id)
       regroupements = []
       # on récupère les ids des regroupements dans lequel ce quiz a été publié
-      regroupements_published_ids = Publication.new({quiz_id: quiz_id})
+      regroupements_published_ids = Publication.new(quiz_id: quiz_id)
       regroupements_published_ids = regroupements_published_ids.find_all.select(:rgpt_id).map(:rgpt_id)
-      regroupements = regroupements | get_classes(regroupements_published_ids)
-      regroupements = regroupements | get_groupes(regroupements_published_ids)
+      regroupements |= get_classes(regroupements_published_ids)
+      regroupements |= get_groupes(regroupements_published_ids)
 
       {regroupements_found: regroupements}
     rescue => err
-      LOGGER.error "Impossible de récupérer les regroupements ! message de l'erreur raise: "+err.message
-      {regroupements_found: {}, error:{msg: "La création de la session a échoué !"}}
+      LOGGER.error "Impossible de récupérer les regroupements ! message de l'erreur raise: " + err.message
+      {regroupements_found: {}, error: {msg: 'La création de la session a échoué !'}}
     end
 
     private
@@ -51,13 +51,11 @@ module Lib
       # on récupère les classes de l'utilisateur au format pour le client
       classes = @user[:user_detailed]['classes'].uniq { |s| s['classe_id'] }
       classes.each do |classe|
-        classes_formated.push({
-          id: classe['classe_id'],
-          type: 'cls',
-          name: classe['classe_libelle'],
-          nameEtab: classe['etablissement_nom'],
-          selected: regroupements_published_ids.include?(classe['classe_id'])
-        })
+        classes_formated.push(          id: classe['classe_id'],
+                                        type: 'cls',
+                                        name: classe['classe_libelle'],
+                                        nameEtab: classe['etablissement_nom'],
+                                        selected: regroupements_published_ids.include?(classe['classe_id']))
       end
       classes_formated
     end
@@ -67,13 +65,11 @@ module Lib
       # on récupère les groupes de l'utilisateur au format pour le client
       groupes = @user[:user_detailed]['groupes_eleves'].uniq { |s| s['groupe_id'] }
       groupes.each do |groupe|
-        groupes_formated.push({
-          id: groupe['groupe_id'],
-          type: 'grp',
-          name: groupe['groupe_libelle'],
-          nameEtab: groupe['etablissement_nom'],
-          selected: regroupements_published_ids.include?(groupe['groupe_id'])
-        })
+        groupes_formated.push(          id: groupe['groupe_id'],
+                                        type: 'grp',
+                                        name: groupe['groupe_libelle'],
+                                        nameEtab: groupe['etablissement_nom'],
+                                        selected: regroupements_published_ids.include?(groupe['groupe_id']))
       end
       groupes_formated
     end

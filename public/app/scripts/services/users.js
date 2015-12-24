@@ -20,7 +20,6 @@ angular.module('quizsApp')
 		current = user;
 	}
 	this.getCurrentUser = function(){
-		// console.log(curent);
 		var profil_id = current.user_detailed.profil_actif.profil_id;
 		if (profil_id == 'TUT' || profil_id == "ELV") {
 			roleMaxPriority = 0;				

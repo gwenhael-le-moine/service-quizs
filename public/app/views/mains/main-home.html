@@ -52,7 +52,7 @@
 							<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{quiz.toDate | date:'EEEE d MMMM yyyy'}}"></p>
 						</div>
 						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>
-						<div ng-if="roleMax > 0 || quiz.canRedo">
+						<div ng-if="roleMax > 0 || ( roleMax == 0 && quiz.canRedo ) || (roleMax == 0 && !quiz.canRedo && !quiz.session)">
 							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id)"></p>					
 						</div>
 						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>

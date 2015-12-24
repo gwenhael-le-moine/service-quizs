@@ -17,7 +17,6 @@ require __dir__('answers')
 puts 'loading api/PublicationsApi'
 require __dir__('publications')
 
-
 # Point d'entrée des API de quiz
 class Api < Grape::API
   format :json

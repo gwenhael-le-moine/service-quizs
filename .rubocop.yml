@@ -5,7 +5,7 @@ AllCops:
     - 'vendor/**/*'
     - 'config/**/*'
     - 'public/**/*'
-    - 'spec/fixtures/**/*'
+    - 'spec/**/*'
     - Guardfile
 
 Style/SpaceInsideBrackets:

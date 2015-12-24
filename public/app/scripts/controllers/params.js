@@ -89,9 +89,6 @@ angular.module('quizsApp')
 		    	};
 		    	// $scope.quiz.questions[event.dest.index].sequence = event.dest.index
 		    	// $scope.quiz.questions[event.source.index].sequence = event.source.index
-		    	console.log($scope.quiz.questions);
-		    	console.log("le nouvel index : " + event.dest.index);
-		    	console.log("l'ancien index : " + event.source.index);
 		    	QuestionsApi.updateOrder({quiz: $scope.quiz});
 		    },
 		    containment: '#board'

@@ -6,7 +6,7 @@ describe 'OutilsTest' do
 
   it 'retourne une raise erreur' do
     begin
-      raise RuntimeError
+      fail RuntimeError
     rescue => err
       expect { raise_err(err, "message d'erreur") }.to raise_error(RuntimeError)
     end

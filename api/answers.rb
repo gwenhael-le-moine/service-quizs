@@ -7,10 +7,10 @@ class AnswersApi < Grape::API
 
   include Lib::Answers
 
-  desc "créé une réponse"
+  desc 'créé une réponse'
   params do
     requires :quiz_id, type: Integer, desc: 'Id du quiz'
-    requires :question, type: Object 
+    requires :question, type: Object
     requires :session_id, type: Integer, desc: 'Id de la session du quiz'
   end
   post '/create' do

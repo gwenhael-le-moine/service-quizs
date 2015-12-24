@@ -31,7 +31,7 @@ class SinatraApp < Sinatra::Base
   }
 
   get APP_PATH + '/' do
-    # TODO: Rebrancher le logged 
+    # TODO: Rebrancher le logged
     if logged?
       erb :app
       # erb "<h1>Connected !</h1>

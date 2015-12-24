@@ -7,7 +7,7 @@ module Lib
   module Pdf
     module HtmlGenerator
       def self.generate_cover(user, titre)
-        info = 
+        info =
         "<div>
           <div>
             <span class=\"texte-gras\">#{user[:prenom].capitalize} #{user[:nom].capitalize}</span>
@@ -27,7 +27,7 @@ module Lib
       def self.generate_session(session)
         date_html = "<div class=\"date\">#{DateTime.iso8601(session[:date]).strftime('%d.%m.%y - %kh%M')}</div>
         <div class=\"border\"></div>"
-        session_html = 
+        session_html =
         "<div class=\"session\">
           <div class=\"info-elv\">
             <div><span class=\"texte-gras\">Session de #{session[:student][:name]}</span></div>
