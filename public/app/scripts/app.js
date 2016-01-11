@@ -16,7 +16,6 @@ angular.module('quizsApp', [
   //id temp à effacer pour la BO
   $rootScope.tmpId = 0;
   $rootScope.$on('$stateChangeStart', function($location){
-    console.log("good");
     Notifications.clear();
   });
   window.scope = $rootScope;

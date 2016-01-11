@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('ReadQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', 'APP_PATH', 'Notifications','Line', 'Modal', 'SessionsApi', 'AnswersApi', function($scope, $state, $rootScope, $stateParams, $sce, APP_PATH, Notifications, Line, Modal, SessionsApi, AnswersApi) {
+.controller('ReadQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', 'APP_PATH', 'Users', 'Notifications','Line', 'Modal', 'SessionsApi', 'AnswersApi', function($scope, $state, $rootScope, $stateParams, $sce, APP_PATH, Users, Notifications, Line, Modal, SessionsApi, AnswersApi) {
 
 	//toutes les réponses à mettre dans les selects
 	$scope.selectOptions = [];
@@ -122,6 +122,9 @@ angular.module('quizsApp')
 			if ($rootScope.quiz.opt_show_correct == 'at_end') {
 				$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, session_id: $stateParams.session_id});
 			} else {
+				if (Users.getCurrentUser().roleMaxPriority > 0) {
+					SessionsApi.delete({ids:[$stateParams.session_id]});					
+				};
 	 			$state.go('quizs.home');				
 			};
 		});

@@ -38,3 +38,6 @@ require __dir__('users')
 
 puts 'loading lib/publications'
 require __dir__('publications')
+
+puts 'loading lib/imports'
+require __dir__('imports')

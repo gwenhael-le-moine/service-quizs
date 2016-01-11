@@ -207,6 +207,9 @@ angular.module('quizsApp')
 
 		//fonction permettant de quitter la correction 
 		$scope.quit = function(){
+			if (Users.getCurrentUser().roleMaxPriority > 0) {
+				SessionsApi.delete({ids:[$stateParams.session_id]});					
+			};
 			$state.go('quizs.home');
 		}
 		//fonction permettant de passer à la question suivante 
