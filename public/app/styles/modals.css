@@ -105,6 +105,16 @@
 	padding: 5px 30px;
 }
 
+/*** add-link modal ****/
+.modal-body.add-link .name{
+	margin-bottom: 10px;
+}
+
+.modal-body.add-link .name > input, .modal-body.add-link .link > input{
+	display: block;
+	margin-top: 5px;
+}
+
 /*** css des mobiles et tablettes ***/
 @media screen and (max-width: 992px) {
   .modal-body input{

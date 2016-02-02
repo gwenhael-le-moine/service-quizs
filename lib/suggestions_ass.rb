@@ -64,14 +64,16 @@ module Lib
       order = 0
       # On créé en premier lieu toutes les propositions de droite
       params_suggestion = {
-        question_id: quiz[:questions][0][:id],
-        meduim_id: nil
+        question_id: quiz[:questions][0][:id]
       }
       quiz[:questions][0][:answers].each do |answer|
+
         params_suggestion[:order] = order
         params_suggestion[:position] = 'L'
+        params_suggestion[:medium_id] = Lib::Medias.create(answer[:leftProposition][:joindre]) if answer[:leftProposition][:joindre][:type] == "video"
         answer[:leftProposition] = create_answer(answer[:leftProposition], params_suggestion)
         params_suggestion[:position] = 'R'
+        params_suggestion[:medium_id] = Lib::Medias.create(answer[:rightProposition][:joindre]) if answer[:rightProposition][:joindre][:type] == "video"
         answer[:rightProposition] = create_answer(answer[:rightProposition], params_suggestion)
         order += 1
       end

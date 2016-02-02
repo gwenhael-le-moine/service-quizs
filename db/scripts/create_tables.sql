@@ -35,8 +35,9 @@ COLLATE = utf8_general_ci;
 DROP TABLE IF EXISTS `quizs`.`medias` ;
 
 CREATE  TABLE IF NOT EXISTS `quizs`.`medias` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `created_at` DATETIME NULL ,
+  `name` VARCHAR(250) NULL ,
   `content_type` VARCHAR(100) NOT NULL ,
   `uri` VARCHAR(2000) NOT NULL ,
   PRIMARY KEY (`id`) )

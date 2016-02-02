@@ -16,7 +16,7 @@
 	display: table;
 	vertical-align: top;
 }
-.add-media{
+.add-media, .add-link{
 	width: 25px;
 	height: 25px;
 	display: table-cell;
@@ -94,9 +94,9 @@
 	display: table;
 }
 .reponse-qcm .joindre div, .reponse-ass .joindre.right div{
-	padding-left: 20px;
+	padding-left: 10px;
 }
-.reponse-qcm .joindre .add-media, .reponse-ass .joindre .add-media{
+.reponse-qcm .joindre .add-media, .reponse-ass .joindre .add-media, .reponse-qcm .joindre .add-link, .reponse-ass .joindre .add-link{
 	height: 22px;
 	width: 22px;
 }
@@ -159,10 +159,12 @@
 .reponse-ass, .reponse-tat{
 	margin-top: 40px;
 }
-.reponse-ass .joindre.left .add-media, .reponse-ass .joindre.left .delete-media{
+.reponse-ass .joindre.left .add-media, .reponse-ass .joindre.left .add-link, .reponse-ass .joindre.left .delete-media{
 	float: right;
 	margin-left: 0;
-	margin-right: 20px;
+}
+.reponse-ass .joindre.left .add-media, .reponse-ass .joindre.left .delete-media{
+	margin-right: 10px;
 }
 .reponse-ass .joindre.left .label-media-left{
 	display: table;
@@ -233,9 +235,11 @@
 .reponse-tat .joindre .label-media{
 	width: 120px;
 }
-.reponse-tat .joindre .add-media{
+.reponse-tat .joindre .add-media, .reponse-tat .joindre .add-link{
 	height: 22px;
 	width: 22px;
+}
+.reponse-tat .joindre .add-media{
 	margin-left: 20px;
 }
 .add-tat, .add-leurre{

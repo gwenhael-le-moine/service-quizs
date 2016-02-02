@@ -37,7 +37,7 @@ module Lib
         id: question.id,
         type: question.type.downcase,
         libelle: question.question,
-        media: {file: nil, type: nil},
+        media: Lib::Medias.get(question.medium_id),
         hint: {libelle: question.hint, media: {file: nil, type: nil}},
         randanswer: question.opt_rand_suggestion_order,
         answers: [],
@@ -77,7 +77,8 @@ module Lib
       order = Question.new(quiz_id: quiz[:id])
       order = order.find_all.count
       if @user[:uid] == quiz[:user_id]
-        # TODO: Création des médias
+        # Création des médias
+        medium_id = Lib::Medias.create(quiz[:questions][0][:media]) if quiz[:questions][0][:media][:type] == "video"
         # création de la question
         params_question = {
           quiz_id: quiz[:id],
@@ -87,7 +88,7 @@ module Lib
           opt_rand_suggestion_order: quiz[:questions][0][:randanswer],
           hint: quiz[:questions][0][:hint][:libelle],
           correction_comment: quiz[:questions][0][:comment],
-          meduim_id: nil
+          medium_id: medium_id
         }
         question = Question.new(params_question)
         quiz[:questions][0][:id] = question.create.id
@@ -110,14 +111,17 @@ module Lib
           hint: quiz[:questions][0][:hint][:libelle],
           correction_comment: quiz[:questions][0][:comment],
           order: quiz[:questions][0][:sequence],
-          meduim_id: nil
+          medium_id: nil
         }
         question = Question.new(params_question)
         question = question.find
         if quiz[:questions][0][:type].downcase != question.type.downcase
+          puts "========> update question type different" 
           question.delete
           quiz[:questions][0] = create(quiz)[:question_created]
         else
+          puts "=========>  Update question"
+          params_question[:medium_id] = Lib::Medias.update_question(quiz[:questions][0][:id], quiz[:questions][0][:media])
           question = Question.new(params_question)
           question.update
           update_suggestions(quiz)

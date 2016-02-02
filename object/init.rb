@@ -38,3 +38,6 @@ require __dir__('session')
 
 puts 'loading object/answer'
 require __dir__('answer')
+
+puts 'loading object/medium'
+require __dir__('medium')

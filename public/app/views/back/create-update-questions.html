@@ -59,8 +59,15 @@
 									ng-click="openFileUpload('questionMediaId')">
 							</p>
 							<label 	class="label-media texte-secondaire-italic" 
-											ng-class="{'not-empty': question.media.file}">
-								{{question.media.file != null ? question.media.file.name : placeholderMedia}}
+											ng-class="{'not-empty': question.media.file && question.media.type != 'video'}">
+								{{question.media.file != null && question.media.type != "video" ? question.media.file.name : placeholderMedia}}
+							</label>
+							<p 	class="add-link img" 
+									ng-click="openAddLink('question')">
+							</p>
+							<label 	class="label-media texte-secondaire-italic" 
+											ng-class="{'not-empty': question.media.file && question.media.type== 'video'}">
+								{{question.media.file != null && question.media.type == "video" ? question.media.file.name : placeholderLink}}
 							</label>
 						</div>
 						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileQuestion">{{errorFileQuestion}}</i>
@@ -87,16 +94,6 @@
 											ngf-select="uploadHintMedia($file)">
 							</button>
 						</div>
-						<div>
-							<p 	class="add-media img" 
-									ng-click="openFileUpload('aideMediaId')">
-							</p>
-							<label 	class="label-media texte-secondaire-italic" 
-											ng-class="{'not-empty': question.hint.media.file}">
-								{{question.hint.media.file != null ? question.hint.media.file.name : placeholderMedia}}
-							</label>
-						</div>
-						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileHint">{{errorFileHint}}</i>
 					</div>
 				</div>
 			</div>
@@ -149,7 +146,13 @@
 						<div>
 							<p 	ng-if="!suggestion.joindre.file" 
 									class="add-media img" 
-									ng-click="openFileUpload('joindre'+$index)">
+									ng-click="openFileUpload('joindre'+$index)"
+									title="Ajouter une image ou un fichier audio">
+							</p>
+							<p 	ng-if="!suggestion.joindre.file" 
+									class="add-link img" 
+									ng-click="openAddLink('qcm', $index)"
+									title="Intégrer une video web">
 							</p>
 							<label 	ng-if="!suggestion.joindre.file" 
 											class="label-media texte-secondaire-italic mobile">
@@ -243,7 +246,12 @@
 											Joindre
 										</label>
 										<p 	class="add-media img" 
-												ng-click="openFileUpload('leftjoindre'+$index)">
+												ng-click="openFileUpload('leftjoindre'+$index)"
+												title="Ajouter une image ou un fichier audio">
+										</p>
+										<p 	class="add-link img" 
+												ng-click="openAddLink('assLeft', $index)"
+												title="Intégrer une video web">
 										</p>
 									</div>
 								</div>
@@ -321,7 +329,12 @@
 												($index == 0 || suggestions.ass[$index-1].rightProposition.libelle))
 											|| (validateAss && suggestion.rightProposition.libelle && !suggestion.rightProposition.joindre.file)">
 									<p 	class="add-media img" 
-											ng-click="openFileUpload('rightjoindre'+$index)">
+											ng-click="openFileUpload('rightjoindre'+$index)"
+											title="Ajouter une image ou un fichier audio">
+									</p>
+									<p 	class="add-link img" 
+											ng-click="openAddLink('assRight', $index)"
+											title="Intégrer une video web">
 									</p>
 									<label class="label-media texte-secondaire-italic mobile">Joindre</label>
 								</div>
@@ -431,7 +444,13 @@
 						<div>
 							<p 	ng-if="!suggestion.joindre.file" 
 									class="add-media img" 
-									ng-click="openFileUpload('joindretat'+$index)">
+									ng-click="openFileUpload('joindretat'+$index)"
+									title="Ajouter une image ou un fichier audio">
+							</p>
+							<p 	ng-if="!suggestion.joindre.file" 
+									class="add-link img" 
+									ng-click="openAddLink('tat', $index)"
+									title="Intégrer une video web">
 							</p>
 							<label 	ng-if="!suggestion.joindre.file" 
 											class="label-media texte-secondaire-italic mobile">

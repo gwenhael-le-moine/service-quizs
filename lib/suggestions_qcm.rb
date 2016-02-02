@@ -38,11 +38,12 @@ module Lib
       order = 0
       quiz[:questions][0][:answers].each do |answer|
         if answer[:proposition] && !answer[:proposition].empty?
+          medium_id = Lib::Medias.create(answer[:joindre]) if answer[:joindre][:type] == "video"
           params_suggestion = {
             question_id: quiz[:questions][0][:id],
             text: answer[:proposition],
             order: order,
-            meduim_id: nil
+            medium_id: nil
           }
           create_answer(answer, params_suggestion)
           order += 1

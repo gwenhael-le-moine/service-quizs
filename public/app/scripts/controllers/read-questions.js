@@ -189,7 +189,11 @@ angular.module('quizsApp')
 		$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
 			$scope.title = $rootScope.media.title;
 			$scope.file = function() {
-		    return $sce.trustAsResourceUrl($rootScope.media.file);
+		    if ($rootScope.media.type != "video") {
+		    	return $sce.trustAsResourceUrl($rootScope.media.file);
+		    } else {
+		    	return $sce.trustAsHtml($rootScope.media.file)	
+				};
 		  }
 			$scope.mime = $rootScope.media.mime;
 			$scope.type = $rootScope.media.type.split("/")[0];
