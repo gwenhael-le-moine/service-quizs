@@ -528,6 +528,12 @@ input.placeholder, textarea.placeholder {
   background-size: 100%;
   background-position: center;
 }
+.add-link.img{
+  background-image: url('../images/lien-video.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+}
 
 
 /*************************  PARTIE QUIZ  ***********************/

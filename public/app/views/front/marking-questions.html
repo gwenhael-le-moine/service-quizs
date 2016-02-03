@@ -79,6 +79,11 @@
 						</p>
 					</div>
 				</div>
+				<div class="comment">
+					<span class="texte-bold">Commentaire :</span>
+					<span ng-if="question.comment == null || question.comment == ''" class="texte-secondaire">Aucun commentaire...</span>							
+					<span class="texte-secondaire">{{question.comment}}</span>						
+				</div>
 			</div>
 			<!---------------------- FIN PARTIE QCM   ---------------------->
 			<!---------------------- DEBUT PARTIE ASS ---------------------->
@@ -141,6 +146,11 @@
 						</div>
 					</div>
 				</div>
+				<div class="comment">
+					<span class="texte-bold">Commentaire :</span>
+					<span ng-if="question.comment == null || question.comment == ''" class="texte-secondaire">Aucun commentaire...</span>							
+					<span class="texte-secondaire">{{question.comment}}</span>						
+				</div>
 			</div>
 			<div 	ng-if="question.type == 'ass'" 
 						id="markingCorrectLinesId"
@@ -176,6 +186,11 @@
 						<span class="texte libelle">{{answer.text}}</span>
 						<span class="texte-particulier">{{answer.solution.libelle}}</span>
 					</div>
+				</div>
+				<div class="comment">
+					<span class="texte-bold">Commentaire :</span>
+					<span ng-if="question.comment == null || question.comment == ''" class="texte-secondaire">Aucun commentaire...</span>							
+					<span class="texte-secondaire">{{question.comment}}</span>						
 				</div>
 			</div>
 			<!---------------------- FIN PARTIE TAT   ---------------------->

@@ -697,3 +697,130 @@ JSON_CREATE_ANSWER_ASS = {
     ]
   }
 }
+
+JSON_IMPORTS_QUIZS = [
+  {
+    user_id: "VAA60001",
+    title: "Mon quiz",
+    opt_show_score: 'after_each',
+    opt_show_correct: 'after_each',
+    opt_can_redo: true,
+    opt_can_rewind: true,
+    opt_rand_question_order: false,
+    opt_shared: true,
+    questions: [
+      {
+        type: "QCM",
+        question: "Ma question QCM",
+        hint: "Petite aide",
+        correction_comment: "texte de correction",
+        order: 0,
+        opt_rand_suggestion_order: false,
+        suggestions: [
+          {
+            text: "première suggestion",
+            order: 0,
+            position: "L",
+            solution: true
+          },
+          {
+            text: "deuxième suggestion",
+            order: 1,
+            position: "L",
+            solution: false
+          }
+        ]
+      },
+      {
+        type: "TAT",
+        question: "Ma question TAT",
+        hint: "Petite aide",
+        correction_comment: "texte de correction",
+        order: 1,
+        opt_rand_suggestion_order: false,
+        suggestions: [
+          {
+            left: {
+              text: "cette question est une question",
+              order: 0,
+              position: "L"
+            },
+            right: {
+              text: "TAT",
+              order: 0,
+              position: "R"
+            }
+          },
+          {
+            left: {
+              text: "mais attention il peut y avoir des",
+              order: 1,
+              position: "L",
+            },
+            right: {
+              text: "Leurres",
+              order: 1,
+              position: "R"
+            }
+          }
+        ],
+        leurres: [
+          {
+            text: "QCM",
+            position: "R"
+          },
+          {
+            text: "ASS",
+            position: "R"
+          }
+        ]
+      },
+      {
+        type: "ASS",
+        question: "Ma question ASS",
+        hint: "Petite aide", 
+        correction_comment: "texte de correction",
+        order: 2,
+        opt_rand_suggestion_order: true,
+        suggestions: [
+          {
+            left: {
+              text: "première suggestion gauche",
+              order: 0,
+              position: "L",
+              solutions: [0,1]
+            },
+            right:{
+              text: "première suggestion droite",
+              order: 0,
+              position: "R",
+              solutions: [0,2]
+            },
+          },
+          {
+            left: {
+              text: "deuxième suggestion gauche",
+              order: 1,
+              position: "L",
+              solutions: []
+            },
+            right:{
+              text: "deuxième suggestion droite",
+              order: 1,
+              position: "R",
+              solutions: [0]
+            }
+          },
+          {
+            left: {
+              text: "troisième suggestion gauche",
+              order: 2,
+              position: "L",
+              solutions: [0]
+            }
+          }
+        ]
+      }
+    ] 
+  }
+]

@@ -16,7 +16,12 @@ angular.module('quizsApp')
 	//on récupère la question
 	Questions.get($stateParams.quiz_id, $stateParams.id, true, $stateParams.session_id).$promise.then(function(response){
 		if (response.question_found) {
-			$scope.questions = [response.question_found];			
+			$scope.questions = [response.question_found];
+			_.each($rootScope.quiz.questions, function(q){
+				if (q.id === $scope.questions[0].id) {
+					$scope.questions[0].sequence = q.sequence;					
+				};
+			});
 			var numQuestion = $scope.questions[0].sequence+1;
 			$scope.actionTitle = "correction - question " + numQuestion + "/" + $rootScope.quiz.questions.length;
 		};

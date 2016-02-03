@@ -6,9 +6,7 @@
 		<img ng-if="type=='image'"
 		 ng-src="{{file()}}" 
 		>
-		<video ng-if="type=='video'" controls="controls">
-		  <source ng-src="{{file()}}" type="{{mime}}" />
-		</video>		
+		<div ng-if="type=='video'" ng-bind-html="file()"></div>	
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
 		<button type="button" 

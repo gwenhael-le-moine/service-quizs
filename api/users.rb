@@ -18,7 +18,6 @@ class UsersApi < Grape::API
   end
   get '/regroupements/:quiz_id' do
     Lib::Users.user user
-    # Met à jour le quiz
     Lib::Users.get_regroupements(params[:quiz_id])
   end
 end

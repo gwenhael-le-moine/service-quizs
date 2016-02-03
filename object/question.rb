@@ -71,6 +71,7 @@ class Question
   # medium_id Integer
   # opt_rand_suggestion_order Boolean
   def update
+    puts '======> id question : ' + @id.inspect
     question = Questions[id: @id]
     question.update(question: @question) unless @question.nil?
     question.update(hint: @hint) unless @hint.nil?
@@ -80,6 +81,7 @@ class Question
     question.update(opt_rand_suggestion_order: @opt_rand_suggestion_order) unless @opt_rand_suggestion_order.nil?
     question
   rescue => err
+    LOGGER.error err.message + err.backtrace.inspect
     raise_err err, "erreur lors de la mise à jour d'une question"
   end
 

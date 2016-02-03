@@ -41,3 +41,6 @@ require __dir__('publications')
 
 puts 'loading lib/imports'
 require __dir__('imports')
+
+puts 'loading lib/medias'
+require __dir__('medias')
