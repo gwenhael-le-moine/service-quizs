@@ -78,7 +78,7 @@ module Lib
       order = order.find_all.count
       if @user[:uid] == quiz[:user_id]
         # Création des médias
-        medium_id = Lib::Medias.create(quiz[:questions][0][:media]) if quiz[:questions][0][:media][:type] == "video"
+        medium_id = Lib::Medias.create(quiz[:questions][0][:media]) if quiz[:questions][0][:media][:type] == 'video'
         # création de la question
         params_question = {
           quiz_id: quiz[:id],
@@ -116,12 +116,12 @@ module Lib
         question = Question.new(params_question)
         question = question.find
         if quiz[:questions][0][:type].downcase != question.type.downcase
-          puts "========> update question type different" 
+          # puts "========> update question type different"
           question.delete
           quiz[:questions][0] = create(quiz)[:question_created]
         else
-          puts "=========>  Update question"
-          params_question[:medium_id] = Lib::Medias.update_question(quiz[:questions][0][:id], quiz[:questions][0][:media])
+          # puts "=========>  Update question"
+          # params_question[:medium_id] = Lib::Medias.update_question(quiz[:questions][0][:id], quiz[:questions][0][:media])
           question = Question.new(params_question)
           question.update
           update_suggestions(quiz)

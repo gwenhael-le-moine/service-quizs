@@ -5,7 +5,7 @@ class MediasApi < Grape::API
   format :json
   rescue_from :all
 
-	desc "upload un media"
+  desc 'upload un media'
   params do
     requires :id, type: Integer, desc: 'Id de la question ou de la suggestion'
     requires :type, type: String, desc: 'Type de media, question ou suggestion'
@@ -22,7 +22,7 @@ class MediasApi < Grape::API
       File.delete new_filename
 
       {file: my_file, id: params[:id], type: params[:type]}
-    rescue => err
+    rescue
       error!("Impossible d'uploder le document", 404)
     end
   end

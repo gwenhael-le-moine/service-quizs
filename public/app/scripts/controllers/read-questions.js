@@ -20,6 +20,7 @@ angular.module('quizsApp')
   	};
   });
 	//on récupère la question
+	console.log($rootScope.quiz.questions);
 	$scope.question = angular.copy(_.find($rootScope.quiz.questions, function(q){
 		if (q.id == $stateParams.id) {
 			var numQuestion = q.sequence+1;

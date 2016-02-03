@@ -13,7 +13,7 @@ class QuestionsApi < Grape::API
   end
   post '/create' do
     Lib::Questions.user user
-    # créé une nouvelle question et gère l'exception si besoin dans la lib    
+    # créé une nouvelle question et gère l'exception si besoin dans la lib
     Lib::Questions.create(params[:quiz])
   end
 

@@ -38,7 +38,7 @@ module Lib
 
     def self.create(quiz)
       quiz[:questions][0][:answers].each do |answer|
-        medium_id = Lib::Medias.create(answer[:joindre]) if answer[:joindre][:type] == "video"
+        medium_id = Lib::Medias.create(answer[:joindre]) if answer[:joindre][:type] == 'video'
         params_suggestion = {
           question_id: quiz[:questions][0][:id],
           position: 'L',

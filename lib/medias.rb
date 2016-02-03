@@ -23,29 +23,29 @@ module Lib
       return {file: nil, type: nil} if medium_bdd.nil?
       medium = {
         id: medium_bdd.id,
-        file:{
+        file: {
           name: medium_bdd.name,
           url: nil
         },
-        type: medium_bdd.content_type,
+        type: medium_bdd.content_type
       }
-      if medium_bdd.content_type == "video"
+      if medium_bdd.content_type == 'video'
         medium[:fullname] = medium_bdd.name
         medium[:file][:url] = medium_bdd.uri
-      # else #TODO pour les medias dans document
+        # else #TODO pour les medias dans document
       end
       medium
     end
 
     def self.update_question(question_id, medium)
-      puts "======> update media of the question"
+      puts '======> update media of the question'
       question = Question.new(id: question_id)
       question = question.find
-      puts "======> id medias : " + medium[:id].inspect
+      puts '======> id medias : ' + medium[:id].inspect
       unless medium[:id]
         delete(question.medium_id)
         medium_id = create(medium)
-        puts "=======> new id of medias : " + medium_id.inspect
+        puts '=======> new id of medias : ' + medium_id.inspect
       end
       medium_id
     end
