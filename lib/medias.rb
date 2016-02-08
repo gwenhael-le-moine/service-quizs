@@ -7,19 +7,24 @@ module Lib
 
     module_function
 
-    def self.create(medium)
+    def self.create(medium, foreign_key, type)
       params_medium = {
         name: medium[:fullname],
         content_type: medium[:type],
         uri: medium[:file][:url]
       }
+      type == "question" ? params_medium[:questions_id] = foreign_key : params_medium[:suggestions_id] = foreign_key
       new_medium = Medium.new(params_medium)
       new_medium.create.id
     end
 
-    def self.get(id)
-      medium_bdd = Medium.new(id: id)
+    def self.get(foreign_key, type)
+      params = {}
+      type == "question" ? params[:questions_id] = foreign_key : params[:suggestions_id] = foreign_key
+      puts params.inspect
+      medium_bdd = Medium.new(params)
       medium_bdd = medium_bdd.find
+      puts medium_bdd.inspect
       return {file: nil, type: nil} if medium_bdd.nil?
       medium = {
         id: medium_bdd.id,
@@ -37,17 +42,21 @@ module Lib
       medium
     end
 
-    def self.update_question(question_id, medium)
-      puts '======> update media of the question'
-      question = Question.new(id: question_id)
-      question = question.find
-      puts '======> id medias : ' + medium[:id].inspect
+    def self.update(medium, foreign_key, type)
+      params = {}
+      type == "question" ? params[:questions_id] = foreign_key : params[:suggestions_id] = foreign_key
+      medium_bdd = Medium.new(params)
+      medium_bdd = medium_bdd.find
       unless medium[:id]
-        delete(question.medium_id)
-        medium_id = create(medium)
-        puts '=======> new id of medias : ' + medium_id.inspect
+        delete(medium_bdd.id) unless medium_bdd.nil?
+        medium[:id] = create(medium, foreign_key, type)
       end
-      medium_id
+      # cela veut dire que l'on doit supprimer le medium
+      if medium[:file].nil? && medium[:id]
+        delete(medium_bdd.id) unless medium_bdd.nil?
+        medium = {file: nil, type: nil}
+      end
+      medium
     end
 
     def self.delete(id)

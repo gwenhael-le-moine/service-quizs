@@ -10,7 +10,6 @@
 # question_id                   | int(11)             | false    | MUL      |            |
 # text                          | varchar(2000)       | false    |          |            |
 # order                         | int(11)             | false    |          |            |
-# medium_id                     | int(11)             | true     | MUL      |            |
 # position                      | enum('L','R')       | false    |          |            |
 # ------------------------------+---------------------+----------+----------+------------+--------------------
 #

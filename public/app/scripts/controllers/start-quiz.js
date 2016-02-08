@@ -145,13 +145,10 @@ angular.module('quizsApp')
 	};
 	//informe des différents type de médias présent
 	var getMedias = function(){
-		var medias = {audio: false, image: false};
+		var medias = {audio: false, image: false, video: false};
 		_.each($scope.quiz.questions, function(question){
 			if (question.media.type) {
 				medias[question.media.type] = true;
-			};
-			if (question.hint.media.type) {
-				medias[question.hint.media.type] = true;
 			};
 			_.each(question.answers, function(answer){
 				if (question.type == "ass"){

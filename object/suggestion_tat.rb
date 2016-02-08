@@ -11,7 +11,6 @@ class SuggestionTAT < Suggestion
   # text String
   # Paramètres facultatifs
   # order Integer
-  # medium_id Integer
   # position Enum ('L', 'R')
   def initialize( params = {} )
     super(params)
@@ -98,7 +97,6 @@ class SuggestionTAT < Suggestion
       @question_id = new_question_id
       @text = suggestion_source.text
       @order = suggestion_source.order
-      @medium_id = suggestion_source.medium_id
       solution_id = solution?
       if @position == 'L'
         new_left_suggestion = create
@@ -123,7 +121,6 @@ class SuggestionTAT < Suggestion
     @question_id = new_question_id
     @text = suggestion_source.text
     @order = suggestion_source.order
-    @medium_id = suggestion_source.medium_id
     create
   rescue => err
     raise_err err, 'erreur lors du clonage de la suggestion solution de droite'

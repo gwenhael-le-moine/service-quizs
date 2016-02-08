@@ -11,7 +11,6 @@ class SuggestionQCM < Suggestion
   # text String
   # Paramètres facultatifs
   # order Integer
-  # medium_id Integer
   # position 'L'
   def initialize( params = {} )
     params[:position] = 'L'
@@ -59,7 +58,6 @@ class SuggestionQCM < Suggestion
       @text = suggestion_source.text
       @order = suggestion_source.order
       @position = suggestion_source.position
-      @medium_id = suggestion_source.medium_id
       new_suggestion = create
       @id = suggestion_source.id
       if solution?

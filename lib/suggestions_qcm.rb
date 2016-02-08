@@ -20,6 +20,7 @@ module Lib
       suggestions.find_all.each do |suggestion|
         answers[suggestion.order][:id] = suggestion.id
         answers[suggestion.order][:proposition] = suggestion.text
+        answers[suggestion.order][:joindre] = Lib::Medias.get(suggestion.id, "suggestion")
         is_solution = SuggestionQCM.new(id: suggestion.id) unless read
         if marking
           solutions.push(suggestion.id) if is_solution.solution?
@@ -38,18 +39,19 @@ module Lib
       order = 0
       quiz[:questions][0][:answers].each do |answer|
         if answer[:proposition] && !answer[:proposition].empty?
-          medium_id = Lib::Medias.create(answer[:joindre]) if answer[:joindre][:type] == 'video'
           params_suggestion = {
             question_id: quiz[:questions][0][:id],
             text: answer[:proposition],
-            order: order,
-            medium_id: medium_id
+            order: order
           }
-          create_answer(answer, params_suggestion)
+          answer = create_answer(answer, params_suggestion)
           order += 1
+         answer[:joindre][:id] = Lib::Medias.create(answer[:joindre], answer[:id], "suggestion") if answer[:joindre][:type] == 'video'
         end
       end
       quiz
+    rescue => err
+      LOGGER.error  err.message + " =====> " + err.backtrace.inspect
     end
 
     # Mise à jour des suggestions/solutions QCM
@@ -63,15 +65,15 @@ module Lib
           id: answer[:id],
           question_id: quiz[:questions][0][:id],
           text: answer[:proposition],
-          order: order,
-          meduim_id: nil
+          order: order
         }
         if answer[:proposition] && !answer[:proposition].empty?
           # Si on à un id c'est une mise à jour
           if answer[:id]
+            answer[:joindre] = Lib::Medias.update(answer[:joindre], answer[:id], "suggestion") if answer[:joindre][:type] == 'video'
             current_suggestion_ids = update_answer(answer, params_suggestion, current_suggestion_ids)
           else
-            create_answer_qcm(answer, params_suggestion)
+            create_answer(answer, params_suggestion)
           end
         end
         order += 1

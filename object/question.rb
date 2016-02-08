@@ -15,7 +15,6 @@ class Question
   # Paramètres facultatifs
   # hint String
   # correction_comment String
-  # medium_id Integer
   def initialize( params = {} )
     @id = params[:id]
     @quiz_id = params[:quiz_id]
@@ -25,7 +24,6 @@ class Question
     @opt_rand_suggestion_order = params[:opt_rand_suggestion_order]
     @hint = params[:hint]
     @correction_comment = params[:correction_comment]
-    @medium_id = params[:medium_id]
   end
 
   # Création d'une question
@@ -38,7 +36,6 @@ class Question
     question.opt_rand_suggestion_order = @opt_rand_suggestion_order
     question.hint = @hint
     question.correction_comment = @correction_comment
-    question.medium_id = @medium_id
     # On enregistre la question
     question.save
     # on récupère l'id auto généré
@@ -68,7 +65,6 @@ class Question
   # hint String
   # correction_comment String
   # order Integer
-  # medium_id Integer
   # opt_rand_suggestion_order Boolean
   def update
     puts '======> id question : ' + @id.inspect
@@ -77,7 +73,6 @@ class Question
     question.update(hint: @hint) unless @hint.nil?
     question.update(correction_comment: @correction_comment) unless @correction_comment.nil?
     question.update(order: @order) unless @order.nil?
-    question.update(medium_id: @medium_id) unless @medium_id.nil?
     question.update(opt_rand_suggestion_order: @opt_rand_suggestion_order) unless @opt_rand_suggestion_order.nil?
     question
   rescue => err
@@ -104,7 +99,6 @@ class Question
       @opt_rand_suggestion_order = question_source.opt_rand_suggestion_order
       @hint = question_source.hint
       @correction_comment = question_source.correction_comment
-      @medium_id = question_source.medium_id
       new_question = create
       case @type
       when 'QCM'

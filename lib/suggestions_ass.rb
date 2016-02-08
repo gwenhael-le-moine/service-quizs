@@ -69,10 +69,8 @@ module Lib
       quiz[:questions][0][:answers].each do |answer|
         params_suggestion[:order] = order
         params_suggestion[:position] = 'L'
-        params_suggestion[:medium_id] = Lib::Medias.create(answer[:leftProposition][:joindre]) if answer[:leftProposition][:joindre][:type] == 'video'
         answer[:leftProposition] = create_answer(answer[:leftProposition], params_suggestion)
         params_suggestion[:position] = 'R'
-        params_suggestion[:medium_id] = Lib::Medias.create(answer[:rightProposition][:joindre]) if answer[:rightProposition][:joindre][:type] == 'video'
         answer[:rightProposition] = create_answer(answer[:rightProposition], params_suggestion)
         order += 1
       end
@@ -128,6 +126,8 @@ module Lib
         solution = SolutionASS.new(id: id)
         solution.delete
       end
+    rescue => err
+      LOGGER.error = err.message + " =====> " + err.backtrace.inspect
     end
 
     private
@@ -135,6 +135,7 @@ module Lib
     module_function
 
     def get_suggestion(suggestion, answer, solutions, read = false, marking = false, session_id = nil)
+      answer[:joindre] = Lib::Medias.get(suggestion.id, "suggestion")
       return {answer: answer, solutions: solutions} if read
       solutions_id = SuggestionASS.new(id: suggestion.id, position: suggestion.position)
       solutions_id = solutions_id.solution?(marking)
@@ -159,6 +160,7 @@ module Lib
         params_suggestion[:text] = answer[:libelle]
         suggestion = SuggestionASS.new(params_suggestion)
         answer[:id] = suggestion.create.id
+        answer[:joindre] = Lib::Medias.create(answer[:joindre], answer[:id], "suggestion") if answer[:joindre][:type] == 'video'
       end
       answer
     end
@@ -180,6 +182,7 @@ module Lib
     def update_answer(answer, params_suggestion, current_suggestion_ids)
       if answer[:libelle] && !answer[:libelle].empty?
         if answer[:id]
+          answer[:joindre] = Lib::Medias.update(answer[:joindre], answer[:id], "suggestion") if answer[:joindre][:type] == 'video'
           current_suggestion_ids = current_suggestion_ids.delete_if { |id|
             id == answer[:id]
           }
@@ -188,10 +191,12 @@ module Lib
           suggestion = SuggestionASS.new(params_suggestion)
           suggestion.update
         else
-          create_answer_ass(answer, params_suggestion)
+          create_answer(answer, params_suggestion)
         end
       end
       {current_suggestion_ids: current_suggestion_ids, answer: answer}
+    rescue => err
+      LOGGER.error err.message + " =====> " + err.backtrace.inspect
     end
 
     # Création des nouvelles solutions

@@ -38,12 +38,10 @@ module Lib
 
     def self.create(quiz)
       quiz[:questions][0][:answers].each do |answer|
-        medium_id = Lib::Medias.create(answer[:joindre]) if answer[:joindre][:type] == 'video'
         params_suggestion = {
           question_id: quiz[:questions][0][:id],
           position: 'L',
-          text: answer[:text],
-          medium_id: medium_id
+          text: answer[:text]
         }
         create_answer(answer, params_suggestion)
       end
@@ -72,16 +70,16 @@ module Lib
           id: answer[:id],
           question_id: quiz[:questions][0][:id],
           position: 'L',
-          text: answer[:text],
-          meduim_id: nil
+          text: answer[:text]
         }
         # Si la suggestion à un texte et un id on update
         # Sinon on créé
         if answer[:text] && !answer[:text].empty?
           if answer[:id]
+            answer[:joindre] = Lib::Medias.update(answer[:joindre], answer[:id], "suggestion") if answer[:joindre][:type] == 'video'
             current_suggestion_ids = update_answer(answer, params_suggestion, current_suggestion_ids)
           else
-            create_answer_tat(answer, params_suggestion)
+            create_answer(answer, params_suggestion)
           end
         end
       end
@@ -115,6 +113,7 @@ module Lib
 
     def get_left_suggestion(suggestion, read = false, marking = false, session_id = nil, solutions = [])
       answer = format_left_suggestion(suggestion)
+      answer[:joindre] = Lib::Medias.get(suggestion.id, "suggestion")
       # Si on n'est pas dans le mode lecture
       unless read
         solution_id = SuggestionTAT.new(id: suggestion.id, position: suggestion.position)
@@ -168,6 +167,7 @@ module Lib
       # création de la suggestion qcm
       suggestion = SuggestionTAT.new(params_suggestion)
       answer[:id] = suggestion.create.id
+      answer[:joindre][:id] = Lib::Medias.create(answer[:joindre], answer[:id], "suggestion") if answer[:joindre][:type] == "video"
       # création de la solution s'il elle l'est
       if answer[:solution][:libelle]
         params_response = {

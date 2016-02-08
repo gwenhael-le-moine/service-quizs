@@ -30,23 +30,6 @@ COLLATE = utf8_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `quizs`.`medias`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `quizs`.`medias` ;
-
-CREATE  TABLE IF NOT EXISTS `quizs`.`medias` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `created_at` DATETIME NULL ,
-  `name` VARCHAR(250) NULL ,
-  `content_type` VARCHAR(100) NOT NULL ,
-  `uri` VARCHAR(2000) NOT NULL ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
-
-
--- -----------------------------------------------------
 -- Table `quizs`.`questions`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `quizs`.`questions` ;
@@ -59,19 +42,12 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`questions` (
   `hint` VARCHAR(2000) NULL COMMENT 'Aide sur la question ' ,
   `correction_comment` VARCHAR(2000) NULL COMMENT 'commentaire de correction' ,
   `order` INT NOT NULL COMMENT 'Ordre d’apparition de la question dans le déroulement du quiz.' ,
-  `medium_id` INT NULL ,
   `opt_rand_suggestion_order` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'mélanger l’ordre des propositions de réponses.' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_question_quiz_idx` (`quiz_id` ASC) ,
-  INDEX `fk_question_medium1_idx` (`medium_id` ASC) ,
   CONSTRAINT `fk_question_quiz`
     FOREIGN KEY (`quiz_id` )
     REFERENCES `quizs`.`quizs` (`id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_question_medium1`
-    FOREIGN KEY (`medium_id` )
-    REFERENCES `quizs`.`medias` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -89,19 +65,43 @@ CREATE  TABLE IF NOT EXISTS `quizs`.`suggestions` (
   `question_id` INT NOT NULL ,
   `text` VARCHAR(2000) NOT NULL ,
   `order` INT NULL ,
-  `medium_id` INT NULL ,
   `position` ENUM('L','R') NOT NULL DEFAULT 'L' COMMENT 'Position de la proposition de réponse (gauche ou droite).Seuls les associations ont des propositions de type ‘Droite’ en plus des propositions de gauche.' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_answer_proposition_question1_idx` (`question_id` ASC) ,
-  INDEX `fk_answer_proposition_medium1_idx` (`medium_id` ASC) ,
   CONSTRAINT `fk_answer_proposition_question1`
     FOREIGN KEY (`question_id` )
     REFERENCES `quizs`.`questions` (`id` )
     ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `quizs`.`medias`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `quizs`.`medias` ;
+
+CREATE  TABLE IF NOT EXISTS `quizs`.`medias` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `created_at` DATETIME NULL ,
+  `name` VARCHAR(250) NULL ,
+  `content_type` VARCHAR(100) NOT NULL ,
+  `uri` VARCHAR(2000) NOT NULL ,
+  `questions_id` INT NULL ,
+  `suggestions_id` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_medias_questions1` (`questions_id` ASC) ,
+  INDEX `fk_medias_suggestions1` (`suggestions_id` ASC) ,
+  CONSTRAINT `fk_medias_questions1`
+    FOREIGN KEY (`questions_id` )
+    REFERENCES `quizs`.`questions` (`id` )
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_answer_proposition_medium1`
-    FOREIGN KEY (`medium_id` )
-    REFERENCES `quizs`.`medias` (`id` )
+  CONSTRAINT `fk_medias_suggestions1`
+    FOREIGN KEY (`suggestions_id` )
+    REFERENCES `quizs`.`suggestions` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB

@@ -33,7 +33,13 @@ angular.module('quizsApp')
   //id temporaire
   $rootScope.idLeurreTmp = "tmp_0";
 
-  $rootScope.medias = {};
+  $rootScope.medias = {
+  	answers: {
+  		qcm: [],
+  		ass: [],
+  		tat: []
+  	}
+  };
 
   // ---------- Fonctions général pour la question ---------//
   // Fonction qui change le type de la question

@@ -12,14 +12,12 @@ class Suggestion
   # position Enum('L', 'R')
   # Paramètres facultatifs
   # order Integer
-  # medium_id Integer
   def initialize( params = {} )
     @id = params[:id]
     @question_id = params[:question_id]
     @text = params[:text]
     @order = params[:order]
     @position = params[:position]
-    @medium_id = params[:medium_id]
   end
 
   # Création d'une suggestion
@@ -29,7 +27,6 @@ class Suggestion
     suggestion.text = @text
     suggestion.order = @order
     suggestion.position = @position
-    suggestion.medium_id = @medium_id
     # On enregistre la suggestion
     suggestion.save
     # on récupère l'id auto généré
@@ -57,12 +54,10 @@ class Suggestion
   # id Integer permet de récupérer la suggestion
   # text String
   # order Integer
-  # medium_id Integer
   def update
     suggestion = Suggestions[id: @id]
     suggestion.update(text: @text) unless @text.nil?
     suggestion.update(order: @order) unless @order.nil?
-    suggestion.update(medium_id: @medium_id) unless @medium_id.nil?
     suggestion
   rescue => err
     raise_err err, "erreur lors de la mise à jour d'une suggestion"

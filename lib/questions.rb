@@ -37,7 +37,7 @@ module Lib
         id: question.id,
         type: question.type.downcase,
         libelle: question.question,
-        media: Lib::Medias.get(question.medium_id),
+        media: Lib::Medias.get(question.id, "question"),
         hint: {libelle: question.hint, media: {file: nil, type: nil}},
         randanswer: question.opt_rand_suggestion_order,
         answers: [],
@@ -77,8 +77,6 @@ module Lib
       order = Question.new(quiz_id: quiz[:id])
       order = order.find_all.count
       if @user[:uid] == quiz[:user_id]
-        # Création des médias
-        medium_id = Lib::Medias.create(quiz[:questions][0][:media]) if quiz[:questions][0][:media][:type] == 'video'
         # création de la question
         params_question = {
           quiz_id: quiz[:id],
@@ -88,11 +86,15 @@ module Lib
           opt_rand_suggestion_order: quiz[:questions][0][:randanswer],
           hint: quiz[:questions][0][:hint][:libelle],
           correction_comment: quiz[:questions][0][:comment],
-          medium_id: medium_id
         }
         question = Question.new(params_question)
         quiz[:questions][0][:id] = question.create.id
 
+        # Création des médias
+        medium = quiz[:questions][0][:media]
+        if medium[:type] == 'video'
+          quiz[:questions][0][:media][:id] = Lib::Medias.create(medium, quiz[:questions][0][:id], "question")
+        end
         # Création des suggestions
         quiz = create_suggestions(quiz)
         {question_created: quiz[:questions][0]}
@@ -110,20 +112,17 @@ module Lib
           question: quiz[:questions][0][:libelle],
           hint: quiz[:questions][0][:hint][:libelle],
           correction_comment: quiz[:questions][0][:comment],
-          order: quiz[:questions][0][:sequence],
-          medium_id: nil
+          order: quiz[:questions][0][:sequence]
         }
         question = Question.new(params_question)
         question = question.find
         if quiz[:questions][0][:type].downcase != question.type.downcase
-          # puts "========> update question type different"
           question.delete
           quiz[:questions][0] = create(quiz)[:question_created]
         else
-          # puts "=========>  Update question"
-          # params_question[:medium_id] = Lib::Medias.update_question(quiz[:questions][0][:id], quiz[:questions][0][:media])
           question = Question.new(params_question)
           question.update
+          quiz[:questions][0][:media] = Lib::Medias.update(quiz[:questions][0][:media], quiz[:questions][0][:id], "question") if quiz[:questions][0][:media][:type] == 'video'
           update_suggestions(quiz)
         end
         {question_updated: quiz[:questions][0]}

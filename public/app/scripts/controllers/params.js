@@ -49,6 +49,16 @@ angular.module('quizsApp')
 			$scope.deleteQuestion= function(id){
 				QuestionsApi.delete({id: id}).$promise.then(function(response){
 					if (!response.error) {
+						var indexQuestion = -1;
+						_.each(_.sortBy($scope.quiz.questions, 'sequence'), function(question, index){
+							if (question.id == id) {
+								indexQuestion = index;
+							};
+							if (index > indexQuestion && indexQuestion != -1){
+								$scope.quiz.questions[index].sequence -= 1;
+							}
+						});
+						QuestionsApi.updateOrder({quiz: $scope.quiz});
 						$scope.quiz.questions = _.reject($scope.quiz.questions, function(question){
 							return question.id == id;
 						});

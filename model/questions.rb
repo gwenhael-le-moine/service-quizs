@@ -13,7 +13,6 @@
 # hint                          | varchar(2000)                  | true     |          |                   |
 # correction_comment            | varchar(2000)                  | true     |          |                   |
 # order                         | int(11)                        | false    |          |                   |
-# medium_id                     | boolean                        | true     | MUL      |                   |
 # opt_rand_suggestion_order     | boolean                        | false    |          |                   |
 # ------------------------------+---------------------+----------+----------+-------------------+--------------------
 #

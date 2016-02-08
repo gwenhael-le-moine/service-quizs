@@ -396,6 +396,11 @@ input.placeholder, textarea.placeholder {
   background-repeat: no-repeat;
   background-size: 100%;
 }
+.media-video.img{
+  background-image: url('../images/media-video.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 .correct-question.img{
   background-image: url('../images/quiz-consigne-juste.svg');
   background-repeat: no-repeat;
