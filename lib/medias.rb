@@ -13,18 +13,16 @@ module Lib
         content_type: medium[:type],
         uri: medium[:file][:url]
       }
-      type == "question" ? params_medium[:questions_id] = foreign_key : params_medium[:suggestions_id] = foreign_key
+      type == 'question' ? params_medium[:questions_id] = foreign_key : params_medium[:suggestions_id] = foreign_key
       new_medium = Medium.new(params_medium)
       new_medium.create.id
     end
 
     def self.get(foreign_key, type)
       params = {}
-      type == "question" ? params[:questions_id] = foreign_key : params[:suggestions_id] = foreign_key
-      puts params.inspect
+      type == 'question' ? params[:questions_id] = foreign_key : params[:suggestions_id] = foreign_key
       medium_bdd = Medium.new(params)
       medium_bdd = medium_bdd.find
-      puts medium_bdd.inspect
       return {file: nil, type: nil} if medium_bdd.nil?
       medium = {
         id: medium_bdd.id,
@@ -44,7 +42,7 @@ module Lib
 
     def self.update(medium, foreign_key, type)
       params = {}
-      type == "question" ? params[:questions_id] = foreign_key : params[:suggestions_id] = foreign_key
+      type == 'question' ? params[:questions_id] = foreign_key : params[:suggestions_id] = foreign_key
       medium_bdd = Medium.new(params)
       medium_bdd = medium_bdd.find
       unless medium[:id]

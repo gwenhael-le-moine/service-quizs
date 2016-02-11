@@ -43,7 +43,7 @@ angular.module('quizsApp')
 	}
 
 	//ouvre la session de l'élève
-	$scope.openSession = function(quiz_id, student_id){
-		$state.go('quizs.sessions', {quiz_id: quiz_id, student_id: student_id});
+	$scope.openSession = function(quiz_id, session_id){
+		$state.go('quizs.marking_questions', {quiz_id: quiz_id, session_id: session_id});
 	}
 }]);

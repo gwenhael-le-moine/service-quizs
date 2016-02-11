@@ -506,7 +506,7 @@
 		</div>
 		<!-------------------- FIN PARTIE TAT ---------------------------->
 		<div class="row content border-bottom columns-inverse-mobile">
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 rand-answers">
+			<div ng-if="question.type != 'tat'" class="col-xs-12 col-sm-3 col-md-3 col-lg-3 rand-answers">
 				<div 	class="btn-group" 
 							role="group" 
 							aria-label="radio">
@@ -524,7 +524,7 @@
 				  </button>
 				</div>			
 			</div>
-			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 rand-answers">
+			<div ng-if="question.type != 'tat'" class="col-xs-12 col-sm-9 col-md-9 col-lg-9 rand-answers">
 				<div>
 					<label class="texte">mélanger l'ordre des propositions</label>
 				</div>
@@ -550,7 +550,8 @@
 					role="group" 
 					aria-label="radio">
 		  <button type="button" 
-		  				class="btn btn-quiz hover" 
+		  				class="btn btn-quiz hover"
+		  				ng-class="{disabled: !question.libelle || !atLeastOneAnswer(question.type)}" 
 		  				ng-click="addQuestion()">
 		  	<label>Valider</label>
 		  </button>

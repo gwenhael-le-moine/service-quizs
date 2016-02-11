@@ -3,8 +3,9 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('SessionsCtrl', ['$scope', '$state', '$stateParams', '$rootScope', '$http', 'APP_PATH', 'Notifications', 'Modal', 'SessionsApi', function($scope, $state, $stateParams, $rootScope, $http, APP_PATH, Notifications, Modal, SessionsApi) {
+.controller('SessionsCtrl', ['$scope', '$state', '$stateParams', '$rootScope', '$http', 'APP_PATH', 'Notifications', 'Modal', 'SessionsApi', 'Users', function($scope, $state, $stateParams, $rootScope, $http, APP_PATH, Notifications, Modal, SessionsApi, Users) {
 	//variables pour les filtres
+	$scope.deleteRight = Users.getCurrentUser().roleMaxPriority > 0;
 	$rootScope.filteredSessions = [];
 	$scope.defaultClass = {id: "!", name: "Toutes"};
 	$scope.defaultStudent = {uid: "!", name: "Tous"};
@@ -26,6 +27,7 @@ angular.module('quizsApp')
 		//on alimente les selects avec les données réelles des sessions
 		if ($rootScope.sessions) {
 			_.each($rootScope.sessions, function(session){
+				console.log(session);
 				if (!_.find($scope.selectClasses, function(classe){
 					return classe.id === session.classe.id})
 				){
@@ -50,7 +52,7 @@ angular.module('quizsApp')
 		};
 		if ($stateParams.student_id != null) {
 			var student = _.find($scope.selectStudents, function(selectStudent){
-				return selectStudent.uid == $stateParams.student_id;
+				return selectStudent.uid === $stateParams.student_id;
 			});
 			if (student) {
 				$scope.filters.student = student;
@@ -104,6 +106,11 @@ angular.module('quizsApp')
 	}
 	$scope.close = function(){
 		$state.go('quizs.home');
+	}
+
+	//ouvre la session de l'élève
+	$scope.openSession = function(session_id){
+		$state.go('quizs.marking_questions', {quiz_id: $stateParams.quiz_id, session_id: session_id});
 	}
 
 

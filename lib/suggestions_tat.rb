@@ -76,7 +76,7 @@ module Lib
         # Sinon on créé
         if answer[:text] && !answer[:text].empty?
           if answer[:id]
-            answer[:joindre] = Lib::Medias.update(answer[:joindre], answer[:id], "suggestion") if answer[:joindre][:type] == 'video'
+            answer[:joindre] = Lib::Medias.update(answer[:joindre], answer[:id], 'suggestion') if answer[:joindre][:type] == 'video'
             current_suggestion_ids = update_answer(answer, params_suggestion, current_suggestion_ids)
           else
             create_answer(answer, params_suggestion)
@@ -113,7 +113,7 @@ module Lib
 
     def get_left_suggestion(suggestion, read = false, marking = false, session_id = nil, solutions = [])
       answer = format_left_suggestion(suggestion)
-      answer[:joindre] = Lib::Medias.get(suggestion.id, "suggestion")
+      answer[:joindre] = Lib::Medias.get(suggestion.id, 'suggestion')
       # Si on n'est pas dans le mode lecture
       unless read
         solution_id = SuggestionTAT.new(id: suggestion.id, position: suggestion.position)
@@ -167,7 +167,7 @@ module Lib
       # création de la suggestion qcm
       suggestion = SuggestionTAT.new(params_suggestion)
       answer[:id] = suggestion.create.id
-      answer[:joindre][:id] = Lib::Medias.create(answer[:joindre], answer[:id], "suggestion") if answer[:joindre][:type] == "video"
+      answer[:joindre][:id] = Lib::Medias.create(answer[:joindre], answer[:id], 'suggestion') if answer[:joindre][:type] == 'video'
       # création de la solution s'il elle l'est
       if answer[:solution][:libelle]
         params_response = {

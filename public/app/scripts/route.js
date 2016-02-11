@@ -12,7 +12,6 @@ angular.module('quizsApp')
             resolve: {
               currentUser: function(Users){
                 return Users.getCurrentUserRequest().$promise.then(function(response){
-                  console.log(response);
                   Users.setCurrentUser(response);
                 });
               }

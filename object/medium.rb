@@ -41,7 +41,7 @@ class Medium
     raise_err err, "erreur lors de la création d'un medium"
   end
 
-  # Récupération d'un médium 
+  # Récupération d'un médium
   def find
     medium = Medias[questions_id: @questions_id] unless @questions_id.nil?
     medium = Medias[suggestions_id: @suggestions_id] unless @suggestions_id.nil?

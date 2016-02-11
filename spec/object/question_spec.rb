@@ -35,7 +35,6 @@ describe 'QuestionTest' do
       expect(bdd_my_question.opt_rand_suggestion_order).to be_truthy
       expect(bdd_my_question.hint).to eq('Petite aide pour la question')
       expect(bdd_my_question.correction_comment).to be_nil
-      expect(bdd_my_question.medium_id).to be_nil
       fail Sequel::Rollback
     end
   end
@@ -56,7 +55,6 @@ describe 'QuestionTest' do
     expect(found_question.opt_rand_suggestion_order).to be_falsey
     expect(found_question.hint).to eq('Aide pour la question numéro 0')
     expect(found_question.correction_comment).to eq('Commentaire pour la correction de la question 0')
-    expect(found_question.medium_id).to be_nil
   end
 
   it 'La récupération ne retourne rien avec un id à nil' do
@@ -96,7 +94,6 @@ describe 'QuestionTest' do
       expect(bdd_my_question_updated.opt_rand_suggestion_order).to be_truthy
       expect(bdd_my_question_updated.hint).to be_empty
       expect(bdd_my_question_updated.correction_comment).to be_empty
-      expect(bdd_my_question_updated.medium_id).to be_nil
       fail Sequel::Rollback
     end
   end

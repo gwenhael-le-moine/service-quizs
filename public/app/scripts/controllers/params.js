@@ -3,17 +3,17 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('ParamsCtrl', ['$scope', '$state', '$stateParams',  '$rootScope', 'Notifications', 'QuizsApi', 'Quizs', 'QuestionsApi', function($scope, $state, $stateParams, $rootScope, Notifications, QuizsApi, Quizs, QuestionsApi) {
+.controller('ParamsCtrl', ['$scope', '$state', '$stateParams',  '$rootScope', 'Notifications', 'QuizsApi', 'Quizs', 'QuestionsApi', 'Modal', 'APP_PATH', function($scope, $state, $stateParams, $rootScope, Notifications, QuizsApi, Quizs, QuestionsApi, Modal, APP_PATH) {
 	// titre de l'action mis en majuscule par angular
 	$scope.actionTitle = 'paramètres';
 
 	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
 		if (!response.error) {
-			$scope.quiz = response.quiz_found;
+			$rootScope.quiz = response.quiz_found;
 			// les différentes options avec l'initialisation des boutons
-			$scope.quiz.opts = Quizs.getFormatOpt(response.quiz_found);
-			QuestionsApi.getAll({quiz_id: $scope.quiz.id}).$promise.then(function(responseQuesionApi){
-				$scope.quiz.questions = responseQuesionApi.questions_found;
+			$rootScope.quiz.opts = Quizs.getFormatOpt(response.quiz_found);
+			QuestionsApi.getAll({quiz_id: $rootScope.quiz.id}).$promise.then(function(responseQuesionApi){
+				$rootScope.quiz.questions = responseQuesionApi.questions_found;
 			});
 
 			// ouverture et fermeture de l'accordion
@@ -21,17 +21,17 @@ angular.module('quizsApp')
 
 			// fonction permettante de changer l'état des boutons des options
 			$scope.changeRadioButton = function(opt, buttonChanged, without_update){
-				_.each($scope.quiz.opts[opt], function(button, key){
+				_.each($rootScope.quiz.opts[opt], function(button, key){
 					if (key === buttonChanged) {
-						$scope.quiz.opts[opt][key] = true;
+						$rootScope.quiz.opts[opt][key] = true;
 						if (!without_update) {
 							if (opt == 'modes') {
-								$scope.quiz.opts = Quizs.changeOptsAdvanced(buttonChanged);
+								$rootScope.quiz.opts = Quizs.changeOptsAdvanced(buttonChanged);
 							};
-							QuizsApi.update(Quizs.updateOpt($scope.quiz, opt, buttonChanged));							
+							QuizsApi.update(Quizs.updateOpt($rootScope.quiz, opt, buttonChanged));							
 						};
 					} else{
-						$scope.quiz.opts[opt][key] = false;
+						$rootScope.quiz.opts[opt][key] = false;
 					};
 				});
 			}
@@ -50,16 +50,16 @@ angular.module('quizsApp')
 				QuestionsApi.delete({id: id}).$promise.then(function(response){
 					if (!response.error) {
 						var indexQuestion = -1;
-						_.each(_.sortBy($scope.quiz.questions, 'sequence'), function(question, index){
+						_.each(_.sortBy($rootScope.quiz.questions, 'sequence'), function(question, index){
 							if (question.id == id) {
 								indexQuestion = index;
 							};
 							if (index > indexQuestion && indexQuestion != -1){
-								$scope.quiz.questions[index].sequence -= 1;
+								$rootScope.quiz.questions[index].sequence -= 1;
 							}
 						});
-						QuestionsApi.updateOrder({quiz: $scope.quiz});
-						$scope.quiz.questions = _.reject($scope.quiz.questions, function(question){
+						QuestionsApi.updateOrder({quiz: $rootScope.quiz});
+						$rootScope.quiz.questions = _.reject($rootScope.quiz.questions, function(question){
 							return question.id == id;
 						});
 					} else {
@@ -69,17 +69,21 @@ angular.module('quizsApp')
 			}
 			// fonction qui met à jour une question
 			$scope.add = function(){
-				$state.go('quizs.create_questions', {quiz_id: $scope.quiz.id});
+				$state.go('quizs.create_questions', {quiz_id: $rootScope.quiz.id});
 			}
 
 			// retour vers la page d'accueil
 			$scope.back = function(){
-				$state.go('quizs.home');
+				if ($rootScope.quiz.title) {
+					$state.go('quizs.home');					
+				} else {
+					Modal.open('ModalChangeTitleQuizCtrl', APP_PATH+'/app/views/modals/add-change-object.html', 'md');
+				};
 			}
 
 			// fonction qui met à jour une question
 			$scope.updateQuestion = function(id){
-				$state.go('quizs.update_questions', {quiz_id: $scope.quiz.id, id: id});
+				$state.go('quizs.update_questions', {quiz_id: $rootScope.quiz.id, id: id});
 			}
 
 			// cette fonction permet de renseigner l'odre des questions
@@ -90,16 +94,16 @@ angular.module('quizsApp')
 		    	//on remplace les sequence des questions par les bonnes
 		    	if (event.dest.index >= event.source.index) {
 				    for (var i = event.dest.index; i >= event.source.index; i--) {
-				    	$scope.quiz.questions[i].sequence = i;
+				    	$rootScope.quiz.questions[i].sequence = i;
 				    };
 		    	} else {
 		    		for (var i = event.source.index; i >= event.dest.index; i--) {
-				    	$scope.quiz.questions[i].sequence = i;
+				    	$rootScope.quiz.questions[i].sequence = i;
 				    };
 		    	};
-		    	// $scope.quiz.questions[event.dest.index].sequence = event.dest.index
-		    	// $scope.quiz.questions[event.source.index].sequence = event.source.index
-		    	QuestionsApi.updateOrder({quiz: $scope.quiz});
+		    	// $rootScope.quiz.questions[event.dest.index].sequence = event.dest.index
+		    	// $rootScope.quiz.questions[event.source.index].sequence = event.source.index
+		    	QuestionsApi.updateOrder({quiz: $rootScope.quiz});
 		    },
 		    containment: '#board'
 		  };
@@ -108,7 +112,7 @@ angular.module('quizsApp')
 			$scope.$watch("open", function(newVal, oldVal){
 				if (!newVal) {
 					//par simplification je récupère les opts dans une variable
-					var opts = $scope.quiz.opts;
+					var opts = $rootScope.quiz.opts;
 					// on se met par défaut en mode perso
 					$scope.changeRadioButton('modes', 'perso', true);
 					//mais si on a une config du mode entrainement on se met dans ce mode

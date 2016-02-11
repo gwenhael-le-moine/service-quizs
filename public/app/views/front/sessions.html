@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<div class="row content list-sessions">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 session" ng-repeat="session in (filteredSessions = (sessions | orderBy:'date':filters.newest | filter:{classe:{id: filters.classe.id}}:true | filter:{student:{id: filters.student.id}}:true))">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 session" ng-repeat="session in (filteredSessions = (sessions | orderBy:'date':filters.newest | filter:{classe:{id: filters.classe.id}}:true | filter:{student:{uid: filters.student.uid}}:true))">
 				<div class="row">
 					<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 date">
 						<span class="texte-secondaire-italic">{{session.date | date:"dd.MM.yy - HH'h'mm"}}</span>											
@@ -62,8 +62,8 @@
 					</div>
 				</div>
 				<div class="row">
-				<div><p class="delete img" ng-click="delete(session)"></p></div>
-					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 user">
+				<div><p ng-if="deleteRight" class="delete img" ng-click="delete(session)"></p></div>
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 user" ng-click="openSession(session.id)">
 						<span class="texte-bold">{{session.student.name | capitalize:true}}</span>
 						<span class="texte">{{session.classe.name}}</span>
 						<span class="texte-secondaire">{{session.classe.nameEtab | uppercase}}</span>
@@ -102,7 +102,8 @@
 	  				ng-click="print()">
 	  	<label>Imprimer</label>
 	  </button>
-		<button type="button" 
+		<button ng-if="deleteRight"
+						type="button" 
 	  				class="btn btn-quiz hover" 
 	  				ng-click="reset()">
 	  	<label>Réinitialiser</label>

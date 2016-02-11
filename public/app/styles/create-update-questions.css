@@ -329,6 +329,15 @@
 .validate .btn.btn-quiz.hover{
 	padding: 5px 40px;
 }
+.validate .btn.btn-quiz.disabled{
+	background-color: inherit;
+	border: none;
+	color: inherit;
+	cursor: no-drop;
+}
+.validate .btn.btn-quiz.disabled>label{
+	cursor: no-drop;
+}
 
 /****** LIGNE ASS****/
 div.line{

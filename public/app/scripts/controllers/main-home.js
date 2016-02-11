@@ -75,6 +75,7 @@ angular.module('quizsApp')
 				}));
 				quizDuplicated.id = response.quiz_duplicated.id;
 				quizDuplicated.share = false;
+				quizDuplicated.publishes = [];
 				$rootScope.quizs.push(quizDuplicated);
 			};
 		});

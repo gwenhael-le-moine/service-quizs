@@ -25,7 +25,7 @@ angular.module('quizsApp')
     return {
       id: null,
       type: "qcm",
-      libelle: null,
+      libelle: "Cochez la ou les bonnes réponses.",
       media: {file: null, type: null},
       hint: {libelle:null, media: {file: null, type: null}},
       answers:[],

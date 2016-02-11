@@ -67,7 +67,6 @@ class Question
   # order Integer
   # opt_rand_suggestion_order Boolean
   def update
-    puts '======> id question : ' + @id.inspect
     question = Questions[id: @id]
     question.update(question: @question) unless @question.nil?
     question.update(hint: @hint) unless @hint.nil?

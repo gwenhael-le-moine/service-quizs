@@ -210,7 +210,6 @@ def get_test_question(params = {})
   question[:opt_rand_suggestion_order] = params[:opt_rand_suggestion_order]
   question[:hint] = "Aide pour la question numéro #{params[:id]}"
   question[:correction_comment] = "Commentaire pour la correction de la question #{params[:id]}"
-  question[:medium_id] = params[:medium_id]
 
   question
 end
@@ -221,7 +220,6 @@ def get_test_suggestion(params = {})
   suggestion[:text] = "Suggestion numéro #{params[:id]} de la question"
   suggestion[:position] = params[:position]
   suggestion[:order] = params[:order]
-  suggestion[:medium_id] = params[:medium_id]
 
   suggestion
 end

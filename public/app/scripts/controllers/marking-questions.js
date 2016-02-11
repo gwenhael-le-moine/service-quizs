@@ -212,7 +212,7 @@ angular.module('quizsApp')
 
 		//fonction permettant de quitter la correction 
 		$scope.quit = function(){
-			if (Users.getCurrentUser().roleMaxPriority > 0) {
+			if (Users.getCurrentUser().roleMaxPriority > 0 && $scope.session.user_id == Users.getCurrentUser().uid) {
 				SessionsApi.delete({ids:[$stateParams.session_id]});					
 			};
 			$state.go('quizs.home');
@@ -262,7 +262,11 @@ angular.module('quizsApp')
 			$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
 				$scope.title = $rootScope.media.title;
 				$scope.file = function() {
-			    return $sce.trustAsResourceUrl($rootScope.media.file);
+			     if ($rootScope.media.type != "video") {
+			    	return $sce.trustAsResourceUrl($rootScope.media.file);
+			    } else {
+			    	return $sce.trustAsHtml($rootScope.media.file)	
+					};
 			  }
 				$scope.mime = $rootScope.media.mime;
 				$scope.type = $rootScope.media.type.split("/")[0];

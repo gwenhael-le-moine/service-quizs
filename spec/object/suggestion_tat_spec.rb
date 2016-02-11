@@ -29,7 +29,6 @@ describe 'SuggestionTATTest' do
       expect(bdd_my_suggestion.text).to eq('Ma suggestion numéro 4 de la question')
       expect(bdd_my_suggestion.position).to eq('R')
       expect(bdd_my_suggestion.order).to be_nil
-      expect(bdd_my_suggestion.medium_id).to be_nil
       fail Sequel::Rollback
     end
   end
@@ -47,7 +46,6 @@ describe 'SuggestionTATTest' do
     expect(found_suggestion.text).to eq('Suggestion numéro 5 de la question')
     expect(found_suggestion.position).to eq('L')
     expect(found_suggestion.order).to be_nil
-    expect(found_suggestion.medium_id).to be_nil
   end
 
   it 'La récupération ne retourne rien avec un id à nil' do
@@ -80,7 +78,6 @@ describe 'SuggestionTATTest' do
       expect(bdd_my_suggestion_updated.text).to eq('Suggestion numéro 5 de la question updated')
       expect(bdd_my_suggestion_updated.position).to eq('L')
       expect(bdd_my_suggestion_updated.order).to be_nil
-      expect(bdd_my_suggestion_updated.medium_id).to be_nil
       fail Sequel::Rollback
     end
   end

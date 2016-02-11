@@ -20,7 +20,6 @@ angular.module('quizsApp')
   	};
   });
 	//on récupère la question
-	console.log($rootScope.quiz.questions);
 	$scope.question = angular.copy(_.find($rootScope.quiz.questions, function(q){
 		if (q.id == $stateParams.id) {
 			var numQuestion = q.sequence+1;
@@ -119,16 +118,8 @@ angular.module('quizsApp')
 	}
 	//fonction permettant de quitter 
 	$scope.quit = function(){
-		AnswersApi.create({session_id: $stateParams.session_id, question: $scope.question, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
-			if ($rootScope.quiz.opt_show_correct == 'at_end') {
-				$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, session_id: $stateParams.session_id});
-			} else {
-				if (Users.getCurrentUser().roleMaxPriority > 0) {
-					SessionsApi.delete({ids:[$stateParams.session_id]});					
-				};
-	 			$state.go('quizs.home');				
-			};
-		});
+		$rootScope.questionToQuit = angular.copy($scope.question);
+		Modal.open($scope.modalConfirmQuitCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
 	}
 
 	// ------- Fonction sur la ligne de connection pour les associations ------- /
@@ -185,6 +176,9 @@ angular.module('quizsApp')
   	};
   }
 
+
+  
+
 	// -------------- Controllers Modal des questions --------------- //
 		//controller pour afficher les médias avec une modal
 		$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
@@ -200,6 +194,28 @@ angular.module('quizsApp')
 			$scope.type = $rootScope.media.type.split("/")[0];
 			$scope.close = function(){
 				$modalInstance.close();
+			}
+		}];
+
+		//controller pour quitter le quiz avec une modal
+		$scope.modalConfirmQuitCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+			$scope.title = "Quitter le quiz";
+			$scope.message = "Êtes vous sûr de vouloir quitter le quiz ?";
+			$scope.no = function(){
+				$modalInstance.close();
+			}
+			$scope.ok = function(){	
+				AnswersApi.create({session_id: $stateParams.session_id, question: $rootScope.questionToQuit, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+					if ($rootScope.quiz.opt_show_correct == 'at_end') {
+						$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, session_id: $stateParams.session_id});
+					} else {
+						if (Users.getCurrentUser().roleMaxPriority > 0) {
+							SessionsApi.delete({ids:[$stateParams.session_id]});					
+						};
+			 			$state.go('quizs.home');				
+					};
+				});			
+				$modalInstance.close();					
 			}
 		}];
 }]);

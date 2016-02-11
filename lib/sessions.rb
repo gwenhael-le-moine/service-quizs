@@ -151,13 +151,11 @@ module Lib
       sessions = sessions.limit(5) if quiz_id.nil?
       uids = sessions.select(:user_id).distinct(:user_id).map(:user_id)
       eleves = get_users(uids)
-      i = 0
       sessions.each do |session|
-        elv = eleves[eleves.index { |s| s['id_ent'] }]
+        elv = eleves[eleves.index { |s| s['id_ent'] == session.user_id }]
         classe = get_classe_to_user(elv)
         fullname = elv['prenom'] + ' ' + elv['nom'].downcase
         sessions_found.push(format_get_session(session, fullname, classe))
-        i += 1
       end
       sessions_found
     end

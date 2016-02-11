@@ -20,7 +20,7 @@ angular.module('quizsApp')
 	// placeholder pour les input file media
 	$scope.placeholderMedia = "Joindre un fichier (image ou son)";
 	$scope.placeholderLink = "Intégrer une video web";
-  
+  var defaultQuestions = {qcm: "Cochez la ou les bonnes réponses.", tat: "Remplissez les trous avec propositions qui vous semblent justes.", ass: "Associez les propositions entre elles."};
   //le dernier leurre supprimé
   $scope.lastDeleteLeurre = {};
   //promise d'un time out permettant de l'annuler
@@ -48,10 +48,27 @@ angular.module('quizsApp')
 			if (key == type) {
 				$scope.types[key] = true;
 				$rootScope.question.type = key;
+				changeDefaultLibelle(key);
 			} else {
 				$scope.types[key] = false;
 			};
 		});
+	}
+
+	var changeDefaultLibelle = function(type){
+		if (isDefaultLibelle($rootScope.question.libelle)) {
+			$rootScope.question.libelle = defaultQuestions[type];
+		};
+	}
+
+	var isDefaultLibelle = function(string){
+		var response = false;
+		_.each(defaultQuestions, function(libelle){
+			if (libelle === string || string === "") {
+				response = true;
+			};
+		});
+		return response;
 	}
 
   // fonction permettant de couper un nom trop long...
@@ -392,11 +409,12 @@ angular.module('quizsApp')
  					QuestionsApi.update({quiz: $rootScope.quiz});
  				} else {
   				QuestionsApi.create({quiz: $rootScope.quiz}).$promise.then(function(response){
-  					console.log(response);
   					uploadMedia(response.question_created);
   				});
  				};  			
   		$state.go('quizs.params', {quiz_id: $rootScope.quiz.id});
+  	} else {
+  		Notifications.add("La question doit avoir un titre et au moins une réponse !", "error");
   	};
   }
   //fonction qui retourne au paramètres

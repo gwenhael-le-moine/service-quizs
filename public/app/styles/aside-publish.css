@@ -64,10 +64,10 @@
 	padding: 5px 30px;
 } 
 .aside-publish .buttons .back{
-	margin-right: 0;
+	margin-right: 20px;
 }
 .aside-publish .buttons .publish{
-	margin-right: 20px;
+	margin-right: 0;
 }
 .aside-publish .buttons .btn.btn-quiz.hover.publish.disabled{
 	background-color: inherit;

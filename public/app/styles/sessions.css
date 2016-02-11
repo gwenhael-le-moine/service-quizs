@@ -103,6 +103,9 @@
   width: 100%;
   vertical-align: middle;
 }
+.sessions .list-sessions .session .user{
+	cursor: pointer;
+}
 .sessions .list-sessions .session .user>span{
 	display: block;
 	margin-left: 40px;

@@ -37,7 +37,7 @@ module Lib
         id: question.id,
         type: question.type.downcase,
         libelle: question.question,
-        media: Lib::Medias.get(question.id, "question"),
+        media: Lib::Medias.get(question.id, 'question'),
         hint: {libelle: question.hint, media: {file: nil, type: nil}},
         randanswer: question.opt_rand_suggestion_order,
         answers: [],
@@ -85,7 +85,7 @@ module Lib
           order: order,
           opt_rand_suggestion_order: quiz[:questions][0][:randanswer],
           hint: quiz[:questions][0][:hint][:libelle],
-          correction_comment: quiz[:questions][0][:comment],
+          correction_comment: quiz[:questions][0][:comment]
         }
         question = Question.new(params_question)
         quiz[:questions][0][:id] = question.create.id
@@ -93,7 +93,7 @@ module Lib
         # Création des médias
         medium = quiz[:questions][0][:media]
         if medium[:type] == 'video'
-          quiz[:questions][0][:media][:id] = Lib::Medias.create(medium, quiz[:questions][0][:id], "question")
+          quiz[:questions][0][:media][:id] = Lib::Medias.create(medium, quiz[:questions][0][:id], 'question')
         end
         # Création des suggestions
         quiz = create_suggestions(quiz)
@@ -112,6 +112,7 @@ module Lib
           question: quiz[:questions][0][:libelle],
           hint: quiz[:questions][0][:hint][:libelle],
           correction_comment: quiz[:questions][0][:comment],
+          opt_rand_suggestion_order: quiz[:questions][0][:randanswer],
           order: quiz[:questions][0][:sequence]
         }
         question = Question.new(params_question)
@@ -122,7 +123,7 @@ module Lib
         else
           question = Question.new(params_question)
           question.update
-          quiz[:questions][0][:media] = Lib::Medias.update(quiz[:questions][0][:media], quiz[:questions][0][:id], "question") if quiz[:questions][0][:media][:type] == 'video'
+          quiz[:questions][0][:media] = Lib::Medias.update(quiz[:questions][0][:media], quiz[:questions][0][:id], 'question') if quiz[:questions][0][:media][:type] == 'video'
           update_suggestions(quiz)
         end
         {question_updated: quiz[:questions][0]}
