@@ -46,7 +46,7 @@ class SinatraApp < Sinatra::Base
     end
   end
 
-  get "#{APP_PATH}/status" do
+  get "#{APP_PATH}/status/?" do
     content_type :json
     app_status = app_infos
 
@@ -55,7 +55,7 @@ class SinatraApp < Sinatra::Base
 
     app_status.to_json
   end
-
+  
   get APP_PATH + '/auth/:provider/callback' do
     init_session(request.env)
     home = env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
