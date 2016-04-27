@@ -272,6 +272,3 @@ DEPENDENCIES
   sinatra-contrib
   travis-lint
   wkhtmltopdf-binary
-
-BUNDLED WITH
-   1.10.3

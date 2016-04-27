@@ -21,3 +21,4 @@ _yardoc
 # Config
 config/*.rb
 config/*.yml
+public/app/scripts/constants.js
