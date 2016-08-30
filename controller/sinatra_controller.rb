@@ -63,7 +63,8 @@ class SinatraApp < Sinatra::Base
 
   get APP_PATH + '/auth/:provider/callback' do
     init_session(request.env)
-    home = env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
+    protocol = CASAUTH::CONFIG[:ssl] ? 'https://' : 'http://'
+    home = protocol + '://' + env['HTTP_HOST'] + APP_PATH + '/'
     redirect params[:url] if params[:url] != home
     redirect APP_PATH + '/'
   end
@@ -78,6 +79,7 @@ class SinatraApp < Sinatra::Base
   end
 
   get APP_PATH + '/logout' do
-    logout! env['rack.url_scheme'] + '://' + env['HTTP_HOST'] + APP_PATH + '/'
+    protocol = CASAUTH::CONFIG[:ssl] ? 'https://' : 'http://'
+    logout! protocol + '://' + env['HTTP_HOST'] + APP_PATH + '/'
   end
 end
