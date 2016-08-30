@@ -1,0 +1,32 @@
+.main-publish{
+	height: 100%;
+}
+.main-publish .petite.case{
+	padding: 5px;
+	cursor: pointer;
+}
+.main-publish .petite.case .rgpt{
+	border: 2px solid #9e9e9e;
+	text-align: center;
+	padding: 10px;
+}
+.main-publish .petite.case .rgpt.selected{
+	border: 2px solid #1aa1cc;
+	background-color: #1aa1cc
+}
+.main-publish .petite.case .rgpt .name, .main-publish .petite.case .rgpt .name-etab{
+	display: block;	
+}
+.main-publish .petite.case .rgpt .name{
+	position: relative;
+	top: 30%;
+}
+.main-publish .petite.case .rgpt .name-etab{
+	position: absolute;
+	top: 70%;
+	left: 0;
+	right: 0;
+}
+.main-publish .petite.case .rgpt.selected .name, .main-publish .petite.case .rgpt.selected .name-etab{
+	color: white;
+}

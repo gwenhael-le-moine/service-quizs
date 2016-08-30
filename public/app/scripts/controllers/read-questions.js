@@ -3,22 +3,38 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('ReadQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', 'APP_PATH', 'Notifications','Line', 'Modal', function($scope, $state, $rootScope, $stateParams, $sce, APP_PATH, Notifications, Line, Modal) {
+.controller('ReadQuestionsCtrl', ['$scope', '$state', '$rootScope', '$stateParams', '$sce', 'APP_PATH', 'Users', 'Notifications','Line', 'Modal', 'SessionsApi', 'AnswersApi', function($scope, $state, $rootScope, $stateParams, $sce, APP_PATH, Users, Notifications, Line, Modal, SessionsApi, AnswersApi) {
 
 	//toutes les réponses à mettre dans les selects
 	$scope.selectOptions = [];
 	//id, et coord des deux extrémité de la ligne d'un association
   $scope.connect1 = {id: null, x1: null, y1: null};
   $scope.connect2 = {id: null, x2: null, y2: null};
+  if (!$rootScope.quiz) {
+  	$state.go('erreur', {code: "404", message: "Impossible de charger la question !"});
+  };
+  $scope.showScore = $rootScope.quiz.opt_show_score == 'after_each';
+  SessionsApi.get({id: $stateParams.session_id}).$promise.then(function(response){
+  	if (!response.error) {
+  		$scope.session = response.session_found;
+  	};
+  });
 	//on récupère la question
-	$scope.question = angular.copy(_.find($rootScope.quizStart.questions, function(q){
+	$scope.question = angular.copy(_.find($rootScope.quiz.questions, function(q){
 		if (q.id == $stateParams.id) {
 			var numQuestion = q.sequence+1;
-			$scope.actionTitle = "question " + numQuestion + "/" + $rootScope.quizStart.questions.length
+			$scope.actionTitle = "question " + numQuestion + "/" + $rootScope.quiz.questions.length
 			if (q.type === 'tat') {
+				if (q.randanswer) {
+					q.solutions = _.shuffle(q.solutions);
+				};
 				$scope.selectOptions = q.solutions;
 				for (var i = q.answers.length - 1; i >= 0; i--) {
 					q.answers[i].currentSelectSolution = "--------";
+				};
+			} else {
+				if (q.randanswer) {
+					q.answers = _.shuffle(q.answers);
 				};
 			};
 		};
@@ -29,10 +45,16 @@ angular.module('quizsApp')
 	}
 	//recherche la question suivante et retourne l'id
 	$scope.nextQuestion = function(){
+		//Si on affiche la correction après chaque question
+		// on renvoi l'id de la question
+		if($rootScope.quiz.opt_show_correct == 'after_each'){
+			return $scope.question.id;
+		}
+		//sinon
 		//on retrouve l'id de la question suivante
 		var nextNumQuestion = $scope.question.sequence + 1;
 		var nextId = null;
-		_.each($rootScope.quizStart.questions, function(q){
+		_.each($rootScope.quiz.questions, function(q){
 			if (q.sequence === nextNumQuestion) {
 	 			nextId = q.id;			
 			};
@@ -44,8 +66,8 @@ angular.module('quizsApp')
 		//on retrouve l'id de la question précédente
 		var preNumQuestion = $scope.question.sequence - 1;
 		var preId = null;
-		if ($rootScope.quizStart.opts.canRewind.yes) {
-			_.each($rootScope.quizStart.questions, function(q){
+		if ($rootScope.quiz.opt_can_rewind) {
+			_.each($rootScope.quiz.questions, function(q){
 				if (q.sequence === preNumQuestion) {
 		 			preId = q.id;			
 				};
@@ -76,21 +98,28 @@ angular.module('quizsApp')
 	}
 	//fonction permettant de passer à la question suivante 
 	$scope.next = function(){
-		var nextId = $scope.nextQuestion();
-		if (nextId) {
-			$state.go('quizs.read_questions', {quiz_id: $rootScope.quizStart.id, id: nextId});
-		};
+		AnswersApi.create({session_id: $stateParams.session_id, question: $scope.question, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+			var nextId = $scope.nextQuestion();
+			if (nextId) {
+				if($rootScope.quiz.opt_show_correct == 'after_each'){
+					$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, id: nextId, session_id: $stateParams.session_id});
+				} else {
+					$state.go('quizs.read_questions', {quiz_id: $rootScope.quiz.id, id: nextId, session_id: $stateParams.session_id});				
+				}
+			};
+		});		
 	}
 	//fonction permettant de passer à la question suivante 
 	$scope.pre = function(){
 		var preId = $scope.preQuestion();
 		if (preId) {
-			$state.go('quizs.read_questions', {quiz_id: $rootScope.quizStart.id, id: preId});
+			$state.go('quizs.read_questions', {quiz_id: $rootScope.quiz.id, id: preId, session_id: $stateParams.session_id});
 		};
 	}
 	//fonction permettant de quitter 
 	$scope.quit = function(){
-	 	$state.go('quizs.home');
+		$rootScope.questionToQuit = angular.copy($scope.question);
+		Modal.open($scope.modalConfirmQuitCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
 	}
 
 	// ------- Fonction sur la ligne de connection pour les associations ------- /
@@ -143,21 +172,50 @@ angular.module('quizsApp')
   		$scope.question.answers[index].currentSelectSolution = "--------";
   	} else {
   		$scope.question.answers[index].currentSelectSolution = label;
-  		$scope.question.answers[index].solution = label;
+  		$scope.question.answers[index].solution = {id: id, libelle: label};
   	};
   }
+
+
+  
 
 	// -------------- Controllers Modal des questions --------------- //
 		//controller pour afficher les médias avec une modal
 		$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
 			$scope.title = $rootScope.media.title;
 			$scope.file = function() {
-		    return $sce.trustAsResourceUrl($rootScope.media.file);
+		    if ($rootScope.media.type != "video") {
+		    	return $sce.trustAsResourceUrl($rootScope.media.file);
+		    } else {
+		    	return $sce.trustAsHtml($rootScope.media.file)	
+				};
 		  }
 			$scope.mime = $rootScope.media.mime;
 			$scope.type = $rootScope.media.type.split("/")[0];
 			$scope.close = function(){
 				$modalInstance.close();
+			}
+		}];
+
+		//controller pour quitter le quiz avec une modal
+		$scope.modalConfirmQuitCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+			$scope.title = "Quitter le quiz";
+			$scope.message = "Êtes vous sûr de vouloir quitter le quiz ?";
+			$scope.no = function(){
+				$modalInstance.close();
+			}
+			$scope.ok = function(){	
+				AnswersApi.create({session_id: $stateParams.session_id, question: $rootScope.questionToQuit, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+					if ($rootScope.quiz.opt_show_correct == 'at_end') {
+						$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, session_id: $stateParams.session_id});
+					} else {
+						if (Users.getCurrentUser().roleMaxPriority > 0) {
+							SessionsApi.delete({ids:[$stateParams.session_id]});					
+						};
+			 			$state.go('quizs.home');				
+					};
+				});			
+				$modalInstance.close();					
 			}
 		}];
 }]);

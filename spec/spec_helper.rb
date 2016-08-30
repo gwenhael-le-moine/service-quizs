@@ -7,6 +7,9 @@ require 'rack/mock'
 require 'logger'
 require 'simplecov'
 
+require_relative './mocks/mocked_data'
+require_relative './mocks/test_data'
+
 # Module pour tester les Api
 module RSpecMixin
   include Rack::Test::Methods

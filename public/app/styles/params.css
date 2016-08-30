@@ -65,11 +65,23 @@
 .btn-group-vertical>.btn:last-child:not(:first-child) {
 	border-bottom-left-radius: 0;
 }
-.btn.btn-quiz.add-question{
-	float: right;
+.end-buttons{
+	text-align: right;
+	padding: 40px;
+}
+.end-buttons .btn.btn-quiz{
 	padding: 5px 15px;
-	margin-top: 40px;
-	margin-right: 50px;
+	margin: 0 5px;
+}
+
+.end-buttons .btn.btn-quiz.disabled{
+	background-color: inherit;
+	border: none;
+	color: inherit;
+	cursor: no-drop;
+}
+.end-buttons .btn.btn-quiz.disabled>label{
+	cursor: no-drop;
 }
 
 /*************** css sur l'accordion maison des paramètres avancés ******************/
@@ -172,11 +184,9 @@
 	.infos-modes{
 		padding: 20px 10px;
 	}
-	.btn.btn-quiz.add-question{
-		float: right;
-		padding: 5px 15px;
-		margin-top: 30px;
-		margin-right: 10px;
+	.end-buttons{
+		text-align: center;
+		padding: 20px 0;
 	}
 }
 /**************************** RESPONSIVE DESIGN  *******************************/

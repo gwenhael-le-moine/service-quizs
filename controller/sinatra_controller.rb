@@ -16,8 +16,8 @@ class SinatraApp < Sinatra::Base
 
   configure :development do
     register Sinatra::Reloader
-    # also_reload '/path/to/some/file'
-    # dont_reload '/path/to/other/file'
+    also_reload '/path/to/some/file'
+    dont_reload '/path/to/other/file'
   end
 
   helpers Laclasse::Helpers::Authentication
@@ -31,27 +31,22 @@ class SinatraApp < Sinatra::Base
   }
 
   get APP_PATH + '/' do
-    #TODO: Rebrancher le logged 
-    # if logged?
-    #   erb "<h1>Connected !</h1>
-    #       Test d'Api Grape :
-    #       <a href='#{APP_PATH}/api/test'>Api simple</a>
-    #       <pre>
-    #         #{env['rack.session'][:current_user].to_html}
-    #       </pre><hr>"
-    # else
-    #   erb "<div class='jumbotron'>
-    #         <h1>Public page</h1>
-    #         <p class='lead'>This starter app is an example of Omniauth-cas
-    #             and sinatra integration based on rack system.<br />
-    #         Please try to connect with CAS sso...
-    #         </p>
-    #         </div>"
-    # end
-    erb :app
+    # TODO: Rebrancher le logged
+    if logged?
+      erb :app
+    # erb "<h1>Connected !</h1>
+    #     Test d'Api Grape :
+    #     <a href='#{APP_PATH}/api/test'>Api simple</a>
+    #     <pre>
+    #       #{env['rack.session'][:current_user].to_html}
+    #     </pre><hr>"
+    else
+      LOGGER.error('failed')
+      # erb :auth_failure
+    end
   end
 
-  get "#{APP_PATH}/status" do
+  get "#{APP_PATH}/status/?" do
     content_type :json
     app_status = app_infos
 

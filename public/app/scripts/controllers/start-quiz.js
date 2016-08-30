@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('StartQuizCtrl', ['$scope', '$state', '$rootScope', 'Notifications', function($scope, $state, $rootScope, Notifications) {
+.controller('StartQuizCtrl', ['$scope', '$state', '$stateParams', '$rootScope', 'Notifications', 'Users', 'Quizs', 'QuizsApi', 'QuestionsApi', 'SessionsApi', function($scope, $state, $stateParams, $rootScope, Notifications, Users, Quizs, QuizsApi, QuestionsApi, SessionsApi) {
 	//on récupère le types de questions du quiz
 	var getTypes = function(){
 		var types = [];
@@ -55,7 +55,7 @@ angular.module('quizsApp')
 			case "atEnd":
 				name = "Correction à la fin";
 				break;
-			case "None":
+			case "none":
 				name = "Pas de correction";
 				break;
 		}
@@ -82,7 +82,7 @@ angular.module('quizsApp')
 			case "atEnd":
 				name = "Score à la fin";
 				break;
-			case "None":
+			case "none":
 				name = "Pas de score";
 				break;
 		}
@@ -91,10 +91,10 @@ angular.module('quizsApp')
 	var getLibelleCanRedo = function(canRedo){
 		var name = "";
 		switch(canRedo){
-			case "yes":
+			case "no":
 				name = "Une seule fois";
 				break;
-			case "no":
+			case "yes":
 				name = "A l'infini";
 				break;
 		}
@@ -145,13 +145,10 @@ angular.module('quizsApp')
 	};
 	//informe des différents type de médias présent
 	var getMedias = function(){
-		var medias = {audio: false, image: false};
+		var medias = {audio: false, image: false, video: false};
 		_.each($scope.quiz.questions, function(question){
 			if (question.media.type) {
 				medias[question.media.type] = true;
-			};
-			if (question.hint.media.type) {
-				medias[question.hint.media.type] = true;
 			};
 			_.each(question.answers, function(answer){
 				if (question.type == "ass"){
@@ -166,20 +163,51 @@ angular.module('quizsApp')
 	};
 
 	$scope.start = function(){
-		$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id});
+		if ($scope.quiz.opt_rand_question_order) {
+			$scope.quiz.questions = Quizs.randQuestions($scope.quiz.questions);
+		};
+		$rootScope.quiz = angular.copy($scope.quiz);
+		SessionsApi.create({quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+			if (!response.error) {
+				$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id, session_id: response.session_created.id});				
+			};			
+		});
+	}
+	$scope.close = function(){
+		$state.go('quizs.home');
 	}
 
 	//variables
 	//titre de l'action
 	$scope.actionTitle = "prêts ? partez !";
 	//Récupération du quiz
-	$scope.quiz = $rootScope.quizStudent;
-	// les différents types de question dans le quiz
-	$scope.types = getTypes();
-	//le mode des paramètres du quiz
-	$scope.mode = getMode();
-	//les différentes paramètres du quiz
-	$scope.opts = getOpts();
-	//récupère les différents type de médias
-	$scope.medias = getMedias();
+	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
+		if (!response.error) {
+			$scope.quiz = response.quiz_found;
+			$scope.quiz.opts = Quizs.getFormatOpt(response.quiz_found);
+			$scope.quiz.questions = [];
+			// si le quiz à pour params de ne le jouer qu'une seul fois et qu'il existe déjà une session pour cette utilisateur, on lance une erreur sauf pour le prof
+			if (!response.quiz_found.opt_can_redo && Users.getCurrentUser.roleMaxPriority == 0) {
+				SessionsApi.exist({quiz_id: response.quiz_found.id}).$promise.then(function(resp){
+					if (resp.exist) {
+						$state.go('erreur', {code: "401", message: "Vous ne pouvez exécuter ce quiz qu'une seule fois !"});
+					};
+				});
+			};
+
+			QuestionsApi.getAll({quiz_id: $scope.quiz.id, read: true}).$promise.then(function(responseQuesionApi){
+				$scope.quiz.questions = responseQuesionApi.questions_found;
+				// les différents types de question dans le quiz
+				$scope.types = getTypes();
+				//le mode des paramètres du quiz
+				$scope.mode = getMode();
+				//les différentes paramètres du quiz
+				$scope.opts = getOpts();
+				//récupère les différents type de médias
+				$scope.medias = getMedias();
+			});			
+		} else {
+			$state.go('erreur', {code: "404", message: response.error.msg});
+		};
+	});
 }]);

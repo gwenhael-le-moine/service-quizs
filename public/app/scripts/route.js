@@ -9,6 +9,13 @@ angular.module('quizsApp')
 
           .state( 'quizs',{
             abstract:true,
+            resolve: {
+              currentUser: function(Users){
+                return Users.getCurrentUserRequest().$promise.then(function(response){
+                  Users.setCurrentUser(response);
+                });
+              }
+            },
             templateUrl:APP_PATH + '/app/views/index.html',
           })
 
@@ -16,6 +23,12 @@ angular.module('quizsApp')
             parent: 'quizs',
             abstract:true,
             templateUrl:APP_PATH + '/app/views/menu.html',
+          })
+
+          .state( 'quizs.damier',{
+            parent: 'quizs',
+            abstract:true,
+            templateUrl:APP_PATH + '/app/views/damier.html',
           })
 
           .state( 'quizs.back',{
@@ -41,6 +54,20 @@ angular.module('quizsApp')
               'main': {
                 templateUrl:APP_PATH + '/app/views/mains/main-home.html',
                 controller: 'MainHomeCtrl'
+               }
+              }
+            })
+          .state( 'quizs.publish',{
+            parent: 'quizs.damier',
+            url: '/:quiz_id/publish',
+            views: {
+              'aside': {
+                templateUrl:APP_PATH + '/app/views/asides/aside-publish.html',
+                controller: 'AsidePublishCtrl'
+              },
+              'main': {
+                templateUrl:APP_PATH + '/app/views/mains/main-publish.html',
+                controller: 'MainPublishCtrl'
                }
               }
             })
@@ -116,7 +143,12 @@ angular.module('quizsApp')
             })
           .state( 'quizs.marking_questions',{
             parent: 'quizs.front',
-            url: '/:quiz_id/questions/:id/correction',
+            url: '/:quiz_id/questions/correction/',
+            params: {
+              id: null,
+              session_id: null,
+              next_question_id: null
+            },
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
@@ -145,6 +177,9 @@ angular.module('quizsApp')
           .state( 'quizs.read_questions',{
             parent: 'quizs.front',
             url: '/:quiz_id/start/questions/:id',
+            params: {
+              session_id: null
+            },
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
@@ -153,6 +188,24 @@ angular.module('quizsApp')
               'front': {
                 templateUrl:APP_PATH + '/app/views/front/questions.html',
                 controller: 'ReadQuestionsCtrl'
+               }
+              }
+            })
+          .state( 'quizs.sessions',{
+            parent: 'quizs.front',
+            url: '/:quiz_id/sessions',
+            params: {
+              student_id: null,
+              rgpt_id: null
+            },
+            views: {         
+              'quiz': {
+                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
+                controller: 'QuizCtrl'
+              },
+              'front': {
+                templateUrl:APP_PATH + '/app/views/front/sessions.html',
+                controller: 'SessionsCtrl'
                }
               }
             });

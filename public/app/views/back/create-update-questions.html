@@ -59,8 +59,15 @@
 									ng-click="openFileUpload('questionMediaId')">
 							</p>
 							<label 	class="label-media texte-secondaire-italic" 
-											ng-class="{'not-empty': question.media.file}">
-								{{question.media.file != null ? question.media.file.name : placeholderMedia}}
+											ng-class="{'not-empty': question.media.file && question.media.type != 'video'}">
+								{{question.media.file != null && question.media.type != "video" ? question.media.file.name : placeholderMedia}}
+							</label>
+							<p 	class="add-link img" 
+									ng-click="openAddLink('question')">
+							</p>
+							<label 	class="label-media texte-secondaire-italic" 
+											ng-class="{'not-empty': question.media.file && question.media.type== 'video'}">
+								{{question.media.file != null && question.media.type == "video" ? question.media.file.name : placeholderLink}}
 							</label>
 						</div>
 						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileQuestion">{{errorFileQuestion}}</i>
@@ -87,16 +94,6 @@
 											ngf-select="uploadHintMedia($file)">
 							</button>
 						</div>
-						<div>
-							<p 	class="add-media img" 
-									ng-click="openFileUpload('aideMediaId')">
-							</p>
-							<label 	class="label-media texte-secondaire-italic" 
-											ng-class="{'not-empty': question.hint.media.file}">
-								{{question.hint.media.file != null ? question.hint.media.file.name : placeholderMedia}}
-							</label>
-						</div>
-						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileHint">{{errorFileHint}}</i>
 					</div>
 				</div>
 			</div>
@@ -149,7 +146,13 @@
 						<div>
 							<p 	ng-if="!suggestion.joindre.file" 
 									class="add-media img" 
-									ng-click="openFileUpload('joindre'+$index)">
+									ng-click="openFileUpload('joindre'+$index)"
+									title="Ajouter une image ou un fichier audio">
+							</p>
+							<p 	ng-if="!suggestion.joindre.file" 
+									class="add-link img" 
+									ng-click="openAddLink('qcm', $index)"
+									title="Intégrer une video web">
 							</p>
 							<label 	ng-if="!suggestion.joindre.file" 
 											class="label-media texte-secondaire-italic mobile">
@@ -189,9 +192,10 @@
 					<p class="consigne1 img"></p>
 					<span class="texte">2. clic sur la solution en lien à droite</span>
 					<p class="consigne2 img"></p>
-					<span class="texte backline">
-						Pour corriger, double-clic sur l'élément à modifier
+					<span class="texte">
+						Pour corriger, clic sur le lien afin que l'icône de suppression apparaisse
 					</span>
+					<p class="delete img"></p>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 reponse-ass">
@@ -242,7 +246,12 @@
 											Joindre
 										</label>
 										<p 	class="add-media img" 
-												ng-click="openFileUpload('leftjoindre'+$index)">
+												ng-click="openFileUpload('leftjoindre'+$index)"
+												title="Ajouter une image ou un fichier audio">
+										</p>
+										<p 	class="add-link img" 
+												ng-click="openAddLink('assLeft', $index)"
+												title="Intégrer une video web">
 										</p>
 									</div>
 								</div>
@@ -320,7 +329,12 @@
 												($index == 0 || suggestions.ass[$index-1].rightProposition.libelle))
 											|| (validateAss && suggestion.rightProposition.libelle && !suggestion.rightProposition.joindre.file)">
 									<p 	class="add-media img" 
-											ng-click="openFileUpload('rightjoindre'+$index)">
+											ng-click="openFileUpload('rightjoindre'+$index)"
+											title="Ajouter une image ou un fichier audio">
+									</p>
+									<p 	class="add-link img" 
+											ng-click="openAddLink('assRight', $index)"
+											title="Intégrer une video web">
 									</p>
 									<label class="label-media texte-secondaire-italic mobile">Joindre</label>
 								</div>
@@ -395,7 +409,7 @@
 						<span>TEXTE</span>
 					</div>
 					<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 titre petit center">
-						<span>SOLUTION (+ ponctuation)</span>
+						<span>SOLUTION</span>
 					</div>
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 titre petit joindre">
 						<span>JOINDRE</span>
@@ -409,17 +423,11 @@
 										maxlength="2000" 
 										ng-model="suggestion.text"/>
 					</div>
-					<div class="col-xs-5 col-sm-3 col-md-3 col-lg-3 solution">
+					<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 solution">
 						<input 	type="text" 
 										class="texte" 
 										maxlength="2000" 
 										ng-model="suggestion.solution.libelle"/>
-					</div>
-					<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 ponctuation">
-						<input 	type="text" 
-										class="texte" 
-										maxlength="1" 
-										ng-model="suggestion.ponctuation"/>
 					</div>
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 joindre">
 						<div>
@@ -436,7 +444,13 @@
 						<div>
 							<p 	ng-if="!suggestion.joindre.file" 
 									class="add-media img" 
-									ng-click="openFileUpload('joindretat'+$index)">
+									ng-click="openFileUpload('joindretat'+$index)"
+									title="Ajouter une image ou un fichier audio">
+							</p>
+							<p 	ng-if="!suggestion.joindre.file" 
+									class="add-link img" 
+									ng-click="openAddLink('tat', $index)"
+									title="Intégrer une video web">
 							</p>
 							<label 	ng-if="!suggestion.joindre.file" 
 											class="label-media texte-secondaire-italic mobile">
@@ -492,7 +506,7 @@
 		</div>
 		<!-------------------- FIN PARTIE TAT ---------------------------->
 		<div class="row content border-bottom columns-inverse-mobile">
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 rand-answers">
+			<div ng-if="question.type != 'tat'" class="col-xs-12 col-sm-3 col-md-3 col-lg-3 rand-answers">
 				<div 	class="btn-group" 
 							role="group" 
 							aria-label="radio">
@@ -510,7 +524,7 @@
 				  </button>
 				</div>			
 			</div>
-			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 rand-answers">
+			<div ng-if="question.type != 'tat'" class="col-xs-12 col-sm-9 col-md-9 col-lg-9 rand-answers">
 				<div>
 					<label class="texte">mélanger l'ordre des propositions</label>
 				</div>
@@ -536,14 +550,10 @@
 					role="group" 
 					aria-label="radio">
 		  <button type="button" 
-		  				class="btn btn-quiz hover" 
+		  				class="btn btn-quiz hover"
+		  				ng-class="{disabled: !question.libelle || !atLeastOneAnswer(question.type)}" 
 		  				ng-click="addQuestion()">
 		  	<label>Valider</label>
-		  </button>
-		  <button type="button" 
-		  				class="btn btn-quiz hover" 
-		  				ng-click="cleanQuestion()">
-		  	<label>Effacer</label>
 		  </button>
 		  <button type="button" 
 		  				class="btn btn-quiz hover" 

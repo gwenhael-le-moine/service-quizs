@@ -13,7 +13,7 @@
 				<span class="texte-particulier forgot">Oublis</span>			
 			</div>			
 		</div>
-		<div class="row content question">
+		<div class="row content question" ng-repeat="question in questions">
 			<p 	ng-if="question.media.type=='image' || question.media.type=='video'" 
 					class="media-image img" 
 					ng-click="displayMedia(question.libelle, question.media.file.url, question.media.type, question.media.mime)">
@@ -39,8 +39,8 @@
 						</p>						
 				</div>
 			</div>
-		</div>
-		<div class="row content">
+		<!-- </div>
+		<div class="row content" > -->
 			<!---------------------- DEBUT PARTIE QCM ---------------------->
 			<div ng-if="question.type=='qcm'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 qcm border-bottom">
 				<div ng-if="answer.proposition" class="row answers" ng-repeat="answer in question.answers">
@@ -56,28 +56,33 @@
 							</p>							
 						</div>
 						<div class="checkboxs">
-							<p 	ng-if="markingResponseQCM(answer) == 'none'"
+							<p 	ng-if="markingResponseQCM(answer, question) == 'none'"
 									class="checkbox img"> 
 							</p>
-							<p 	ng-if="markingResponseQCM(answer) == 'false'"
+							<p 	ng-if="markingResponseQCM(answer, question) == 'false'"
 									class="checkbox-marking-false img"> 
 							</p>
-							<p 	ng-if="markingResponseQCM(answer) == 'correct'"
+							<p 	ng-if="markingResponseQCM(answer, question) == 'correct'"
 									class="checkbox-marking-correct img"> 
 							</p>
-							<p 	ng-if="markingResponseQCM(answer) == 'forgot'"
+							<p 	ng-if="markingResponseQCM(answer, question) == 'forgot'"
 									class="checkbox-marking-forgot img"> 
 							</p>							
 						</div>
 					</div>
 					<div class="col-xs-9 col-sm-10 col-md-10 col-lg-11 libelle">
 						<p 	class="texte"
-								ng-class="{	'forgot': markingResponseQCM(answer) == 'forgot', 
-														'false': markingResponseQCM(answer) == 'false', 
-														'correct': markingResponseQCM(answer) == 'correct'}">
+								ng-class="{	'forgot': markingResponseQCM(answer, question) == 'forgot', 
+														'false': markingResponseQCM(answer, question) == 'false', 
+														'correct': markingResponseQCM(answer, question) == 'correct'}">
 							{{answer.proposition}}
 						</p>
 					</div>
+				</div>
+				<div class="comment">
+					<span class="texte-bold">Commentaire :</span>
+					<span ng-if="question.comment == null || question.comment == ''" class="texte-secondaire">Aucun commentaire...</span>							
+					<span class="texte-secondaire">{{question.comment}}</span>						
 				</div>
 			</div>
 			<!---------------------- FIN PARTIE QCM   ---------------------->
@@ -141,16 +146,21 @@
 						</div>
 					</div>
 				</div>
+				<div class="comment">
+					<span class="texte-bold">Commentaire :</span>
+					<span ng-if="question.comment == null || question.comment == ''" class="texte-secondaire">Aucun commentaire...</span>							
+					<span class="texte-secondaire">{{question.comment}}</span>						
+				</div>
 			</div>
-			<div 	ng-show="question.type == 'ass'" 
+			<div 	ng-if="question.type == 'ass'" 
 						id="markingCorrectLinesId"
 						class="correct">
 			</div>
-			<div 	ng-show="question.type == 'ass'" 
+			<div 	ng-if="question.type == 'ass'" 
 						id="markingFalseLinesId"
 						class="false">
 			</div>
-			<div 	ng-show="question.type == 'ass'" 
+			<div 	ng-if="question.type == 'ass'" 
 						id="markingForgotLinesId"
 						class="forgot">
 			</div>
@@ -169,15 +179,18 @@
 								ng-click="play(answer.joindre.file.url)">
 						</p>							
 					</div>
-		      <span class="texte {{markingResponseTAT(answer)}}">{{answer.solution.libelle}}</span>
-		    	<span class="texte">{{answer.ponctuation}}</span>
+		      <span class="texte {{markingResponseTAT(answer, question)}}">{{answer.solution.libelle}}</span>
 				</div>
 				<div class="marking">
 					<div class="answers" ng-repeat="answer in markingQuestionTAT">
 						<span class="texte libelle">{{answer.text}}</span>
 						<span class="texte-particulier">{{answer.solution.libelle}}</span>
-						<span class="texte">{{answer.ponctuation}}</span>
 					</div>
+				</div>
+				<div class="comment">
+					<span class="texte-bold">Commentaire :</span>
+					<span ng-if="question.comment == null || question.comment == ''" class="texte-secondaire">Aucun commentaire...</span>							
+					<span class="texte-secondaire">{{question.comment}}</span>						
 				</div>
 			</div>
 			<!---------------------- FIN PARTIE TAT   ---------------------->
@@ -199,7 +212,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<p class="border img"></p>
-				<p class="score-{{quizStudent.score}} img"></p>							
+				<p class="score-{{session.score | scorecss}} img"></p>							
 			</div>
 		</div>
 	</div>

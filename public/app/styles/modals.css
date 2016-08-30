@@ -74,7 +74,7 @@
 	display: inline-block;
 	border: 2px solid #9e9e9e;
 	padding: 2px 5px;
-	margin: 0 0 0 10px;
+	margin: 10px 0 0 10px;
 	cursor: pointer; 
 }
 .modal-body .regroupements .regroupement.texte:hover{
@@ -103,6 +103,16 @@
 }
 .preview-modal .buttons button{
 	padding: 5px 30px;
+}
+
+/*** add-link modal ****/
+.modal-body.add-link .name{
+	margin-bottom: 10px;
+}
+
+.modal-body.add-link .name > input, .modal-body.add-link .link > input{
+	display: block;
+	margin-top: 5px;
 }
 
 /*** css des mobiles et tablettes ***/

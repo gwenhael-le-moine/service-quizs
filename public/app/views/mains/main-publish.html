@@ -1,0 +1,9 @@
+<div class="purcent-page sons damier">
+	<ul class="main-publish">
+		<li class="col-xs-12 col-sm-6 col-md-3 col-lg-3 petite case" ng-repeat="regroupement in regroupements" ng-click="change(regroupement)">
+			<div class="rgpt" ng-class="{selected: regroupement.selected}">
+				<span class="texte-bold name">{{regroupement.name | uppercase | overflow:25}}</span>
+				<span class="texte-secondaire name-etab">{{regroupement.nameEtab | uppercase | overflow:20}}</span>
+		</li>
+	</ul>	
+</div>

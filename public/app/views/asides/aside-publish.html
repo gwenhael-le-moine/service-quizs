@@ -1,0 +1,62 @@
+<div class="row aside-publish">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bleu header-quiz">
+		<span class="grand-titre">{{"Publier un quiz" | uppercase}}</span>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title-quiz">
+		<span class="texte-particulier">{{quiz.title | capitalize | overflow:40}}</span>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 publish-in">
+		<div class="title">
+			<span class="titre">Publier dans : </span>			
+		</div>
+		<div class="none">
+			<span ng-if="quiz.publishes.length == 0" class="texte-italic">Aucune publication.</span>	
+		</div>
+		<div class="publishes" ng-repeat="publish in quiz.publishes">
+			<span class="texte" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">{{publish.name | uppercase | overflow:8}}</span>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 publish-date">
+		<div class="title">
+			<span class="titre">Date publication : </span>			
+		</div>
+		<div class="row datepicker">
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
+				<span class="texte">Du :</span>
+			</div>
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 from">
+        <input type="text"
+        class="texte" 
+        uib-datepicker-popup="dd/MM/yyyy" 
+        ng-model="fromDate" 
+        is-open="status.fromDate" 
+        min-date="minDate"
+        datepicker-options="dateOptions" 
+        show-button-bar='false'
+        ng-click="open($event, 'fromDate')" />
+        <p class="calendar img" ng-click="open($event, 'fromDate')"></p>
+	  	</div>			
+		</div>
+		<div class="row datepicker">
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
+				<span class="texte">Au :</span>
+			</div>
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 to">
+        <input type="text"
+        class="texte" 
+        uib-datepicker-popup="dd/MM/yyyy" 
+        ng-model="toDate" 
+        is-open="status.toDate" 
+        min-date="minDate"
+        datepicker-options="dateOptions" 
+        show-button-bar='false'
+        ng-click="open($event, 'toDate')" />
+        <p class="calendar img" ng-click="open($event, 'toDate')"></p>
+	  	</div>			
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
+		<button type="button" class="btn btn-quiz hover publish" ng-click="publish()" ng-class="{disabled: tmpPublishesRegroupements.length == 0}"><label>Publier</label></button>
+		<button type="button" class="btn btn-quiz hover back" ng-click="back()"><label>Retour</label></button>
+	</div>
+</div>

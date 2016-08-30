@@ -5,6 +5,7 @@ namespace :db do
   task :load_config do
     require 'sequel'
     require './config/database'
+    require './config/options'
   end
 
   desc 'Checks if a migration is needed'
@@ -35,7 +36,7 @@ namespace :db do
 
   desc 'Generating Sequel model from database.'
   task generate_model: :load_config do
-    require_relative './model_generator'
+    require './tasks/model_generator'
   end
 
   desc 'Apply migrations'

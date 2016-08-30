@@ -48,7 +48,7 @@
 	background-position: center;
 }
 /*** partie des medias ***/
-.start-quiz .attributs .media-son, .start-quiz .attributs .media-image{
+.start-quiz .attributs .media-son, .start-quiz .attributs .media-image, .start-quiz .attributs .media-video{
 	height: 30px;
 	width: 30px;
 	display: inline-block;

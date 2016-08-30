@@ -142,9 +142,9 @@
 								ng-click="play(answer.joindre.file.url)">
 						</p>							
 					</div>
-					<div class="btn-group texte" dropdown keyboard-nav>
-		        <button id="select{{$index}}" type="button" class="btn btn-primary" dropdown-toggle>{{answer.currentSelectSolution}}</button>
-		        <ul class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+					<div class="btn-group texte" uib-dropdown uib-keyboard-nav>
+		        <button id="select{{$index}}" type="button" class="btn btn-primary" uib-dropdown-toggle>{{answer.currentSelectSolution}}</button>
+		        <ul class="uib-dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
 	            <li ng-if="answer.currentSelectSolution !== '--------'" 
 	            		role="menuitem"
 	            		ng-click="changeSolution($index, -1, '')">
@@ -157,7 +157,6 @@
 	            </li>
 		        </ul>
 		    	</div>
-		    	<span class="texte">{{answer.ponctuation}}</span>
 				</div>
 			</div>
 			<!---------------------- FIN PARTIE TAT   ---------------------->
@@ -182,6 +181,28 @@
 					<p class="delete img"></p>				
 				</div>
 			</div>			
+		</div>
+	</div>
+	<div ng-if="showScore" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 score-img">
+		<div class="row">
+			<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2"></div>
+			<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 no-display-mobile">
+				<span class="texte-secondaire">Non acquis</span>
+			</div>
+			<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-center no-display-mobile">
+				<span class="texte-secondaire">En cours d'acquisition</span>
+			</div>
+			<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 text-right no-display-mobile">
+				<span class="texte-secondaire">Acquis</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 display-none">
+				<span class="titre">SCORE :</span>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-center">
+				<p class="score-{{session.score | scorecss}} img"></p>							
+			</div>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 quit-preview">
