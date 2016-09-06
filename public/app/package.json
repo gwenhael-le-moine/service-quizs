@@ -1,0 +1,41 @@
+{
+  "name": "service-quizs",
+  "version": "1.0.0",
+  "description": "Service de Quizz de laclasse.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laclasse-com/service-quizs.git"
+  },
+  "keywords": [
+    "laclasse.com"
+  ],
+  "author": "Métropole de Lyon",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/laclasse-com/service-quizs/issues"
+  },
+  "homepage": "https://github.com/laclasse-com/service-quizs#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-bootstrap-checkbox": "^1.0.0",
+    "angular-cookies": "^1.5.8",
+    "angular-growl-notifications": "^2.4.0",
+    "angular-i18n": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-ui-bootstrap": "^2.1.3",
+    "angular-ui-router": "^0.3.1",
+    "angular-ui-sortable": "^0.14.3",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.0",
+    "jquery-ui": "^1.12.0",
+    "laclasse-common-client": "git+https://github.com/laclasse-com/laclasse-common-client.git",
+    "ng-file-upload": "^12.2.5",
+    "ng-sortable": "^1.3.6",
+    "underscore": "^1.8.3"
+  }
+}
