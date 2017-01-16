@@ -9,9 +9,9 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `quizsv3` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+CREATE SCHEMA IF NOT EXISTS `quiz` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 
-CREATE TABLE IF NOT EXISTS `quizsv3`.`quizs` (
+CREATE TABLE IF NOT EXISTS `quiz`.`quizs` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
@@ -28,7 +28,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `quizsv3`.`questions` (
+CREATE TABLE IF NOT EXISTS `quiz`.`questions` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `quiz_id` INT(11) NOT NULL,
   `type` ENUM('QCM','TAT','ASS') NOT NULL COMMENT 'type de question QCM, TAT (textes à trous) ou ASS (associations).',
@@ -41,14 +41,14 @@ CREATE TABLE IF NOT EXISTS `quizsv3`.`questions` (
   INDEX `fk_question_quiz_idx` (`quiz_id` ASC),
   CONSTRAINT `fk_question_quiz`
     FOREIGN KEY (`quiz_id`)
-    REFERENCES `quizsv3`.`quizs` (`id`)
+    REFERENCES `quiz`.`quizs` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `quizsv3`.`medias` (
+CREATE TABLE IF NOT EXISTS `quiz`.`medias` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME NULL DEFAULT NULL,
   `name` VARCHAR(250) NULL DEFAULT NULL,
@@ -61,19 +61,19 @@ CREATE TABLE IF NOT EXISTS `quizsv3`.`medias` (
   INDEX `fk_medias_suggestions1_idx` (`suggestions_id` ASC),
   CONSTRAINT `fk_medias_questions1`
     FOREIGN KEY (`questions_id`)
-    REFERENCES `quizsv3`.`questions` (`id`)
+    REFERENCES `quiz`.`questions` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_medias_suggestions1`
     FOREIGN KEY (`suggestions_id`)
-    REFERENCES `quizsv3`.`suggestions` (`id`)
+    REFERENCES `quiz`.`suggestions` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `quizsv3`.`suggestions` (
+CREATE TABLE IF NOT EXISTS `quiz`.`suggestions` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `question_id` INT(11) NOT NULL,
   `text` VARCHAR(2000) NOT NULL,
@@ -83,14 +83,14 @@ CREATE TABLE IF NOT EXISTS `quizsv3`.`suggestions` (
   INDEX `fk_answer_proposition_question1_idx` (`question_id` ASC),
   CONSTRAINT `fk_answer_proposition_question1`
     FOREIGN KEY (`question_id`)
-    REFERENCES `quizsv3`.`questions` (`id`)
+    REFERENCES `quiz`.`questions` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `quizsv3`.`solutions` (
+CREATE TABLE IF NOT EXISTS `quiz`.`solutions` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `left_suggestion_id` INT(11) NOT NULL COMMENT 'Table des solutions pour les QCM et TAT  (la présence d’une valeur dans ‘left_answer_prop_id’ suffit à identifier que cette proposition est la bonne solution), pour les Associations, la solution est la relation entre 2 propositions.',
   `right_suggestion_id` INT(11) NULL DEFAULT NULL,
@@ -99,19 +99,19 @@ CREATE TABLE IF NOT EXISTS `quizsv3`.`solutions` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_association_answer_proposition1`
     FOREIGN KEY (`left_suggestion_id`)
-    REFERENCES `quizsv3`.`suggestions` (`id`)
+    REFERENCES `quiz`.`suggestions` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_association_answer_proposition2`
     FOREIGN KEY (`right_suggestion_id`)
-    REFERENCES `quizsv3`.`suggestions` (`id`)
+    REFERENCES `quiz`.`suggestions` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `quizsv3`.`publications` (
+CREATE TABLE IF NOT EXISTS `quiz`.`publications` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `quiz_id` INT(11) NOT NULL,
   `from_date` DATETIME NULL DEFAULT NULL,
@@ -126,14 +126,14 @@ CREATE TABLE IF NOT EXISTS `quizsv3`.`publications` (
   INDEX `fk_publication_quiz1_idx` (`quiz_id` ASC),
   CONSTRAINT `fk_publication_quiz1`
     FOREIGN KEY (`quiz_id`)
-    REFERENCES `quizsv3`.`quizs` (`id`)
+    REFERENCES `quiz`.`quizs` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `quizsv3`.`sessions` (
+CREATE TABLE IF NOT EXISTS `quiz`.`sessions` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `quiz_id` INT(11) NOT NULL,
   `user_id` VARCHAR(8) NOT NULL COMMENT 'Clé étrangère vers l’identifiant de l’élève en session',
@@ -145,14 +145,14 @@ CREATE TABLE IF NOT EXISTS `quizsv3`.`sessions` (
   INDEX `fk_sessions_quizs1_idx` (`quiz_id` ASC),
   CONSTRAINT `fk_sessions_quizs1`
     FOREIGN KEY (`quiz_id`)
-    REFERENCES `quizsv3`.`quizs` (`id`)
+    REFERENCES `quiz`.`quizs` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `quizsv3`.`answers` (
+CREATE TABLE IF NOT EXISTS `quiz`.`answers` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `session_id` INT(11) NOT NULL,
   `left_suggestion_id` INT(11) NOT NULL COMMENT 'Réponses des élèves pour les QCM et TAT  (la présence d’une valeur dans ‘left_suggestion_id’ suffit à identifier la réponse de l’élève), pour les Associations, la réponse est la relation entre 2 suggestions.',
@@ -164,17 +164,17 @@ CREATE TABLE IF NOT EXISTS `quizsv3`.`answers` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_answer_suggestion1`
     FOREIGN KEY (`left_suggestion_id`)
-    REFERENCES `quizsv3`.`suggestions` (`id`)
+    REFERENCES `quiz`.`suggestions` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_answer_session1`
     FOREIGN KEY (`session_id`)
-    REFERENCES `quizsv3`.`sessions` (`id`)
+    REFERENCES `quiz`.`sessions` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_answer_suggestion2`
     FOREIGN KEY (`right_suggestion_id`)
-    REFERENCES `quizsv3`.`suggestions` (`id`)
+    REFERENCES `quiz`.`suggestions` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
