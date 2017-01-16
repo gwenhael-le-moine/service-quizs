@@ -71,6 +71,7 @@
 
       <script src="<%= APP_PATH %>/app/scripts/app.js"></script>
       <script src="<%= APP_PATH %>/app/scripts/route.js"></script>
+      <script src="<%= APP_PATH %>/app/scripts/constants.js"></script>
       <script src="<%= APP_PATH %>/app/scripts/defaults.js"></script>
       <script src="<%= APP_PATH %>/app/scripts/controllers/erreur.js"></script>
       <script src="<%= APP_PATH %>/app/scripts/controllers/aside-home.js"></script>
@@ -94,17 +95,5 @@
       <script src="<%= APP_PATH %>/app/scripts/services/answers.js"></script>
       <script src="<%= APP_PATH %>/app/scripts/services/publications.js"></script>
       <script src="<%= APP_PATH %>/app/scripts/directives/directives.js"></script>
-        <script>
-         angular.module( 'portailApp' )
-                .constant( 'APP_VERSION', '<%=APP_VERSION%>' )
-                .constant( 'APP_PATH', '<%=APP_PATH%>' )
-                .constant( 'URL_ENT', '<%=URL_ENT%>' )
-                .constant( 'CONFIG', <%=config.to_json%> )
-                .constant( 'UID', '<%=user[:info].uid%>' )
-                .config( [ '$compileProvider',
-                           function( $compileProvider ) {
-                               $compileProvider.debugInfoEnabled( <%= ENV['RACK_ENV'] == 'development' %> );
-                           } ] );
-        </script>
     </body>
 </html>
