@@ -94,11 +94,12 @@
       <script src="<%= APP_PATH %>/app/scripts/services/answers.js"></script>
       <script src="<%= APP_PATH %>/app/scripts/services/publications.js"></script>
       <script src="<%= APP_PATH %>/app/scripts/directives/directives.js"></script>
-<script>
+
+	<script>
 	
          angular.module( 'quizsApp' )
-                .constant( 'LACLASSE_PATH', 'https://v3dev.laclasse.com' )
-                .constant( 'APP_PATH', 'http://localhost:9292/quiz' );
+                .constant( 'LACLASSE_PATH', '<%=URL_ENT%>' )
+                .constant( 'APP_PATH', '<%=APP_PATH%>' );
         </script>
 
     </body>
