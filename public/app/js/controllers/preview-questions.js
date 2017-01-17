@@ -108,7 +108,7 @@ angular.module('quizsApp')
 
 	// -------------- Controllers Modal des questions --------------- //
 		//controller pour afficher les médias avec une modal
-		$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.title = $rootScope.media.title;
 			$scope.file = function() {
 				if ($rootScope.media.type != "video") {

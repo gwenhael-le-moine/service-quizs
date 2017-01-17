@@ -224,7 +224,7 @@ angular.module('quizsApp')
 				$state.go('quizs.read_questions', {quiz_id: $rootScope.quiz.id, id: nextId, session_id: $stateParams.session_id});
 			};
 		}
-		//fonction permettant de passer à la question suivante 
+		//fonction permettant de passer à la question precedente 
 		$scope.pre = function(){
 			var preId = $scope.preQuestion();
 			if (preId) {
@@ -259,7 +259,7 @@ angular.module('quizsApp')
 
 		// -------------- Controllers Modal des questions --------------- //
 			//controller pour afficher les médias avec une modal
-			$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+			$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 				$scope.title = $rootScope.media.title;
 				$scope.file = function() {
 			     if ($rootScope.media.type != "video") {
@@ -271,7 +271,7 @@ angular.module('quizsApp')
 				$scope.mime = $rootScope.media.mime;
 				$scope.type = $rootScope.media.type.split("/")[0];
 				$scope.close = function(){
-					$modalInstance.close();
+					$uibModalInstance.close();
 				}
 			}];
 	});

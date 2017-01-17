@@ -116,7 +116,7 @@ angular.module('quizsApp')
 
 	// -------------- Controllers Modal des quizs --------------- //
 		//controller pour confirmer la suppression de sessions avec une modal
-		$scope.modalConfirmDeletedSessionsCtrl = ["$scope", "$rootScope", "$modalInstance", "$state", "$stateParams", function($scope, $rootScope, $modalInstance, $state, $stateParams){
+		$scope.modalConfirmDeletedSessionsCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
 			$scope.message = "Êtes vous sûr de vouloir supprimer ";
 			if ($rootScope.ids.length > 1) {
 				$scope.title = "Supprimer les sessions";
@@ -126,7 +126,7 @@ angular.module('quizsApp')
 				$scope.message += "cette session ?";
 			};
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){
 				// On supprime les sessions dans la bdd et dans le scope
@@ -135,7 +135,7 @@ angular.module('quizsApp')
 						$rootScope.sessions = _.reject($rootScope.sessions, function(session){
 							return _.contains($rootScope.ids, session.id);
 						});
-						$modalInstance.close();
+						$uibModalInstance.close();
 					};
 				});
 			}

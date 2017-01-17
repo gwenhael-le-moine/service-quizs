@@ -98,24 +98,24 @@ angular.module('quizsApp')
 
 	// -------------- Controllers Modal --------------- //
 		//controller pour afficher les regroupements dans lequel le quiz a été publié avec une modal
-		$scope.modalDisplayRegroupementsCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalDisplayRegroupementsCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.rgpts = $rootScope.displayRgptsQuiz.publishes;
 			$scope.close = function(){
 				$rootScope.displayRgptsQuiz = {};
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.openSession = function(rgpt_id){
-				$modalInstance.close();
+				$uibModalInstance.close();
 				$state.go('quizs.sessions', {quiz_id: $rootScope.displayRgptsQuiz.id, rgpt_id: rgpt_id});
 			}
 		}];
 
 		//controller pour supprimer un quiz avec une modal
-		$scope.modalClearQuizCtrl = ["$scope", "$rootScope", "$modalInstance", "QuizsApi", function($scope, $rootScope, $modalInstance, QuizsApi){
+		$scope.modalClearQuizCtrl = ["$scope", "$rootScope", "$uibModalInstance", "QuizsApi", function($scope, $rootScope, $uibModalInstance, QuizsApi){
 			$scope.title = "Supprimer un quiz";
 			$scope.message = "Êtes vous sûr de vouloir supprimer ce quiz ?";
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){
 				QuizsApi.delete({id: $rootScope.deleteQuizId}).$promise.then(function(response){
@@ -123,7 +123,7 @@ angular.module('quizsApp')
 						$rootScope.quizs = _.reject($rootScope.quizs, function(quiz){
 							return quiz.id === $rootScope.deleteQuizId;
 						});
-						$modalInstance.close();					
+						$uibModalInstance.close();					
 					};
 				});			
 			}

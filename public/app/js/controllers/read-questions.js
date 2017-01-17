@@ -181,7 +181,7 @@ angular.module('quizsApp')
 
 	// -------------- Controllers Modal des questions --------------- //
 		//controller pour afficher les médias avec une modal
-		$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalDisplayMediaCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.title = $rootScope.media.title;
 			$scope.file = function() {
 		    if ($rootScope.media.type != "video") {
@@ -193,16 +193,16 @@ angular.module('quizsApp')
 			$scope.mime = $rootScope.media.mime;
 			$scope.type = $rootScope.media.type.split("/")[0];
 			$scope.close = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 		}];
 
 		//controller pour quitter le quiz avec une modal
-		$scope.modalConfirmQuitCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalConfirmQuitCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.title = "Quitter le quiz";
 			$scope.message = "Êtes vous sûr de vouloir quitter le quiz ?";
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){	
 				AnswersApi.create({session_id: $stateParams.session_id, question: $rootScope.questionToQuit, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
@@ -215,7 +215,7 @@ angular.module('quizsApp')
 			 			$state.go('quizs.home');				
 					};
 				});			
-				$modalInstance.close();					
+				$uibModalInstance.close();					
 			}
 		}];
 }]);

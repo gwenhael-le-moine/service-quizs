@@ -31,14 +31,14 @@ angular.module('quizsApp')
 	}
 	// -------------- Controllers Modal des quizs --------------- //
  		//controller pour changer le titre du quiz avec une modal
- 		$scope.modalChangeTitleQuizCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+ 		$scope.modalChangeTitleQuizCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
  			$scope.title = "Modifier le titre du quiz";
  			$scope.text = $rootScope.quiz.title;
  			$scope.error = "Le titre du quiz ne peux pas être vide !";
  			$scope.placeholder = "Insérez un titre pour votre quiz."
  			$scope.required = false;
  			$scope.no = function(){
- 				$modalInstance.close();
+ 				$uibModalInstance.close();
  			}
  			$scope.ok = function(){
  				$scope.validate = true;
@@ -49,7 +49,7 @@ angular.module('quizsApp')
  						} else {
  							Notifications.add(response.error.msg, 'error');
  						};
- 						$modalInstance.close();					
+ 						$uibModalInstance.close();					
  					});
  				};
  			}
