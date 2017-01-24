@@ -76,7 +76,7 @@ angular.module('quizsApp')
       'transform': transform,
     })
     .width(length)
-    .offset({left: x1, top: y1});
+    .offset({left: x1, top: Math.min(y1,y2)});
     $('#clearLine'+lineId).css({
       'transform': transformClearLine,
       'left': lengthClearLine

@@ -1,7 +1,0 @@
-'use strict';
-
-angular.module('quizsApp')
-//constante non utilisé mais par défaut dans la startbox, servira plus tard.
-.constant('LACLASSE_PATH', 'https://v3dev.laclasse.com')
-//constante du chemin de l'application
-.constant('APP_PATH', 'http://localhost:9292/quizs');

@@ -116,12 +116,23 @@ angular.module('quizsApp')
 			$state.go('quizs.read_questions', {quiz_id: $rootScope.quiz.id, id: preId, session_id: $stateParams.session_id});
 		};
 	}
-	//fonction permettant de quitter 
 	$scope.quit = function(){
 		$rootScope.questionToQuit = angular.copy($scope.question);
+		Modal.open($scope.modalConfirmCloseCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
+}
+
+	$scope.close = function(){
+			$rootScope.questionToQuit = angular.copy($scope.question);
+		Modal.open($scope.modalConfirmCloseCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
+		
+	}
+
+	$scope.valider = function(){
+			$rootScope.questionToQuit = angular.copy($scope.question);
 		Modal.open($scope.modalConfirmQuitCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
 	}
 
+	
 	// ------- Fonction sur la ligne de connection pour les associations ------- /
 
 	// Fonction qui enregistre le premier point de connection de la ligne, 
@@ -197,10 +208,31 @@ angular.module('quizsApp')
 			}
 		}];
 
-		//controller pour quitter le quiz avec une modal
-		$scope.modalConfirmQuitCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
+
+
+
+					//controller pour quitter le quitter avec une modal
+		$scope.modalConfirmCloseCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.title = "Quitter le quiz";
 			$scope.message = "Êtes vous sûr de vouloir quitter le quiz ?";
+			$scope.no = function(){
+				$uibModalInstance.close();
+			}
+			$scope.ok = function(){	
+				AnswersApi.create({session_id: $stateParams.session_id, question: $rootScope.questionToQuit, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+				
+			 			$state.go('quizs.home');				
+				
+				});			
+				$uibModalInstance.close();					
+			}
+		}];
+
+
+//controller pour valider le quiz avec une modal
+		$scope.modalConfirmQuitCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
+			$scope.title = "Valider le quiz";
+			$scope.message = "Êtes vous sûr de vouloir valider le quiz ?";
 			$scope.no = function(){
 				$uibModalInstance.close();
 			}
@@ -209,13 +241,13 @@ angular.module('quizsApp')
 					if ($rootScope.quiz.opt_show_correct == 'at_end') {
 						$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, session_id: $stateParams.session_id});
 					} else {
-						if (Users.getCurrentUser().roleMaxPriority > 0) {
-							SessionsApi.delete({ids:[$stateParams.session_id]});					
-						};
 			 			$state.go('quizs.home');				
 					};
 				});			
 				$uibModalInstance.close();					
 			}
-		}];
-}]);
+}];
+
+	
+}])
+

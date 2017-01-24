@@ -72,13 +72,17 @@ angular.module('quizsApp')
 				$state.go('quizs.create_questions', {quiz_id: $rootScope.quiz.id});
 			}
 
-			// retour vers la page d'accueil
+			// à revoir
 			$scope.back = function(){
 				if ($rootScope.quiz.title) {
 					$state.go('quizs.home');					
 				} else {
 					Modal.open('ModalChangeTitleQuizCtrl', APP_PATH+'/app/views/modals/add-change-object.html', 'md');
 				};
+			}
+			// retour vers la page d'accueil
+			$scope.close = function(){
+			$state.go('quizs.home');
 			}
 
 			// fonction qui met à jour une question

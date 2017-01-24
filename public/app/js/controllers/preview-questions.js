@@ -74,7 +74,11 @@ angular.module('quizsApp')
   		//et inversement dans la proposition de droite
   		$scope.question.answers[$scope.connect2.id].rightProposition.solutions.push($scope.connect1.id);
   		//on créé la ligne
-  		Line.create('previewLinesId', $scope.connect1.id+"_"+$scope.connect2.id, $scope.connect1.x1, $scope.connect1.y1, $scope.connect2.x2, $scope.connect2.y2, $scope);
+  		if ( $scope.connect2.y2 > $scope.connect1.y1 ) {
+	  		Line.create('previewLinesId', $scope.connect1.id+"_"+$scope.connect2.id, $scope.connect2.x2, $scope.connect2.y2, $scope.connect1.x1, $scope.connect1.y1, $scope);
+  		} else {
+	  		Line.create('previewLinesId', $scope.connect1.id+"_"+$scope.connect2.id, $scope.connect1.x1, $scope.connect1.y1, $scope.connect2.x2, $scope.connect2.y2, $scope);
+  		}
   		//on réinitialise les deux extrémités afin de pouvoir recréer une ligne 
 	    $scope.connect1 = {id: null, x1: null, y1: null};
 	    $scope.connect2 = {id: null, x2: null, y2: null}; 			

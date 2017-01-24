@@ -13,17 +13,15 @@ class MediasApi < Grape::API
   end
   post '/upload' do
     begin
-      new_filename = params[:file][:tempfile].path + '_' + params[:file][:filename]
+      new_filename = MEDIA_DIR + params[:file][:filename]
       puts new_filename.inspect
-      File.rename params[:file][:tempfile], new_filename
-
+      FileUtils.cp params[:file][:tempfile], new_filename
+      
       my_file = File.open(new_filename)
-
-      File.delete new_filename
-
+      
       {file: my_file, id: params[:id], type: params[:type]}
     rescue
-      error!("Impossible d'uploder le document", 404)
+     error!("Impossible d'uploder le document", 404)
     end
   end
 end

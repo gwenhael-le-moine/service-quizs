@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="content-language" content="fr">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Quizs Laclasse.com">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="img/favicon.png">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+
+        <title>Laclasse.com- Quiz</title>
+
+        <link href="<%= APP_PATH %>/app/node_modules/bootstrap/dist/css/bootstrap.min.css?v=<%=APP_VERSION%>" rel="stylesheet" />
+        <link href="<%= APP_PATH %>/app/node_modules/laclasse-common-client/css/damier.css?v=<%=APP_VERSION%>" rel="stylesheet" />
+        <link href="<%= APP_PATH %>/app/node_modules/laclasse-common-client/css/flippable.css?v=<%=APP_VERSION%>" rel="stylesheet" />
+        <link href="<%= APP_PATH %>/app/node_modules/laclasse-common-client/css/floating-buttons.css?v=<%=APP_VERSION%>" rel="stylesheet" />
+        <link href="<%= APP_PATH %>/app/node_modules/laclasse-common-client/css/main.css?v=<%=APP_VERSION%>" rel="stylesheet" />
+        <link href="<%= APP_PATH %>/app/node_modules/ng-sortable/dist/ng-sortable.css?v=<%=APP_VERSION%>" rel="stylesheet" />
+
+        <link href="<%= APP_PATH %>/app/css/erreur.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/quiz.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/actions.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/params.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/create-update-questions.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/questions.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/marking-questions.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/start-quiz.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/main-home.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/aside-home.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/aside-publish.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/main-publish.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/sessions.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/growl-notifications.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <link href="<%= APP_PATH %>/app/css/modals.css?v=<%=APP_VERSION%>" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <%= yield %>
+
+
+        <!-- Bootstrap core JavaScript
+             ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="<%= APP_PATH %>/app/node_modules/jquery/dist/jquery.min.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/jquery-ui/build/release.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/underscore/underscore-min.js?v=<%=APP_VERSION%>"></script>
+
+        <script src="<%= APP_PATH %>/app/node_modules/angular/angular.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-i18n/angular-locale_fr-fr.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-resource/angular-resource.min.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-ui-router/release/angular-ui-router.min.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-animate/angular-animate.min.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/ng-file-upload/dist/ng-file-upload.min.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-ui-sortable/dist/sortable.min.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/angular-growl-notifications/dist/angular-growl-notifications.min.js?v=<%=APP_VERSION%>"></script>
+        <script src="<%= APP_PATH %>/app/node_modules/ng-sortable/dist/ng-sortable.min.js?v=<%=APP_VERSION%>"></script>
+
+        <script src="<%= APP_PATH %>/app/js/app.js"></script>
+        <script src="<%= APP_PATH %>/app/js/route.js"></script>
+        <script src="<%= APP_PATH %>/app/js/defaults.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/erreur.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/aside-home.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/main-home.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/quiz.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/params.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/create-update-questions.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/preview-questions.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/marking-questions.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/start-quiz.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/read-questions.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/main-publish.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/aside-publish.js"></script>
+        <script src="<%= APP_PATH %>/app/js/controllers/sessions.js"></script>
+        <script src="<%= APP_PATH %>/app/js/filters/filters.js"></script>
+        <script src="<%= APP_PATH %>/app/js/services/services.js"></script>
+        <script src="<%= APP_PATH %>/app/js/services/users.js"></script>
+        <script src="<%= APP_PATH %>/app/js/services/quizs.js"></script>
+        <script src="<%= APP_PATH %>/app/js/services/questions.js"></script>
+        <script src="<%= APP_PATH %>/app/js/services/sessions.js"></script>
+        <script src="<%= APP_PATH %>/app/js/services/answers.js"></script>
+        <script src="<%= APP_PATH %>/app/js/services/publications.js"></script>
+        <script src="<%= APP_PATH %>/app/js/directives/directives.js"></script>
+
+        <script>
+         angular.module( 'quizsApp' )
+                .constant( 'LACLASSE_PATH', '<%=URL_ENT%>' )
+                .constant( 'APP_PATH', '<%=APP_PATH%>' );
+        </script>
+    </body>
+</html>

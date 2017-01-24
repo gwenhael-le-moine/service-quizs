@@ -41,6 +41,11 @@ angular.module('quizsApp')
   	}
   };
 
+$scope.openFileWindow = function () {
+  angular.element( document.querySelector( '#fileUpload' ) ).trigger('click');
+  console.log('triggering click');
+};
+
   // ---------- Fonctions général pour la question ---------//
   // Fonction qui change le type de la question
 	$rootScope.changeType = function(type){
@@ -94,6 +99,7 @@ angular.module('quizsApp')
 	$scope.openFileUpload = function(id){
 		angular.element($('#'+id)).click();
 	};
+	
 	// fonctions permettant d'importer un medium pour chaque type de réponse et question
 	$rootScope.uploadQuestionMedia = function(file, link){
 		if ( file ) $scope.errorFileQuestion = checkErrorsFile(file);
@@ -405,8 +411,13 @@ angular.module('quizsApp')
 			$rootScope.question.answers = $rootScope.suggestions[$rootScope.question.type];
 			$rootScope.question.leurres = $rootScope.suggestions.leurres;
   			$rootScope.quiz.questions[0] = $rootScope.question;
+
+console.log($rootScope.quiz)
+
  				if ($rootScope.modeModif) {
- 					QuestionsApi.update({quiz: $rootScope.quiz});
+ 					QuestionsApi.update({quiz: $rootScope.quiz}).$promise.then(function(response){
+  					uploadMedia(response.question_updated);
+  				});
  				} else {
   				QuestionsApi.create({quiz: $rootScope.quiz}).$promise.then(function(response){
   					uploadMedia(response.question_created);
@@ -425,11 +436,11 @@ angular.module('quizsApp')
 
   // -------------- Controllers Modal des questions --------------- //
 		//controller pour effacer les données de l'association avec une modal
-		$scope.modalConfirmCleanAssCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalConfirmCleanAssCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.title = "Effacer les données";
 			$scope.message = "Êtes vous sûr de vouloir effacer les propositions, solutions liées et médias de l'association ?";
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){	
 				//on remet l'association à son état initiale
@@ -443,26 +454,26 @@ angular.module('quizsApp')
 				};  		
 				//on supprime les liens déjà créés
 				$(".line").remove();			
-				$modalInstance.close();					
+				$uibModalInstance.close();					
 			}
 		}];
 		//controller pour effacer les données de de la question avec une modal
-		$scope.modalConfirmCleanQuestionCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalConfirmCleanQuestionCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.title = "Effacer les données";
 			$scope.message = "Êtes vous sûr de vouloir effacer toutes les données de la questions ?";
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){				
-				$modalInstance.close();					
+				$uibModalInstance.close();					
 			}
 		}];
 		//controller pour effacer les données de l'association lorsque l'on change le texte après l'avoir valider avec une modal
-		$scope.modalConfirmModifSuggestionsCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalConfirmModifSuggestionsCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.title = "Modifier le texte";
 			$scope.message = "Modifier le texte, vous fera perdre tous vos liens ! \n Êtes vous sûr de vouloir le modifier ?";
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){
 				//on supprime les solutions
@@ -473,11 +484,11 @@ angular.module('quizsApp')
 			  //on supprime les lignes
 				$(".line").remove();
 				$rootScope.validateAss = !$rootScope.validateAss;				
-				$modalInstance.close();					
+				$uibModalInstance.close();					
 			}
 		}];
 		//controller pour ajouter un leurre dans la liste avec une modal
-		$scope.modalAddLeurreCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalAddLeurreCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.title = "Ajouter un leurre";
 			$scope.placeholder = "Insérer le leurre";
 			$scope.maxLength = 100;
@@ -485,7 +496,7 @@ angular.module('quizsApp')
 			$scope.error = "Le leurre ne peut pas être vide !";
 			$scope.required = false;
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){
 				$scope.validate = true;
@@ -494,24 +505,24 @@ angular.module('quizsApp')
 					var nb = parseInt($rootScope.idLeurreTmp.split('_')[1]);
 					$rootScope.idLeurreTmp = $rootScope.idLeurreTmp.split('_')[0] + "_" + ++nb;
 					$rootScope.suggestions.leurres.push({id: $rootScope.idLeurreTmp, libelle: $scope.text});
-					$modalInstance.close();					
+					$uibModalInstance.close();					
 				};				
 			}
 		}];
 		//controller pour effacer toute la quetsion avec une modal
-		$scope.modalClearQuestionCtrl = ["$scope", "$rootScope", "$modalInstance", "Questions", function($scope, $rootScope, $modalInstance, Questions){
+		$scope.modalClearQuestionCtrl = ["$scope", "$rootScope", "$uibModalInstance", "Questions", function($scope, $rootScope, $uibModalInstance, Questions){
 			$scope.title = "Annuler la question";
 			$scope.message = "Êtes vous sûr de vouloir annuler ?";
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){
 				$state.go('quizs.params', {quiz_id: $rootScope.quiz.id});			
-				$modalInstance.close();					
+				$uibModalInstance.close();					
 			}
 		}];
 		//controller pour ajouter un line video avec une modal
-		$scope.modalAddLinkCtrl = ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance){
+		$scope.modalAddLinkCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.validate = false;
 			$scope.title = "Ajout lien vidéo";
 			$scope.placeholderName = "Insérer le nom de la vidéo";
@@ -520,7 +531,7 @@ angular.module('quizsApp')
 			$scope.text = "";
 			$scope.error = "Le champs ne peut être vide !";
 			$scope.no = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 			$scope.ok = function(){
 				$scope.validate = true;
@@ -543,7 +554,7 @@ angular.module('quizsApp')
 							$rootScope.uploadSuggestionASSMedia(null, $rootScope.indexSuggestion, "right", link)
 							break;
 					}
-					$modalInstance.close();										
+					$uibModalInstance.close();										
 				};
 			}
 		}];
