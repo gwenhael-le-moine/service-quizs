@@ -153,11 +153,9 @@ id="previewLinesId">
 			</li>
 			<li role="menuitem" 
 			ng-repeat="option in selectOptions | orderBy:predicate:reverse" 
-			ng-click="changeSolution($parent.$index, option.id, option.libelle)">
-			<div ng-if="option.leurre_id-answer.id==0||option.id-answer.id==1">
+			ng-click="changeSolution($parent.$index, option.id, option.libelle)"
+			ng-if="option.leurre_id-answer.id==0||option.id-answer.id==1">
 			<a>{{option.libelle}}</a>
-			</div>
-		
 		</li>
 		</ul>	
 	</div>

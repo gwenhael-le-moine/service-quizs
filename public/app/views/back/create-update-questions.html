@@ -387,7 +387,7 @@
 		<div 	ng-if="types.tat" 
 					class="row content">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tat">
-				<span class="texte-particulier">Réponses :</span>
+				<span class="texte-particulier">Texte :</span>
 				<div>
 					<p class="info img"></p>					
 				</div>
@@ -403,39 +403,36 @@
 					</span>
 				</div>
 			</div>
+			
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 reponse-tat">
-				<div class="row">
+				<div class="row" ng-repeat="suggestion in suggestions.tat">
 					<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 titre petit center">
 						<span>TEXTE</span>
 					</div>
-					<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 titre petit center">
-						<span>SOLUTION</span>
-					</div>
-					<!-- <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 titre petit joindre">
-						<span>JOINDRE</span>
-					</div> -->
-				</div>
-				<div 	class="row" 
-							ng-repeat="suggestion in suggestions.tat">
-					<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 proposition">
-						<input 	type="text" 
-										class="texte" 
-										maxlength="2000" 
-										ng-model="suggestion.text"/>
-					</div>
-					<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 solution">
+					<div class="textarea">
+							<textarea class="texte" 
+												maxlength="2000" 
+												placeholder=""
+												ng-model="suggestion.text">
+							</textarea>
+						</div>
+					<button	id="questionMediaId"
+										ng-hide="true"
+										type="file"
+										accept="image/*,audio/*"
+										ngf-capture="capture"
+										ngf-pattern="patternFile"
+										ngf-max-size="maxFileSize"
+										ngf-select="uploadQuestionMedia($file)">
+						</button>
+						<div class="col-xs-6 col-sm-4 col-md-5 col-lg-5 titre petit center">
+						<BR><span>SOLUTION</span>
+					
 						<input 	type="text" 
 										class="texte" 
 										maxlength="2000" 
 										ng-model="suggestion.solution.libelle"/>
 					</div>
-					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 joindre">
-
-							<div class="row add-leurre-title">
-								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 titre petit center">
-									<span>LEURRES</span>
-								</div>
-							</div>
 							<div class="add-leurre">
 							<p 	class="add-media img" 
 							ng-click="addLeurre($index)">
@@ -444,53 +441,34 @@
 								Ajouter des leurres
 							</label>
 							</div>
+						
+							<p 	class="add-media img" 
+									ng-click="openFileUpload('questionMediaId')">
+							</p>
+							<label 	class="label-media texte-secondaire-italic" 
+											ng-class="{'not-empty': question.media.file && question.media.type != 'video'}">
+								{{question.media.file != null && question.media.type != "video" ? question.media.file.name : placeholderMedia}}
+							</label>
+							<p 	class="add-link img" 
+									ng-click="openAddLink('question')">
+							</p>
+							<label 	class="label-media texte-secondaire-italic" 
+											ng-class="{'not-empty': question.media.file && question.media.type== 'video'}">
+								{{question.media.file != null && question.media.type == "video" ? question.media.file.name : placeholderLink}}
+							</label>
 							<div 	class="leurres" 
-									ng-repeat="leurre in suggestions.leurres">
+									ng-repeat="leurre in suggestions.leurres"
+									ng-if="leurre.attribue==$parent.$index">
 								<p 	class="deleted img" 
 									ng-click="deleteLeurre(leurre.id)">
 								</p>
 								<label>{{leurre.libelle}}</label>
 							</div>
-
 						<div>
-							<button ng-hide="true" 
-											id='joindretat{{$index}}' 
-											type="file"
-											accept="image/*,audio/*"
-											ngf-capture="capture"
-											ngf-pattern="patternFile"
-											ngf-max-size="maxFileSize" 
-											ngf-select="uploadSuggestionTATMedia($file, $index)">
-							</button>
-						</div>
-
-						<div>
-							<p 	ng-if="!suggestion.joindre.file" 
-									class="add-media img" 
-									ng-click="openFileUpload('joindretat'+$index)"
-									title="Ajouter une image ou un fichier audio">
-							</p>
-							<p 	ng-if="!suggestion.joindre.file" 
-									class="add-link img" 
-									ng-click="openAddLink('tat', $index)"
-									title="Intégrer une video web">
-							</p>
-							<label 	ng-if="!suggestion.joindre.file" 
-											class="label-media texte-secondaire-italic mobile">
-								Joindre un fichier
-							</label>
-							<p 	ng-if="suggestion.joindre.file" 
-									class="delete-media img" 
-									ng-click="suggestion.joindre.file = null">
-							</p>
-							<label 	ng-if="suggestion.joindre.file" 
-											class="label-media texte-secondaire-italic not-empty">
-								{{suggestion.joindre.file.name}}
-							</label>
-						</div>
+								
 						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileTAT[$index]">{{errorFileTAT[$index]}}</i>
 					</div>
-				</div>
+					</div>
 				<div class="add-tat">
 					<p 	class="add-media img" 
 							ng-click="addTAT()">
@@ -499,7 +477,6 @@
 						Ajouter un champs texte + solution
 					</label>
 				</div>
-			</div>
 			<div ng-show="showBackLeurre" class="back-leurres">
 				<div class="bleu">
 					<span ng-click="backLeurre()" class="glyphicon glyphicon-share-alt"></span>

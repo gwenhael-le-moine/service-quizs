@@ -57,19 +57,7 @@ module Lib
           position: 'R',
           text: leurre[:libelle],
           leurre_id: quiz[:questions][0][:answers][leurre[:attribue]].id   
-          # leurre_id: leurre[:id]  
         }
-         puts("*****************answers********************")
-        puts(quiz[:questions][0][:answers][0].id)
-        puts("0.1")
-        puts(quiz[:questions][0][:answers][1].id)
-        puts("*************************************")
-      
-      
-         puts("***********leurres******************")
-         puts(leurre[:libelle])
-         puts(leurre[:id])
-        puts(leurre[:attribue])
         suggestion = SuggestionTAT.new(params_leurre)
         leurre[:id] = suggestion.create.id
       end

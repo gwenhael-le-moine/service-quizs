@@ -333,9 +333,9 @@ $scope.openFileWindow = function () {
 	// Ajoute un leurre avec une modal
 	$scope.addLeurre = function(indexOfleurre){
 		$scope.indexOfleurre= indexOfleurre;
-		console.log(indexOfleurre);
 		Modal.openaddleure($scope.modalAddLeurreCtrl, APP_PATH+'/app/views/modals/add-change-object.html', 'md', indexOfleurre);
 	}
+
 	// Supprime un leurre par rapport à son Id
 	$scope.deleteLeurre = function(id){
 		$rootScope.suggestions.leurres = _.reject($rootScope.suggestions.leurres, function(leurre){
@@ -414,8 +414,6 @@ $scope.openFileWindow = function () {
 			$rootScope.question.answers = $rootScope.suggestions[$rootScope.question.type];
 			$rootScope.question.leurres = $rootScope.suggestions.leurres;
   			$rootScope.quiz.questions[0] = $rootScope.question;
-
-			console.log($rootScope.quiz)
 
  				if ($rootScope.modeModif) {
  					QuestionsApi.update({quiz: $rootScope.quiz}).$promise.then(function(response){
@@ -498,11 +496,6 @@ $scope.openFileWindow = function () {
 			$scope.maxLength = 100;
 			$scope.text = "";
 			$scope.index = indexOfleurre;
-			console.log("modal")
-			console.log(indexOfleurre);
-			console.log("index")
-			console.log($scope.index);
-
 			$scope.error = "Le leurre ne peut pas être vide !";
 			$scope.required = false
 			$scope.no = function(){
