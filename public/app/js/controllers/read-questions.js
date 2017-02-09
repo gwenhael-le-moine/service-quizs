@@ -238,16 +238,17 @@ angular.module('quizsApp')
 			}
 			$scope.ok = function(){	
 				AnswersApi.create({session_id: $stateParams.session_id, question: $rootScope.questionToQuit, quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
-					if ($rootScope.quiz.opt_show_correct == 'at_end') {
-						$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, session_id: $stateParams.session_id});
+				if ($rootScope.quiz.opt_show_correct == 'none' && $rootScope.quiz.opt_show_score == 'none' ) {
+						$state.go('quizs.home');
 					} else {
-			 			$state.go('quizs.home');				
+						$state.go('quizs.marking_questions', {quiz_id: $rootScope.quiz.id, session_id: $stateParams.session_id});			
 					};
+
 				});			
 				$uibModalInstance.close();					
 			}
 }];
 
-	
+$scope.predicate = '-libelle';	
 }])
 

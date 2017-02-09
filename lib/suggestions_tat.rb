@@ -13,10 +13,13 @@ module Lib
       answers = []
       leurres = []
       solutions = []
+      test = []
       # On récupère toutes les suggestions (textes, solutions et leurres)
       suggestions = SuggestionTAT.new(question_id: question_id)
+      puts "TEST: HELLO\n"
       suggestions.find_all.each do |suggestion|
         # Si c'est la proposition de gauche (le texte)
+         puts (suggestions)
         if suggestion.position == 'L'
           # On récupère la proposition de gauche
           result = get_left_suggestion(suggestion, read, marking, session_id, solutions)
@@ -33,6 +36,8 @@ module Lib
           end
         end
       end
+       puts("***************solutions***********")
+         puts(solutions)
       {answers: answers, leurres: leurres, solutions: solutions}
     end
 
@@ -41,7 +46,7 @@ module Lib
         params_suggestion = {
           question_id: quiz[:questions][0][:id],
           position: 'L',
-          text: answer[:text]
+          text: answer[:text],
         }
         create_answer(answer, params_suggestion)
       end
@@ -50,8 +55,21 @@ module Lib
         params_leurre = {
           question_id: quiz[:questions][0][:id],
           position: 'R',
-          text: leurre[:libelle]
+          text: leurre[:libelle],
+          leurre_id: quiz[:questions][0][:answers][leurre[:attribue]].id   
+          # leurre_id: leurre[:id]  
         }
+         puts("*****************answers********************")
+        puts(quiz[:questions][0][:answers][0].id)
+        puts("0.1")
+        puts(quiz[:questions][0][:answers][1].id)
+        puts("*************************************")
+      
+      
+         puts("***********leurres******************")
+         puts(leurre[:libelle])
+         puts(leurre[:id])
+        puts(leurre[:attribue])
         suggestion = SuggestionTAT.new(params_leurre)
         leurre[:id] = suggestion.create.id
       end
@@ -159,10 +177,13 @@ module Lib
     def format_right_suggestion(suggestion)
       {
         id: suggestion.id,
-        libelle: suggestion.text
+        libelle: suggestion.text,
+        leurre_id: suggestion.leurre_id,
+        #attribue: suggestion.attribue,
       }
     end
 
+   
     def create_answer(answer, params_suggestion)
       # création de la suggestion qcm
       suggestion = SuggestionTAT.new(params_suggestion)
@@ -181,7 +202,9 @@ module Lib
         solution.create
       end
       answer
-    end
+end
+
+
 
     # Mise à jour d'une suggestion/solution TAT
     def update_answer(answer, params_suggestion, current_suggestion_ids)

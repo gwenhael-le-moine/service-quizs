@@ -127,7 +127,7 @@ angular.module('quizsApp')
 					if (opts.correction.atEnd && opts.canRewind.no && opts.score.atEnd && opts.canRedo.no) {
 						$scope.changeRadioButton('modes', 'exercise', true);
 					};
-					if (opts.correction.none && opts.canRewind.no && opts.score.none && opts.canRedo.no) {
+					if (opts.correction.none && opts.canRewind.no && opts.score.atEnd && opts.canRedo.no) {
 						$scope.changeRadioButton('modes', 'assessment', true);
 					};
 				};

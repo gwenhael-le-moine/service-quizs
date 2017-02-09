@@ -129,7 +129,6 @@ id="previewLinesId">
 </div>
 <!---------------------- FIN PARTIE ASS   ---------------------->
 <!---------------------- DEBUT PARTIE TAT ---------------------->
-<!---------------------- DEBUT PARTIE TAT ---------------------->
 <div ng-if="question.type=='tat'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tat border-bottom">
 	<div class="answers" ng-repeat="answer in question.answers">
 		<span class="texte">{{answer.text}}</span>
@@ -137,28 +136,31 @@ id="previewLinesId">
 			<p 	ng-if="answer.joindre.type=='image' || answer.joindre.type=='video'" 
 			class="media-image img"
 			ng-click="displayMedia(answer.text, answer.joindre.file.url, answer.joindre.type, answer.joindre.mime)">
-		</p>
-		<p 	ng-if="answer.joindre.type=='audio'" 
-		class="media-son img" 
-		ng-click="play(answer.joindre.file.url)">
-	</p>							
-</div>
-<ul uib-dropdown  class="btn-group texte">
-    <a id="select{{$index}}" ng-hide="$index == question.answers.length-1" class="btn-group texte" uib-dropdown-toggle>{{answer.currentSelectSolution}}<span class="caret"></span></a>
-   <ul uib-dropdown-menu>
-		<li ui-sref="a">{{answer.currentSelectSolution}}</li>
-		<li ng-if="answer.currentSelectSolution !== '--------'" 
-		role="menuitem"
-		ng-click="changeSolution($index, -1, '')">
-		<a>--------</a> 
-	</li>
-	<li role="menuitem" 
-	ng-repeat="option in selectOptions"
-	ng-click="changeSolution($parent.$index, option.id, option.libelle)">
-	<a>{{option.libelle}}</a>	
-</ul>
-</ul>
-</div>
+			</p>
+			<p 	ng-if="answer.joindre.type=='audio'" 
+			class="media-son img" 
+			ng-click="play(answer.joindre.file.url)">
+			</p>							
+		</div>
+		<ul uib-dropdown  class="btn-group texte">
+  		  <a id="select{{$index}}" ng-hide="$index == question.answers.length-1" class="btn-group texte" uib-dropdown-toggle>{{answer.currentSelectSolution}}<span class="caret"></span></a>
+  		 <ul uib-dropdown-menu>
+			<li ui-sref="a">{{answer.currentSelectSolution}}</li>
+			<li ng-if="answer.currentSelectSolution !== '--------'" 
+				role="menuitem"
+				ng-click="changeSolution($index, -1, '')">
+				<a>--------</a> 
+			</li>
+			<li role="menuitem" 
+			ng-repeat="option in selectOptions | orderBy:predicate:reverse" 
+			ng-click="changeSolution($parent.$index, option.id, option.libelle)">
+			<div ng-if="option.leurre_id-answer.id==0||option.id-answer.id==1">
+			<a>{{option.libelle}}</a>
+			</div>
+		
+		</li>
+		</ul>	
+	</div>
 </div>
 
 <!---------------------- FIN PARTIE TAT   ---------------------->

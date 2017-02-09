@@ -1,9 +1,10 @@
 <div class="row marking">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<div ng-hide= "quiz.opt_show_correct == 'none'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="row content title-action">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<span class="titre">{{actionTitle | uppercase}}</span>			
 			</div>
+
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 marking-infos">
 				<p class="correct-question img"></p>
 				<span class="texte-particulier correct">Justes</span>
@@ -196,6 +197,7 @@
 			<!---------------------- FIN PARTIE TAT   ---------------------->
 		</div>
 	</div>
+	<div ng-hide= "quiz.opt_show_score == 'none'">
 	<div class="col-xs-4 col-sm-2 col-md-3 col-lg-3 score-title">
 		<span class="titre">SCORE :</span>
 	</div>
@@ -215,6 +217,7 @@
 				<p class="score-{{session.score | scorecss}} img"></p>							
 			</div>
 		</div>
+	</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 quit-marking">
 		<button ng-if="preQuestion()"

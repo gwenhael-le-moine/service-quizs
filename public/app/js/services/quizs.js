@@ -184,7 +184,8 @@ angular.module('quizsApp')
         opts.canRewind.yes = false;
         opts.canRewind.no = true;
         opts.score.afterEach = false;
-        opts.score.none = true;
+        opts.score.none = false;
+        opts.score.atEnd= true;
         opts.canRedo.yes = false;
         opts.canRedo.no = true;
         break;

@@ -121,6 +121,7 @@ class SuggestionTAT < Suggestion
     @question_id = new_question_id
     @text = suggestion_source.text
     @order = suggestion_source.order
+    # @leurre_id = suggestion_source.leurre_id
     create
   rescue => err
     raise_err err, 'erreur lors du clonage de la suggestion solution de droite'

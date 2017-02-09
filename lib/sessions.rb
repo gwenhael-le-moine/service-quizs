@@ -72,6 +72,8 @@ module Lib
     rescue => err
       LOGGER.error "Impossible de récupérer toutes les sessions de l'utilisateur courant ! message de l'erreur raise: " + err.message + err.backtrace.inspect
       {sessions_found: [], error: {msg: 'Impossible de récupérer les sessions !'}}
+      console.log(err.message)
+      console.log(err.backtrace.inspect)
     end
 
     def self.exist?(quiz_id)
@@ -117,7 +119,7 @@ module Lib
       sessions_found = []
       sessions = Session.new(user_id: user[:uid], user_type: 'ELV', quiz_id: quiz_id)
       sessions = sessions.find_all.order(Sequel.desc(:updated_at))
-      sessions = sessions.limit(5) if quiz_id.nil?
+      sessions = sessions.limit(100) if quiz_id.nil?
       sessions.each do |session|
         sessions_found.push(format_get_session(session, fullname, user[:user_detailed]['classes'][0]))
       end
@@ -139,26 +141,26 @@ module Lib
     end
 
     def get_all_sessions_prof(user, quiz_id = nil)
-      sessions_found = []
-      if quiz_id
-        quiz_ids = [quiz_id]
-      else
-        quiz_ids = Quiz.new(user_id: user[:uid])
-        quiz_ids = quiz_ids.find_all.select(:id).map(:id)
-      end
-      sessions = Session.new(user_id: user[:uid])
-      sessions = sessions.find_all_elv_of_prof(quiz_ids)
-      sessions = sessions.limit(5) if quiz_id.nil?
-      uids = sessions.select(:user_id).distinct(:user_id).map(:user_id)
-      eleves = get_users(uids)
-      sessions.each do |session|
-        elv = eleves[eleves.index { |s| s['id_ent'] == session.user_id }]
-        classe = get_classe_to_user(elv)
-        fullname = elv['prenom'] + ' ' + elv['nom'].downcase
-        sessions_found.push(format_get_session(session, fullname, classe))
-      end
-      sessions_found
-    end
+     sessions_found = []
+     if quiz_id
+       quiz_ids = [quiz_id]
+     else
+       quiz_ids = Quiz.new(user_id: user[:uid])
+       quiz_ids = quiz_ids.find_all.select(:id).map(:id)
+     end
+     sessions = Session.new(user_id: user[:uid])
+     sessions = sessions.find_all_elv_of_prof(quiz_ids)
+     sessions = sessions.limit(100) if quiz_id.nil?
+     uids = sessions.select(:user_id).distinct(:user_id).map(:user_id)
+     eleves = get_users(uids)
+     sessions.each do |session|
+       elv = eleves[eleves.index { |s| s['id_ent'] == session.user_id }]
+       classe = get_classe_to_user(elv)
+       fullname = elv['prenom'] + ' ' + elv['nom'].downcase
+       sessions_found.push(format_get_session(session, fullname, classe))
+     end
+     sessions_found
+   end
 
     def format_get_session(session, fullname, classe)
       quiz = Quiz.new(id: session.quiz_id)

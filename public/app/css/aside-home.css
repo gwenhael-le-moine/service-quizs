@@ -40,6 +40,12 @@
 	vertical-align: middle;
 	display: inline-block;
 }
+
+.aside-home .shares .share .icons .border, .aside-home .shares .share .icons .play{
+	vertical-align: middle;
+	display: inline-block;
+}
+
 .aside-home .shares .share .icons .border{
 	height: 25px;
 	width: 4px;
@@ -47,7 +53,7 @@
 .aside-home .shares .share .icons .border.img{
 	background-position: center;
 }
-.aside-home .shares .share .icons .duplicate{
+.aside-home .shares .share .icons .duplicate, .aside-home .shares .share .icons .play{
 	height: 20px;
 	width: 20px;
 	cursor: pointer;

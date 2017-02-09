@@ -18,6 +18,7 @@ class Suggestion
     @text = params[:text]
     @order = params[:order]
     @position = params[:position]
+   @leurre_id = params[:leurre_id]
   end
 
   # Création d'une suggestion
@@ -27,6 +28,7 @@ class Suggestion
     suggestion.text = @text
     suggestion.order = @order
     suggestion.position = @position
+    suggestion.leurre_id = @leurre_id
     # On enregistre la suggestion
     suggestion.save
     # on récupère l'id auto généré
@@ -58,6 +60,7 @@ class Suggestion
     suggestion = Suggestions[id: @id]
     suggestion.update(text: @text) unless @text.nil?
     suggestion.update(order: @order) unless @order.nil?
+     suggestion.update(order: @leurre_id) unless @leurre_id.nil?
     suggestion
   rescue => err
     raise_err err, "erreur lors de la mise à jour d'une suggestion"

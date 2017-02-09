@@ -42,8 +42,37 @@ angular.module('quizsApp')
 		});
 	}
 
+
+	 $scope.filterFunction = function(element) {
+    return element.name.match(/^Ma/) ? true : false;
+  };
+
+	 $scope.filterFunctionquiz = function(element) {
+    return quiz.name.title(/^Ma/) ? true : false;
+  };
+
+  	 $scope.filterFunction = function(element) {
+    return element.session.classe.name.match(/^Ma/) ? true : false;
+  };
+
 	//ouvre la session de l'élève
 	$scope.openSession = function(quiz_id, session_id){
 		$state.go('quizs.marking_questions', {quiz_id: quiz_id, session_id: session_id});
 	}
+
+	// joue le quiz
+	$scope.playQuiz = function(quiz_id){
+		$state.go('quizs.start_quiz', {quiz_id: quiz_id});
+	}
+
+  $scope.predicate = '-age';
+  $scope.isNavCollapsed = true;
+  $scope.isCollapsed = false;
+  $scope.isCollapsedHorizontal = false;
+  $scope.isCollapsedsession = false;
+  $scope.isCollapsedsessionHorizontal = false;
+  $scope.isCollapsedpartage = false;
+  $scope.isCollapsedpartageHorizontal = false;
+ 
+
 }]);

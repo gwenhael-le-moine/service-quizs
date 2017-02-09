@@ -411,9 +411,9 @@
 					<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 titre petit center">
 						<span>SOLUTION</span>
 					</div>
-					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 titre petit joindre">
+					<!-- <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 titre petit joindre">
 						<span>JOINDRE</span>
-					</div>
+					</div> -->
 				</div>
 				<div 	class="row" 
 							ng-repeat="suggestion in suggestions.tat">
@@ -430,6 +430,28 @@
 										ng-model="suggestion.solution.libelle"/>
 					</div>
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 joindre">
+
+							<div class="row add-leurre-title">
+								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 titre petit center">
+									<span>LEURRES</span>
+								</div>
+							</div>
+							<div class="add-leurre">
+							<p 	class="add-media img" 
+							ng-click="addLeurre($index)">
+							</p>
+							<label class="label-media texte-secondaire-italic">
+								Ajouter des leurres
+							</label>
+							</div>
+							<div 	class="leurres" 
+									ng-repeat="leurre in suggestions.leurres">
+								<p 	class="deleted img" 
+									ng-click="deleteLeurre(leurre.id)">
+								</p>
+								<label>{{leurre.libelle}}</label>
+							</div>
+
 						<div>
 							<button ng-hide="true" 
 											id='joindretat{{$index}}' 
@@ -441,6 +463,7 @@
 											ngf-select="uploadSuggestionTATMedia($file, $index)">
 							</button>
 						</div>
+
 						<div>
 							<p 	ng-if="!suggestion.joindre.file" 
 									class="add-media img" 
@@ -475,26 +498,6 @@
 					<label class="label-media texte-secondaire-italic">
 						Ajouter un champs texte + solution
 					</label>
-				</div>
-				<div class="row add-leurre-title">
-					<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 titre petit center">
-						<span>LEURRES</span>
-					</div>
-				</div>
-				<div class="add-leurre">
-					<p 	class="add-media img" 
-							ng-click="addLeurre()">
-					</p>
-					<label class="label-media texte-secondaire-italic">
-						Ajouter des leurres
-					</label>
-				</div>
-				<div 	class="leurres" 
-							ng-repeat="leurre in suggestions.leurres">
-					<p 	class="deleted img" 
-							ng-click="deleteLeurre(leurre.id)">
-					</p>
-					<label>{{leurre.libelle}}</label>
 				</div>
 			</div>
 			<div ng-show="showBackLeurre" class="back-leurres">

@@ -53,6 +53,22 @@ angular.module('quizsApp')
     modalInstance.result.then(function () {
     });
   };
+
+  this.openaddleure = function (controller, template, size, indexOfleurre) {
+    console.log("indexOfleurre");
+    console.log(indexOfleurre);
+    var modalInstance = $uibModal.open({
+      templateUrl: template,
+      controller: controller,
+      size: size,
+      resolve: { indexOfleurre: function() { 
+        return indexOfleurre; } }
+
+    });
+
+    modalInstance.result.then(function () {
+    });
+  };
 }])
 .service('Line', ['$rootScope', '$compile', function($rootScope, $compile) {
   // Creation d'une ligne seulement avec un div et du CSS

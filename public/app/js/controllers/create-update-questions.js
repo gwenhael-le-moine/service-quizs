@@ -30,9 +30,9 @@ angular.module('quizsApp')
   $scope.connect2 = {id: null, x2: null, y2: null}
 
   //Variable pour les leurres
-  //id temporaire
+  //id temporairea
   $rootScope.idLeurreTmp = "tmp_0";
-
+  $scope.indexOfleurre =0;
   $rootScope.medias = {
   	answers: {
   		qcm: [],
@@ -326,12 +326,15 @@ $scope.openFileWindow = function () {
 		$rootScope.suggestions.tat.push({
 			text: null,
 			solution: {id: null, libelle: null},
-			joindre: {file: null, type: null}
+			joindre: {file: null, type: null},
+			leurre:{id : null, libelle: null},
 		});
 	}
 	// Ajoute un leurre avec une modal
-	$scope.addLeurre = function(){
-		Modal.open($scope.modalAddLeurreCtrl, APP_PATH+'/app/views/modals/add-change-object.html', 'md');
+	$scope.addLeurre = function(indexOfleurre){
+		$scope.indexOfleurre= indexOfleurre;
+		console.log(indexOfleurre);
+		Modal.openaddleure($scope.modalAddLeurreCtrl, APP_PATH+'/app/views/modals/add-change-object.html', 'md', indexOfleurre);
 	}
 	// Supprime un leurre par rapport à son Id
 	$scope.deleteLeurre = function(id){
@@ -412,7 +415,7 @@ $scope.openFileWindow = function () {
 			$rootScope.question.leurres = $rootScope.suggestions.leurres;
   			$rootScope.quiz.questions[0] = $rootScope.question;
 
-console.log($rootScope.quiz)
+			console.log($rootScope.quiz)
 
  				if ($rootScope.modeModif) {
  					QuestionsApi.update({quiz: $rootScope.quiz}).$promise.then(function(response){
@@ -487,14 +490,21 @@ console.log($rootScope.quiz)
 				$uibModalInstance.close();					
 			}
 		}];
+
 		//controller pour ajouter un leurre dans la liste avec une modal
-		$scope.modalAddLeurreCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
+		$scope.modalAddLeurreCtrl = ["$scope", "$rootScope", "$uibModalInstance" , "indexOfleurre", function($scope, $rootScope, $uibModalInstance, indexOfleurre ){
 			$scope.title = "Ajouter un leurre";
 			$scope.placeholder = "Insérer le leurre";
 			$scope.maxLength = 100;
 			$scope.text = "";
+			$scope.index = indexOfleurre;
+			console.log("modal")
+			console.log(indexOfleurre);
+			console.log("index")
+			console.log($scope.index);
+
 			$scope.error = "Le leurre ne peut pas être vide !";
-			$scope.required = false;
+			$scope.required = false
 			$scope.no = function(){
 				$uibModalInstance.close();
 			}
@@ -504,7 +514,7 @@ console.log($rootScope.quiz)
 				if ($scope.text != null && $scope.text != "") {
 					var nb = parseInt($rootScope.idLeurreTmp.split('_')[1]);
 					$rootScope.idLeurreTmp = $rootScope.idLeurreTmp.split('_')[0] + "_" + ++nb;
-					$rootScope.suggestions.leurres.push({id: $rootScope.idLeurreTmp, libelle: $scope.text});
+					$rootScope.suggestions.leurres.push({id: $rootScope.idLeurreTmp, libelle: $scope.text, attribue:$scope.index});
 					$uibModalInstance.close();					
 				};				
 			}

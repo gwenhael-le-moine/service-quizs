@@ -63,7 +63,7 @@ angular.module('quizsApp')
 	}
 	// supprime le quiz
 	$scope.deleteQuiz = function(quiz_id){
-		$rootScope.deleteQuizId = quiz_id; 
+		$rootScope.deleteQuizId = quiz_id;
 		Modal.open($scope.modalClearQuizCtrl, APP_PATH + '/app/views/modals/confirm.html', 'md');
 	}
 	// duplique le quiz
