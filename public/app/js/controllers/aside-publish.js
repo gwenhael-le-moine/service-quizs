@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('AsidePublishCtrl', ['$scope', '$state', '$stateParams', '$rootScope', '$timeout', 'APP_PATH', 'Notifications', 'Modal', 'PublicationsApi', 'QuizsApi', function($scope, $state, $stateParams, $rootScope, $timeout, APP_PATH, Notifications, Modal, PublicationsApi, QuizsApi) {
+.controller('AsidePublishCtrl', ['$scope', '$state', '$stateParams', '$rootScope', '$timeout', 'APP_PATH', 'Notifications', 'Modal', 'PublicationsApi', 'QuizsApi',function($scope, $state, $stateParams, $rootScope, $timeout, APP_PATH, Notifications, Modal, PublicationsApi, QuizsApi) {
 	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
 		$scope.quiz = response.quiz_found;
 		$scope.quiz.publishes = [];
@@ -17,7 +17,7 @@ angular.module('quizsApp')
 	$scope.toDate = null;
 	//variable de modification de publication
 	$rootScope.deleted = [];
-  $rootScope.added = [];
+  	$rootScope.added = [];
   //ouvre le datepicker correspondant
   $scope.open = function($event, opened) {
     $scope.status[opened] = true;
@@ -61,6 +61,12 @@ angular.module('quizsApp')
 	  		Modal.open($scope.modalConfirmDeletedPubishCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
 	  	} else {
 	  	//s'il y a que des ajouts on publie.
+	  		console.log("*************params publish*********")
+	  		console.log($stateParams.quiz_id)
+	  		console.log("*************$scope.fromDate*********")
+	  		console.log($scope.fromDate)
+	  		console.log("*************$scope.toDate*********")
+	  		console.log($scope.toDate)
 	  		PublicationsApi.modify({quiz_id: $stateParams.quiz_id, added: $rootScope.added, fromDate: $scope.fromDate, toDate: $scope.toDate}).$promise.then(function(response){
 					$state.go('quizs.home');
 	  		});

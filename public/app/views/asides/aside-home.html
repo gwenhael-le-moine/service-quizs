@@ -66,9 +66,9 @@
 				<p class="border img"></p>
 				<p class="duplicate img" tooltip-placement="bottom" uib-tooltip="Dupliquer" ng-click="duplicateQuiz(share.id)"></p>
 			</div>
-			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  icons">
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  icons"  ng-if="roleMax > 0 || ( roleMax == 0 && quiz.canRedo ) || (roleMax == 0 && !quiz.canRedo && !quiz.session)">
 				<p class="border img"></p>
-				<p class="play img" tooltip-placement="bottom" uib-tooltip="Tester" ng-click="playQuiz(quiz.id)"></p>
+				<p class="play img" tooltip-placement="bottom" uib-tooltip="Tester" ng-click="playQuiz(share.id)"></p>
 			</div>								
 			</div>	
 

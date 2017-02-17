@@ -16,10 +16,8 @@ module Lib
       test = []
       # On récupère toutes les suggestions (textes, solutions et leurres)
       suggestions = SuggestionTAT.new(question_id: question_id)
-      puts "TEST: HELLO\n"
       suggestions.find_all.each do |suggestion|
         # Si c'est la proposition de gauche (le texte)
-         puts (suggestions)
         if suggestion.position == 'L'
           # On récupère la proposition de gauche
           result = get_left_suggestion(suggestion, read, marking, session_id, solutions)
@@ -36,8 +34,6 @@ module Lib
           end
         end
       end
-       puts("***************solutions***********")
-         puts(solutions)
       {answers: answers, leurres: leurres, solutions: solutions}
     end
 

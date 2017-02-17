@@ -48,7 +48,13 @@ module Lib
           opt_rand_question_order: quiz.opt_rand_question_order,
           from_date: params[:fromDate],
           to_date: params[:toDate]
+      
         }
+        p params
+          puts("fromDate")
+          puts(params[:fromDate])
+          puts("toDate")
+          puts(params[:toDate].iso8601)
         publication = Publication.new(params_publication)
         publication.create unless publication.exist?
       end

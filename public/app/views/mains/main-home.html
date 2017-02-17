@@ -29,6 +29,7 @@
 					<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
 						<span class="texte" tooltip-placement="bottom" uib-tooltip="{{quiz.title | capitalize}}">{{quiz.title | capitalize | overflow:21}}</span>						
 					</div>
+					
 					<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2 nb-questions">
 						<span ng-if="quiz.nbQuestion == 0" class="texte-secondaire-italic">Aucune question</span>
 						<span ng-if="quiz.nbQuestion == 1" class="texte">1 question</span>
@@ -41,16 +42,22 @@
 					</div>
 					<div ng-if="roleMax > 0" class="col-xs-12 col-sm-3 col-md-5 col-lg-3 publish-in">
 						<span ng-if="quiz.publishes.length == 0" class="texte-secondaire-italic">Aucune publication</span>
-						<span ng-if="$index < 2" ng-repeat="publish in quiz.publishes" class="regroupement texte" tooltip-placement="bottom" uib-tooltip="Affichez les sessions de '{{publish.name | uppercase}}'" ng-click="openSession(quiz.id, publish.rgptId)">{{publish.name | uppercase | overflow:8}}</span>
+						<span ng-if="$index < 2" ng-repeat="publish in quiz.publishes" class="regroupement texte" tooltip-placement="bottom" uib-tooltip="Affichez les sessions de '{{publish.name | uppercase}}'" ng-click="openSession(quiz.id, publish.rgptId)">{{publish.name | uppercase | overflow:6}}	{{publish.toDate | limitTo: 20}}</span>
 						<span ng-if="quiz.publishes.length > 2" class="more-rgpt texte" tooltip-placement="bottom" uib-tooltip="Voir tous les regroupements" ng-click="openRgpts(quiz.id)">...</span>
 					</div>
 					<div ng-if="roleMax > 0" class="col-xs-3 publish-in-mobile">
 						<span ng-if="quiz.publishes.length > 0" class="texte" ng-click="openRgpts(quiz.id)">Publications</span>
 					</div>
+				
 					<div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
-						<div ng-if="roleMax == 0">
-							<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{quiz.toDate | date:'EEEE d MMMM yyyy'}} à minuit"></p>
+						<div>
+							<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{publish.toDate | limitTo: 20}}"></p>
 						</div>
+						<div ng-if="roleMax > 0 && publish.toDate != null">
+							<p class="calendar-warning img" tooltip-placement="top" uib-tooltip="Expire le {{publish.toDate | limitTo: 20}}"></p>
+						</div>
+						
+						
 						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>
 						<div ng-if="roleMax > 0 || ( roleMax == 0 && quiz.canRedo ) || (roleMax == 0 && !quiz.canRedo && !quiz.session)">
 							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id)"></p>					

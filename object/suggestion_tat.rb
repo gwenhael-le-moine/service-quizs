@@ -97,15 +97,42 @@ class SuggestionTAT < Suggestion
       @question_id = new_question_id
       @text = suggestion_source.text
       @order = suggestion_source.order
+      @leurre_id = suggestion_source.leurre_id
       solution_id = solution?
       if @position == 'L'
         new_left_suggestion = create
         if solution_id
           new_right_suggestion = duplicate_right_suggestion_solution(solution_id, new_question_id)
-          new_solution = SolutionTAT.new(left_suggestion_id: new_left_suggestion.id, right_suggestion_id: new_right_suggestion.id)
+          new_solution = SolutionTAT.new(left_suggestion_id: new_left_suggestion.id, right_suggestion_id: new_right_suggestion.id)       
           new_solution.create
         end
       else
+            if suggestion_source.leurre_id != nil
+                puts("suggestion_source.leurre_id not null")
+                puts(@leurre_id)
+                puts("******************************")
+                  anciens = Suggestions.where(id: @leurre_id).select(:id,:text)
+                  anciens.each do |ancien|
+                  datas = Suggestions.where(question_id: @question_id ,leurre_id:nil, position:"L").select(:id,:text)
+                  datas.each do |data|
+
+                  puts("///////")
+                  puts(ancien.id)
+                  puts(ancien.text)
+                  puts("///////////////////")
+
+                  puts("******")
+                  puts(data.id)
+                  puts(data.text)
+                  puts("**********************")
+                  if data.text==ancien.text
+                    @leurre_id=data.id
+                    puts("new leurre_id")
+                    puts(@leurre_id)
+                  end
+                end
+                end
+            end
         create unless solution_id
       end
     end
@@ -121,7 +148,6 @@ class SuggestionTAT < Suggestion
     @question_id = new_question_id
     @text = suggestion_source.text
     @order = suggestion_source.order
-    # @leurre_id = suggestion_source.leurre_id
     create
   rescue => err
     raise_err err, 'erreur lors du clonage de la suggestion solution de droite'

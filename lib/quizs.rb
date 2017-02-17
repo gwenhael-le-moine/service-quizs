@@ -233,18 +233,33 @@ module Lib
       publications = Publication.new(rgpt_id: rgpt_id)
       publications.find_all.each do |publication|
         # on compare avec la date du jour
-        today_date = Time.now.strftime('%Y-%m-%d')
+        today_date = Time.now.strftime('%Y-%m-%d %H:%M')  
+        puts("today_date")
+        puts(today_date)
+        puts("publication.from_date")
+        puts(publication.to_date)
+          puts("publication.to_date")
+        puts(publication.from_date)
         # date de début du quiz
-        publication.from_date.nil? ? from_date_compare = today_date : from_date_compare = publication.from_date.strftime('%Y-%m-%d')
+        publication.from_date.nil? ? from_date_compare = today_date : from_date_compare = publication.from_date.strftime('%Y-%m-%d %H:%M')
         # date de fin du quiz
         if publication.to_date.nil?
           to_date_compare = today_date
           to_date_js = nil
         else
-          to_date_compare = to_date_js = publication.to_date.strftime('%Y-%m-%d')
+          to_date_compare = to_date_js = publication.to_date.strftime('%Y-%m-%d %H:%M')
+          puts("to_date_compare")
+          puts(to_date_compare)
+          puts("to_date_js")
+          puts(to_date_js)
         end
         if from_date_compare <= today_date && to_date_compare >= today_date
           publication.nil?
+          puts("**************")
+          puts("from_date_compare")
+          puts(from_date_compare)
+          puts("today_date")
+          puts(today_date)
           quizs_ids.push(id: publication.quiz_id, to_date: to_date_js)
         end
       end

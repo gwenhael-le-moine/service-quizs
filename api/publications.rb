@@ -22,8 +22,8 @@ class PublicationsApi < Grape::API
     requires :quiz_id, type: Integer
     optional :added, type: Array, desc: 'Liste des regroupements à ajouter'
     optional :deleted, type: Array, desc: 'Liste des publication à supprimer'
-    optional :fromDate, type: String
-    optional :toDate, type: String
+    optional :fromDate, type: DateTime
+    optional :toDate, type: DateTime
   end
   post '/:quiz_id' do
     Lib::Publications.user user

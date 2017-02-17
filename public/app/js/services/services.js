@@ -55,8 +55,6 @@ angular.module('quizsApp')
   };
 
   this.openaddleure = function (controller, template, size, indexOfleurre) {
-    console.log("indexOfleurre");
-    console.log(indexOfleurre);
     var modalInstance = $uibModal.open({
       templateUrl: template,
       controller: controller,

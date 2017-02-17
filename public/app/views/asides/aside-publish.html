@@ -14,6 +14,10 @@
 		</div>
 		<div class="publishes" ng-repeat="publish in quiz.publishes">
 			<span class="texte" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">{{publish.name | uppercase | overflow:8}}</span>
+			  <span class="texte" ng-if="publish.fromDate != null" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">DE {{publish.fromDate | limitTo: 20 }}</span>
+			 <span class="texte" ng-if="publish.toDate != null" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">AU {{publish.toDate   | limitTo: 20 }}</span>
+		</div>
+		</div>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 publish-date">
@@ -27,7 +31,7 @@
 			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 from" ng-style="{'display:-webkit-box'}">
         <input type="text"
         class="texte" 
-        uib-datepicker-popup="dd/MM/yyyy" 
+        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
         ng-model="fromDate" 
         is-open="status.fromDate" 
         min-date="minDate"
@@ -44,7 +48,7 @@
 			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 to">
         <input type="text"
         class="texte" 
-        uib-datepicker-popup="dd/MM/yyyy" 
+        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
         ng-model="toDate" 
         is-open="status.toDate" 
         min-date="minDate"
@@ -59,4 +63,6 @@
 		<button type="button" class="btn btn-quiz hover publish" ng-click="publish()" ng-class="{disabled: tmpPublishesRegroupements.length == 0}"><label>Publier</label></button>
 		<button type="button" class="btn btn-quiz hover back" ng-click="back()"><label>Retour</label></button>
 	</div>
+
+
 </div>
