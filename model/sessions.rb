@@ -22,12 +22,12 @@ class Sessions < Sequel::Model(:sessions)
   plugin :composition
 
   # Referential integrity
-  many_to_one :quizs
+  many_to_one :publications
   one_to_many :answers
 
   # Not nullable cols and unicity validation
   def validate
     super
-    validates_presence [:quiz_id, :user_id, :user_type, :created_at, :score]
+    validates_presence [:publication_id, :user_id, :user_type, :created_at, :score]
   end
 end

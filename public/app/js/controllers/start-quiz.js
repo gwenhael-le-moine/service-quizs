@@ -162,14 +162,14 @@ angular.module('quizsApp')
 		return medias
 	};
 
-	$scope.start = function(){
+	$scope.start = function(publication_id){
 		if ($scope.quiz.opt_rand_question_order) {
 			$scope.quiz.questions = Quizs.randQuestions($scope.quiz.questions);
 		};
 		$rootScope.quiz = angular.copy($scope.quiz);
-		SessionsApi.create({quiz_id: $rootScope.quiz.id}).$promise.then(function(response){
+		SessionsApi.create({publication_id:$stateParams.publication_id}).$promise.then(function(response){
 			if (!response.error) {
-				$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id, session_id: response.session_created.id});				
+				$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id, session_id: response.session_created.id ,publication_id:$stateParams.publication_id});				
 			};			
 		});
 	}

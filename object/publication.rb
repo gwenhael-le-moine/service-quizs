@@ -28,6 +28,7 @@ class Publication
     @opt_show_correct = params[:opt_show_correct]
     @from_date = params[:from_date]
     @to_date = params[:to_date]
+    @index_publication = params[:index_publication]
   end
 
   # Création d'une publication
@@ -42,6 +43,7 @@ class Publication
     publication.opt_show_correct = @opt_show_correct
     publication.from_date = @from_date
     publication.to_date = @to_date
+    publication.index_publication = @index_publication
     # On enregistre le publication
     publication.save
     # on récupère l'id auto généré
@@ -86,10 +88,12 @@ class Publication
     publication.update(opt_rand_question_order: @opt_rand_question_order) unless @opt_rand_question_order.nil?
     publication.update(from_date: @from_date) unless @from_date.nil?
     publication.update(to_date: @to_date) unless @to_date.nil?
+    publication.update(index_publication: @index_publication) unless @index_publication.nil?
     publication
-  rescue => err
+      
+     rescue => err
     raise_err err, "erreur lors de la mise à jour d'une publication"
-  end
+end
 
   # Suppression d'une publication
   def delete

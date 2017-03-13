@@ -9,6 +9,7 @@ angular.module('quizsApp')
 	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
 	$scope.parents = Users.getCurrentUser().isParents;
 	//on récupère les enfants du parents
+	
 	if ($scope.roleMax == 0 && $scope.parents) {
 		//pour les parent fils courant
 		QuizsApi.quizs().$promise.then(function(response){
@@ -54,8 +55,8 @@ angular.module('quizsApp')
 		Modal.open($scope.modalDisplayRegroupementsCtrl, APP_PATH + '/app/views/modals/display-regroupements.html', 'md'); 
 	}
 	// joue le quiz
-	$scope.playQuiz = function(quiz_id){
-		$state.go('quizs.start_quiz', {quiz_id: quiz_id});
+	$scope.playQuiz = function(quiz_id, publication_id){
+		$state.go('quizs.start_quiz', {quiz_id: quiz_id,publication_id:publication_id});
 	}
 	// edit le quiz
 	$scope.updateQuiz = function(quiz_id){
@@ -65,6 +66,7 @@ angular.module('quizsApp')
 	$scope.deleteQuiz = function(quiz_id){
 		$rootScope.deleteQuizId = quiz_id;
 		Modal.open($scope.modalClearQuizCtrl, APP_PATH + '/app/views/modals/confirm.html', 'md');
+			 	$state.go('quizs.home');
 	}
 	// duplique le quiz
 	$scope.duplicateQuiz = function(quiz_id){

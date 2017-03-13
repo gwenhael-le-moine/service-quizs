@@ -47,6 +47,8 @@ module Lib
       user_type = @user[:user_detailed]['profil_actif']['profil_id']
       case user_type
       when 'ELV'
+
+        puts("get_all_publications(@user")
         quizs = get_all_quizs_elv(@user)
       when 'TUT'
         quizs = get_all_quizs_tut(@user)
@@ -155,10 +157,31 @@ module Lib
       quizs = Quiz.new(user_id: user[:uid])
       quizs = quizs.find_all
       quizs.each do |quiz|
-        quizs_found.push(format_get_quiz(user, quiz))
+        quizs_found.push(format_get_quiz_prof(user, quiz))
       end
       quizs_found
     end
+
+      def format_get_quiz_prof(user, quiz, to_date = nil)
+      Lib::Publications.user(user)
+      questions = Question.new(quiz_id: quiz.id)
+      session = Session.new(quiz_id: quiz.id, user_id: user[:uid], user_type: user[:user_detailed]['profil_actif']['profil_id'])
+      session = session.find_all.order(Sequel.desc(:score)).first
+      session = session.to_hash unless session.nil?
+      if quiz
+        formated_quiz = {
+          id: quiz.id,
+          title: quiz.title,
+          nbQuestion: questions.find_all.count,
+          canRedo: quiz.opt_can_redo,
+          share: quiz.opt_shared,
+          session: session,
+          publishes: Lib::Publications.get_all(quiz.id)[:publications_found],
+          toDate: to_date
+        }
+      end
+      formated_quiz
+end
 
     # Récupère les quizs d'un élève
     def get_all_quizs_elv(user)
@@ -171,12 +194,17 @@ module Lib
           quizs |= get_all_publications(classe['classe_id'])
         end
       end
-      quizs = quizs.uniq { |s| s[:id] }
+      # à decommenter si on veut afficher qu'une seule publication
+      # quizs = quizs.uniq { |s| s[:id] }
       quizs.each do |q|
         quiz = Quiz.new(id: q[:id])
         quiz = quiz.find
-        quizs_found.push(format_get_quiz(user, quiz, q[:to_date]))
+     quizs_found << format_get_quiz(user, quiz, q[:to_date], q[:publication_id])
+     puts("quizs_found")
+      puts(quizs_found)
       end
+           puts("*****quizs_found*****")
+      puts(quizs_found)
       quizs_found
     end
 
@@ -206,15 +234,18 @@ module Lib
     end
 
     # Insère les informations dans le bon format
-    def format_get_quiz(user, quiz, to_date = nil)
+    def format_get_quiz(user, quiz, to_date = nil, publication_id)
       Lib::Publications.user(user)
       questions = Question.new(quiz_id: quiz.id)
-      session = Session.new(quiz_id: quiz.id, user_id: user[:uid], user_type: user[:user_detailed]['profil_actif']['profil_id'])
+      session = Session.new(publication_id: publication_id, user_id: user[:uid], user_type: user[:user_detailed]['profil_actif']['profil_id'])
       session = session.find_all.order(Sequel.desc(:score)).first
       session = session.to_hash unless session.nil?
+      puts("session")
+      puts(session)
       if quiz
         formated_quiz = {
           id: quiz.id,
+          publication_id: publication_id,
           title: quiz.title,
           nbQuestion: questions.find_all.count,
           canRedo: quiz.opt_can_redo,
@@ -234,11 +265,6 @@ module Lib
       publications.find_all.each do |publication|
         # on compare avec la date du jour
         today_date = Time.now.strftime('%Y-%m-%d %H:%M')  
-        puts("today_date")
-        puts(today_date)
-        puts("publication.from_date")
-        puts(publication.to_date)
-          puts("publication.to_date")
         puts(publication.from_date)
         # date de début du quiz
         publication.from_date.nil? ? from_date_compare = today_date : from_date_compare = publication.from_date.strftime('%Y-%m-%d %H:%M')
@@ -248,19 +274,12 @@ module Lib
           to_date_js = nil
         else
           to_date_compare = to_date_js = publication.to_date.strftime('%Y-%m-%d %H:%M')
-          puts("to_date_compare")
-          puts(to_date_compare)
-          puts("to_date_js")
-          puts(to_date_js)
         end
         if from_date_compare <= today_date && to_date_compare >= today_date
           publication.nil?
-          puts("**************")
-          puts("from_date_compare")
-          puts(from_date_compare)
-          puts("today_date")
-          puts(today_date)
-          quizs_ids.push(id: publication.quiz_id, to_date: to_date_js)
+          quizs_ids.push(id: publication.quiz_id, to_date: to_date_js, publication_id:publication.id)
+          puts("publication.id-------")
+          puts(publication.id)
         end
       end
       quizs_ids

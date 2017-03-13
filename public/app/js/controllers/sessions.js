@@ -9,26 +9,30 @@ angular.module('quizsApp')
 	$rootScope.filteredSessions = [];
 	$scope.defaultClass = {id: "!", name: "Toutes"};
 	$scope.defaultStudent = {uid: "!", name: "Tous"};
+	$scope.defaultPublication = {id: "!", name: "Toutes"};
 	$scope.filters = {
 		newest: true,
 		oldest: false,
 		classe: $scope.defaultClass,
-		student: $scope.defaultStudent
+		student: $scope.defaultStudent,
+		publication: $scope.defaultPublication
 	};
 	//variables pour les deux selects
 	$scope.selectClasses = [];
 	$scope.selectStudents = [];
+	$scope.selectPublications =[];
 	//on récupère les sessions
 	SessionsApi.getAll({quiz_id: $stateParams.quiz_id}).$promise.then(function(response){
 		if (!response.error) {
 			$rootScope.sessions = response.sessions_found;
-			$rootScope.filteredSessions = response.sessions_found;	
+			$rootScope.filteredSessions = response.sessions_found;
+			$rootScope.thisQuiz = $stateParams.quiz_id
 		};
 		//on alimente les selects avec les données réelles des sessions
 		if ($rootScope.sessions) {
 			_.each($rootScope.sessions, function(session){
 				console.log(session);
-				if (!_.find($scope.selectClasses, function(classe){
+				if (!_.find($scope.selectClasses, function(classe){		
 					return classe.id === session.classe.id})
 				){
 					$scope.selectClasses.push(session.classe);
@@ -37,6 +41,11 @@ angular.module('quizsApp')
 					return student.uid === session.student.uid})
 				){
 					$scope.selectStudents.push(session.student);
+				};
+				if (!_.find($scope.selectPublications, function(publication){
+					return publication.uid === session.publication.id})
+				){
+					$scope.selectPublications.push(session.publication);
 				};
 			});
 		};
@@ -56,6 +65,14 @@ angular.module('quizsApp')
 			});
 			if (student) {
 				$scope.filters.student = student;
+			};
+		};
+		if ($stateParams.publication_id != null) {
+			var publication = _.find($scope.selectStudents, function(selectPublication){
+				return selectPublication.id === $stateParams.publication_id;
+			});
+			if (publication) {
+				$scope.filters.publication = publication;
 			};
 		};
 	});
@@ -78,7 +95,18 @@ angular.module('quizsApp')
 	$scope.changeStudent = function(student){
 		$scope.filters.student = student;
 	};
+	//change la publication courante du select
+	$scope.changePublication = function(publication){
+		$scope.filters.publication = publication;
+	};
+	
+	  	//  $scope.filterFunction = function(publication) {
+    // return publication.id
+    //   };
 
+    //    $scope.filterFunctionindex = function(publication) {
+    // return publication.index_publication
+    //   };
 	//fonction des boutons de l'ihm sessions
 	$scope.quiz = function(){
 		$state.go('quizs.start_quiz', {quiz_id: $stateParams.quiz_id});
@@ -104,6 +132,11 @@ angular.module('quizsApp')
 		$rootScope.ids = [session.id];
 		Modal.open($scope.modalConfirmDeletedSessionsCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
 	}
+	$scope.republish = function(id){
+		$rootScope.quiz_id = id;
+		console.log($rootScope.quiz_id);
+		$state.go('quizs.publish', {quiz_id: $rootScope.quiz_id});
+	}
 	$scope.close = function(){
 		$state.go('quizs.home');
 	}
@@ -113,6 +146,7 @@ angular.module('quizsApp')
 		$state.go('quizs.marking_questions', {quiz_id: $stateParams.quiz_id, session_id: session_id});
 	}
 
+	
 
 	// -------------- Controllers Modal des quizs --------------- //
 		//controller pour confirmer la suppression de sessions avec une modal
@@ -139,6 +173,23 @@ angular.module('quizsApp')
 					};
 				});
 			}
+}];
+
+			//controller pour republier les quiz suite à la suppression de sessions avec une modal
+		$scope.modalRepublierQuizCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
+			$scope.message = "Voulez vous républier le quiz";
+			$scope.title = "Républier les sessions";
+		
+			$scope.no = function(){
+				$uibModalInstance.close();
+			}
+			$scope.ok = function(){
+				$state.go('quizs.publish', {quiz_id: quiz_id});
+				console.log(quiz_id);
+				$uibModalInstance.close();
+		
+	
+				}
 		}];
 		// ----------------------------------------------------- //
 }]);

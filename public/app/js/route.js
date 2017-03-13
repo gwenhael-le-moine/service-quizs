@@ -66,8 +66,8 @@ angular.module('quizsApp')
                 controller: 'AsidePublishCtrl'
               },
               'main': {
-                templateUrl:APP_PATH + '/app/views/mains/main-publish.html',
-                controller: 'MainPublishCtrl'
+                templateUrl:APP_PATH + '/app/views/mains/main-home.html',
+                controller: 'MainHomeCtrl'
                }
               }
             })
@@ -162,7 +162,7 @@ angular.module('quizsApp')
             })
           .state( 'quizs.start_quiz',{
             parent: 'quizs.front',
-            url: '/:quiz_id/start',
+            url: '/:quiz_id/:publication_id/start',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
@@ -208,7 +208,7 @@ angular.module('quizsApp')
                 controller: 'SessionsCtrl'
                }
               }
-            });
+});
 
   $urlRouterProvider.otherwise(function ($injector, $location) {
       $location.path("/");

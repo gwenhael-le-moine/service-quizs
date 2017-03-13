@@ -13,22 +13,25 @@
 			<span ng-if="quiz.publishes.length == 0" class="texte-italic">Aucune publication.</span>	
 		</div>
 		<div class="publishes" ng-repeat="publish in quiz.publishes">
+			<!-- <div><p class="delete img" ng-click="change(regroupement)"></p></div> -->
 			<span class="texte" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">{{publish.name | uppercase | overflow:8}}</span>
-			  <span class="texte" ng-if="publish.fromDate != null" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">DE {{publish.fromDate | limitTo: 20 }}</span>
+			  <span class="texte" ng-if="publish.fromDate != null"  tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">DE {{publish.fromDate | limitTo: 20 }}</span>
 			 <span class="texte" ng-if="publish.toDate != null" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">AU {{publish.toDate   | limitTo: 20 }}</span>
+			 <p class="delete img" ng-click="supprimer(publish.id)"></p>
+			 	
 		</div>
 		</div>
-		</div>
-	</div>
+	
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 publish-date">
 		<div class="title">
 			<span class="titre">Date publication : </span>			
 		</div>
+
 		<div class="row datepicker">
 			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
 				<span class="texte">Du :</span>
 			</div>
-			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 from" ng-style="{'display:-webkit-box'}">
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 from">
         <input type="text"
         class="texte" 
         uib-datepicker-popup="dd/MM/yyyy HH:mm" 
@@ -59,10 +62,23 @@
 	  	</div>			
 		</div>
 	</div>
+	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
-		<button type="button" class="btn btn-quiz hover publish" ng-click="publish()" ng-class="{disabled: tmpPublishesRegroupements.length == 0}"><label>Publier</label></button>
+	<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
+		<button type="button" class="btn btn-quiz hover publish" ng-click="publish()"><label>Envoyer</label></button>
+		<!-- <button type="button" class="btn btn-quiz hover publish" ng-click="republishAll(regroupement)"><label>Républier tout</label></button> -->
 		<button type="button" class="btn btn-quiz hover back" ng-click="back()"><label>Retour</label></button>
+	</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
+		<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements"  ng-if="regroupement.selected" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
+		<button type="button" class="btn btn-quiz hover publish" ng-click="regroupement.selected = false; republish()"><label>Republier</label></button>
+			<button type="button" class="btn btn-quiz hover publish" ng-click="duplicatePublishQuiz(quiz.id,regroupement);"><label>Duplique & publish</label></button>
 	</div>
 
 
-</div>
+
+
+
+
+
+

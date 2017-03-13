@@ -124,7 +124,7 @@ angular.module('quizsApp')
 			$scope.mime = $rootScope.media.mime;
 			$scope.type = $rootScope.media.type.split("/")[0];
 			$scope.close = function(){
-				$modalInstance.close();
+				$uibModalInstance.close();
 			}
 		}];
 }]);

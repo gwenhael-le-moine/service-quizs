@@ -34,7 +34,9 @@ module Lib
       {publications_found: publications_found}
     end
 
+
     def self.add(params)
+      puts("je suis la add")
       quiz = Quiz.new(id: params[:quiz_id])
       quiz = quiz.find
       params[:added].each do |regroupement|
@@ -47,16 +49,13 @@ module Lib
           opt_can_rewind: quiz.opt_can_rewind,
           opt_rand_question_order: quiz.opt_rand_question_order,
           from_date: params[:fromDate],
-          to_date: params[:toDate]
+          to_date: params[:toDate],
+          index_publication: params[:index_publication]
       
         }
         p params
-          puts("fromDate")
-          puts(params[:fromDate])
-          puts("toDate")
-          puts(params[:toDate].iso8601)
         publication = Publication.new(params_publication)
-        publication.create unless publication.exist?
+        publication.create 
       end
       {}
     rescue => err
@@ -64,11 +63,43 @@ module Lib
       {error: {msg: "Impossible d'ajouter les publication !"}}
     end
 
-    def self.delete(publications)
-      publications.each do |p|
-        publication = Publication.new(id: p[:id])
-        publication.delete
-      end
+    # def self.modifierDate(params)
+    #   puts("je suis la Modifier Date")
+    #   quiz = Quiz.new(id: params[:quiz_id])
+    #   quiz = quiz.find
+    #   params[:added].each do |regroupement|
+    #     params_publication = {
+    #       quiz_id: quiz.id,
+    #       rgpt_id: regroupement[:id],
+    #       opt_show_score: quiz.opt_show_score,
+    #       opt_show_correct: quiz.opt_show_correct,
+    #       opt_can_redo: quiz.opt_can_redo,
+    #       opt_can_rewind: quiz.opt_can_rewind,
+    #       opt_rand_question_order: quiz.opt_rand_question_order,
+    #       from_date: params[:fromDate],
+    #       to_date: params[:toDate],
+    #       index_publication: params[:index_publication]
+      
+    #     }
+    #     p params
+    #     publication = Publication.new(params_publication)
+    #     publication.create 
+    #   end
+    #   {}
+    # rescue => err
+    #   LOGGER.error "Impossible d'ajouter les publications ! message de l'erreur raise: " + err.message + err.backtrace.inspect
+    #   {error: {msg: "Impossible d'ajouter les publication !"}}
+    # end
+
+    def self.delete(id)
+      sessions = Sessions.where(publication_id: id)
+       puts("sessions à supprimer")
+      p sessions
+      sessions.destroy
+
+     # session = Sessions.delete[id: 96]
+      # session.delete
+      Publication.new({id: id}).delete
       {}
     rescue => err
       LOGGER.error "Impossible de supprimer les publications ! message de l'erreur raise: " + err.message + err.backtrace.inspect
@@ -89,7 +120,8 @@ module Lib
         toDate: publication.to_date,
         rgptId: publication.rgpt_id,
         name: result[:name_rgpt],
-        nameEtab: result[:name_etab]
+        nameEtab: result[:name_etab],
+        index_publication: publication.index_publication
       }
     end
 

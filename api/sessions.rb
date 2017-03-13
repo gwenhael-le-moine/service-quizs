@@ -7,26 +7,28 @@ class SessionsApi < Grape::API
   content_type :json, 'application/json'
   content_type :pdf, 'application/pdf'
 
-  include Lib::Sessions
+  include Lib::Sessionslib
 
   desc 'créé une session'
   params do
-    requires :quiz_id, type: Integer, desc: 'Id  du quiz'
+    requires :publication_id, type: Integer, desc: 'Id  du quiz'
   end
   post '/create' do
-    Lib::Sessions.user user
+    puts("create params[:publication_id]")
+    puts(params[:publication_id])
+    Lib::Sessionslib.user user
     # gère l'exception si besoin dans la lib
-    Lib::Sessions.create(params[:quiz_id])
+    Lib::Sessionslib.create(params[:publication_id])
   end
 
   desc "récupère les sessions de l'utilisateur"
   params do
-    optional :quiz_id, type: Integer, desc: 'Id du quiz'
+    optional :publication_id, type: Integer, desc: 'Id du quiz'
   end
   get '/' do
-    Lib::Sessions.user user
+    Lib::Sessionslib.user user
     # gère l'exception si besoin dans la lib
-    Lib::Sessions.get_all(params[:quiz_id])
+    Lib::Sessionslib.get_all(params[:publication_id])
   end
 
   desc 'récupère une session'
@@ -34,19 +36,19 @@ class SessionsApi < Grape::API
     requires :id, type: Integer, desc: 'Id de la session'
   end
   get '/:id' do
-    Lib::Sessions.user user
+    Lib::Sessionslib.user user
     # gère l'exception si besoin dans la lib
-    Lib::Sessions.get(params[:id])
+    Lib::Sessionslib.get(params[:id])
   end
 
   desc "vérifie qu'une session d'un quiz existe pour l'utilisateur"
   params do
-    requires :quiz_id, type: Integer, desc: 'Id du quiz'
+    requires :publication_id, type: Integer, desc: 'Id du quiz'
   end
-  get 'exist/:quiz_id' do
-    Lib::Sessions.user user
+  get 'exist/:publication_id' do
+    Lib::Sessionslib.user user
     # gère l'exception si besoin dans la lib
-    Lib::Sessions.exist?(params[:quiz_id])
+    Lib::Sessionslib.exist?(params[:publication_id])
   end
 
   desc 'Supprime une ou plusieurs sessions'
@@ -54,9 +56,9 @@ class SessionsApi < Grape::API
     requires :ids, type: Array, desc: 'les ids des sessions à supprimer'
   end
   post '/delete' do
-    Lib::Sessions.user user
+    Lib::Sessionslib.user user
     # gère l'exception si besoin dans la lib
-    Lib::Sessions.delete(params[:ids])
+    Lib::Sessionslib.delete(params[:ids])
   end
 
   desc 'Génère un pdf des sessions'
@@ -64,9 +66,9 @@ class SessionsApi < Grape::API
     requires :sessions, type: Array, desc: 'les données des sessions à générer'
   end
   post '/pdf' do
-    Lib::Sessions.user user
+    Lib::Sessionslib.user user
     # gère l'exception si besoin dans la lib
     content_type 'application/pdf'
-    Lib::Sessions.generate_pdf(params[:sessions])
+    Lib::Sessionslib.generate_pdf(params[:sessions])
   end
 end

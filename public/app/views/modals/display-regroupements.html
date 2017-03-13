@@ -5,7 +5,7 @@
 		<span class="texte">Cliquez sur les regroupements ci-dessous pour ouvrir leurs sessions.</span>
 	</div>
 	<div class="regroupements">
-		<span class="regroupement texte" ng-repeat="rgpt in rgpts" ng-click="openSession(rgpt.id)">{{rgpt.name | uppercase}}	{{rgpt.toDate | limitTo: 20}}</span>
+		<span class="regroupement texte" ng-repeat="rgpt in rgpts">{{rgpt.name | uppercase}}	{{rgpt.toDate | limitTo: 20}}</span>
 	</div>
 </div>	
 <div class="modal-footer">

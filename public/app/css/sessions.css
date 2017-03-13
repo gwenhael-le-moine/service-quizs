@@ -18,6 +18,8 @@
 }
 .sessions .filters .category{
 	text-align: right;
+	width: 80%;
+	margin-left: 20%;
 }
 .sessions .filters .category>div{
 	display: inline-block;
