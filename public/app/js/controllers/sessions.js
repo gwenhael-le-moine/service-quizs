@@ -3,30 +3,58 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('SessionsCtrl', ['$scope', '$state', '$stateParams', '$rootScope', '$http', 'APP_PATH', 'Notifications', 'Modal', 'SessionsApi', 'Users', function($scope, $state, $stateParams, $rootScope, $http, APP_PATH, Notifications, Modal, SessionsApi, Users) {
+.controller('SessionsCtrl', ['$scope', '$state', '$stateParams', '$rootScope', '$http', 'APP_PATH', 'Notifications', 'Modal', 'SessionsApi', 'Users','QuizsApi', function($scope, $state, $stateParams, $rootScope, $http, APP_PATH, Notifications, Modal, SessionsApi, Users,QuizsApi) {
+	
+	// Si personnel education
+	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
+	console.log("$scope.roleMax")
+	console.log($scope.roleMax)
+	$scope.parents = Users.getCurrentUser().isParents;
+	//on récupère les enfants du parents
+	
+	if ($scope.roleMax == 0 && $scope.parents) {
+		//pour les parent fils courant
+		QuizsApi.quizs().$promise.then(function(response){
+			$rootScope.quizs = response.quizs_found.quizs;
+			$scope.childs = response.quizs_found.childs;
+			$rootScope.currentChild = $scope.childs[0];
+			$scope.quizs = angular.copy(_.filter($rootScope.quizs, function(quiz){
+				return _.contains($scope.childs[0].quizs, quiz.id);
+			}));
+		});
+	} else {
+		QuizsApi.quizs().$promise.then(function(response){
+			$rootScope.quizs = response.quizs_found;
+		});
+	};
+
+
 	//variables pour les filtres
 	$scope.deleteRight = Users.getCurrentUser().roleMaxPriority > 0;
 	$rootScope.filteredSessions = [];
 	$scope.defaultClass = {id: "!", name: "Toutes"};
 	$scope.defaultStudent = {uid: "!", name: "Tous"};
 	$scope.defaultPublication = {id: "!", name: "Toutes"};
+	$scope.defaultQuiz = {id: "!", quiz_title: "tous"};
 	$scope.filters = {
 		newest: true,
 		oldest: false,
 		classe: $scope.defaultClass,
 		student: $scope.defaultStudent,
-		publication: $scope.defaultPublication
+		publication: $scope.defaultPublication,
+		quiz: $scope.defaultQuiz
 	};
 	//variables pour les deux selects
 	$scope.selectClasses = [];
 	$scope.selectStudents = [];
 	$scope.selectPublications =[];
+	$scope.selectQuizs =[];
 	//on récupère les sessions
 	SessionsApi.getAll({quiz_id: $stateParams.quiz_id}).$promise.then(function(response){
 		if (!response.error) {
 			$rootScope.sessions = response.sessions_found;
 			$rootScope.filteredSessions = response.sessions_found;
-			$rootScope.thisQuiz = $stateParams.quiz_id
+			$rootScope.thisQuiz = $stateParams.quiz_id;
 		};
 		//on alimente les selects avec les données réelles des sessions
 		if ($rootScope.sessions) {
@@ -47,7 +75,14 @@ angular.module('quizsApp')
 				){
 					$scope.selectPublications.push(session.publication);
 				};
+				if (!_.find($scope.selectQuizs, function(quiz){
+					return quiz.uid === session.quiz.id})
+				){
+					$scope.selectQuizs.push(session.quiz);
+				};
 			});
+			console.log("$scope.selectPublications")
+			console.log($scope.selectPublications)
 		};
 		//si on veut arriver directement sur les sessions d'une classe ou d'un élève,
 		//on change les valeurs des selects
@@ -75,6 +110,14 @@ angular.module('quizsApp')
 				$scope.filters.publication = publication;
 			};
 		};
+		if ($stateParams.quiz_id != null) {
+			var quiz = _.find($scope.selectQuizs, function(selectQuiz){
+				return selectQuiz.id === $stateParams.quiz_id;
+			});
+			if (quiz) {
+				$scope.filters.quiz = quiz;
+			};
+		};
 	});
 	//Change l'ordre par date (croissant/décroissant)
 	//sert seulement à changer la case mode coché ou décoché
@@ -99,15 +142,12 @@ angular.module('quizsApp')
 	$scope.changePublication = function(publication){
 		$scope.filters.publication = publication;
 	};
-	
-	  	//  $scope.filterFunction = function(publication) {
-    // return publication.id
-    //   };
 
-    //    $scope.filterFunctionindex = function(publication) {
-    // return publication.index_publication
-    //   };
-	//fonction des boutons de l'ihm sessions
+	$scope.changeQuiz = function(quiz){
+		$scope.filters.quiz = quiz;
+	};
+	
+
 	$scope.quiz = function(){
 		$state.go('quizs.start_quiz', {quiz_id: $stateParams.quiz_id});
 	}
@@ -175,21 +215,6 @@ angular.module('quizsApp')
 			}
 }];
 
-			//controller pour republier les quiz suite à la suppression de sessions avec une modal
-		$scope.modalRepublierQuizCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
-			$scope.message = "Voulez vous républier le quiz";
-			$scope.title = "Républier les sessions";
 		
-			$scope.no = function(){
-				$uibModalInstance.close();
-			}
-			$scope.ok = function(){
-				$state.go('quizs.publish', {quiz_id: quiz_id});
-				console.log(quiz_id);
-				$uibModalInstance.close();
-		
-	
-				}
-		}];
 		// ----------------------------------------------------- //
 }]);

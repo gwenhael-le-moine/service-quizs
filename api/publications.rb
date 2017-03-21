@@ -3,9 +3,19 @@
 # Classe Grape de réponse
 class PublicationsApi < Grape::API
   format :json
-  rescue_from :all
+  #rescue_from :all
 
   include Lib::Publications
+
+  desc "récupère les publications d'un user"
+  params do
+    # requires :user_id, type: Integer, desc: 'Id du user'
+  end
+  get '/users' do
+    Lib::Publications.user user
+    # créé un nouveau quiz et gère l'exception si besoin dans la lib
+    Lib::Publications.get_all_publications_tut()
+  end
 
   desc "récupère les publications d'un quiz"
   params do

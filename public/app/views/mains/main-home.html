@@ -34,6 +34,7 @@
 						<span ng-if="quiz.nbQuestion == 0" class="texte-secondaire-italic">Aucune question</span>
 						<span ng-if="quiz.nbQuestion == 1" class="texte">1 question</span>
 						<span ng-if="quiz.nbQuestion > 1" class="texte">{{quiz.nbQuestion}} questions</span>
+						
 					</div>
 					<div ng-if="roleMax == 0" class="col-xs-10 col-sm-5 col-md-5 col-lg-5 session">
 						<span ng-if="!quiz.session" class="texte-secondaire-italic">Vous n'avez pas lancé ce quiz</span>
@@ -51,11 +52,11 @@
 		
 					<div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
 						<div>
-							<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{publish.toDate.toDate | limitTo: 16}}">{{publish.toDate | limitTo: 20}}</p>{{publish.toDate | limitTo: 16}}
+							<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{quiz.toDate | limitTo: 16}}"></p>
 						</div>
-						<div ng-if="roleMax > 0 && publish.toDate != null">
+						<!-- <div ng-if="roleMax > 0 && publish.toDate != null">
 							<p class="calendar-warning img" tooltip-placement="top" uib-tooltip="Expire le {{publish.toDate | limitTo: 20}}">{{publish.toDate | limitTo: 20}}</p>
-						</div>
+						</div> -->
 							<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>
 						<div ng-if="( roleMax == 0 && quiz.canRedo) || (roleMax == 0 && !quiz.canRedo && !quiz.session)">
 							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,quiz.publication_id)"></p>				

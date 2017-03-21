@@ -1,0 +1,35 @@
+<div class="row main-home">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bleu header-quiz">
+		<div class="row">
+			<div class="titre-quiz" ng-class="{'col-xs-10 col-sm-10 col-md-10 col-lg-10': !parents, 'col-xs-12 col-sm-8 col-md-8 col-lg-8': parents}">
+				<span class="grand-titre">{{"Publications en cours" | uppercase}}</span>
+			</div>
+		</div>
+	</div>
+	<!-- <div  ng-repeat="QuizPub in quizs" > -->
+		<div class="row quizs">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 quiz"  ng-repeat="quiz in users">
+				<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
+					<span class="texte" tooltip-placement="bottom" uib-tooltip="{{quiz.title | capitalize}}">{{quiz.title | capitalize | overflow:21}}</span>						
+				</div>
+				<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2 nb-questions">
+					<span class="texte">{{quiz.name}}</span>
+				</div>
+				<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2 nb-questions">
+					<span class="texte">{{quiz.fromDate | limitTo: 16}}</span>
+				</div>
+				<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2 nb-questions">
+					<span class="texte">{{quiz.toDate | limitTo: 16}}</span>
+				</div>
+				<div class="icons" >
+					<div>
+						<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{quiz.toDate | limitTo: 16}}"></p>
+					</div>
+					<div>
+						<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.quiz_id,quiz.id)"></p>		
+					</div>			
+				</div>
+			</div>
+		</div>
+	<!-- </div> -->
+</div>

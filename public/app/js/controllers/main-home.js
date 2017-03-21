@@ -3,13 +3,27 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('MainHomeCtrl', ['$scope', '$state', '$rootScope', 'APP_PATH', 'Notifications', 'Modal', 'Users', 'QuizsApi', function($scope, $state, $rootScope, APP_PATH, Notifications, Modal, Users, QuizsApi) {
+.controller('MainHomeCtrl', ['$scope', '$state','$stateParams', '$rootScope', 'APP_PATH', 'Notifications', 'Modal', 'Users', 'QuizsApi','PublicationsApi', function($scope, $state, $stateParams, $rootScope, APP_PATH, Notifications, Modal, Users, QuizsApi,PublicationsApi) {
 
 	// Si personnel education
 	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
 	$scope.parents = Users.getCurrentUser().isParents;
+	$scope.user=Users.getCurrentUser;
+	$scope.today = Date.now();
 	//on récupère les enfants du parents
-	
+
+
+
+	// 	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
+	// 	$scope.publishes = [];
+	// 	$scope.publication_tut = [];
+	// 	console.log("get all tut")
+	// 	PublicationsApi.getAllTut().$promise.then(function(response){
+	// 		$scope.publication_tut = response.publication_tut;
+	// 		console.log("$scope.publication_tut*****")
+	// 		console.log($rootScope.publication_tut)
+	// 	});
+	// })
 	if ($scope.roleMax == 0 && $scope.parents) {
 		//pour les parent fils courant
 		QuizsApi.quizs().$promise.then(function(response){
@@ -22,10 +36,25 @@ angular.module('quizsApp')
 		});
 	} else {
 		QuizsApi.quizs().$promise.then(function(response){
+			console.log("****")
+			console.log(response)
+			console.log("****")
 			$rootScope.quizs = response.quizs_found;
+			console.log("**")
+			console.log($rootScope.quizs)
 		});
+			PublicationsApi.getAllTut().$promise.then(function(response){
+				// console.log(PublicationsApi.getAllTut())
+				console.log(response)
+			$rootScope.users = response.publications_found;
+
+				console.log($rootScope.users)
+		});
+		console.log("$rootScope.users")
+		console.log($rootScope.users)
 	};
-	// permet de changer d'enfant ainsi que de récupérer ses quizs
+
+
 	$scope.changeCurrentChild = function(child){
 		$rootScope.currentChild = child;
 		$scope.quizs = angular.copy(_.filter($rootScope.quizs, function(quiz){

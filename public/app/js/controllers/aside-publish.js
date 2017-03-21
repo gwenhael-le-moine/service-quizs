@@ -68,7 +68,6 @@ angular.module('quizsApp')
   	$state.go('quizs.home');
   }
 
-
  
 //publi un quiz
   $scope.publish = function(){
@@ -231,70 +230,29 @@ angular.module('quizsApp')
 	}
 
 
-	// $scope.changeFromDate = function(){
-	// 	Modal.open($scope.modalChangeFromDateCtrl, APP_PATH+'/app/views/modals/add-change-object.html', 'md');
-	// }
+	$scope.addPublish = function(){
+		Modal.open($scope.modalAddPublishCtrl, APP_PATH+'/app/views/modals/add-publication.html', 'md');
+	}
 
-	// 	$scope.changeToDate = function(){
-	// 	Modal.open($scope.modalChangeToDateCtrl, APP_PATH+'/app/views/modals/add-change-object.html', 'md');
-	// }
+	
 
- //  // -------------- Controllers Modal des quizs --------------- //
 
- // 		//controller pour changer les dates de debut publication avec une modal
- // 		$scope.modalChangeFromDateCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
- // 			$scope.title = "Modifier la date de debut de publication";
- // 			$scope.text = $scope.fromDate;
- // 			$scope.error = "La date ne peut pas être vide !";
- // 			$scope.placeholder = "Insérez la date."
- // 			$scope.required = false;
- // 			$scope.no = function(){
- // 				$uibModalInstance.close();
- // 			}
- // 			$scope.ok = function(){
- // 				$scope.validate = true;
- // 				// if ($scope.text.length > 0) {
- // 				// 	QuizsApi.update({id: $rootScope.quiz.id, opt_show_score: $rootScope.quiz.opt_show_score, opt_show_correct: $rootScope.quiz.opt_show_correct, title: $scope.text}).$promise.then(function(response){
- // 				// 		if (!response.error) {
- // 				// 			$rootScope.quiz.title = $scope.text;											
- // 				// 		} else {
- // 				// 			Notifications.add(response.error.msg, 'error');
- // 				// 		};
- // 				// 		$uibModalInstance.close();					
- // 				// 	});
- // 				// };
- // 			}
- // 		}];
-
- // 		//controller pour changer les date de fin publication avec une modal
- // 		$scope.modalChangeToDateCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
- // 			$scope.title = "Modifier la date de fin de publication";
- // 			$scope.text = $scope.toDate;
- // 			$scope.error = "La date ne peut pas être vide !";
- // 			$scope.placeholder = "Insérez la date."
- // 			$scope.required = false;
- // 			$scope.no = function(){
- // 				$uibModalInstance.close();
- // 			}
- // 			$scope.ok = function(){
- // 				$scope.validate = true;
- // 				// if ($scope.text.length > 0) {
- // 				// 	QuizsApi.update({id: $rootScope.quiz.id, opt_show_score: $rootScope.quiz.opt_show_score, opt_show_correct: $rootScope.quiz.opt_show_correct, title: $scope.text}).$promise.then(function(response){
- // 				// 		if (!response.error) {
- // 				// 			$rootScope.quiz.title = $scope.text;											
- // 				// 		} else {
- // 				// 			Notifications.add(response.error.msg, 'error');
- // 				// 		};
- // 				// 		$uibModalInstance.close();					
- // 				// 	});
- // 				// };
- // 			}
- // 		}];
+ 			//controller pour publier un quiz
+ 		$scope.modalAddPublishCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
+			$scope.message = "Publier";
+			// $scope.no = function(){
+			// 	$uibModalInstance.close();
+			// }
+			// $scope.ok = function(){
+			// 		publish():
+			// 		$uibModalInstance.close();
+				
+			// }
+}];
 
 		//controller pour confirmer la suppression de publication avec une modal
 		$scope.modalConfirmDeletedPubishCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
 			$scope.title = "Supprimer les publications";
-			$scope.index_publication=2;
 			//on créé un message personalisé avec tous les nom des publications à supprimer 
 			//afin que ce soit claire pour l'utilisateur
 			var getStringDeletedPublihes = function(){
@@ -313,7 +271,7 @@ angular.module('quizsApp')
 			$scope.message = "Êtes vous sûr de vouloir supprimer "+getStringDeletedPublihes()+" ?";
 			$scope.no = function(){
 				$rootScope.deleted = [];
-  			$rootScope.added = [];
+  				$rootScope.added = [];
 				$uibModalInstance.close();
 			}
 			$scope.ok = function(){

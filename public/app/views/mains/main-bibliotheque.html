@@ -1,0 +1,41 @@
+
+
+<div class="row main-home">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="content title-action">
+			<span class="titre">{{"Bibliotheque" | uppercase}}</span>			
+		</div>
+		<div class="row quizs">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 quiz"  ng-repeat="quiz in lastQuizsShare">
+				<div class="row">
+					<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
+						<span class="texte" tooltip-placement="bottom" uib-tooltip="{{quiz.title | capitalize}}">{{quiz.title | capitalize | overflow:21}}</span>						
+					</div>
+					
+					<div class="col-xs-4 col-sm-2 col-md-3 col-lg-2 nb-questions">
+						<span ng-if="quiz.nbQuestion == 0" class="texte-secondaire-italic">Aucune question</span>
+						<span ng-if="quiz.nbQuestion == 1" class="texte">1 question</span>
+						<span ng-if="quiz.nbQuestion > 1" class="texte">{{quiz.nbQuestion}} questions</span>
+					</div>
+							<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
+						<span class="texte" tooltip-placement="bottom" uib-tooltip="{{quiz.date  | limitTo: 10 }}">{{quiz.date | limitTo: 10 }}</span>						
+					</div>
+					<div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
+						<div ng-if="roleMax > 0">
+							<div ng-if="quiz.publishes[0].id != null">
+							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,quiz.publishes[0].id)"></p>		
+							</div>
+							<div ng-if="quiz.publishes[0].id == null">
+							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,44)"></p>		
+							</div>	
+						</div>
+						<p ng-if="roleMax > 0" class="border img"></p>
+						<div ng-if="roleMax > 0">
+							<p class="duplicate img" tooltip-placement="bottom" uib-tooltip="Dupliquer" ng-click="duplicateQuiz(quiz.id)"></p>
+						</div>				
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>>
+</div>

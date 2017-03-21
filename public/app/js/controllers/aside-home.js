@@ -42,7 +42,10 @@ angular.module('quizsApp')
 		});
 	}
 
-
+// ouvre la session du quiz pour ce regroupement
+	$scope.openAllSession = function(quiz_id, rgpt_id){
+		$state.go('quizs.all-sessions', {quiz_id: quiz_id, rgpt_id: rgpt_id});
+	}
 	 $scope.filterFunction = function(element) {
     return element.name.match(/^Ma/) ? true : false;
   };
@@ -60,6 +63,16 @@ angular.module('quizsApp')
 		$state.go('quizs.marking_questions', {quiz_id: quiz_id, session_id: session_id});
 	}
 
+	$scope.openBibliotheque = function(quiz_id, session_id){
+		$state.go('quizs.bibliotheque', {});
+	}
+
+	$scope.openPublicationEnCours = function(){
+		$state.go('quizs.publicationencours', {});
+	}
+	$scope.goHome = function(){
+		$state.go('quizs.home', {});
+	}
 	// joue le quiz
 	$scope.playQuiz = function(quiz_id){
 		$state.go('quizs.start_quiz', {quiz_id: quiz_id});

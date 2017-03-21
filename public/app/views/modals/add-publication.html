@@ -1,0 +1,56 @@
+ <div modal="createUser">
+        <div class="panel panel-default">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 publish-date">
+		<div class="title">
+			<span class="titre">Date publication : </span>			
+		</div>
+
+		<div class="row datepicker">
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
+				<span class="texte">Du :</span>
+			</div>
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 from">
+        <input type="text"
+        class="texte" 
+        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
+        ng-model="fromDate" 
+        is-open="status.fromDate" 
+        min-date="minDate"
+        datepicker-options="dateOptions" 
+        show-button-bar='false'
+        ng-click="open($event, 'fromDate')" />
+        <p class="calendar img" ng-click="open($event, 'fromDate')"></p>
+	  	</div>			
+		</div>
+		<div class="row datepicker">
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
+				<span class="texte">Au :</span>
+			</div>
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 to">
+        <input type="text"
+        class="texte" 
+        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
+        ng-model="toDate" 
+        is-open="status.toDate" 
+        min-date="minDate"
+        datepicker-options="dateOptions" 
+        show-button-bar='false'
+        ng-click="open($event, 'toDate')" />
+        <p class="calendar img" ng-click="open($event, 'toDate')"></p>
+	  	</div>			
+		</div>
+	</div>
+	</div>
+
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
+	<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
+		<button type="button" class="btn btn-quiz hover publish" ng-click="publish()"><label>Publier</label></button>
+
+		<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements"  ng-if="regroupement.selected" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
+		<button type="button" class="btn btn-quiz hover publish" ng-click="regroupement.selected = false; republish()"><label>Republier</label></button>
+			<!-- <button type="button" class="btn btn-quiz hover publish" ng-click="duplicatePublishQuiz(quiz.id,regroupement);"><label>Duplique & publish</label></button> -->
+	</div>
+</div>
+</div>
+

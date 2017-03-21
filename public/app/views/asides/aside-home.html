@@ -1,79 +1,16 @@
-<div class="row aside-home">
-
-	<div ng-click="isCollapsed = !isCollapsed" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sessions title">
+<div class="row aside-home" >
+		<div  ng-click="goHome()" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sessions title">
+		<span  class="titre">Mes Quizs</span>
+	</div>
+	<div ng-if="roleMax > 0" ng-click="openPublicationEnCours()" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sessions title">
+		<span  class="titre">Publications en cours</span>
+	</div>
+	<div ng-click="openAllSession(lastSessions[0].quiz.id, publish.rgptId)"class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sessions title">
 		<span  class="titre">Résultats</span>
 	</div>
-		<div ng-show="lastSessions.length > 0" uib-collapse="!isCollapsed">
-		<form class="form-inline">
-      <input ng-model="query" type="text"
-        placeholder="recherche" autofocus>
-    </form>
-    <BR>
-	
-  <table Class="table table-bordered table-hover">
-    <tr>
-      <th href="" ng-click="predicate = 'student.name'; reverse=!reverse">élèves</th>
-      <th> <select ng-model="classequery" style="width: 90%;" ><option value="" selected>regroupement</option><option ng-repeat="session in lastSessions">{{session.classe.name}}</option></select></th>
-	<th> <select ng-model="quizquery" style="width: 90%;" ><option value="" selected>Quiz</option><option ng-repeat="quiz in quizs">{{quiz.title}}</option></select></th>
-       <th href="" ng-click="predicate = 'score'; reverse=!reverse">score</th>
-    </tr>
-    <tr ng-repeat="session in lastSessions  |filter:quizquery |filter:query |filter:classequery | orderBy:predicate:reverse">
-      <td>{{session.student.name}}</td>
-      <td>{{session.classe.name}}</td>
-      <td>{{session.quiz.title}}</td>
-      <td>{{session.score}}</td>
-    </tr>
-  </table>
-</div>
-
-	<div ng-click="isCollapsedsession = !isCollapsedsession" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sessions title">
-		<span  ng-if="roleMax > 0" class="titre">Sessions récentes</span>
-		<span  ng-if="roleMax == 0" class="titre">Mes sessions récentes</span>
+	<div ng-if="roleMax > 0" ng-click="openBibliotheque()" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sessions title">
+		<span  class="titre">Bibliotheques</span>
 	</div>
-	<div uib-collapse="!isCollapsedsession">
-
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 sessions">
-		<div class="row session" ng-repeat="session in lastSessions" ng-show="lastSessions.length-$index<6" ng-click="openSession(session.quiz.id, session.id)">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 title">
-				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{session.quiz.title | capitalize}}">{{session.quiz.title | capitalize | overflow:12}}</span>
-			</div>
-			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 name">
-				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{session.student.name | capitalize:true}}">{{session.student.name | capitalize:true | overflow:16}}</span>
-			</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 date">
-				<span class="texte-secondaire">{{session.date  | limitTo: 10 }}</span>
-			
-			</div>
-	</div>
-		</div>
-</div>
-<div  ng-click="isCollapsedpartage = !isCollapsedpartage" >
-<div ng-if="roleMax > 0" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sessions title">
-		<span class="titre">Derniers partages</span>
-	</div>
-	</div>
-	<div uib-collapse="!isCollapsedpartage">
-	<div ng-if="roleMax > 0" class="col-xs-12 col-sm-12 col-md-12 col-lg-10 shares">
-		<div class="row share" ng-repeat="share in lastQuizsShare">
-			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 title">
-				<span class="texte-secondaire" tooltip-placement="bottom" uib-tooltip="{{share.title | capitalize}}">{{share.title | capitalize | overflow:18}}({{share.nbQuestion}})</span>
-			</div>
-			
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 date">
-				<span class="texte-secondaire">{{share.date  | limitTo: 10 }}</span>
-			</div>
-			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 icons">
-				<p class="border img"></p>
-				<p class="duplicate img" tooltip-placement="bottom" uib-tooltip="Dupliquer" ng-click="duplicateQuiz(share.id)"></p>
-			</div>
-			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2  icons"  ng-if="roleMax > 0 || ( roleMax == 0 && quiz.canRedo ) || (roleMax == 0 && !quiz.canRedo && !quiz.session)">
-				<p class="border img"></p>
-				<p class="play img" tooltip-placement="bottom" uib-tooltip="Tester" ng-click="playQuiz(share.id)"></p>
-			</div>								
-			</div>	
-
-		</div>
-</div>
 </div>
 
 

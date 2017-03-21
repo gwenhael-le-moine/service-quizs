@@ -13,7 +13,7 @@
 			<BR><BR>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 category" style="padding-top: 20px;">
 					<div>
-							<span class="texte"> Classes : </span>
+					<span class="texte">Classes : </span>
 					<div class="btn-group texte" uib-dropdown uib-keyboard-nav>
 		        <button id="listestudentsId" type="button" class="btn btn-primary" uib-dropdown-toggle>{{filters.classe.name}}</button>
 		        <ul uib-dropdown-menu>
@@ -32,7 +32,7 @@
 		    	</div>					
 				</div>
 				
-				<div>
+				<div ng-if="roleMax > 0">
 		    	<span class="texte"> Elèves : </span>
 					<div class="btn-group texte" uib-dropdown uib-keyboard-nav>
 		        <button id="listestudentsId" type="button" class="btn btn-primary" uib-dropdown-toggle>{{filters.student.name | capitalize:true | overflow:14}}</button>
@@ -54,7 +54,7 @@
 					<div>
 		    	<span class="texte">Publications : </span>
 					<div class="btn-group texte" style="padding-right: 15px;" uib-dropdown uib-keyboard-nav >
-		        <button id="listestudentsId" type="button" class="btn btn-primary" uib-dropdown-toggle>{{filters.publication.name}}{{filters.publication.nameClasse}}   	
+		        <button id="listestudentsId" type="button" class="btn btn-primary" uib-dropdown-toggle>{{filters.publication.quiz_title}}--{{filters.publication.name}}{{filters.publication.nameClasse}}   	
 		        	{{filters.publication.index_publication}}</button>
 		        <ul uib-dropdown-menu>
 	            <li ng-if="filters.publication.id != '!'" 
@@ -66,7 +66,7 @@
 	            		ng-if="filters.publication.id != publication.id" 
 	            		ng-repeat="publication in selectPublications | orderBy:'name'"
 	            		ng-click="changePublication(publication)">
-	            		<a>{{publication.nameClasse}}--{{publication.index_publication}}</a>
+	            		<a>{{publication.quiz_title}}--{{publication.nameClasse}}--{{publication.index_publication}}</a>
 	            </li>
 		        </ul>
 		    	</div>					
@@ -174,12 +174,6 @@
 	  				class="btn btn-quiz hover" 
 	  				ng-click="reset()">
 	  	<label>Réinitialiser</label>
-	  </button>
-	  		<button ng-if="sessions[0].quiz.id!=null"
-						type="button" 
-	  				class="btn btn-quiz hover" 
-	  				ng-click="republish(sessions[0].quiz.id)">
-	  	<label>Républier</label>
 	  </button>
 	</div>
 </div>

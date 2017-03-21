@@ -42,6 +42,7 @@ angular.module('quizsApp')
             abstract:true,
             templateUrl:APP_PATH + '/app/views/front.html',
           })
+          
 
           .state( 'quizs.home',{
             parent: 'quizs.menu',
@@ -58,16 +59,16 @@ angular.module('quizsApp')
               }
             })
           .state( 'quizs.publish',{
-            parent: 'quizs.damier',
+            parent: 'quizs.menu',
             url: '/:quiz_id/publish',
-            views: {
+            views: {    
               'aside': {
-                templateUrl:APP_PATH + '/app/views/asides/aside-publish.html',
-                controller: 'AsidePublishCtrl'
-              },
+                templateUrl:APP_PATH + '/app/views/asides/aside-home.html',
+                controller: 'AsideHomeCtrl'
+              },     
               'main': {
-                templateUrl:APP_PATH + '/app/views/mains/main-home.html',
-                controller: 'MainHomeCtrl'
+                templateUrl:APP_PATH + '/app/views/mains/main-publish.html',
+                controller: 'AsidePublishCtrl'
                }
               }
             })
@@ -191,20 +192,70 @@ angular.module('quizsApp')
                }
               }
             })
+           .state( 'quizs.bibliotheque',{
+            parent: 'quizs.menu',
+            url: '/bibliotheque',
+            params: {
+            },
+            views: {    
+              'aside': {
+                templateUrl:APP_PATH + '/app/views/asides/aside-home.html',
+                controller: 'AsideHomeCtrl'
+              },     
+              'main': {
+                templateUrl:APP_PATH + '/app/views/mains/main-bibliotheque.html',
+                controller: 'AsideHomeCtrl'
+               }
+              }
+            })
+           .state( 'quizs.publicationencours',{
+            parent: 'quizs.menu',
+            url: '/publication-en-cours',
+            params: {
+            },
+            views: {    
+              'aside': {
+                templateUrl:APP_PATH + '/app/views/asides/aside-home.html',
+                controller: 'AsideHomeCtrl'
+              },     
+              'main': {
+                templateUrl:APP_PATH + '/app/views/mains/main-publication-en-cours.html',
+                controller: 'MainHomeCtrl'
+               }
+              }
+            })
+          .state( 'quizs.all-sessions',{
+            parent: 'quizs.menu',
+            url: '/:quiz_id/all-sessions',
+            params: {
+              student_id: null,
+              rgpt_id: null
+            },
+            views: {    
+              'aside': {
+                templateUrl:APP_PATH + '/app/views/asides/aside-home.html',
+                controller: 'AsideHomeCtrl'
+              },     
+              'main': {
+                templateUrl:APP_PATH + '/app/views/mains/all-sessions.html',
+                controller: 'SessionsCtrl'
+               }
+              }
+            })
           .state( 'quizs.sessions',{
-            parent: 'quizs.front',
+            parent: 'quizs.menu',
             url: '/:quiz_id/sessions',
             params: {
               student_id: null,
               rgpt_id: null
             },
             views: {         
-              'quiz': {
-                templateUrl:APP_PATH + '/app/views/mains/quiz.html',
-                controller: 'QuizCtrl'
-              },
-              'front': {
-                templateUrl:APP_PATH + '/app/views/front/sessions.html',
+                'aside': {
+                templateUrl:APP_PATH + '/app/views/asides/aside-home.html',
+                controller: 'AsideHomeCtrl'
+              },  
+              'main': {
+                templateUrl:APP_PATH + '/app/views/mains/sessions.html',
                 controller: 'SessionsCtrl'
                }
               }

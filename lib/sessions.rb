@@ -124,7 +124,6 @@ module Lib
     module_function
 
     def get_all_sessions_elv(user, publication_id = nil)
-      puts("get_all_sessions_elv")
       fullname = user[:prenom] + ' ' + user[:nom].downcase
       sessions_found = []
       sessions = Session.new(user_id: user[:uid], user_type: 'ELV', publication_id: publication_id)
@@ -204,16 +203,19 @@ module Lib
       publication = publication.find
       quiz = Quiz.new(id: publication.quiz_id)
       quiz = quiz.find
+      p publication
       {
         id: session.id,
          quiz: {
           id: publication.quiz_id,
+          quiz_title:quiz.title,
+         
         },
         publication: {
           id: session.publication_id,
-          title:"test",
           index_publication:publication.index_publication,
-          nameClasse: classe['classe_libelle']
+          nameClasse: classe['classe_libelle'],
+          quiz_title:quiz.title,
         },
         student: {
           uid: session.user_id,

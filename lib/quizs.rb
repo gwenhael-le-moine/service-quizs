@@ -47,8 +47,6 @@ module Lib
       user_type = @user[:user_detailed]['profil_actif']['profil_id']
       case user_type
       when 'ELV'
-
-        puts("get_all_publications(@user")
         quizs = get_all_quizs_elv(@user)
       when 'TUT'
         quizs = get_all_quizs_tut(@user)
@@ -200,11 +198,7 @@ end
         quiz = Quiz.new(id: q[:id])
         quiz = quiz.find
      quizs_found << format_get_quiz(user, quiz, q[:to_date], q[:publication_id])
-     puts("quizs_found")
-      puts(quizs_found)
       end
-           puts("*****quizs_found*****")
-      puts(quizs_found)
       quizs_found
     end
 
@@ -233,6 +227,8 @@ end
       {quizs: quizs, childs: childs}
     end
 
+
+
     # Insère les informations dans le bon format
     def format_get_quiz(user, quiz, to_date = nil, publication_id)
       Lib::Publications.user(user)
@@ -240,8 +236,6 @@ end
       session = Session.new(publication_id: publication_id, user_id: user[:uid], user_type: user[:user_detailed]['profil_actif']['profil_id'])
       session = session.find_all.order(Sequel.desc(:score)).first
       session = session.to_hash unless session.nil?
-      puts("session")
-      puts(session)
       if quiz
         formated_quiz = {
           id: quiz.id,
@@ -265,7 +259,6 @@ end
       publications.find_all.each do |publication|
         # on compare avec la date du jour
         today_date = Time.now.strftime('%Y-%m-%d %H:%M')  
-        puts(publication.from_date)
         # date de début du quiz
         publication.from_date.nil? ? from_date_compare = today_date : from_date_compare = publication.from_date.strftime('%Y-%m-%d %H:%M')
         # date de fin du quiz
@@ -278,8 +271,6 @@ end
         if from_date_compare <= today_date && to_date_compare >= today_date
           publication.nil?
           quizs_ids.push(id: publication.quiz_id, to_date: to_date_js, publication_id:publication.id)
-          puts("publication.id-------")
-          puts(publication.id)
         end
       end
       quizs_ids
