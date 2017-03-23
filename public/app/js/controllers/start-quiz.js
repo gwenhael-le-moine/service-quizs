@@ -163,10 +163,20 @@ angular.module('quizsApp')
 	};
 
 	$scope.start = function(publication_id){
+		console.log("je suis la stars")
 		if ($scope.quiz.opt_rand_question_order) {
 			$scope.quiz.questions = Quizs.randQuestions($scope.quiz.questions);
 		};
 		$rootScope.quiz = angular.copy($scope.quiz);
+
+		if($stateParams.publication_id<1){
+			$stateParams.publication_id=148;
+					console.log("$stateParams.publication_id")
+		console.log($stateParams.publication_id)
+		};
+
+
+
 		SessionsApi.create({publication_id:$stateParams.publication_id}).$promise.then(function(response){
 			if (!response.error) {
 				$state.go('quizs.read_questions', {quiz_id: $scope.quiz.id ,id: $scope.quiz.questions[0].id, session_id: response.session_created.id ,publication_id:$stateParams.publication_id});				

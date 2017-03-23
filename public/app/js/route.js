@@ -242,6 +242,24 @@ angular.module('quizsApp')
                }
               }
             })
+          .state( 'quizs.sessions-pub',{
+            parent: 'quizs.menu',
+            url: '/:quiz_id/all-sessions-pub',
+            params: {
+              student_id: null,
+              rgpt_id: null
+            },
+            views: {    
+              'aside': {
+                templateUrl:APP_PATH + '/app/views/asides/aside-home.html',
+                controller: 'AsideHomeCtrl'
+              },     
+              'main': {
+                templateUrl:APP_PATH + '/app/views/mains/main-sessions-pub.html',
+                controller: 'SessionsCtrl'
+               }
+              }
+            })
           .state( 'quizs.sessions',{
             parent: 'quizs.menu',
             url: '/:quiz_id/sessions',

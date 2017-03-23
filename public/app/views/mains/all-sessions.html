@@ -92,46 +92,6 @@
 				</div>
 			</div>
 		</div>
-	<!-- 	<div class="row content list-sessions">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 session" ng-repeat="session in (filteredSessions = (sessions | orderBy:'date':filters.newest | filter:{classe:{id: filters.classe.id}}:true| filter:{publication:{id: filters.publication.id}}:true  | filter:{student:{uid: filters.student.uid}}:true | filter:{quiz:{id: filters.quiz.id}}:true ))" ng-if="session.quiz.id==thisQuiz">
-				<div class="row">
-					<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 date">
-						<span class="texte-secondaire-italic">{{session.date | date:"dd.MM.yy - HH'h'mm"}}</span>											
-					</div>
-					<div class="col-xs-8 col-sm-10 col-md-10 col-lg-10 border">
-						<div></div>
-					</div>
-				</div>
-				<div class="row">
-				<div><p ng-if="deleteRight" class="delete img" ng-click="delete(session,quiz.id)"></p></div>
-					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 user" ng-click="openSession(session.id)">
-						<span class="texte-bold">{{session.student.name | capitalize:true}}</span>
-						<span class="texte">{{session.quiz.quiz_title}}</span>
-						<span class="texte-secondaire">{{session.classe.name}}--{{session.classe.nameEtab | uppercase}}</span>
-
-					</div>
-					<div class="col-xs-10 col-sm-8 col-md-8 col-lg-8 score-img">
-						<div class="row">
-							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-display-mobile">
-								<span class="texte-secondaire">Non acquis</span>
-							</div>
-							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center no-display-mobile">
-								<span class="texte-secondaire">En cours d'acquisition</span>
-							</div>
-							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right no-display-mobile">
-								<span class="texte-secondaire">Acquis</span>
-							</div>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-								<p class="score-{{session.score | scorecss}} img"></p>							
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 score-number">
-						<span class="titre">{{session.score}} %</span>
-					</div>
-				</div>
-			</div>
-		</div> -->
 		<div class="row content list-sessions">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 session" ng-repeat="session in (filteredSessions = (sessions | orderBy:'date':filters.newest | filter:{classe:{id: filters.classe.id}}:true| filter:{publication:{id: filters.publication.id}}:true  | filter:{student:{uid: filters.student.uid}}:true | filter:{quiz:{id: filters.quiz.id}}:true ))" >
 				<div class="row">
@@ -174,16 +134,6 @@
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
-		<button type="button" 
-	  				class="btn btn-quiz hover" 
-	  				ng-click="quiz()">
-	  	<label>Lancer le quiz</label>
-	  </button>
-<!-- 		<button ng-if="sessions[0].quiz.id!=null" type="button" 
-	  				class="btn btn-quiz hover" 
-	  				ng-click="print()">
-	  	<label>Imprimer</label>
-	  </button> -->
 		<button ng-if="deleteRight && sessions[0].quiz.id!=null"
 						type="button" 
 	  				class="btn btn-quiz hover" 

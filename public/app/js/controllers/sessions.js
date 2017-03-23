@@ -7,8 +7,6 @@ angular.module('quizsApp')
 	
 	// Si personnel education
 	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
-	console.log("$scope.roleMax")
-	console.log($scope.roleMax)
 	$scope.parents = Users.getCurrentUser().isParents;
 	//on récupère les enfants du parents
 	
@@ -32,6 +30,8 @@ angular.module('quizsApp')
 	//variables pour les filtres
 	$scope.deleteRight = Users.getCurrentUser().roleMaxPriority > 0;
 	$rootScope.filteredSessions = [];
+	$rootScope.filteredSessionsQuiz = [];
+	$rootScope.filteredSessionsPub = [];
 	$scope.defaultClass = {id: "!", name: "Toutes"};
 	$scope.defaultStudent = {uid: "!", name: "Tous"};
 	$scope.defaultPublication = {id: "!", name: "Toutes"};
@@ -84,6 +84,31 @@ angular.module('quizsApp')
 			console.log("$scope.selectPublications")
 			console.log($scope.selectPublications)
 		};
+		var i = $rootScope.filteredSessions.length;
+		do{
+			i--
+			if ($rootScope.filteredSessions[i].quiz.id == $rootScope.thisQuiz){
+				$rootScope.filteredSessionsQuiz.push($rootScope.filteredSessions[i]);
+			};
+			
+		}while(i>0)
+
+
+		console.log("$rootScope.filteredSessions")
+		console.log($rootScope.filteredSessions)
+		var j = $rootScope.filteredSessions.length;
+		do{
+			j--
+			console.log("$rootScope.filteredSessions[j].quiz.id ")
+			console.log($rootScope.filteredSessions[j].quiz.id)
+
+			if ($rootScope.filteredSessions[j].publication.id == $rootScope.thisQuiz){
+				$rootScope.filteredSessionsPub.push($rootScope.filteredSessions[j]);
+			};
+			
+		}while(j>0)
+		console.log("$rootScope.filteredSessionsQuiz")
+		console.log($rootScope.filteredSessionsQuiz)
 		//si on veut arriver directement sur les sessions d'une classe ou d'un élève,
 		//on change les valeurs des selects
 		if ($stateParams.rgpt_id != null) {
@@ -162,8 +187,30 @@ angular.module('quizsApp')
 			link.click();
 		});
 	}
+
+	$scope.resetQuiz = function(){
+		$rootScope.ids = _.map($rootScope.filteredSessionsQuiz, function(session){
+			console.log("$rootScope.ids")
+			console.log($rootScope.ids)
+			return session.id;
+		});
+		Modal.open($scope.modalConfirmDeletedSessionsCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
+	} 
+
+	$scope.resetPub = function(){
+		$rootScope.ids = _.map($rootScope.filteredSessionsPub, function(session){
+			console.log("$rootScope.ids")
+			console.log($rootScope.ids)
+			return session.id;
+		});
+		Modal.open($scope.modalConfirmDeletedSessionsCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
+	} 
+
+
 	$scope.reset = function(){
 		$rootScope.ids = _.map($rootScope.filteredSessions, function(session){
+			console.log("$rootScope.ids")
+			console.log($rootScope.ids)
 			return session.id;
 		});
 		Modal.open($scope.modalConfirmDeletedSessionsCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");

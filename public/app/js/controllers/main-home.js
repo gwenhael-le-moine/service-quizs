@@ -9,11 +9,13 @@ angular.module('quizsApp')
 	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
 	$scope.parents = Users.getCurrentUser().isParents;
 	$scope.user=Users.getCurrentUser;
-	$scope.today = Date.now();
+	var today = new Date();
+	// var aujourdhui = today.getDate();
+	console.log(today)
 	//on récupère les enfants du parents
 
 
-
+	  
 	// 	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
 	// 	$scope.publishes = [];
 	// 	$scope.publication_tut = [];
@@ -36,24 +38,16 @@ angular.module('quizsApp')
 		});
 	} else {
 		QuizsApi.quizs().$promise.then(function(response){
-			console.log("****")
-			console.log(response)
-			console.log("****")
 			$rootScope.quizs = response.quizs_found;
-			console.log("**")
-			console.log($rootScope.quizs)
 		});
 			PublicationsApi.getAllTut().$promise.then(function(response){
-				// console.log(PublicationsApi.getAllTut())
-				console.log(response)
 			$rootScope.users = response.publications_found;
-
-				console.log($rootScope.users)
 		});
-		console.log("$rootScope.users")
-		console.log($rootScope.users)
 	};
 
+	 $scope.filterFunction = function(element) {
+		 return element.name.match(/^Ma/) ? true : false;
+	  };
 
 	$scope.changeCurrentChild = function(child){
 		$rootScope.currentChild = child;
@@ -76,6 +70,11 @@ angular.module('quizsApp')
 	$scope.openSession = function(quiz_id, rgpt_id){
 		$state.go('quizs.sessions', {quiz_id: quiz_id, rgpt_id: rgpt_id});
 	}
+
+		$scope.openSessionPub = function(quiz_id, rgpt_id){
+		$state.go('quizs.sessions-pub', {quiz_id: quiz_id, rgpt_id: rgpt_id});
+	}
+
 	// ouvre une modal avec tous les regroupements
 	$scope.openRgpts = function(quiz_id){
 		$rootScope.displayRgptsQuiz = _.find($rootScope.quizs, function(quiz){
@@ -126,6 +125,168 @@ angular.module('quizsApp')
 			}
 		})
 	}
+
+	$scope.filters={
+		commence: false,
+		encours: false,
+		expiree: false,
+	};
+	
+		$scope.changeDateExpiree = function(expiree){
+		var today = new Date();
+		$rootScope.users =[];
+		if (expiree == true) {
+			console.log("je suis la aaaa")
+				$scope.expiree = true;
+					PublicationsApi.getAllTut().$promise.then(function(response){
+						var iter= response.publications_found.length ;
+						// console.log(iter)
+							do{
+								iter--;
+								if(response.publications_found[iter].toDate!=null){
+								var dateOne = (response.publications_found[iter].toDate);
+								var annee = dateOne.split("-")[0];
+								var mois = dateOne.split("-")[1];
+								var jour = (dateOne.split("-")[2]).split(" ")[0];
+								var hour = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[0];
+								var minute = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[1];
+								var seconde = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[2];
+								var Zonehour = ((dateOne.split("-")[2]).split(" ")[2]).substring(0,3);
+								var Zoneminute = ((dateOne.split("-")[2]).split(" ")[2]).substring(3,6);
+
+								var dateTwo = annee+"-"+mois+"-"+jour+"T"+hour+":"+minute+":"+seconde+Zonehour+":"+Zoneminute
+								var mydate = new Date(dateTwo);
+								console.log("**");
+								console.log(mydate);
+								console.log("---");
+								console.log(today);
+								console.log("//////////");
+
+								if (today>mydate){
+								$rootScope.users.push(response.publications_found[iter]);
+								}
+							}
+							}while(iter>0)
+					});
+		} else {
+			console.log("je suis la bbbb")
+				$scope.commence = false;
+				PublicationsApi.getAllTut().$promise.then(function(response){
+			$rootScope.users = response.publications_found;
+		});
+		};
+	};
+
+	$scope.changeDateencours = function(encours){
+		var today = new Date();
+		$rootScope.users =[];
+		if (encours == true) {
+			console.log("je suis la aaaa")
+				$scope.encours = true;
+					PublicationsApi.getAllTut().$promise.then(function(response){
+						var iter= response.publications_found.length ;
+						// console.log(iter)
+							do{
+								iter--;
+								if(response.publications_found[iter].fromDate!=null){
+								var dateOne = (response.publications_found[iter].fromDate);
+								var annee = dateOne.split("-")[0];
+								var mois = dateOne.split("-")[1];
+								var jour = (dateOne.split("-")[2]).split(" ")[0];
+								var hour = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[0];
+								var minute = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[1];
+								var seconde = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[2];
+								var Zonehour = ((dateOne.split("-")[2]).split(" ")[2]).substring(0,3);
+								var Zoneminute = ((dateOne.split("-")[2]).split(" ")[2]).substring(3,6);
+
+								var dateTwo = annee+"-"+mois+"-"+jour+"T"+hour+":"+minute+":"+seconde+Zonehour+":"+Zoneminute
+								var mydate = new Date(dateTwo);
+
+								var dateFin = (response.publications_found[iter].toDate);
+								var annee = dateFin.split("-")[0];
+								var mois = dateFin.split("-")[1];
+								var jour = (dateFin.split("-")[2]).split(" ")[0];
+								var hour = ((dateFin.split("-")[2]).split(" ")[1]).split(":")[0];
+								var minute = ((dateFin.split("-")[2]).split(" ")[1]).split(":")[1];
+								var seconde = ((dateFin.split("-")[2]).split(" ")[1]).split(":")[2];
+								var Zonehour = ((dateFin.split("-")[2]).split(" ")[2]).substring(0,3);
+								var Zoneminute = ((dateFin.split("-")[2]).split(" ")[2]).substring(3,6);
+
+								var dateTFin = annee+"-"+mois+"-"+jour+"T"+hour+":"+minute+":"+seconde+Zonehour+":"+Zoneminute
+								var finDate = new Date(dateTFin); 
+
+
+								console.log("**");
+								console.log(mydate);
+								console.log("---");
+								console.log(today);
+								console.log("//////////");
+
+								if ((mydate<today)&&(today<finDate)){
+								$rootScope.users.push(response.publications_found[iter]);
+									}
+							}
+							else{
+									$rootScope.users.push(response.publications_found[iter]);
+							}
+							}while(iter>0)
+					});
+		} else {
+			console.log("je suis la bbbb")
+				$scope.commence = false;
+				PublicationsApi.getAllTut().$promise.then(function(response){
+			$rootScope.users = response.publications_found;
+		});
+		};
+	};
+
+
+
+	$scope.changeDate = function(commence){
+		var today = new Date();
+		$rootScope.users =[];
+		if (commence == true) {
+			console.log("je suis la aaaa")
+				$scope.commence = true;
+					PublicationsApi.getAllTut().$promise.then(function(response){
+						var iter= response.publications_found.length ;
+						// console.log(iter)
+							do{
+								iter--;
+								if(response.publications_found[iter].fromDate!=null){
+								var dateOne = (response.publications_found[iter].fromDate);
+								var annee = dateOne.split("-")[0];
+								var mois = dateOne.split("-")[1];
+								var jour = (dateOne.split("-")[2]).split(" ")[0];
+								var hour = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[0];
+								var minute = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[1];
+								var seconde = ((dateOne.split("-")[2]).split(" ")[1]).split(":")[2];
+								var Zonehour = ((dateOne.split("-")[2]).split(" ")[2]).substring(0,3);
+								var Zoneminute = ((dateOne.split("-")[2]).split(" ")[2]).substring(3,6);
+
+								var dateTwo = annee+"-"+mois+"-"+jour+"T"+hour+":"+minute+":"+seconde+Zonehour+":"+Zoneminute
+								var mydate = new Date(dateTwo);
+								console.log("**");
+								console.log(mydate);
+								console.log("---");
+								console.log(today);
+								console.log("//////////");
+
+								if (mydate>today){
+								$rootScope.users.push(response.publications_found[iter]);
+								}
+							}
+							}while(iter>0)
+					});
+		} else {
+			console.log("je suis la bbbb")
+				$scope.commence = false;
+				PublicationsApi.getAllTut().$promise.then(function(response){
+			$rootScope.users = response.publications_found;
+		});
+		};
+	};
+
 
 	// -------------- Controllers Modal --------------- //
 		//controller pour afficher les regroupements dans lequel le quiz a été publié avec une modal

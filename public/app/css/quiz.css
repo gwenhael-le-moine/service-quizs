@@ -93,6 +93,25 @@ body {
     padding: 0;
 }
 
+.title-action.content{
+  margin-bottom: 10px;
+}
+.filters.content, .sessions .list-sessions.content{
+  margin: 15px 20px;
+}
+.filters .date .checkbox{
+  height: 25px;
+  width: 25px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0;
+  margin-right: 5px;
+}
+.filters .date>span{
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
 /*** css sur les différentes front et taille pour l'application ***/
 .grand-titre {
   font-family: 'Open Sans Extrabold';
