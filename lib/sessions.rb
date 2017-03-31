@@ -30,7 +30,6 @@ module Lib
     end
 
     def self.create(publication_id)
-      puts("je crée une session")
       params_session = {
         publication_id: publication_id,
         # quiz_id:quiz_id,
@@ -175,35 +174,11 @@ module Lib
      sessions_found
    end
 
-#     def format_get_session_prof(session, fullname, classe)
-#       quiz = Quiz.new(id: session.quiz_id)
-#       quiz = quiz.find
-#       {
-#         id: session.id,
-#         quiz: {
-#           id: session.quiz_id,
-#           title: quiz.title
-#         },
-#         student: {
-#           uid: session.user_id,
-#           name: fullname
-#         },
-#         classe: {
-#           id: classe['classe_id'],
-#           name: classe['classe_libelle'],
-#           nameEtab: classe['etablissement_nom']
-#         },
-#         score: session.score.round,
-#         date: session.updated_at
-#       }
-# end
-
     def format_get_session(session, fullname, classe)
       publication = Publication.new(id: session.publication_id)
       publication = publication.find
       quiz = Quiz.new(id: publication.quiz_id)
       quiz = quiz.find
-      p publication
       {
         id: session.id,
          quiz: {
@@ -216,6 +191,7 @@ module Lib
           index_publication:publication.index_publication,
           nameClasse: classe['classe_libelle'],
           quiz_title:quiz.title,
+          quiz_id: publication.quiz_id,
         },
         student: {
           uid: session.user_id,

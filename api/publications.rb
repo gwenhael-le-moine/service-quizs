@@ -43,6 +43,16 @@ class PublicationsApi < Grape::API
     #Lib::Publications.delete(params[:id])
   end
 
+   desc "modifier les publications d'un quiz"
+  params do
+    requires :id, type: Integer
+    optional :fromDate, type: DateTime
+    optional :toDate, type: DateTime
+  end
+  put '/:id' do
+    Lib::Publications.modifier(params)
+  end
+
   desc "supprime les publications d'un quiz"
   params do
     requires :quiz_id, type: Integer

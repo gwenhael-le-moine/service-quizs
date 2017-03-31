@@ -1,3 +1,6 @@
+
+<!DOCTYPE html>
+<html>
 <div class="row main-home">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="content title-action">
@@ -15,107 +18,153 @@
 					<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
 						<span class="texte" tooltip-placement="bottom" uib-tooltip="{{publish.name | capitalize}}">{{publish.name | capitalize | overflow:21}}</span>						
 					</div>
-			
-							<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
+				<div >
+					<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
 						<span class="texte" tooltip-placement="bottom" uib-tooltip="{{publish.fromDate | limitTo: 10 }}">{{publish.fromDate | limitTo: 16 }}</span>						
 					</div>
 					<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
 						<span class="texte" tooltip-placement="bottom" uib-tooltip="{{publish.toDate | limitTo: 10 }}">{{publish.toDate | limitTo: 16 }}</span>						
 					</div>
-					<div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
-						<p ng-if="roleMax > 0" class="border img"></p>
-							<p class="delete img" ng-click="supprimer(publish.id)"></p>			
-					</div>
 				</div>
-			</div>
+					<div class="icons" style="display: inline-flex;margin-left: 170px;text-align: right;" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
+						<p class="border img"></p>
+							<p class="time img" style="margin: 5px;"  ng-click="showDate=!showDate"></p>
+						<p class="border img"></p>	
+							<p class="delete img" style="margin: 5px;" ng-click="supprimer(publish.id)"></p>	
+
+				<!-- 	</div>
+
+						 --><!-- <div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}"> -->
+						
+						</div>
+				</div>
+			
+		<div  ng-show="showDate" style="margin-left: 25%;">
+					<div class="title">
+						<span class="titre">Modier les dates de cette publication</span>
+					</div>
+
+					<div class="row datepicker">
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
+							<span class="texte">Du :</span>
+						</div>
+						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 from">
+			        <input type="text"
+			        class="texte" 
+			        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
+			        ng-model="fromDate" 
+			        is-open="status.fromDate" 
+			        min-date="minDate"
+			        datepicker-options="dateOptions" 
+			        show-button-bar='false'
+			        ng-click="open($event, 'fromDate')" />
+			        <p class="calendar img" ng-click="open($event, 'fromDate')"></p>
+				  	</div>			
+					</div>
+					<div class="row datepicker">
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
+							<span class="texte">Au :</span>
+						</div>
+						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 to">
+			        <input type="text"
+			        class="texte" 
+			        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
+			        ng-model="toDate" 
+			        is-open="status.toDate" 
+			        min-date="minDate"
+			        datepicker-options="dateOptions" 
+			        show-button-bar='false'
+			        ng-click="open($event, 'toDate')" />
+			        <p class="calendar img" ng-click="open($event, 'toDate')"></p>
+				  	</div>			
+					</div>
+					<button style="margin-left: 12%;" type="button" ng-click="modifierDate(publish.id,fromDate,toDate)" class="btn btn-quiz hover back">Enregistrer vos modifications</button>
+
+					</div>
+					</div>
+			 </div>
 		</div>
 	</div>
-<!-- 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
-	<button type="button" class="btn btn-quiz hover back" ng-click="addPublish()"><label>Ajouter</label></button>
-</div> -->
 </div>
-</div>
+</div>				
+
 </div>
 
 
+<head>
+</head>
+<body>
 
 
-	<!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 publish-in">
-		<div class="title">
-			<span class="titre">Publier dans : </span>			
-		</div>
-		<div class="none">
-			<span ng-if="quiz.publishes.length == 0" class="texte-italic">Aucune publication.</span>	
-		</div>
-		<div class="publishes" ng-repeat="publish in quiz.publishes">
-			<span class="texte" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">{{publish.name | uppercase | overflow:8}}</span>
-			  <span class="texte" ng-if="publish.fromDate != null"  tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">DE {{publish.fromDate | limitTo: 20 }}</span>
-			 <span class="texte" ng-if="publish.toDate != null" tooltip-placement="bottom" uib-tooltip="{{publish.name | uppercase}}">AU {{publish.toDate   | limitTo: 20 }}</span>
-			 <p class="delete img" ng-click="supprimer(publish.id)"></p>
-			 	
-		</div>
-		</div> -->
-	
+<!-- Trigger/Open The Modal -->
+<button id="myBtn" type="button" class="btn btn-quiz hover back">Ajouter une publication</button>
 
-<!-- <a href="/service-quizs/public/app/views/modals/add-publication.html" onclick="window.open(this.href, 'nom de ta fenêtre', 'height=400, width=600, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no'); return(false);">Ouvrir fenêtre</a>
- -->
+<!-- The Modal -->
+<div id="myModal" class="modal">
 
+  <!-- Modal content -->
+  <div class="modal-content" style="width: 50%;margin-left: 25%;margin-top: 10%;">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>ajouter une publication</h2>
+    </div>
+   			 <div class="modal-body">
+      
+					<div class="title">
+						<span class="titre">Date publication : </span>			
+					</div>
 
-
-
- <div>
-		<div class="title">
-			<span class="titre">Date publication : </span>			
-		</div>
-
-		<div class="row datepicker">
-			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
-				<span class="texte">Du :</span>
-			</div>
-			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 from">
-        <input type="text"
-        class="texte" 
-        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
-        ng-model="fromDate" 
-        is-open="status.fromDate" 
-        min-date="minDate"
-        datepicker-options="dateOptions" 
-        show-button-bar='false'
-        ng-click="open($event, 'fromDate')" />
-        <p class="calendar img" ng-click="open($event, 'fromDate')"></p>
-	  	</div>			
-		</div>
-		<div class="row datepicker">
-			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
-				<span class="texte">Au :</span>
-			</div>
-			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 to">
-        <input type="text"
-        class="texte" 
-        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
-        ng-model="toDate" 
-        is-open="status.toDate" 
-        min-date="minDate"
-        datepicker-options="dateOptions" 
-        show-button-bar='false'
-        ng-click="open($event, 'toDate')" />
-        <p class="calendar img" ng-click="open($event, 'toDate')"></p>
-	  	</div>			
-		</div>
+					<div class="row datepicker">
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
+							<span class="texte">Du :</span>
+						</div>
+						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 from">
+			        <input type="text"
+			        class="texte" 
+			        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
+			        ng-model="fromDate" 
+			        is-open="status.fromDate" 
+			        min-date="minDate"
+			        datepicker-options="dateOptions" 
+			        show-button-bar='false'
+			        ng-click="open($event, 'fromDate')" />
+			        <p class="calendar img" ng-click="open($event, 'fromDate')"></p>
+				  	</div>			
+					</div>
+					<div class="row datepicker">
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 libelle">
+							<span class="texte">Au :</span>
+						</div>
+						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 to">
+			        <input type="text"
+			        class="texte" 
+			        uib-datepicker-popup="dd/MM/yyyy HH:mm" 
+			        ng-model="toDate" 
+			        is-open="status.toDate" 
+			        min-date="minDate"
+			        datepicker-options="dateOptions" 
+			        show-button-bar='false'
+			        ng-click="open($event, 'toDate')" />
+			        <p class="calendar img" ng-click="open($event, 'toDate')"></p>
+				  	</div>			
+					</div>
 
 	
 
 
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
-	<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
-		<button type="button" class="btn btn-quiz hover publish" ng-click="publish()"><label>Publier</label></button>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
+				<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
+				<button type="button" class="btn btn-quiz hover publish" ng-click="publish()"><label>Publier</label></button>
 
-		<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements"  ng-if="regroupement.selected" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
-		<button type="button" class="btn btn-quiz hover publish" ng-click="regroupement.selected = false; republish()"><label>Republier</label></button>
-			<!-- <button type="button" class="btn btn-quiz hover publish" ng-click="duplicatePublishQuiz(quiz.id,regroupement);"><label>Duplique & publish</label></button> -->
-	</div>
+				<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements"  ng-if="regroupement.selected" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
+				<button type="button" class="btn btn-quiz hover publish" ng-click="regroupement.selected = false; republish()"><label>Republier</label></button>
+					<!-- <button type="button" class="btn btn-quiz hover publish" ng-click="duplicatePublishQuiz(quiz.id,regroupement);"><label>Duplique & publish</label></button> -->
+			</div>
+    </div>
+  </div>
 </div>
 
-
+</body>
+</html>
 
 

@@ -24,27 +24,34 @@
 						</div>
 					</div>
  -->
+
+
 			<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
-				<span class="texte" ng-click="predicate = 'title'; reverse=!reverse">Quiz (^) </span>
-				<th> <select ng-model="quizquery" style="width: 90%;" ><option value="" selected>Tous</option><option ng-repeat="quiz in users">{{quiz.title}}</option></select></th>
+				<span class="texte" ng-click="predicate = 'title'; reverse=!reverse">Quiz </span> 
+				<span class="glyphicon glyphicon-sort-by-attributes" ng-click="predicate = 'title'; reverse=!reverse"></span>
+				<th> <select ng-model="quizquery" style="width: 90%;" ><option value="" selected>Tous</option><option ng-repeat="quiz in users | unique:'title'">{{quiz.title}}</option></select></th>
 			</div>
 			<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
-				<span class="texte" ng-click="predicate = 'name'; reverse=!reverse">Regroupement (^) </span>
-				<th> <select ng-model="classequery" style="width: 90%;" ><option value="" selected>Tous</option><option ng-repeat="quiz in users">{{quiz.name}}</option></select></th>
+				<span class="texte" ng-click="predicate = 'name'; reverse=!reverse">Regroupement </span>
+				 <span class="glyphicon glyphicon-sort-by-attributes" ng-click="predicate = 'name'; reverse=!reverse"></span>
+				<th> <select ng-model="classequery" style="width: 90%;" ><option value="" selected>Tous</option><option ng-repeat="quiz in users | unique:'name'">{{quiz.name}}</option></select></th>
 			</div>
 			<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
-				<span class="texte"  ng-click="predicate = 'fromDate'; reverse=!reverse">Pas encore (^) </span>
+				<span class="texte"  ng-click="predicate = 'fromDate'; reverse=!reverse">Pas encore </span> 
+				<span class="glyphicon glyphicon-sort-by-attributes" ng-click="predicate = 'fromDate'; reverse=!reverse"></span>
 						<p class="checkbox img" ng-class="{checked: commence}" ng-click="commence=!commence;encours=false;expiree=false;changeDate(commence)"></p>
 					
 			</div>
 			<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
-				<span class="texte" ng-click="predicate = 'toDate'; reverse=!reverse">En cours (^) </span>
+				<span class="texte" ng-click="predicate = 'toDate'; reverse=!reverse">En cours </span> 
+				<span class="glyphicon glyphicon-sort-by-attributes" ng-click="predicate = 'toDate'; reverse=!reverse"></span>
 				<p class="checkbox img" ng-class="{checked: encours}" ng-click="commence=false;encours=!encours;expiree=false;changeDateencours(encours)"></p>
 			</div>
 
 	
 	<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
-					<span class="texte" ng-click="predicate = 'toDate'; reverse=!reverse">Publication expirées (^) </span>
+					<span class="texte" ng-click="predicate = 'toDate'; reverse=!reverse">Publication expirées </span> 
+					<!-- <span class="glyphicon glyphicon-sort-by-attributes"  ng-click="predicate = 'toDate'; reverse=!reverse"></span> -->
 					<p class="checkbox img" ng-class="{checked: expiree}" ng-click="commence=false;expiree=!expiree;encours=false;changeDateExpiree(expiree)"></p>
 							
 				</div>
@@ -71,16 +78,16 @@
 					<div>
 						<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{quiz.toDate | limitTo: 16}}"></p>
 					</div>
-						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>	
-						<div ng-if="roleMax > 0">
-							<p class="update-question img" tooltip-placement="bottom" uib-tooltip="Résultat"  ng-click="openSessionPub(quiz.id, publish.rgptId)"></p>
-						</div>	
+				
 						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>	
 						<div>
 						<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.quiz_id,quiz.id)"></p>		
+						</div>	
+								<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>	
+						<div ng-if="roleMax > 0">
+							<p class="resultat img" tooltip-placement="bottom" uib-tooltip="Résultat"  ng-click="openSessionPub(quiz.id, publish.rgptId)"></p>
 						</div>			
 				</div>
 			</div>
 		</div>
-	<!-- </div> -->
 </div>

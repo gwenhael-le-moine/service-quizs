@@ -50,7 +50,6 @@ module Lib
 
     
     def self.add(params)
-      puts("je suis la add")
       quiz = Quiz.new(id: params[:quiz_id])
       quiz = quiz.find
       params[:added].each do |regroupement|
@@ -67,7 +66,6 @@ module Lib
           index_publication: params[:index_publication]
       
         }
-        p params
         publication = Publication.new(params_publication)
         publication.create 
       end
@@ -77,38 +75,28 @@ module Lib
       {error: {msg: "Impossible d'ajouter les publication !"}}
     end
 
-    # def self.modifierDate(params)
-    #   puts("je suis la Modifier Date")
-    #   quiz = Quiz.new(id: params[:quiz_id])
-    #   quiz = quiz.find
-    #   params[:added].each do |regroupement|
-    #     params_publication = {
-    #       quiz_id: quiz.id,
-    #       rgpt_id: regroupement[:id],
-    #       opt_show_score: quiz.opt_show_score,
-    #       opt_show_correct: quiz.opt_show_correct,
-    #       opt_can_redo: quiz.opt_can_redo,
-    #       opt_can_rewind: quiz.opt_can_rewind,
-    #       opt_rand_question_order: quiz.opt_rand_question_order,
-    #       from_date: params[:fromDate],
-    #       to_date: params[:toDate],
-    #       index_publication: params[:index_publication]
-      
-    #     }
-    #     p params
-    #     publication = Publication.new(params_publication)
-    #     publication.create 
-    #   end
-    #   {}
-    # rescue => err
-    #   LOGGER.error "Impossible d'ajouter les publications ! message de l'erreur raise: " + err.message + err.backtrace.inspect
-    #   {error: {msg: "Impossible d'ajouter les publication !"}}
-    # end
+
+    def modifier(params)
+        puts("je modifie ")
+        puts(params)
+        puts(params[:id])
+        puts(params[:fromDate])
+        publication = Publication.new(id: params[:id])
+        publication = publication.find
+
+        params_publication = {
+          from_date: params[:fromDate],
+          to_date: params[:toDate]
+          }
+        # publication = Publication.new(params_publication)
+        publication.update(params_publication)
+    rescue => err
+      LOGGER.error "Impossible de modifier cette publication ! message de l'erreur raise: " + err.message + err.backtrace.inspect
+      {error: {msg: 'Impossible de modifier cette publication !'}}
+    end
 
     def self.delete(id)
       sessions = Sessions.where(publication_id: id)
-       puts("sessions à supprimer")
-      p sessions
       sessions.destroy
 
      # session = Sessions.delete[id: 96]

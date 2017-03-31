@@ -16,7 +16,26 @@
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+.time{
+	height: 25px;
+	width: 30px;
+	vertical-align: middle;
+	/*margin-top: 5px;*/
+	margin-bottom: 5px;
+}
+.resultat{
+	height: 40px;
+	width: 40px;
+	vertical-align: middle;
+	margin-top: 15px;
+	/*margin-bottom: 5px;*/
+}
 .parameters, .delete{
+	display: inline-block;
+	margin-right: 5px;
+	cursor: pointer;
+}
+.parameters, .resultat{
 	display: inline-block;
 	margin-right: 5px;
 	cursor: pointer;

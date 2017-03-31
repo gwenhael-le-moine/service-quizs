@@ -59,7 +59,6 @@ angular.module('quizsApp')
 		//on alimente les selects avec les données réelles des sessions
 		if ($rootScope.sessions) {
 			_.each($rootScope.sessions, function(session){
-				console.log(session);
 				if (!_.find($scope.selectClasses, function(classe){		
 					return classe.id === session.classe.id})
 				){
@@ -81,8 +80,6 @@ angular.module('quizsApp')
 					$scope.selectQuizs.push(session.quiz);
 				};
 			});
-			console.log("$scope.selectPublications")
-			console.log($scope.selectPublications)
 		};
 		var i = $rootScope.filteredSessions.length;
 		do{
@@ -93,22 +90,15 @@ angular.module('quizsApp')
 			
 		}while(i>0)
 
-
-		console.log("$rootScope.filteredSessions")
-		console.log($rootScope.filteredSessions)
 		var j = $rootScope.filteredSessions.length;
 		do{
 			j--
-			console.log("$rootScope.filteredSessions[j].quiz.id ")
-			console.log($rootScope.filteredSessions[j].quiz.id)
 
 			if ($rootScope.filteredSessions[j].publication.id == $rootScope.thisQuiz){
 				$rootScope.filteredSessionsPub.push($rootScope.filteredSessions[j]);
 			};
 			
 		}while(j>0)
-		console.log("$rootScope.filteredSessionsQuiz")
-		console.log($rootScope.filteredSessionsQuiz)
 		//si on veut arriver directement sur les sessions d'une classe ou d'un élève,
 		//on change les valeurs des selects
 		if ($stateParams.rgpt_id != null) {
@@ -144,6 +134,7 @@ angular.module('quizsApp')
 			};
 		};
 	});
+
 	//Change l'ordre par date (croissant/décroissant)
 	//sert seulement à changer la case mode coché ou décoché
 	$scope.changeDate = function(order){
@@ -190,8 +181,6 @@ angular.module('quizsApp')
 
 	$scope.resetQuiz = function(){
 		$rootScope.ids = _.map($rootScope.filteredSessionsQuiz, function(session){
-			console.log("$rootScope.ids")
-			console.log($rootScope.ids)
 			return session.id;
 		});
 		Modal.open($scope.modalConfirmDeletedSessionsCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
@@ -199,8 +188,6 @@ angular.module('quizsApp')
 
 	$scope.resetPub = function(){
 		$rootScope.ids = _.map($rootScope.filteredSessionsPub, function(session){
-			console.log("$rootScope.ids")
-			console.log($rootScope.ids)
 			return session.id;
 		});
 		Modal.open($scope.modalConfirmDeletedSessionsCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
@@ -209,8 +196,6 @@ angular.module('quizsApp')
 
 	$scope.reset = function(){
 		$rootScope.ids = _.map($rootScope.filteredSessions, function(session){
-			console.log("$rootScope.ids")
-			console.log($rootScope.ids)
 			return session.id;
 		});
 		Modal.open($scope.modalConfirmDeletedSessionsCtrl, APP_PATH + '/app/views/modals/confirm.html', "md");
@@ -221,7 +206,6 @@ angular.module('quizsApp')
 	}
 	$scope.republish = function(id){
 		$rootScope.quiz_id = id;
-		console.log($rootScope.quiz_id);
 		$state.go('quizs.publish', {quiz_id: $rootScope.quiz_id});
 	}
 	$scope.close = function(){

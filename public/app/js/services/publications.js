@@ -8,6 +8,7 @@ angular.module('quizsApp')
      'getAllTut': {method: 'GET', url: APP_PATH + '/api/publications/users'},
      'modify': {method: 'POST', url: APP_PATH + '/api/publications/:quiz_id', params: {quiz_id: '@quiz_id', added: '@added', fromDate: '@fromDate', toDate: '@toDate', index_publication: '@index_publication'}},
     'republier': {method: 'POST', url: APP_PATH + '/api/publications/:quiz_id', params: {quiz_id: '@quiz_id', added: '@added', fromDate: '@fromDate', toDate: '@toDate', index_publication: '@index_publication'}},
+ 	'modifier': {method: 'PUT', url: APP_PATH + '/api/publications/:id', params: {id: '@id', fromDate: '@fromDate', toDate: '@toDate'}},
  	'delete': {method: 'DELETE', url: APP_PATH + '/api/publications/:quiz_id', params: {quiz_id: '@quiz_id', id: '@id', index_publication: '@index_publication'}},
   });
 }]);

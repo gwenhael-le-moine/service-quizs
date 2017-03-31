@@ -2,6 +2,14 @@
 
 /* Filters */
 angular.module('quizsApp')
+.filter('unique', [ function() {
+	return function(items, filterOn) {
+		if (filterOn !== false) {
+			return _(items).uniq(filterOn);
+		} else {
+			return items;
+		}
+} }])
 .filter('placeholder', [ function( ){
 	return function(input){
 		if (!input || input == "") {

@@ -25,15 +25,12 @@ angular.module('quizsApp')
 			Notifications.add("Impossible de récupérer vos regroupements !", "erreur");			
 		};			
 	});
-	// $scope.ajouter = function(regroupement){
-	// 	if(regroupement.selected){
-	// 		regroupement.selected = true;
-	// 	} else {
-	// 		$rootScope.tmpPublishesRegroupements= [];
-	// 		$rootScope.tmpPublishesRegroupements.push(regroupement);
-	// 		regroupement.selected = true
-	// 	};
-	// };
+
+	$scope.filters={
+		showDate: false,
+		modifDate: false,
+	};
+
 
 	$scope.reajouter = function(regroupement){
 			$rootScope.tmpPublishesName = regroupement.name
@@ -68,13 +65,11 @@ angular.module('quizsApp')
   	$state.go('quizs.home');
   }
 
- 
 //publi un quiz
   $scope.publish = function(){
   	//si on a des publications
   	$scope.index_publication=1;
   	if ($rootScope.tmpPublishesRegroupements.length > 0) {
-  		  	console.log($rootScope.tmpPublishesRegroupements)
   		//on copie dans une variable de fonction les publications
 	  	var tmpPublishesRegroupements = angular.copy($rootScope.tmpPublishesRegroupements);
 	  	//on vérifie si l'on a pas supprimé des publications
@@ -105,18 +100,13 @@ angular.module('quizsApp')
   	};
 }
 
-
  //républier un quiz
   $scope.republish = function(){
 
   	//si on a des publications
   if ($rootScope.tmpPublishesRegroupements!=null) {
-	console.log("$rootScope.tmpPublishesRegroupements")
- 	console.log($rootScope.tmpPublishesRegroupements)
   		//on copie dans une variable de fonction les publications
 	  	var tmpPublishesRegroupements = angular.copy($rootScope.tmpPublishesRegroupements);
-	  		console.log("$rootScope.tmpPublishesName")
- 			console.log($rootScope.tmpPublishesName)
  			 var tmpindexpublication = 0;
  			 for (var i = 0; i < $scope.quiz.publishes.length; i++) {
   				  if ($scope.quiz.publishes[i].name == $rootScope.tmpPublishesName){
@@ -125,12 +115,9 @@ angular.module('quizsApp')
    					   }
   				  }
 			  }
-			  console.log(tmpindexpublication)
-			  $scope.index_publication=tmpindexpublication+1;
+		 $scope.index_publication=tmpindexpublication+1;
 	  	//on vérifie si l'on a pas supprimé des publications
 	  	_.each($scope.quiz.publishes, function(publish){
-	  		console.log("$scope.quiz.publishes,")
-	  		console.log($scope.quiz.publishes)
 	  		//on recherche si la publication est toujours existante
 	  		var tmpRegroupement = angular.copy(_.find(tmpPublishesRegroupements, function(tmpRgpt){
 	  		 	return tmpRgpt.id === publish.rgptId
@@ -144,13 +131,24 @@ angular.module('quizsApp')
 		$scope.quiz.publishes = [];
 		PublicationsApi.getAll({quiz_id: $stateParams.quiz_id}).$promise.then(function(response){
 			$scope.quiz.publishes = response.publications_found;
-		});
-	})
-	  		});
-	
-  	};
+			});
+		})
+	});
+};
 }
 
+
+  $scope.modifierDate = function(publication_id,fromDate,toDate){
+	  	PublicationsApi.modifier({id: publication_id, fromDate: fromDate, toDate: toDate}).$promise.then(function(response){
+		QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
+		$scope.quiz = response.quiz_found;
+		$scope.quiz.publishes = [];
+		PublicationsApi.getAll({quiz_id: $stateParams.quiz_id}).$promise.then(function(response){
+			$scope.quiz.publishes = response.publications_found;
+		});
+	})
+});
+}
 
 
     $scope.supprimer = function(id){
@@ -179,11 +177,11 @@ angular.module('quizsApp')
 		PublicationsApi.getAll({quiz_id: $stateParams.quiz_id}).$promise.then(function(response){
 			$scope.quiz.publishes = response.publications_found;
 		
-		});
-	})
-	  		});
-  	};
-  }
+			});
+		})
+	});
+  };
+}
 
 // duplique le quiz
 	$scope.duplicatePublishQuiz = function(quiz_id,regroupement){
@@ -200,7 +198,6 @@ angular.module('quizsApp')
 				quizDuplicated.publishes = tmpPublishesRegroupements;
 				$rootScope.quizs.push(quizDuplicated);
 				$rootScope.quizs.push(quizDuplicated);
-				console.log(quizDuplicated)
 				if ($rootScope.tmpPublishesRegroupements!=null) {
   					//on copie dans une variable de fonction les publications
 	 		 	var tmpPublishesRegroupements = angular.copy($rootScope.tmpPublishesRegroupements);
@@ -224,32 +221,41 @@ angular.module('quizsApp')
 				});
 			
 		  	};
-		  				$state.go('quizs.publish', {quiz_id: quizDuplicated.id});
+		  	$state.go('quizs.publish', {quiz_id: quizDuplicated.id});
 			};
 		});
 	}
 
+	// Get the modal
+var modal = document.getElementById('myModal');
 
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 	$scope.addPublish = function(){
 		Modal.open($scope.modalAddPublishCtrl, APP_PATH+'/app/views/modals/add-publication.html', 'md');
 	}
 
 	
-
-
- 			//controller pour publier un quiz
- 		$scope.modalAddPublishCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
-			$scope.message = "Publier";
-			// $scope.no = function(){
-			// 	$uibModalInstance.close();
-			// }
-			// $scope.ok = function(){
-			// 		publish():
-			// 		$uibModalInstance.close();
-				
-			// }
-}];
-
 		//controller pour confirmer la suppression de publication avec une modal
 		$scope.modalConfirmDeletedPubishCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
 			$scope.title = "Supprimer les publications";
@@ -280,5 +286,4 @@ angular.module('quizsApp')
 				});
 			}
 		}];
-		// ----------------------------------------------------- //
 }]);

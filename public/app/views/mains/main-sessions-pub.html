@@ -95,14 +95,14 @@
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
-		<button type="button" 
-	  				class="btn btn-quiz hover" 
-	  				ng-click="quiz()">
-	  	<label>Lancer le quiz</label>
-	  </button>
 		<button ng-if="deleteRight && sessions[0].quiz.id!=null"
 						type="button" 
 	  				class="btn btn-quiz hover" 
 	  				ng-click="resetPub()">
 	  	<label>Réinitialiser</label>
+	  		<button type="button" 
+		  				class="btn btn-quiz hover" 
+		  				onclick="history.back()">
+		  	<label>Retour</label>
+		  </button>
 </div>

@@ -11,21 +11,8 @@ angular.module('quizsApp')
 	$scope.user=Users.getCurrentUser;
 	var today = new Date();
 	// var aujourdhui = today.getDate();
-	console.log(today)
 	//on récupère les enfants du parents
 
-
-	  
-	// 	QuizsApi.get({id: $stateParams.quiz_id}).$promise.then(function(response){
-	// 	$scope.publishes = [];
-	// 	$scope.publication_tut = [];
-	// 	console.log("get all tut")
-	// 	PublicationsApi.getAllTut().$promise.then(function(response){
-	// 		$scope.publication_tut = response.publication_tut;
-	// 		console.log("$scope.publication_tut*****")
-	// 		console.log($rootScope.publication_tut)
-	// 	});
-	// })
 	if ($scope.roleMax == 0 && $scope.parents) {
 		//pour les parent fils courant
 		QuizsApi.quizs().$promise.then(function(response){
@@ -106,6 +93,7 @@ angular.module('quizsApp')
 				quizDuplicated.id = response.quiz_duplicated.id;
 				quizDuplicated.share = false;
 				quizDuplicated.publishes = [];
+				Modal.open($scope.modalNotifDupliquerQuizCtrl, APP_PATH + '/app/views/modals/notification.html', "md");
 				$rootScope.quizs.push(quizDuplicated);
 			};
 		});
@@ -136,11 +124,9 @@ angular.module('quizsApp')
 		var today = new Date();
 		$rootScope.users =[];
 		if (expiree == true) {
-			console.log("je suis la aaaa")
 				$scope.expiree = true;
 					PublicationsApi.getAllTut().$promise.then(function(response){
 						var iter= response.publications_found.length ;
-						// console.log(iter)
 							do{
 								iter--;
 								if(response.publications_found[iter].toDate!=null){
@@ -156,11 +142,6 @@ angular.module('quizsApp')
 
 								var dateTwo = annee+"-"+mois+"-"+jour+"T"+hour+":"+minute+":"+seconde+Zonehour+":"+Zoneminute
 								var mydate = new Date(dateTwo);
-								console.log("**");
-								console.log(mydate);
-								console.log("---");
-								console.log(today);
-								console.log("//////////");
 
 								if (today>mydate){
 								$rootScope.users.push(response.publications_found[iter]);
@@ -169,7 +150,6 @@ angular.module('quizsApp')
 							}while(iter>0)
 					});
 		} else {
-			console.log("je suis la bbbb")
 				$scope.commence = false;
 				PublicationsApi.getAllTut().$promise.then(function(response){
 			$rootScope.users = response.publications_found;
@@ -181,11 +161,9 @@ angular.module('quizsApp')
 		var today = new Date();
 		$rootScope.users =[];
 		if (encours == true) {
-			console.log("je suis la aaaa")
 				$scope.encours = true;
 					PublicationsApi.getAllTut().$promise.then(function(response){
 						var iter= response.publications_found.length ;
-						// console.log(iter)
 							do{
 								iter--;
 								if(response.publications_found[iter].fromDate!=null){
@@ -214,14 +192,6 @@ angular.module('quizsApp')
 
 								var dateTFin = annee+"-"+mois+"-"+jour+"T"+hour+":"+minute+":"+seconde+Zonehour+":"+Zoneminute
 								var finDate = new Date(dateTFin); 
-
-
-								console.log("**");
-								console.log(mydate);
-								console.log("---");
-								console.log(today);
-								console.log("//////////");
-
 								if ((mydate<today)&&(today<finDate)){
 								$rootScope.users.push(response.publications_found[iter]);
 									}
@@ -232,7 +202,6 @@ angular.module('quizsApp')
 							}while(iter>0)
 					});
 		} else {
-			console.log("je suis la bbbb")
 				$scope.commence = false;
 				PublicationsApi.getAllTut().$promise.then(function(response){
 			$rootScope.users = response.publications_found;
@@ -240,17 +209,18 @@ angular.module('quizsApp')
 		};
 	};
 
-
+	// retour vers la page d'accueil
+			$scope.close = function(){
+			$state.go('quizs.home');
+			}
 
 	$scope.changeDate = function(commence){
 		var today = new Date();
 		$rootScope.users =[];
 		if (commence == true) {
-			console.log("je suis la aaaa")
 				$scope.commence = true;
 					PublicationsApi.getAllTut().$promise.then(function(response){
 						var iter= response.publications_found.length ;
-						// console.log(iter)
 							do{
 								iter--;
 								if(response.publications_found[iter].fromDate!=null){
@@ -266,12 +236,6 @@ angular.module('quizsApp')
 
 								var dateTwo = annee+"-"+mois+"-"+jour+"T"+hour+":"+minute+":"+seconde+Zonehour+":"+Zoneminute
 								var mydate = new Date(dateTwo);
-								console.log("**");
-								console.log(mydate);
-								console.log("---");
-								console.log(today);
-								console.log("//////////");
-
 								if (mydate>today){
 								$rootScope.users.push(response.publications_found[iter]);
 								}
@@ -279,7 +243,6 @@ angular.module('quizsApp')
 							}while(iter>0)
 					});
 		} else {
-			console.log("je suis la bbbb")
 				$scope.commence = false;
 				PublicationsApi.getAllTut().$promise.then(function(response){
 			$rootScope.users = response.publications_found;
@@ -289,6 +252,20 @@ angular.module('quizsApp')
 
 
 	// -------------- Controllers Modal --------------- //
+		$scope.modalNotifDupliquerQuizCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
+			$scope.message = "Votre quiz a été bien dupliqué !";
+		
+				$scope.title = "dupliquer un quiz";
+				// $scope.message += "Votre qui a été bien dupliquer";
+		
+			$scope.no = function(){
+				$uibModalInstance.close();
+			}
+			$scope.ok = function(){
+				$uibModalInstance.close();
+			}
+}];
+
 		//controller pour afficher les regroupements dans lequel le quiz a été publié avec une modal
 		$scope.modalDisplayRegroupementsCtrl = ["$scope", "$rootScope", "$uibModalInstance", function($scope, $rootScope, $uibModalInstance){
 			$scope.rgpts = $rootScope.displayRgptsQuiz.publishes;
@@ -305,7 +282,7 @@ angular.module('quizsApp')
 		//controller pour supprimer un quiz avec une modal
 		$scope.modalClearQuizCtrl = ["$scope", "$rootScope", "$uibModalInstance", "QuizsApi", function($scope, $rootScope, $uibModalInstance, QuizsApi){
 			$scope.title = "Supprimer un quiz";
-			$scope.message = "Êtes vous sûr de vouloir supprimer ce quiz ?";
+			$scope.message = "Êtes vous sûr de vouloir supprimer ce quiz ?Attention Vous allez supprimer toutes les sessions et publications liées à ce quiz";
 			$scope.no = function(){
 				$uibModalInstance.close();
 			}

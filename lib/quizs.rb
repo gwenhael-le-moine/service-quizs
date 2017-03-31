@@ -102,6 +102,13 @@ module Lib
 
     # Fonction qui supprime le quiz correspondant à l'id
     def self.delete(id)
+
+      publications = Publication.new(quiz_id: id)
+          publications.find_all.each do |publication|
+              sessions = Sessions.where(publication_id: publication.id)
+            sessions.destroy
+            publication.delete
+          end
       quiz_deleted = {}
       quiz = Quiz.new(id: id)
       quiz = quiz.find

@@ -43,14 +43,14 @@
 					</div>
 					<div ng-if="roleMax > 0" class="col-xs-12 col-sm-3 col-md-5 col-lg-3 publish-in">
 						<span ng-if="quiz.publishes.length == 0" class="texte-secondaire-italic">Aucune publication</span>
-						<span ng-if="$index < 2" ng-repeat="publish in quiz.publishes" class="regroupement texte" tooltip-placement="bottom" uib-tooltip="Affichez les sessions de '{{publish.name | uppercase}}'">{{publish.name | uppercase | overflow:6}}	{{publish.toDate | limitTo: 10}}</span>
+						<span ng-if="$index < 2" ng-repeat="publish in quiz.publishes" class="regroupement texte" ng-click="openRgpts(quiz.id)">{{publish.name | uppercase | overflow:6}}	{{publish.toDate | limitTo: 10}}</span>
 						<span ng-if="quiz.publishes.length > 2" class="more-rgpt texte" tooltip-placement="bottom" uib-tooltip="Voir tous les regroupements" ng-click="openRgpts(quiz.id)">...</span>
 					</div>
 					<div ng-if="roleMax > 0" class="col-xs-3 publish-in-mobile">
 						<span ng-if="quiz.publishes.length > 0" class="texte" ng-click="openRgpts(quiz.id)">Publications</span>
 					</div>
 		
-					<div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
+					<div class="icons col-xs-12 col-sm-4 col-md-12 col-lg-4" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
 						<div>
 							<p class="calendar-{{quiz.toDate | expire}} img" tooltip-placement="top" uib-tooltip="Expire le {{quiz.toDate | limitTo: 16}}"></p>
 						</div>
@@ -66,7 +66,7 @@
 							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,quiz.publishes[0].id)"></p>		
 							</div>
 							<div ng-if="quiz.publishes[0].id == null">
-							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,44)"></p>		
+							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,'10001')"></p>		
 							</div>	
 						</div>
 						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>
@@ -91,7 +91,7 @@
 						</div>	
 						<p ng-if="roleMax > 0 || quiz.canRedo" class="border img"></p>	
 						<div ng-if="roleMax > 0">
-							<p class="update-question img" tooltip-placement="bottom" uib-tooltip="Résultat"  ng-click="openSession(quiz.id, publish.rgptId)"></p>
+							<p class="resultat img" tooltip-placement="bottom" uib-tooltip="Résultat"  ng-click="openSession(quiz.id, publish.rgptId)"></p>
 						</div>				
 					</div>
 				</div>

@@ -43,7 +43,6 @@ angular.module('quizsApp')
 
 $scope.openFileWindow = function () {
   angular.element( document.querySelector( '#fileUpload' ) ).trigger('click');
-  console.log('triggering click');
 };
 
   // ---------- Fonctions général pour la question ---------//
@@ -319,7 +318,6 @@ $scope.openFileWindow = function () {
   	Line.clear(id);
   }
 
-
 	// --------- Fonction pour les TAT --------/
 	// Ajoute une ligne de TAT
 	$scope.addTAT = function(){
@@ -329,6 +327,17 @@ $scope.openFileWindow = function () {
 			joindre: {file: null, type: null},
 			leurre:{id : null, libelle: null},
 		});
+	}
+		// Ajoute une ligne de TAT
+	$scope.deleteTAT = function(){
+		var iter = $rootScope.suggestions.tat.length-1;
+		var tab=$rootScope.suggestions.tat
+		$rootScope.suggestions.tat=[]
+		do{
+			$rootScope.suggestions.tat.push(tab[iter]);
+			iter--;
+		}while(iter>0)
+	return $rootScope.suggestions.tat;
 	}
 	// Ajoute un leurre avec une modal
 	$scope.addLeurre = function(indexOfleurre){

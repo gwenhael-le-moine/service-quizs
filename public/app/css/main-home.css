@@ -80,9 +80,9 @@
 	cursor: pointer;
 }
 .main-home .quizs .quiz .publish-in .regroupement:hover{
-	border: 1px solid #1aa1cc;
+/*	border: 1px solid #1aa1cc;
 	color: white;
-	background-color: #1aa1cc;
+	background-color: #1aa1cc;*/
 }
 .main-home .quizs .quiz .publish-in .more-rgpt, .main-home .quizs .quiz .session .texte{
 	cursor: pointer;

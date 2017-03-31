@@ -209,7 +209,7 @@ angular.module('quizsApp')
 			};
 		}
 
-
+		
 		//fonction permettant de quitter la correction 
 		$scope.quit = function(){
 			if (Users.getCurrentUser().roleMaxPriority > 0 && $scope.session.user_id == Users.getCurrentUser().uid) {

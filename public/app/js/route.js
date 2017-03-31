@@ -123,7 +123,7 @@ angular.module('quizsApp')
                 controller: 'QuizCtrl'
               },
               'front': {
-                templateUrl:APP_PATH + '/app/views/front/questions.html',
+                templateUrl:APP_PATH + '/app/views/front/questionsPrev.html',
                 controller: 'PreviewQuestionsCtrl'
                }
               }

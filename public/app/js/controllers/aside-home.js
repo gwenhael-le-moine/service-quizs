@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('quizsApp')
-.controller('AsideHomeCtrl', ['$scope', '$state', '$rootScope', 'Notifications', 'Users', 'SessionsApi', 'QuizsApi', function($scope, $state, $rootScope, Notifications, Users, SessionsApi, QuizsApi) {
+.controller('AsideHomeCtrl', ['$scope', '$state', '$rootScope', 'Notifications', 'Users', 'SessionsApi', 'QuizsApi', 'APP_PATH', 'Modal', function($scope, $state, $rootScope, Notifications, Users, SessionsApi, QuizsApi, APP_PATH, Modal) {
 	// Si personnel education
 	$scope.roleMax = Users.getCurrentUser().roleMaxPriority;
 	$scope.parents = Users.getCurrentUser().isParents;
@@ -37,6 +37,7 @@ angular.module('quizsApp')
 				quizDuplicated.id = response.quiz_duplicated.id;
 				quizDuplicated.publishes = [];
 				quizDuplicated.share = false;
+				Modal.open($scope.modalNotifDupliquerQuizCtrl, APP_PATH + '/app/views/modals/notification.html', "md");
 				$rootScope.quizs.push(quizDuplicated);
 			};
 		});
@@ -87,5 +88,20 @@ angular.module('quizsApp')
   $scope.isCollapsedpartage = false;
   $scope.isCollapsedpartageHorizontal = false;
  
+ 		//controller pour confirmer la duplication de sessions avec une modal
+		$scope.modalNotifDupliquerQuizCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
+			$scope.message = "Votre quiz a été bien dupliqué !";
+		
+				$scope.title = "dupliquer un quiz";
+				// $scope.message += "Votre qui a été bien dupliquer";
+		
+			$scope.no = function(){
+				$uibModalInstance.close();
+			}
+			$scope.ok = function(){
+				$uibModalInstance.close();
+			}
+}];
+
 
 }]);

@@ -24,7 +24,7 @@
 	            </li>
 	            <li role="menuitem"
 	            		ng-if="filters.classe.id != class.id" 
-	            		ng-repeat="class in selectClasses | orderBy:'name'"
+	            		ng-repeat="class in selectClasses | unique:'name' | orderBy:'name'"
 	            		ng-click="changeClass(class)">
 	            		<a>{{class.name}}</a>
 	            </li>
@@ -44,7 +44,7 @@
 	            </li>
 	            <li role="menuitem"
 	            		ng-if="filters.student.uid != student.uid" 
-	            		ng-repeat="student in selectStudents | orderBy:'name'"
+	            		ng-repeat="student in selectStudents  | unique:'name' | orderBy:'name'"
 	            		ng-click="changeStudent(student)">
 	            		<a>{{student.name | capitalize:true | overflow:14}}</a>
 	            </li>
@@ -63,8 +63,8 @@
 	            		<a>{{defaultPublication.name}}</a>
 	            </li>
 	            <li role="menuitem"
-	            		ng-if="filters.publication.id != publication.id" 
-	            		ng-repeat="publication in selectPublications | orderBy:'name'"
+	            		ng-if="((filters.publication.id != publication.id)&&(publication.quiz_id == thisQuiz))"
+	            		ng-repeat="publication in selectPublications  | unique:'id' | orderBy:'name'"
 	            		ng-click="changePublication(publication)">
 	            		<a>{{publication.quiz_title}}--{{publication.nameClasse}}--{{publication.index_publication}}</a>
 	            </li>
@@ -164,16 +164,16 @@
 	  				ng-click="quiz()">
 	  	<label>Lancer le quiz</label>
 	  </button>
-<!-- 		<button ng-if="sessions[0].quiz.id!=null" type="button" 
-	  				class="btn btn-quiz hover" 
-	  				ng-click="print()">
-	  	<label>Imprimer</label>
-	  </button> -->
 		<button ng-if="deleteRight && sessions[0].quiz.id!=null"
 						type="button" 
 	  				class="btn btn-quiz hover" 
 	  				ng-click="resetQuiz()">
 	  	<label>Réinitialiser</label>
+	  </button>
+	  <button type="button" 
+	  				class="btn btn-quiz hover" 
+	  				ng-click="close()">
+	  	<label>Retour</label>
 	  </button>
 	</div>
 </div>

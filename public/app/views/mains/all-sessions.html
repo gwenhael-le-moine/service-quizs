@@ -24,7 +24,7 @@
 	            </li>
 	            <li role="menuitem"
 	            		ng-if="filters.classe.id != class.id" 
-	            		ng-repeat="class in selectClasses | orderBy:'name'"
+	            		ng-repeat="class in selectClasses  | unique:'name'| orderBy:'name'"
 	            		ng-click="changeClass(class)">
 	            		<a>{{class.name}}</a>
 	            </li>
@@ -44,7 +44,7 @@
 	            </li>
 	            <li role="menuitem"
 	            		ng-if="filters.student.uid != student.uid" 
-	            		ng-repeat="student in selectStudents | orderBy:'name'"
+	            		ng-repeat="student in selectStudents  | unique:'name'| orderBy:'name'"
 	            		ng-click="changeStudent(student)">
 	            		<a>{{student.name | capitalize:true | overflow:14}}</a>
 	            </li>
@@ -63,7 +63,7 @@
 	            </li>
 	            <li role="menuitem"
 	            		ng-if="filters.quiz.id != quiz.id" 
-	            		ng-repeat="quiz in selectQuizs | orderBy:'id'"
+	            		ng-repeat="quiz in selectQuizs  | unique:'id'| orderBy:'id'"
 	            		ng-click="changeQuiz(quiz)">
 	            		<a>{{quiz.quiz_title | capitalize:true | overflow:14}}</a>
 	            </li>
@@ -83,7 +83,7 @@
 	            </li>
 	            <li role="menuitem"
 	            		ng-if="filters.publication.id != publication.id" 
-	            		ng-repeat="publication in selectPublications | orderBy:'name'"
+	            		ng-repeat="publication in selectPublications  | unique:'id'| orderBy:'name'"
 	            		ng-click="changePublication(publication)">
 	            		<a>{{publication.quiz_title}}::{{publication.nameClasse}}::{{publication.index_publication}}</a>
 	            </li>
