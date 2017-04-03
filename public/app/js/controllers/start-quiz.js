@@ -162,7 +162,7 @@ angular.module('quizsApp')
 		return medias
 	};
 
-	$scope.start = function(publication_id){
+	$scope.start = function(){
 		if ($scope.quiz.opt_rand_question_order) {
 			$scope.quiz.questions = Quizs.randQuestions($scope.quiz.questions);
 		};
