@@ -101,6 +101,4 @@ angular.module('quizsApp')
 				$uibModalInstance.close();
 			}
 }];
-
-
 }]);

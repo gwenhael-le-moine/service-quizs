@@ -73,8 +73,6 @@ module Lib
     rescue => err
       LOGGER.error "Impossible de récupérer toutes les sessions de l'utilisateur courant ! message de l'erreur raise: " + err.message + err.backtrace.inspect
       {sessions_found: [], error: {msg: 'Impossible de récupérer les sessions !'}}
-      console.log(err.message)
-      console.log(err.backtrace.inspect)
     end
 
     def self.exist?(publication_id)
