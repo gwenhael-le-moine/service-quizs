@@ -71,6 +71,10 @@ angular.module('quizsApp')
 	}
 	// joue le quiz
 	$scope.playQuiz = function(quiz_id, publication_id){
+		console.log("publication_id")
+		console.log(publication_id)
+		console.log("quiz_id")
+		console.log(quiz_id)
 		$state.go('quizs.start_quiz', {quiz_id: quiz_id,publication_id:publication_id});
 	}
 	// edit le quiz

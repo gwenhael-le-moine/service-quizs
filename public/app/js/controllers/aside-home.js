@@ -75,10 +75,9 @@ angular.module('quizsApp')
 		$state.go('quizs.home', {});
 	}
 	// joue le quiz
-	$scope.playQuiz = function(quiz_id){
-		$state.go('quizs.start_quiz', {quiz_id: quiz_id});
+		$scope.playQuiz = function(quiz_id, publication_id){
+		$state.go('quizs.start_quiz', {quiz_id: quiz_id,publication_id:publication_id});
 	}
-
   $scope.predicate = '-age';
   $scope.isNavCollapsed = true;
   $scope.isCollapsed = false;

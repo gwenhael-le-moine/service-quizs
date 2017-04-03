@@ -23,10 +23,10 @@
 					<div class="icons" ng-class="{'col-xs-12 col-sm-4 col-md-12 col-lg-4': roleMax>0, 'col-xs-2 col-sm-2 col-md-2 col-lg-2': roleMax==0}">
 						<div ng-if="roleMax > 0">
 							<div ng-if="quiz.publishes[0].id != null">
-							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,quiz.publishes[0].id)"></p>		
+							<!-- <p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,quiz.publishes[0].id)"></p>		 -->
 							</div>
 							<div ng-if="quiz.publishes[0].id == null">
-							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,44)"></p>		
+							<p class="play img" tooltip-placement="bottom" uib-tooltip="Lire" ng-click="playQuiz(quiz.id,10001)"></p>		
 							</div>	
 						</div>
 						<p ng-if="roleMax > 0" class="border img"></p>
