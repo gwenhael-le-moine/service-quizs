@@ -187,8 +187,12 @@ angular.module('quizsApp')
   	};
   }
 
-
-  
+  //afficher en 
+  $scope.random = function(array) {
+  return array.sort(function() {
+    return .5 - Math.random();
+  });
+}
 
 	// -------------- Controllers Modal des questions --------------- //
 		//controller pour afficher les médias avec une modal
