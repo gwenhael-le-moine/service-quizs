@@ -33,6 +33,7 @@ angular.module('quizsApp')
 
 
 	$scope.reajouter = function(regroupement){
+		console.log(regroupement)
 			$rootScope.tmpPublishesName = regroupement.name
 			$rootScope.tmpPublishesRegroupements= [];
 			$rootScope.tmpPublishesRegroupements.push(regroupement);
@@ -64,13 +65,17 @@ angular.module('quizsApp')
   $scope.back = function(){
   	$state.go('quizs.home');
   }
-
+$scope.selected = {};
 //publi un quiz
   $scope.publish = function(){
+  	console.log($scope.selected.regroupement)
   	//si on a des publications
   	$scope.index_publication=1;
+  	console.log("$rootScope.tmpPublishesRegroupements")
+  	console.log($rootScope.tmpPublishesRegroupements)
   	if ($rootScope.tmpPublishesRegroupements.length > 0) {
-  		//on copie dans une variable de fonction les publications
+  	  	console.log("im here")
+	//on copie dans une variable de fonction les publications
 	  	var tmpPublishesRegroupements = angular.copy($rootScope.tmpPublishesRegroupements);
 	  	//on vérifie si l'on a pas supprimé des publications
 	  	_.each($scope.quiz.publishes, function(publish){

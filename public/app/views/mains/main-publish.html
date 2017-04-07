@@ -153,10 +153,12 @@
 
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 buttons">
-				<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
+				<select ng-model="selected.regroupement" ng-change="reajouter(selected.regroupement)"
+				ng-options="regroupement.name for regroupement in regroupements"></select>
 				<button type="button" class="btn btn-quiz hover publish" ng-click="publish()"><label>Publier</label></button>
 
-				<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements"  ng-if="regroupement.selected" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
+				<select ng-model="selected.regroupement_republish" ng-change="reajouter(selected.regroupement_republish)"
+				ng-options="regroupement.name for regroupement in regroupements | filter:{selected: true}"></select>
 				<button type="button" class="btn btn-quiz hover publish" ng-click="regroupement.selected = false; republish()"><label>Republier</label></button>
 					<!-- <button type="button" class="btn btn-quiz hover publish" ng-click="duplicatePublishQuiz(quiz.id,regroupement);"><label>Duplique & publish</label></button> -->
 			</div>

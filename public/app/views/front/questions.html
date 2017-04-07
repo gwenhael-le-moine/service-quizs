@@ -152,7 +152,7 @@ id="previewLinesId">
 				<a>--------</a> 
 			</li>
 			<li role="menuitem" 
-			ng-repeat="option in selectOptions | orderBy:predicate:reverse" 
+			ng-repeat="option in selectOptions | orderBy:random" 
 			ng-click="changeSolution($parent.$index, option.id, option.libelle)">
 			<a ng-if="option.leurre_id-answer.id==0||option.id-answer.id==1">{{option.libelle}}</a>
 		</li>
