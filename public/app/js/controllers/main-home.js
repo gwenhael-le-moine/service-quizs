@@ -257,7 +257,7 @@ angular.module('quizsApp')
 
 	// -------------- Controllers Modal --------------- //
 		$scope.modalNotifDupliquerQuizCtrl = ["$scope", "$rootScope", "$uibModalInstance", "$state", "$stateParams", function($scope, $rootScope, $uibModalInstance, $state, $stateParams){
-			$scope.message = "Votre quiz a été bien dupliqué !";
+			$scope.message = "Votre quiz a bien été dupliqué!";
 		
 				$scope.title = "dupliquer un quiz";
 				// $scope.message += "Votre qui a été bien dupliquer";

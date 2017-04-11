@@ -43,10 +43,6 @@ angular.module('quizsApp')
 	if (!$scope.question){
 		$state.go('erreur', {code: "404", message: "La question n'existe pas !"});
 	}
-
-	$scope.random = function(){
-    return Math.random();
-};
 	//recherche la question suivante et retourne l'id
 	$scope.nextQuestion = function(){
 		//Si on affiche la correction après chaque question

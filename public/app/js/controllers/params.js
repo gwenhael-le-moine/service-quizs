@@ -88,7 +88,7 @@ angular.module('quizsApp')
 
 			// retour vers la page d'accueil
 			$scope.retour = function(){
-			QuizsApi.delete({id: $rootScope.quiz.id});
+			// QuizsApi.delete({id: $rootScope.quiz.id});
 			$state.go('quizs.home');
 			}
 

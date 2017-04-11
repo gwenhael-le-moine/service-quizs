@@ -35,6 +35,16 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<div>
+							<span class="texte-particulier">Consigne :</span>
+						</div>
+						<div class="textarea">
+							<textarea class="texte" 
+												maxlength="256" 
+												placeholder="Veuillez entrer une question"
+												ng-model="question.libelle">
+							</textarea>
+						</div>
+							<div>
 							<span class="texte-particulier">Question :</span>
 						</div>
 						<div class="textarea">
@@ -182,7 +192,7 @@
 				</div>
 				<div ng-if="!validateAss">
 					<span class="texte">
-						Renseigner les champs textes dans n'importe quel ordre et valider.
+						Renseigner les champ textes dans n'importe quel ordre et Associer les propositions.
 					</span>
 				</div>
 				<div ng-if="validateAss">
@@ -362,7 +372,7 @@
 				  				class="btn btn-quiz hover" 
 				  				ng-click="changeModeAss()" 
 				  				ng-disabled="!checkAss()">
-				  	<label>Valider</label>
+				  	<label>Associer les propositions</label>
 				  </button>
 				  <button type="button" 
 				  				class="btn btn-quiz hover" 
@@ -392,10 +402,11 @@
 				</div>
 				<div>
 					<span class="texte backline">
-						Remplissez le champs texte en changeant de ligne chaque fois que vous voulez laisser un trou.
+						Remplissez le champ texte en changeant de ligne chaque fois que vous voulez laisser un trou.
+						Si vous voulez placer deux trous consécutifs, veuilelz mettre "##" dans le champ texte associé.
 					</span>
 					<span class="texte backline">
-						Remplissez en face la solution : elles seront toutes présentées, par ordre alphabétique, à chaque trou.
+						Remplissez en face la solution.
 					</span>
 					<span class="texte backline">
 						Ajouter des leurres qui se mêleront aux réponses proposées.
@@ -471,18 +482,18 @@
 				<div class="add-tat">
 					<p 	class="	glyphicon glyphicon-plus-sign" 
 							ng-click="addTAT()">
-							Ajouter un champs texte
+							Ajouter un champ texte
 					</p> /
 					<!-- <label class="label-media texte-secondaire-italic">
-						Ajouter un champs texte + solution
+						Ajouter un champ texte + solution
 					</label>
 				 -->
 					<p 	class= "glyphicon glyphicon-remove"
 							ng-click="deleteTAT()">
-								supprimer un champs
+								supprimer un champ
 					</p>
 					<!-- <label class="label-media texte-secondaire-italic">
-						supprimer un champs
+						supprimer un champ
 					</label> -->
 				</div>
 			<div ng-show="showBackLeurre" class="back-leurres">
@@ -492,6 +503,7 @@
 				</div>
 			</div>
 		</div>
+			</div>
 		<!-------------------- FIN PARTIE TAT ---------------------------->
 		<div class="row content border-bottom columns-inverse-mobile">
 			<div ng-if="question.type != 'tat'" class="col-xs-12 col-sm-3 col-md-3 col-lg-3 rand-answers">
@@ -532,7 +544,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+
 		<p class="preview-question img" ng-click="preview()"></p>
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 validate">
 		<div 	class="btn-group" 

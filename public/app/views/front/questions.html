@@ -131,7 +131,8 @@ id="previewLinesId">
 <!---------------------- DEBUT PARTIE TAT ---------------------->
 <div ng-if="question.type=='tat'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tat border-bottom">
 	<div class="answers" ng-repeat="answer in question.answers">
-		<span class="texte">{{answer.text}}</span>
+		<span class="texte" 
+			ng-show="answer.text !== '##'">{{answer.text}}</span>
 		<div ng-if="answer.joindre.file" class="medias">
 			<p 	ng-if="answer.joindre.type=='image' || answer.joindre.type=='video'" 
 			class="media-image img"
@@ -152,14 +153,13 @@ id="previewLinesId">
 				<a>--------</a> 
 			</li>
 			<li role="menuitem" 
-			ng-repeat="option in selectOptions | orderBy:random" 
+			ng-repeat="option in selectOptions | orderBy:predicate:reverse" 
 			ng-click="changeSolution($parent.$index, option.id, option.libelle)">
 			<a ng-if="option.leurre_id-answer.id==0||option.id-answer.id==1">{{option.libelle}}</a>
 		</li>
 		</ul>	
 	</div>
 </div>
-
 <!---------------------- FIN PARTIE TAT   ---------------------->
 </div>
 </div>
@@ -218,11 +218,6 @@ type="button"
 class="btn btn-quiz hover" 
 ng-click="next()">
 <label>Suivant</label>
-</button>
-<button  ng-hide="nextQuestion()" type="button" 
-class="btn btn-quiz hover" 
-ng-click="valider()">
-<label>Valider</label>
 </button>
 <button type="button" 
 class="btn btn-quiz hover" 
