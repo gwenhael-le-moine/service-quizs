@@ -330,13 +330,18 @@ $scope.openFileWindow = function () {
 	}
 		// Ajoute une ligne de TAT
 	$scope.deleteTAT = function(){
-		var iter = $rootScope.suggestions.tat.length-1;
-		var tab=$rootScope.suggestions.tat
+		var iter =0;
+		var tab=$rootScope.suggestions.tat;
+		var len=$rootScope.suggestions.tat.length-1;
 		$rootScope.suggestions.tat=[]
-		do{
+		do{	
+			console.log(len)
+			console.log(iter)
+			console.log(tab[iter])
+
 			$rootScope.suggestions.tat.push(tab[iter]);
-			iter--;
-		}while(iter>0)
+			iter++;
+		}while(iter<len)
 	return $rootScope.suggestions.tat;
 	}
 	// Ajoute un leurre avec une modal

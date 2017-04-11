@@ -34,18 +34,19 @@
 			<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<div>
+				<!-- 		<div>
 							<span class="texte-particulier">Consigne :</span>
 						</div>
 						<div class="textarea">
 							<textarea class="texte" 
 												maxlength="256" 
-												placeholder="Veuillez entrer une question"
-												ng-model="question.libelle">
+												placeholder="Veuillez entrer vos consigne"
+												ng-model="question.consigne">
 							</textarea>
-						</div>
+						</div> -->
+
 							<div>
-							<span class="texte-particulier">Question :</span>
+							<span class="texte-particulier">Questions :</span>
 						</div>
 						<div class="textarea">
 							<textarea class="texte" 
@@ -54,34 +55,7 @@
 												ng-model="question.libelle">
 							</textarea>
 						</div>
-						<!-- <button	id="questionMediaId"
-										ng-hide="true"
-										type="file"
-										accept="image/*,audio/*"
-										ngf-capture="capture"
-										ngf-pattern="patternFile"
-										ngf-max-size="maxFileSize"
-										ngf-select="uploadQuestionMedia($file)">
-						</button>
-						<div>
-							<p 	class="add-media img" 
-									ng-click="openFileUpload('questionMediaId')">
-							</p>
-							<label 	class="label-media texte-secondaire-italic" 
-											ng-class="{'not-empty': question.media.file && question.media.type != 'video'}">
-								{{question.media.file != null && question.media.type != "video" ? question.media.file.name : placeholderMedia}}
-							</label>
-							<p 	class="add-link img" 
-									ng-click="openAddLink('question')">
-							</p>
-							<label 	class="label-media texte-secondaire-italic" 
-											ng-class="{'not-empty': question.media.file && question.media.type== 'video'}">
-								{{question.media.file != null && question.media.type == "video" ? question.media.file.name : placeholderLink}}
-							</label>
-						</div> -->
-						<i class="label label-danger texte-secondaire-italic msg-error" ng-show="errorFileQuestion">{{errorFileQuestion}}</i>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hint">
+	
 						<div>
 							<span class="texte-particulier">Aide :</span>
 						</div>
@@ -103,7 +77,6 @@
 											ngf-select="uploadHintMedia($file)">
 							</button>
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>
