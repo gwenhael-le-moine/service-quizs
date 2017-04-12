@@ -116,7 +116,7 @@ angular.module('quizsApp')
             })
           .state( 'quizs.preview_create_questions',{
             parent: 'quizs.front',
-            url: '/:quiz_id/questions/preview/',
+            url: '/:quiz_id/questions/preview',
             views: {         
               'quiz': {
                 templateUrl:APP_PATH + '/app/views/mains/quiz.html',
@@ -137,7 +137,7 @@ angular.module('quizsApp')
                 controller: 'QuizCtrl'
               },
               'front': {
-                templateUrl:APP_PATH + '/app/views/front/questions.html',
+                templateUrl:APP_PATH + '/app/views/front/questionsPrev.html',
                 controller: 'PreviewQuestionsCtrl'
                }
               }
