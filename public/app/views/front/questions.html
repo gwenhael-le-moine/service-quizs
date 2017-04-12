@@ -219,6 +219,11 @@ class="btn btn-quiz hover"
 ng-click="next()">
 <label>Suivant</label>
 </button>
+<button  ng-hide="nextQuestion()" type="button" 
+class="btn btn-quiz hover" 
+ng-click="valider()">
+<label>Valider</label>
+</button>
 <button type="button" 
 class="btn btn-quiz hover" 
 ng-click="close()">
@@ -227,3 +232,5 @@ ng-click="close()">
 </div>
 <audio id="audioId" loop></audio>
 </div>
+
+

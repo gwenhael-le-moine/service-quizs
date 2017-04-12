@@ -2,7 +2,6 @@
 <div class="modal-body">
 	<div class="infos">
 		<p class="info img"></p>
-		<span class="texte">Cliquez sur les regroupements ci-dessous pour ouvrir leurs sessions.</span>
 	</div>
 	<div class="regroupements">
 		<span class="regroupement texte" ng-repeat="rgpt in rgpts">{{rgpt.name | uppercase}}	{{rgpt.toDate | limitTo: 20}}</span>
