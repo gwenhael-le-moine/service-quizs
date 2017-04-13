@@ -71,10 +71,7 @@ $scope.selected = {};
   	console.log($scope.selected.regroupement)
   	//si on a des publications
   	$scope.index_publication=1;
-  	console.log("$rootScope.tmpPublishesRegroupements")
-  	console.log($rootScope.tmpPublishesRegroupements)
   	if ($rootScope.tmpPublishesRegroupements.length > 0) {
-  	  	console.log("im here")
 	//on copie dans une variable de fonction les publications
 	  	var tmpPublishesRegroupements = angular.copy($rootScope.tmpPublishesRegroupements);
 	  	//on vérifie si l'on a pas supprimé des publications
@@ -249,6 +246,11 @@ btn.onclick = function() {
 span.onclick = function() {
     modal.style.display = "none";
 }
+
+$scope.closeModal = function() {
+    window.location.reload();
+}
+
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {

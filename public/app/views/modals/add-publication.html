@@ -50,6 +50,12 @@
 		<select><option value="" selected>Regroupement</option><option ng-repeat="regroupement in regroupements"  ng-if="regroupement.selected" ng-click="reajouter(regroupement)">{{regroupement.name | uppercase | overflow:25}}</option></select>{{regroupement.name | uppercase | overflow:25}}
 		<button type="button" class="btn btn-quiz hover publish" ng-click="regroupement.selected = false; republish()"><label>Republier</label></button>
 			<!-- <button type="button" class="btn btn-quiz hover publish" ng-click="duplicatePublishQuiz(quiz.id,regroupement);"><label>Duplique & publish</label></button> -->
+
+			<button type="button" 
+		  				class="btn btn-quiz hover" 
+		  				onclick="javascript:window.location.reload()">
+		  	<label>Retour</label>
+		  </button>
 	</div>
 </div>
 

@@ -38,7 +38,7 @@
 					</div>
 					<div ng-if="roleMax == 0" class="col-xs-10 col-sm-5 col-md-5 col-lg-5 session">
 						<span ng-if="!quiz.session" class="texte-secondaire-italic">Vous n'avez pas lancé ce quiz</span>
-						<p class="score-{{quiz.session.score | scorecss}} img" tooltip-placement="bottom" uib-tooltip="Cliquez ici pour afficher vos sessions sur ce quiz. Votre meilleur score est de {{quiz.session.score}}/100" ></p>
+						<p class="score-{{quiz.session.score | scorecss}} img" tooltip-placement="bottom" uib-tooltip="Votre meilleur score est de {{quiz.session.score}}/100" ></p>
 						<span ng-if="quiz.session" class="score-mobile texte-secondaire-italic">{{quiz.session.score}}/100</span>
 					</div>
 					<div ng-if="roleMax > 0" class="col-xs-12 col-sm-3 col-md-5 col-lg-3 publish-in">
