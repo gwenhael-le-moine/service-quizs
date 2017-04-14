@@ -16,8 +16,6 @@ angular.module('quizsApp')
 	if ($scope.roleMax == 0 && $scope.parents) {
 		//pour les parent fils courant
 		QuizsApi.quizs().$promise.then(function(response){
-			console.log("reponse.quizs_found")
-			// console.log(reponse.quizs_found)
 			$rootScope.quizs = response.quizs_found.quizs;
 			$scope.childs = response.quizs_found.childs;
 			$rootScope.currentChild = $scope.childs[0];

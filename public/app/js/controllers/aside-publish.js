@@ -33,7 +33,6 @@ angular.module('quizsApp')
 
 
 	$scope.reajouter = function(regroupement){
-		console.log(regroupement)
 			$rootScope.tmpPublishesName = regroupement.name
 			$rootScope.tmpPublishesRegroupements= [];
 			$rootScope.tmpPublishesRegroupements.push(regroupement);
@@ -68,7 +67,6 @@ angular.module('quizsApp')
 $scope.selected = {};
 //publi un quiz
   $scope.publish = function(){
-  	console.log($scope.selected.regroupement)
   	//si on a des publications
   	$scope.index_publication=1;
   	if ($rootScope.tmpPublishesRegroupements.length > 0) {

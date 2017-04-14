@@ -163,8 +163,6 @@ angular.module('quizsApp')
 	};
 
 	$scope.start = function(){
-		console.log("$stateParams.publication_id")
-		console.log($stateParams.publication_id)
 		if ($scope.quiz.opt_rand_question_order) {
 			$scope.quiz.questions = Quizs.randQuestions($scope.quiz.questions);
 		};

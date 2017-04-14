@@ -62,8 +62,6 @@ module Lib
 
     # Mise à jour des suggestions/solution TAT
     def self.update(quiz)
-      puts("je suis la")
-      p quiz
       # on récupère tous les leurres de la question en base
       suggestions = SuggestionTAT.new(question_id: quiz[:questions][0][:id])
       current_leurre_ids = suggestions.find_all_leurres_ids
@@ -89,10 +87,6 @@ module Lib
       end
       # Pour chaque leurre, si l'id est un id temp, c'est une création
       quiz[:questions][0][:leurres].each do |l|
-        puts("*******l********")
-        puts(l)
-        puts("***********leurre_id: quiz[:questions][0][:answers][leurre[:attribue]].id  *-************ ")
-        p quiz[:questions][0][:answers][0][:id]
         if l.attribue != nil
           att = l.attribue
         else

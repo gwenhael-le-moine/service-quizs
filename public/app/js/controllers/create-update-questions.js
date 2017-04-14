@@ -335,10 +335,6 @@ $scope.openFileWindow = function () {
 		var len=$rootScope.suggestions.tat.length-1;
 		$rootScope.suggestions.tat=[]
 		do{	
-			console.log(len)
-			console.log(iter)
-			console.log(tab[iter])
-
 			$rootScope.suggestions.tat.push(tab[iter]);
 			iter++;
 		}while(iter<len)

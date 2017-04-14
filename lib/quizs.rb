@@ -244,8 +244,6 @@ end
       session = session.find_all.order(Sequel.desc(:score)).first
       if session
       score = session.score.round
-      puts("score")
-      p score
     end
       session = session.to_hash unless session.nil?
       if quiz
