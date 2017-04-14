@@ -28,7 +28,11 @@ module Lib
     def self.get_all(quiz_id)
       publications_found = []
       publications = Publication.new(quiz_id: quiz_id)
+      
       publications.find_all.each do |publication|
+        p publications
+        puts("publication0")
+        p publication
         publications_found.push(format_get_publication(publication))
       end
       {publications_found: publications_found}
@@ -42,7 +46,7 @@ module Lib
       quizs_found.each do |quiz|
       publications = Publication.new(quiz_id: quiz[:id])
       publications.find_all.each do |publication|
-        publications_found.push(format_get_publication(publication))
+      publications_found.push(format_get_publication(publication))
       end
     end
       {publications_found:publications_found}
@@ -77,10 +81,6 @@ module Lib
 
 
     def modifier(params)
-        puts("je modifie ")
-        puts(params)
-        puts(params[:id])
-        puts(params[:fromDate])
         publication = Publication.new(id: params[:id])
         publication = publication.find
 
@@ -114,7 +114,7 @@ module Lib
 
     def format_get_publication(publication)
       result = classe?(publication.rgpt_id)
-      result = groupe?(publication.rgpt_id) if result[:name_rgpt].empty?
+      # result = groupe?(publication.rgpt_id) if result[:name_rgpt].empty?
       quiz = Quiz.new(id: publication.quiz_id)
       quiz = quiz.find
       {
