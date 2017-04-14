@@ -23,7 +23,7 @@
 		</div>
 	</div>
 		<div class="col-xs-5 col-sm-3 col-md-4 col-lg-3 title">
-				<span class="texte"  ng-click="predicate = 'fromDate'; reverse=!reverse">Date</span> 
+				<span class="texte"  ng-click="predicate = 'fromDate'; reverse=!reverse">trier</span> 
 				<span class="glyphicon glyphicon-sort-by-attributes" ng-click="predicate = 'fromDate'; reverse=!reverse"></span>
 						
 			</div>
@@ -47,7 +47,7 @@
 					</div>
 					<div ng-if="roleMax == 0" class="col-xs-10 col-sm-5 col-md-5 col-lg-5 session">
 						<span ng-if="!quiz.session" class="texte-secondaire-italic">Vous n'avez pas lancé ce quiz</span>
-						<p class="score-{{quiz.score | scorecss}} img" tooltip-placement="bottom" uib-tooltip="Votre meilleur score est de {{quiz.score}}/100" ></p>
+						<p ng-if="quiz.session" class="score-{{quiz.score | scorecss}} img" tooltip-placement="bottom" uib-tooltip="Votre meilleur score est de {{quiz.score}}/100" ></p>
 						<span ng-if="quiz.session" class="score-mobile texte-secondaire-italic">{{quiz.score}}/100</span>
 					</div>
 					<div ng-if="roleMax > 0" class="col-xs-12 col-sm-3 col-md-5 col-lg-3 publish-in">
