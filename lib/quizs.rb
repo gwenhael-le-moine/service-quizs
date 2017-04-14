@@ -242,6 +242,11 @@ end
       questions = Question.new(quiz_id: quiz.id)
       session = Session.new(publication_id: publication_id, user_id: user[:uid], user_type: user[:user_detailed]['profil_actif']['profil_id'])
       session = session.find_all.order(Sequel.desc(:score)).first
+      if session
+      score = session.score.round
+      puts("score")
+      p score
+    end
       session = session.to_hash unless session.nil?
       if quiz
         formated_quiz = {
@@ -253,7 +258,8 @@ end
           share: quiz.opt_shared,
           session: session,
           publishes: Lib::Publications.get_all(quiz.id)[:publications_found],
-          toDate: to_date
+          toDate: to_date,
+          score: score
         }
       end
       formated_quiz

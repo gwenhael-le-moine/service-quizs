@@ -28,11 +28,7 @@ module Lib
     def self.get_all(quiz_id)
       publications_found = []
       publications = Publication.new(quiz_id: quiz_id)
-      
       publications.find_all.each do |publication|
-        p publications
-        puts("publication0")
-        p publication
         publications_found.push(format_get_publication(publication))
       end
       {publications_found: publications_found}
