@@ -1,35 +1,28 @@
 ---
 name: Rapport de bug
-about: Create a report to help us improve
+about: Rapporter un dysfonctionnement
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Description claire et concise du bug**
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Etapes pour reproduire le bug et le comportement non attendu**
+1. Se connecter avec un profil '...' (nom du profil)
+2. Cliquer sur la tuile '....'
+3. Scroller jusqu'à '....'
+4. Résultat obtenu : 
+
+**Description claire et concise du comportement attendu**
+
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**Informations complémentaires de configuration :**
+ - Appareil : 
+ - OS : 
+ - Navigateur [ex chrome, safari] :
+ - Version :
 
-**Additional context**
-Add any other context about the problem here.
+**Autres éléments de contexte**
